@@ -7,6 +7,7 @@
 #include "Sprites.h"
 #include "Portal.h"
 
+
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):

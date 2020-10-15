@@ -23,7 +23,7 @@
 #include "Mario.h"
 #include "Brick.h"
 #include "Goomba.h"
-
+#include "Background.h"
 #include "PlayScence.h"
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
@@ -34,8 +34,12 @@
 #define SCREEN_HEIGHT 240
 
 #define MAX_FRAME_RATE 120
+#define BACKGROUND_TEXTURE_PATH L"0.png"
 
+CGameObject *background ; 
 CGame *game;
+
+LPDIRECT3DTEXTURE9 texBackground = NULL;
 
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -64,18 +68,31 @@ void Update(DWORD dt)
 */
 void Render()
 {
+	//load background
+	CGame * game = CGame::GetInstance();
+	texBackground = game->LoadTexture(BACKGROUND_TEXTURE_PATH);
+
+
 	LPDIRECT3DDEVICE9 d3ddv = game->GetDirect3DDevice();
 	LPDIRECT3DSURFACE9 bb = game->GetBackBuffer();
 	LPD3DXSPRITE spriteHandler = game->GetSpriteHandler();
 
 	if (d3ddv->BeginScene())
 	{
+		
 		// Clear back buffer with a color
 		d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
-
+		CBackground* brick = new CBackground(100, 5, texBackground);
+		brick->SetPosition(100, 100);
+		brick->Render();
 		CGame::GetInstance()->GetCurrentScene()->Render();
+
+		//background = new CGameObject(100,100,texBackground);
+		
+		//brick->GetBoundingBox();
+		
 
 		spriteHandler->End();
 		d3ddv->EndScene();
