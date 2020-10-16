@@ -25,6 +25,7 @@
 #include "Goomba.h"
 #include "Background.h"
 #include "PlayScence.h"
+#include "game_map.h"
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
 #define MAIN_WINDOW_TITLE L"SAMPLE 05 - SCENCE MANAGER"
@@ -69,6 +70,14 @@ void Update(DWORD dt)
 void Render()
 {
 	//load background
+	GameMap minh;
+	//minh.LoadMap("textures/map/map01.txt");
+	//minh.LoadTiles();
+
+
+	//DebugOut(L"background -- background", minh.c_str());
+
+
 	CGame * game = CGame::GetInstance();
 	texBackground = game->LoadTexture(BACKGROUND_TEXTURE_PATH);
 
@@ -84,10 +93,16 @@ void Render()
 		d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
-		CBackground* brick = new CBackground(100, 5, texBackground);
+		/*CBackground* brick = new CBackground(100, 5, texBackground);
 		brick->SetPosition(100, 100);
-		brick->Render();
+		brick->Render();*/
+		//minh.DrawMap();
+		
+
+
 		CGame::GetInstance()->GetCurrentScene()->Render();
+
+		
 
 		//background = new CGameObject(100,100,texBackground);
 		

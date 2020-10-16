@@ -1,7 +1,7 @@
 
 #define TILE_SIZE 64
-#define MAX_MAP_X 400
-#define MAX_MAP_Y 400
+#define MAX_MAP_X 7
+#define MAX_MAP_Y 5
 #include "GameObject.h"
 #define MAX_TILE 20 
 #include "Background.h"
@@ -16,6 +16,7 @@ typedef struct Map
 	char* file_name_;
 	
 	int tile[MAX_MAP_Y][MAX_MAP_X];
+
 };
 
 //class TileMap : CGameObject 
@@ -39,7 +40,9 @@ public:
 	void DrawMap();
 private:
 	Map game_map_;       // save position number
-	CBackground tile_map[];   // save image
+	CBackground* tile_map[];   // save image
+
+
 };
 
 

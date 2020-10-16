@@ -1,6 +1,8 @@
 
 #include "game_map.h"
 #include "Game.h"
+#define BACKGROUND_TEXTURE_PATH1 L"0.png"
+#include "Background.h"
 
 void GameMap::LoadMap(char* name)
 {
@@ -59,7 +61,10 @@ void GameMap::LoadTiles()
 		}
 		fclose(fp);
 
-		tile_map[i].Render();
+		//CBackground* s = new CBackground(1.3f, 1.0f, BACKGROUND_TEXTURE_PATH1);
+		CGame * game = CGame::GetInstance();
+		LPDIRECT3DTEXTURE9 texBackground = game->LoadTexture(BACKGROUND_TEXTURE_PATH1);
+		tile_map[i] = new CBackground(10.0f,10.0f, texBackground);
 		//tile_map[i].Render()// tile_map[i].LoadImg(file_img,screen);
 
 	}
@@ -93,6 +98,8 @@ void GameMap::DrawMap() {
 			int val = game_map_.tile[map_x][map_y];
 			if (val > 0) {
 
+				tile_map[i]->SetPosition(10, 10);
+				tile_map[i]->Render();
 				//tile_map[val].SetReact(j,i)   //set vi tri
 				//tile_map[val].Render(screen)  //render
 			}
