@@ -64,13 +64,18 @@ void GameMap::LoadTiles()
 		//CBackground* s = new CBackground(1.3f, 1.0f, BACKGROUND_TEXTURE_PATH1);
 		CGame * game = CGame::GetInstance();
 		LPDIRECT3DTEXTURE9 texBackground = game->LoadTexture(BACKGROUND_TEXTURE_PATH1);
-		tile_map[i] = new CBackground(10.0f,10.0f, texBackground);
+		//tile_map[i] = new CBackground(10.0f,10.0f, texBackground);
 		//tile_map[i].Render()// tile_map[i].LoadImg(file_img,screen);
 
 	}
 }
 
-void GameMap::DrawMap() {
+void GameMap::DrawMap(LPDIRECT3DTEXTURE9* d3dtt) {
+	/*CBackground* brick = new CBackground(100, 5, d3dtt);
+				brick->SetPosition(100, 100);
+				brick->Render();
+*/
+
 	int x1 = 0;
 	int x2 = 0;
 	int y1 = 0;
@@ -97,9 +102,24 @@ void GameMap::DrawMap() {
 		{
 			int val = game_map_.tile[map_x][map_y];
 			if (val > 0) {
+				/*brick = new CBackground(100, 5, *d3dtt);
+				brick = new CBackground(100, 5, *d3dtt);
+				brick = new CBackground(100, 5, *d3dtt);
+				brick = new CBackground(100, 5, *d3dtt);*/
+				//tile_map[1] = new CBackground(10, 10, *d3dtt);
+				//brick->SetPosition(100, 100);
+				//tile_map[1]->Render();
+				try {
+					tile_map[i] = new CBackground(j, i, *d3dtt);
 
-				tile_map[i]->SetPosition(10, 10);
-				tile_map[i]->Render();
+					//tile_map[1]->SetPosition(10, 10);
+					tile_map[i]->Render();
+				}
+				catch (exception e)
+				{
+
+				}
+				
 				//tile_map[val].SetReact(j,i)   //set vi tri
 				//tile_map[val].Render(screen)  //render
 			}

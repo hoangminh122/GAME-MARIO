@@ -71,8 +71,8 @@ void Render()
 {
 	//load background
 	GameMap minh;
-	//minh.LoadMap("textures/map/map01.txt");
-	//minh.LoadTiles();
+	minh.LoadMap("textures/map/map01.txt");
+	minh.LoadTiles();
 
 
 	//DebugOut(L"background -- background", minh.c_str());
@@ -96,7 +96,7 @@ void Render()
 		/*CBackground* brick = new CBackground(100, 5, texBackground);
 		brick->SetPosition(100, 100);
 		brick->Render();*/
-		//minh.DrawMap();
+		minh.DrawMap(&texBackground);
 		
 
 
