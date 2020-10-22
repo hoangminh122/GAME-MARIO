@@ -110,10 +110,10 @@ void GameMap::DrawMap(LPDIRECT3DTEXTURE9* d3dtt) {
 				//brick->SetPosition(100, 100);
 				//tile_map[1]->Render();
 				try {
-					tile_map[i] = new CBackground(j, i, *d3dtt);
+					tile_map[i] = new CBackground(1,0,0,10,10, *d3dtt);
 
 					//tile_map[1]->SetPosition(10, 10);
-					tile_map[i]->Render();
+					tile_map[i]->Draw(j,i,255);
 				}
 				catch (exception e)
 				{

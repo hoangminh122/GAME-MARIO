@@ -97,6 +97,9 @@ void Render()
 		brick->SetPosition(100, 100);
 		brick->Render();*/
 		minh.DrawMap(&texBackground);
+
+		//CSprite* minh = new CSprite(1,0,0,10,10,texBackground);
+		//minh->Draw(10,10,255);
 		
 
 
