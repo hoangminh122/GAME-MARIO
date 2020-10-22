@@ -51,6 +51,7 @@ public:
 	void InitKeyboard();
 	void SetKeyHandler(LPKEYEVENTHANDLER handler) { keyHandler = handler; }
 	void Init(HWND hWnd);
+	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture);
 	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha = 255);
 
 	int IsKeyDown(int KeyCode);
@@ -87,6 +88,7 @@ public:
 	static CGame * GetInstance();
 
 	~CGame();
+	LPDIRECT3DTEXTURE9 LoadTexture(LPCWSTR texturePath);
 };
 
 
