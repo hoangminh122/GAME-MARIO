@@ -67,19 +67,19 @@ void Update(DWORD dt)
 /*
 	Render a frame 
 */
-void Render()
+void Render(GameMap minh, LPDIRECT3DTEXTURE9 texBackground)
 {
-	//load background
-	GameMap minh;
-	minh.LoadMap("textures/map/map01.txt");
-	minh.LoadTiles();
+	////load background
+	//GameMap minh;
+	//minh.LoadMap("textures/map/map01.txt");
+	//minh.LoadTiles();
 
 
-	//DebugOut(L"background -- background", minh.c_str());
+	////DebugOut(L"background -- background", minh.c_str());
 
 
-	CGame * game = CGame::GetInstance();
-	texBackground = game->LoadTexture(BACKGROUND_TEXTURE_PATH);
+	//CGame * game = CGame::GetInstance();
+	//texBackground = game->LoadTexture(BACKGROUND_TEXTURE_PATH);
 
 
 	LPDIRECT3DDEVICE9 d3ddv = game->GetDirect3DDevice();
@@ -96,7 +96,7 @@ void Render()
 		/*CBackground* brick = new CBackground(100, 5, texBackground);
 		brick->SetPosition(100, 100);
 		brick->Render();*/
-		minh.DrawMap(&texBackground);
+		minh.DrawMap(texBackground);
 
 		/*CSprite* minh = new CSprite(1,0,0,64,64,texBackground);
 		minh->Draw(10,10,255);*/
@@ -174,6 +174,19 @@ int Run()
 	DWORD frameStart = GetTickCount();
 	DWORD tickPerFrame = 1000 / MAX_FRAME_RATE;
 
+
+	//load background
+	GameMap minh;
+	minh.LoadMap("textures/map/map01.txt");
+//	minh.LoadTiles();
+
+
+	//DebugOut(L"background -- background", minh.c_str());
+
+
+	CGame * game = CGame::GetInstance();
+	texBackground = game->LoadTexture(BACKGROUND_TEXTURE_PATH);
+
 	while (!done)
 	{
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
@@ -197,7 +210,7 @@ int Run()
 			game->ProcessKeyboard();
 			
 			Update(dt);
-			Render();
+			Render(minh,texBackground);
 		}
 		else
 			Sleep(tickPerFrame - dt);	

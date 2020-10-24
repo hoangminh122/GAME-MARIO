@@ -1,5 +1,5 @@
 #pragma once
-#define TILE_SIZE 64
+#define TILE_SIZE 17
 #include "GameObject.h"
 #define MAX_TILE 20 
 #include "Background.h"
@@ -14,8 +14,9 @@ public:
 
 	void LoadMap(char* name);
 	void LoadTiles();
-	void DrawMap(LPDIRECT3DTEXTURE9* d3ddv);
-	CBackground* brick;
+	CBackground* getTileMapSwitch(int id,LPDIRECT3DTEXTURE9 d3dtt);                    //get tile map theo tham so truyen vao
+	void DrawMap(LPDIRECT3DTEXTURE9 d3ddv);
+	////CBackground* brick;
 	
 public:
 	Map game_map_;       // save position number

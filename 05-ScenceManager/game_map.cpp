@@ -63,7 +63,7 @@ void GameMap::LoadTiles()
 
 	for (int i = 0; i < MAX_TILE; i++)
 	{
-		sprintf_s(file_img, "map/%d.png", i);
+		sprintf_s(file_img, "map/%d.png", 0);
 		fopen_s(&fp, file_img, "rb");
 		if (fp == NULL)
 		{
@@ -80,7 +80,7 @@ void GameMap::LoadTiles()
 	}
 }
 
-void GameMap::DrawMap(LPDIRECT3DTEXTURE9* d3dtt) {
+void GameMap::DrawMap(LPDIRECT3DTEXTURE9 d3dtt) {
 	/*CBackground* brick = new CBackground(100, 5, d3dtt);
 				brick->SetPosition(100, 100);
 				brick->Render();
@@ -97,13 +97,13 @@ void GameMap::DrawMap(LPDIRECT3DTEXTURE9* d3dtt) {
 	map_x = game_map_.start_x_ / TILE_SIZE;
 
 	x1 = (game_map_.start_x_%TILE_SIZE)*-1;
-	x2 = x1 + CGame::GetInstance()->GetScreenHeight() + (x1 == 0 ? 0 : TILE_SIZE);
-	//x2 = 64 * 4;
+	//x2 = x1 + CGame::GetInstance()->GetScreenHeight() + (x1 == 0 ? 0 : TILE_SIZE);
+	x2 = 17 * 21;
 
 	map_y = game_map_.start_y_ / TILE_SIZE;
 	y1 = (game_map_.start_y_%TILE_SIZE)*-1;
-	y2 = y1 + CGame::GetInstance()->GetScreenWidth() + (y1 == 0 ? 0 : TILE_SIZE);
-	//y2 = 64 * 3;
+	//y2 = y1 + CGame::GetInstance()->GetScreenWidth() + (y1 == 0 ? 0 : TILE_SIZE);
+	y2 = 17 * 5;
 
 	for (int i = y1; i < y2; i += TILE_SIZE)
 	{
@@ -111,7 +111,7 @@ void GameMap::DrawMap(LPDIRECT3DTEXTURE9* d3dtt) {
 		map_x = game_map_.start_x_ / TILE_SIZE;
 		for (int j = x1; j < x2; j += TILE_SIZE)
 		{
-			int val = game_map_.tile[map_x][map_y];
+			int val = game_map_.tile[map_y][map_x];
 			if (val > 0) {
 				/*brick = new CBackground(100, 5, *d3dtt);
 				brick = new CBackground(100, 5, *d3dtt);
@@ -121,7 +121,8 @@ void GameMap::DrawMap(LPDIRECT3DTEXTURE9* d3dtt) {
 				//brick->SetPosition(100, 100);
 				//tile_map[1]->Render();
 				try {
-					tile_map[i] = new CBackground(1, 0, 0, 64, 64, *d3dtt);
+					//tile_map[i] = new CBackground(1, 0, 0, 64, 64, *d3dtt);
+					tile_map[i] = getTileMapSwitch(val,d3dtt);
 
 					//tile_map[1]->SetPosition(10, 10);
 					tile_map[i]->Draw(j, i, 255);
@@ -139,3 +140,16 @@ void GameMap::DrawMap(LPDIRECT3DTEXTURE9* d3dtt) {
 		map_y++;
 	}
 }
+
+CBackground* GameMap::getTileMapSwitch(int id, LPDIRECT3DTEXTURE9 d3dtt)
+{
+	switch (id) {
+	case 2:
+		return new CBackground(2, 137, 18, 152, 34, d3dtt);
+	default:
+		return new CBackground(10, 52, 223, 67, 237, d3dtt);
+	}
+
+}
+
+
