@@ -98,8 +98,8 @@ void Render()
 		brick->Render();*/
 		minh.DrawMap(&texBackground);
 
-		//CSprite* minh = new CSprite(1,0,0,10,10,texBackground);
-		//minh->Draw(10,10,255);
+		/*CSprite* minh = new CSprite(1,0,0,64,64,texBackground);
+		minh->Draw(10,10,255);*/
 		
 
 

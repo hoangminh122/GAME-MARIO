@@ -131,6 +131,7 @@
     <ClCompile Include="game_map.h" />
     <ClCompile Include="Koopas.cpp" />
     <ClCompile Include="Portal.cpp" />
+    <ClCompile Include="turtle.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -146,8 +147,11 @@
     <ClInclude Include="Animations.h" />
     <ClInclude Include="Background.h" />
     <ClInclude Include="Brick.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="Koopas.h" />
     <ClInclude Include="Portal.h" />
+    <ClInclude Include="test.h" />
+    <ClInclude Include="turle.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />

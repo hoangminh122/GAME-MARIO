@@ -10,6 +10,7 @@
 
 CMario::CMario(float x, float y) : CGameObject()
 {
+	//this->CheckToMap(test->game_map_);
 	level = MARIO_LEVEL_BIG;
 	untouchable = 0;
 	SetState(MARIO_STATE_IDLE);
@@ -18,6 +19,9 @@ CMario::CMario(float x, float y) : CGameObject()
 	start_y = y; 
 	this->x = x; 
 	this->y = y; 
+
+	//test = new GameMap();
+	//test->LoadMap("textures/map/map01.txt");
 }
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -118,6 +122,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
+	//Map* map = new Map();
+	
 }
 
 void CMario::Render()

@@ -13,6 +13,7 @@ CGameObject::CGameObject()
 	x = y = 0;
 	vx = vy = 0;
 	nx = 1;	
+	on_ground_ = false;
 }
 
 void CGameObject::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -137,3 +138,89 @@ CGameObject::~CGameObject()
 {
 
 }
+
+//void CGameObject::CheckToMap(Map& map_data)
+//{
+//	int x1 = 0;
+//	int x2 = 0;
+//	int y1 = 0;
+//	int y2 = 0;
+//
+//	//check horizontal
+//	int height_min = 12 < TILE_SIZE ? 12 : TILE_SIZE;   // height_frame_ =12
+//
+//	x1 = (x + dx) / TILE_SIZE;
+//	x2 = (x + dx + 12 - 1) / TILE_SIZE;   //_width_frame_ =12 , x2 = (x_pos_ + x_val_ + _width_frame_ - 1) / TILE_SIZE; 
+//
+//	y1 = (y) / TILE_SIZE;
+//	y2 = (y + height_min - 1) / TILE_SIZE;
+//
+//
+//	if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y)
+//	{
+//		if (x > 0) //main object is moving to right
+//		{
+//			if (map_data.tile[y1][x2] != BLANK_TILE || map_data.tile[y2][x2] != BLANK_TILE)
+//			{
+//				y = x2 * TILE_SIZE;
+//				x -= 12 + 1;   ///_width_frame_ =12
+//				x = 0;
+//			}
+//		}
+//		else if (x < 0)
+//		{
+//			if (map_data.tile[y1][x1] != BLANK_TILE || map_data.tile[y2][x1] != BLANK_TILE)
+//			{
+//				x = (x1 + 1)* TILE_SIZE;
+//				dx = 0;
+//			}
+//
+//		}
+//	}
+//
+//	//check vertical
+//
+//	int width_min = 12 < TILE_SIZE ? 12 : TILE_SIZE;   //_width_frame_ =12
+//	x1 = (x) / TILE_SIZE;
+//	x2 = (x + width_min) / TILE_SIZE;
+//
+//	y1 = (y + y) / TILE_SIZE;
+//	y2 = (y + dy + 12 - 1) / TILE_SIZE;    // height_frame_ =12
+//
+//	if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y)
+//	{
+//		if (dy > 0)
+//		{
+//			if (map_data.tile[y2][x1] != BLANK_TILE || map_data.tile[y2][x2] != BLANK_TILE)
+//			{
+//				y = y2 * TILE_SIZE;
+//				y -= (12 + 1);      // height_frame_ =12
+//				dy = 0;
+//				on_ground_ = true;
+//			}
+//		}
+//		else if (dy < 0)
+//		{
+//			if (map_data.tile[y1][x1] != BLANK_TILE || map_data.tile[y1][x2] != BLANK_TILE)
+//			{
+//				y = (y1 + 1)*TILE_SIZE;
+//				dy = 0;
+//			}
+//		}
+//	}
+//
+//	x += dx;
+//	y += dy;
+//
+//	if (x < 0)
+//	{
+//		x = 0;
+//	}
+//	else if (x + 12 > map_data.max_x_)  // width_frame_=12
+//	{
+//		x = map_data.max_x_ = 12 - 1;   // width_frame_=12
+//	}
+//
+//
+//
+//}
