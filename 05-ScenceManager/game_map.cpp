@@ -58,7 +58,7 @@ void GameMap::LoadMap(char* name)
 
 void GameMap::LoadTiles()
 {
-	char file_img[30];
+	char file_img[40];
 	FILE* fp = NULL;
 
 	for (int i = 0; i < MAX_TILE; i++)
@@ -98,12 +98,12 @@ void GameMap::DrawMap(LPDIRECT3DTEXTURE9 d3dtt) {
 
 	x1 = (game_map_.start_x_%TILE_SIZE)*-1;
 	//x2 = x1 + CGame::GetInstance()->GetScreenHeight() + (x1 == 0 ? 0 : TILE_SIZE);
-	x2 = 17 * 21;
+	x2 = 17 * 30;
 
 	map_y = game_map_.start_y_ / TILE_SIZE;
 	y1 = (game_map_.start_y_%TILE_SIZE)*-1;
 	//y2 = y1 + CGame::GetInstance()->GetScreenWidth() + (y1 == 0 ? 0 : TILE_SIZE);
-	y2 = 17 * 5;
+	y2 = 17 * 12;
 
 	for (int i = y1; i < y2; i += TILE_SIZE)
 	{
@@ -144,10 +144,44 @@ void GameMap::DrawMap(LPDIRECT3DTEXTURE9 d3dtt) {
 CBackground* GameMap::getTileMapSwitch(int id, LPDIRECT3DTEXTURE9 d3dtt)
 {
 	switch (id) {
+	case 1:
+		return new CBackground(1, 223, 223, 237, 237, d3dtt);
 	case 2:
 		return new CBackground(2, 137, 18, 152, 34, d3dtt);
+	case 3:
+		return new CBackground(3, 137, 1, 152, 17, d3dtt);
+	case 4:
+		return new CBackground(4, 154, 1, 168, 17, d3dtt);
+	case 5:
+		return new CBackground(5, 154, 18, 168, 34, d3dtt);
+	case 6:
+		return new CBackground(6, 137, 36, 152, 51, d3dtt);
+	case 7:
+		return new CBackground(7, 153, 35, 170, 53, d3dtt);
+	case 8:
+		return new CBackground(8, 136, 52, 153, 69, d3dtt);
+	case 9:
+		return new CBackground(9, 222, 205, 237, 221, d3dtt);
+	case 10:
+		return new CBackground(10, 1, 52, 16, 68, d3dtt);
+	case 11:
+		return new CBackground(11, 18, 52, 35, 68, d3dtt);
+	case 12:
+		return new CBackground(12, 36, 52, 53, 68, d3dtt);
+	case 13:
+		return new CBackground(13, 222, 205, 237, 221, d3dtt);
+	case 14:
+		return new CBackground(14, 222, 205, 237, 221, d3dtt);
+	case 15:
+		return new CBackground(15, 222, 205, 237, 221, d3dtt);
+	case 16:
+		return new CBackground(16, 222, 205, 237, 221, d3dtt);
+	case 17:
+		return new CBackground(17, 222, 205, 237, 221, d3dtt);
+	case 18:
+		return new CBackground(18, 222, 205, 237, 221, d3dtt);
 	default:
-		return new CBackground(10, 52, 223, 67, 237, d3dtt);
+		return new CBackground(0, 52, 223, 67, 237, d3dtt);
 	}
 
 }

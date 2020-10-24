@@ -1,6 +1,6 @@
 #pragma once
 #define MAX_MAP_X 40
-#define MAX_MAP_Y 6
+#define MAX_MAP_Y 12
 class Map
 {
 public:
