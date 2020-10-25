@@ -148,11 +148,36 @@ void CMario::Render()
 	{
 		if (vx == 0)
 		{
-			if (nx>0) ani = MARIO_ANI_SMALL_IDLE_RIGHT;
+			if (nx > 0) {
+				if (state == MARIO_STATE_JUMP) {
+					DebugOut(L"vao day jump");
+					ani = MARIO_ANI_SMALL_JUMP_RIGHT;
+				}
+				else
+				{
+					ani = MARIO_ANI_SMALL_IDLE_RIGHT;
+
+				}
+				/*
+				try {
+					if (state == MARIO_STATE_JUMP) {
+						DebugOut(L"vao day jump");
+						ani = MARIO_ANI_SMALL_JUMP_LEFT;
+					}
+				}
+				catch (exception e) { ; }*/
+				
+			}
 			else ani = MARIO_ANI_SMALL_IDLE_LEFT;
 		}
-		else if (vx > 0)
-			ani = MARIO_ANI_SMALL_WALKING_RIGHT;
+		else if (vx > 0) {
+			
+			if(state == MARIO_STATE_JUMP)
+				ani = MARIO_ANI_SMALL_JUMP_RIGHT;
+			else
+				ani = MARIO_ANI_SMALL_WALKING_RIGHT;
+
+		}
 		else ani = MARIO_ANI_SMALL_WALKING_LEFT;
 	}
 
