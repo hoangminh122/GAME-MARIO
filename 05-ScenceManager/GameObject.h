@@ -3,14 +3,17 @@
 #include <Windows.h>
 #include <d3dx9.h>
 #include <vector>
-
 #include "Sprites.h"
 #include "Animations.h"
+#include "Map.h"
+//#include "game_map.h"
+
 
 
 using namespace std;
 
 #define ID_TEX_BBOX -100		// special texture to draw object bounding box
+#define BLANK_TILE 0
 
 class CGameObject; 
 typedef CGameObject * LPGAMEOBJECT;
@@ -61,6 +64,7 @@ public:
 	DWORD dt; 
 
 	LPANIMATION_SET animation_set;
+	bool on_ground_;
 
 public: 
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
@@ -69,7 +73,7 @@ public:
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
 
 	int GetState() { return this->state; }
-
+	//void CheckToMap(Map& map_data);
 	void RenderBoundingBox();
 
 	void SetAnimationSet(LPANIMATION_SET ani_set) { animation_set = ani_set; }
