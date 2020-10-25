@@ -98,7 +98,7 @@ void GameMap::DrawMap(LPDIRECT3DTEXTURE9 d3dtt) {
 
 	x1 = (game_map_.start_x_%TILE_SIZE)*-1;
 	//x2 = x1 + CGame::GetInstance()->GetScreenHeight() + (x1 == 0 ? 0 : TILE_SIZE);
-	x2 = 17 * 30;
+	x2 = 17 * 40;
 
 	map_y = game_map_.start_y_ / TILE_SIZE;
 	y1 = (game_map_.start_y_%TILE_SIZE)*-1;
@@ -208,6 +208,42 @@ CBackground* GameMap::getTileMapSwitch(int id, LPDIRECT3DTEXTURE9 d3dtt)
 		return new CBackground(31, 290, 69, 307, 86, d3dtt);
 	case 32:
 		return new CBackground(32, 307, 68, 324, 86, d3dtt);
+	case 33:
+		return new CBackground(33, 52, 1, 69, 18, d3dtt);
+	case 34:
+		return new CBackground(34, 69, 1, 86, 18, d3dtt);
+	case 35:
+		return new CBackground(35, 86, 1, 103, 18, d3dtt);
+	case 36:
+		return new CBackground(36, 52, 18, 69, 35, d3dtt);
+	case 37:
+		return new CBackground(37, 69, 18, 86, 35, d3dtt);
+	case 38:
+		return new CBackground(38, 86, 18, 103, 35, d3dtt);
+	case 39:
+		return new CBackground(39, 52, 35, 69, 52, d3dtt);
+	case 40:
+		return new CBackground(40, 69, 35, 86, 52, d3dtt);
+	case 41:
+		return new CBackground(41, 86, 35, 103, 52, d3dtt);
+	case 42:
+		return new CBackground(42, 1, 1, 18, 18, d3dtt);
+	case 43:
+		return new CBackground(43, 18, 1, 35, 18, d3dtt);
+	case 44:
+		return new CBackground(44, 35, 1, 52, 18, d3dtt);
+	case 45:
+		return new CBackground(45, 1, 18, 18, 35, d3dtt);
+	case 46:
+		return new CBackground(46, 18, 18, 35, 35, d3dtt);
+	case 47:
+		return new CBackground(47, 35, 18, 52, 35, d3dtt);
+	case 48:
+		return new CBackground(48, 1, 35, 18, 52, d3dtt);
+	case 49:
+		return new CBackground(49, 18, 35, 35, 52, d3dtt);
+	case 50:
+		return new CBackground(50, 35, 35, 52, 52, d3dtt);
 	default:
 		return new CBackground(0, 52, 223, 67, 237, d3dtt);
 	}
