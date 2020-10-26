@@ -131,7 +131,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 void CMario::Render()
 {
-	int ani = -1;
+	int ani = MARIO_ANI_SMALL_IDLE_RIGHT;             
 	if (state == MARIO_STATE_DIE)
 		ani = MARIO_ANI_DIE;
 	//else
@@ -174,15 +174,23 @@ void CMario::Render()
 		}
 		else if (vx > 0) {
 			
-			if(state == MARIO_STATE_JUMP || checkMarioColision == false)                    //ANI JUMP RIGHT
+			if(state == MARIO_STATE_JUMP && checkMarioColision == false)                    //ANI JUMP RIGHT
 				ani = MARIO_ANI_SMALL_JUMP_RIGHT;
+			else if (state == MARIO_STATE_RUN_RIGHT)
+			{
+				ani = MARIO_ANI_SMALL_RUN_RIGHT;
+			}
 			else
 				ani = MARIO_ANI_SMALL_WALKING_RIGHT;
 		}
 		else 
 		{
-			if (state == MARIO_STATE_JUMP || checkMarioColision == false)				   //ANI JUMP LEFT
+			if (state == MARIO_STATE_JUMP && checkMarioColision == false)				   //ANI JUMP LEFT
 				ani = MARIO_ANI_SMALL_JUMP_LEFT;
+			else if (state == MARIO_STATE_RUN_LEFT)
+			{
+				ani = MARIO_ANI_SMALL_RUN_LEFT;
+			}
 			else
 				ani = MARIO_ANI_SMALL_WALKING_LEFT;
 		}
@@ -209,6 +217,14 @@ void CMario::SetState(int state)
 	case MARIO_STATE_WALKING_LEFT: 
 		vx = -MARIO_WALKING_SPEED;
 		nx = -1;
+		break;
+	case MARIO_STATE_RUN_LEFT:
+		vx = -0.5;
+		nx = -1;
+		break;
+	case MARIO_STATE_RUN_RIGHT:
+		vx = 0.5;
+		nx = 1;
 		break;
 	case MARIO_STATE_JUMP:
 		// TODO: need to check if Mario is *current* on a platform before allowing to jump again
@@ -256,7 +272,7 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 void CMario::Reset()
 {
 	SetState(MARIO_STATE_IDLE);
-	SetLevel(MARIO_LEVEL_BIG);
+	SetLevel(MARIO_LEVEL_SMALL);
 	SetPosition(start_x, start_y);
 	SetSpeed(0, 0);
 }
