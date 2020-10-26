@@ -11,7 +11,7 @@
 CMario::CMario(float x, float y) : CGameObject()
 {
 	//this->CheckToMap(test->game_map_);
-	level = MARIO_LEVEL_BIG;
+	level = MARIO_LEVEL_SMALL;
 	untouchable = 0;
 	SetState(MARIO_STATE_IDLE);
 
@@ -19,7 +19,7 @@ CMario::CMario(float x, float y) : CGameObject()
 	start_y = y; 
 	this->x = x; 
 	this->y = y; 
-
+	checkMarioColision = false;
 	//test = new GameMap();
 	//test->LoadMap("textures/map/map01.txt");
 }
@@ -51,11 +51,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// No collision occured, proceed normally
 	if (coEvents.size()==0)
 	{
+		checkMarioColision = false;
 		x += dx; 
 		y += dy;
 	}
 	else
 	{
+		checkMarioColision = true;									//mario co va cham
 		float min_tx, min_ty, nx = 0, ny;
 		float rdx = 0; 
 		float rdy = 0;
@@ -132,8 +134,8 @@ void CMario::Render()
 	int ani = -1;
 	if (state == MARIO_STATE_DIE)
 		ani = MARIO_ANI_DIE;
-	else
-	if (level == MARIO_LEVEL_BIG)
+	//else
+	/*if (level == MARIO_LEVEL_BIG)
 	{
 		if (vx == 0)
 		{
@@ -143,14 +145,14 @@ void CMario::Render()
 		else if (vx > 0) 
 			ani = MARIO_ANI_BIG_WALKING_RIGHT; 
 		else ani = MARIO_ANI_BIG_WALKING_LEFT;
-	}
+	}*/
 	else if (level == MARIO_LEVEL_SMALL)
 	{
 		if (vx == 0)
 		{
 			if (nx > 0) {
 				if (state == MARIO_STATE_JUMP) {
-					DebugOut(L"vao day jump");
+					DebugOut(L"vao");
 					ani = MARIO_ANI_SMALL_JUMP_RIGHT;
 				}
 				else
@@ -172,13 +174,18 @@ void CMario::Render()
 		}
 		else if (vx > 0) {
 			
-			if(state == MARIO_STATE_JUMP)
+			if(state == MARIO_STATE_JUMP || checkMarioColision == false)                    //ANI JUMP RIGHT
 				ani = MARIO_ANI_SMALL_JUMP_RIGHT;
 			else
 				ani = MARIO_ANI_SMALL_WALKING_RIGHT;
-
 		}
-		else ani = MARIO_ANI_SMALL_WALKING_LEFT;
+		else 
+		{
+			if (state == MARIO_STATE_JUMP || checkMarioColision == false)				   //ANI JUMP LEFT
+				ani = MARIO_ANI_SMALL_JUMP_LEFT;
+			else
+				ani = MARIO_ANI_SMALL_WALKING_LEFT;
+		}
 	}
 
 	int alpha = 255;
@@ -205,8 +212,18 @@ void CMario::SetState(int state)
 		break;
 	case MARIO_STATE_JUMP:
 		// TODO: need to check if Mario is *current* on a platform before allowing to jump again
-		vy = -MARIO_JUMP_SPEED_Y;
-		break; 
+		if (checkMarioColision == true) {
+			DebugOut(L"va cham");
+			vy = -MARIO_JUMP_SPEED_Y;
+			//vy = -0.7;
+			break;
+		}
+		else 
+		{
+			DebugOut(L" khong va cham");
+			//vy = -0.1;//
+			break;
+		}
 	case MARIO_STATE_IDLE: 
 		vx = 0;
 		break;
