@@ -10,7 +10,7 @@
 #include "Sprites.h"
 #include "Portal.h"
 
-void GameMap::LoadMap(char* name)
+void GameMap::LoadMap(char* name, LPDIRECT3DTEXTURE9 d3dtt)
 {
 	FILE *fp = NULL;
 	fopen_s(&fp, name, "rb");
@@ -30,6 +30,7 @@ void GameMap::LoadMap(char* name)
 
 			if (val > 0)
 			{
+				LoadTiles(val, d3dtt);
 				if (j > game_map_.max_x_)
 				{
 					game_map_.max_x_ = j;
@@ -56,28 +57,31 @@ void GameMap::LoadMap(char* name)
 	DebugOut(L"[ERR] game_map_ game_map_ game_map_ 0: %d\n", game_map_.tile[1][1]);
 }
 
-void GameMap::LoadTiles()
+void GameMap::LoadTiles(int val,LPDIRECT3DTEXTURE9 d3dtt)
 {
-	char file_img[40];
-	FILE* fp = NULL;
+	/*char file_img[40];
+	FILE* fp = NULL;*/
+	//for (int i = 0; i <= MAX_TILE; i++)
+	//{
+		tile_map[val] = getTileMapSwitch(val, d3dtt);
+	//}
+	//for (int i = 0; i < MAX_TILE; i++)
+	//{
+	//	sprintf_s(file_img, "map/%d.png", 0);
+	//	fopen_s(&fp, file_img, "rb");
+	//	if (fp == NULL)
+	//	{
+	//		continue;
+	//	}
+	//	fclose(fp);
 
-	for (int i = 0; i < MAX_TILE; i++)
-	{
-		sprintf_s(file_img, "map/%d.png", 0);
-		fopen_s(&fp, file_img, "rb");
-		if (fp == NULL)
-		{
-			continue;
-		}
-		fclose(fp);
+	//	//CBackground* s = new CBackground(1.3f, 1.0f, BACKGROUND_TEXTURE_PATH1);
+	//	CGame * game = CGame::GetInstance();
+	//	LPDIRECT3DTEXTURE9 texBackground = game->LoadTexture(BACKGROUND_TEXTURE_PATH1);
+	//	//tile_map[i] = new CBackground(10.0f,10.0f, texBackground);
+	//	//tile_map[i].Render()// tile_map[i].LoadImg(file_img,screen);
 
-		//CBackground* s = new CBackground(1.3f, 1.0f, BACKGROUND_TEXTURE_PATH1);
-		CGame * game = CGame::GetInstance();
-		LPDIRECT3DTEXTURE9 texBackground = game->LoadTexture(BACKGROUND_TEXTURE_PATH1);
-		//tile_map[i] = new CBackground(10.0f,10.0f, texBackground);
-		//tile_map[i].Render()// tile_map[i].LoadImg(file_img,screen);
-
-	}
+	//}
 }
 
 void GameMap::DrawMap(LPDIRECT3DTEXTURE9 d3dtt) {
@@ -98,7 +102,7 @@ void GameMap::DrawMap(LPDIRECT3DTEXTURE9 d3dtt) {
 
 	x1 = (game_map_.start_x_%TILE_SIZE)*-1;
 	//x2 = x1 + CGame::GetInstance()->GetScreenHeight() + (x1 == 0 ? 0 : TILE_SIZE);
-	x2 = 17 * 40;
+	x2 = 17 * 100;
 
 	map_y = game_map_.start_y_ / TILE_SIZE;
 	y1 = (game_map_.start_y_%TILE_SIZE)*-1;
@@ -122,10 +126,10 @@ void GameMap::DrawMap(LPDIRECT3DTEXTURE9 d3dtt) {
 				//tile_map[1]->Render();
 				try {
 					//tile_map[i] = new CBackground(1, 0, 0, 64, 64, *d3dtt);
-					tile_map[i] = getTileMapSwitch(val,d3dtt);
+					//tile_map[i] = getTileMapSwitch(val,d3dtt);
 
 					//tile_map[1]->SetPosition(10, 10);
-					tile_map[i]->Draw(j, i, 255);
+					tile_map[val]->Draw(j, i, 255);
 				}
 				catch (exception e)
 				{
@@ -244,6 +248,18 @@ CBackground* GameMap::getTileMapSwitch(int id, LPDIRECT3DTEXTURE9 d3dtt)
 		return new CBackground(49, 18, 35, 35, 52, d3dtt);
 	case 50:
 		return new CBackground(50, 35, 35, 52, 52, d3dtt);
+	case 51:
+		return new CBackground(51, 426, 239, 443, 256, d3dtt);
+	case 52:
+		return new CBackground(52, 443, 239, 460, 256, d3dtt);
+	case 53:
+		return new CBackground(53, 426, 256, 443, 273, d3dtt);
+	case 54:
+		return new CBackground(54, 443, 256, 460, 273, d3dtt);
+	case 55:
+		return new CBackground(55, 324, 171, 341, 188, d3dtt);
+	case 56:
+		return new CBackground(56, 170, 137, 187, 154, d3dtt);
 	default:
 		return new CBackground(0, 52, 223, 67, 237, d3dtt);
 	}
