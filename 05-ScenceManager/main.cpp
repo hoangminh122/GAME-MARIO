@@ -175,10 +175,7 @@ int Run()
 	DWORD tickPerFrame = 1000 / MAX_FRAME_RATE;
 
 
-	//load background
-	GameMap minh;
-	minh.LoadMap("textures/map/map01.txt");
-//	minh.LoadTiles();
+	
 
 
 	//DebugOut(L"background -- background", minh.c_str());
@@ -186,6 +183,11 @@ int Run()
 
 	CGame * game = CGame::GetInstance();
 	texBackground = game->LoadTexture(BACKGROUND_TEXTURE_PATH);
+
+	//load background
+	GameMap minh;
+	minh.LoadMap("textures/map/map01.txt", texBackground);
+	//	minh.LoadTiles();
 
 	while (!done)
 	{
