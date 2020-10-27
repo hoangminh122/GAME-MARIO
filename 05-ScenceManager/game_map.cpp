@@ -102,7 +102,7 @@ void GameMap::DrawMap(LPDIRECT3DTEXTURE9 d3dtt) {
 
 	x1 = (game_map_.start_x_%TILE_SIZE)*-1;
 	//x2 = x1 + CGame::GetInstance()->GetScreenHeight() + (x1 == 0 ? 0 : TILE_SIZE);
-	x2 = 17 * 40;
+	x2 = 17 * 100;
 
 	map_y = game_map_.start_y_ / TILE_SIZE;
 	y1 = (game_map_.start_y_%TILE_SIZE)*-1;
@@ -248,6 +248,18 @@ CBackground* GameMap::getTileMapSwitch(int id, LPDIRECT3DTEXTURE9 d3dtt)
 		return new CBackground(49, 18, 35, 35, 52, d3dtt);
 	case 50:
 		return new CBackground(50, 35, 35, 52, 52, d3dtt);
+	case 51:
+		return new CBackground(51, 426, 239, 443, 256, d3dtt);
+	case 52:
+		return new CBackground(52, 443, 239, 460, 256, d3dtt);
+	case 53:
+		return new CBackground(53, 426, 256, 443, 273, d3dtt);
+	case 54:
+		return new CBackground(54, 443, 256, 460, 273, d3dtt);
+	case 55:
+		return new CBackground(55, 324, 171, 341, 188, d3dtt);
+	case 56:
+		return new CBackground(56, 170, 137, 187, 154, d3dtt);
 	default:
 		return new CBackground(0, 52, 223, 67, 237, d3dtt);
 	}

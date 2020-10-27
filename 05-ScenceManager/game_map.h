@@ -1,7 +1,7 @@
 #pragma once
 #define TILE_SIZE 17
 #include "GameObject.h"
-#define MAX_TILE 50 
+#define MAX_TILE 100 
 #include "Background.h"
 #include "Map.h"
 
