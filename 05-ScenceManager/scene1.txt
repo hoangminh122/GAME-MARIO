@@ -5,6 +5,7 @@
 10	textures\enemies.png	3	26	110
 30	textures\map\man1\tiles.png	255	255	255
 40	textures\misc\misc.png	255	255	255
+50	textures\enemie\enemies.png	255	255	255
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -53,6 +54,10 @@
 
 # Mushroom
 50001	155	121	171	137	40
+
+#Turle
+60001	6	130	21	155	50
+60002	28	129	43	155	50
 						
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
@@ -102,6 +107,9 @@
 # Mushroom
 801	50001	100
 
+#Turle
+901	60001	150	60002	150
+
 
 #
 # id	ani1	ani2	ani3
@@ -117,6 +125,9 @@
 3	701	702
 # Mushroom
 8	801
+
+#Turle
+9	901
 
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
@@ -180,6 +191,8 @@
 
 # Mushroom
 8	220	68	8
+# Turle
+3	220	68	9
 
 # --- SCENE PORTAL ----
 # type	l	t	ani_set_id	r	b	scene_id
