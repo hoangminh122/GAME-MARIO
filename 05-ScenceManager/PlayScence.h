@@ -9,6 +9,7 @@
 #include "Koopas.h"
 #include "CMushroom.h"
 #include "Turle.h"
+#include "BrickTop.h"
 
 
 class CPlayScene: public CScene
