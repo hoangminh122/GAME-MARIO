@@ -6,8 +6,13 @@ CQuestion::CQuestion() : CGameObject() {
 }
 void CQuestion::Render()
 {
-	if(!isQuestion)
-		animation_set->at(1)->Render(x, y);
+	
+	if (!isQuestion) {
+		if(this ->x == 220)
+			animation_set->at(2)->Render(x, y);
+		else
+			animation_set->at(1)->Render(x, y);
+	}
 	else
 		animation_set->at(0)->Render(x, y);
 	RenderBoundingBox();
