@@ -7,6 +7,8 @@
 
 #include "Goomba.h"
 #include "Portal.h"
+#include "BrickTop.h"
+#include "QuestionBox.h"
 
 CMario::CMario(float x, float y) : CGameObject()
 {
@@ -86,11 +88,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 			if (dynamic_cast<CGoomba *>(e->obj)) // if e->obj is Goomba 
 			{
+				DebugOut(L"kill 0");
 				CGoomba *goomba = dynamic_cast<CGoomba *>(e->obj);
 
 				// jump on top >> kill Goomba and deflect a bit 
 				if (e->ny < 0)
 				{
+					DebugOut(L"kill");
+
 					if (goomba->GetState()!= GOOMBA_STATE_DIE)
 					{
 						goomba->SetState(GOOMBA_STATE_DIE);
@@ -99,6 +104,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 				else if (e->nx != 0)
 				{
+					DebugOut(L"kill 2");
 					if (untouchable==0)
 					{
 						if (goomba->GetState()!=GOOMBA_STATE_DIE)
@@ -114,6 +120,35 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					}
 				}
 			} // if Goomba
+			else if (dynamic_cast<CBrickTop *>(e->obj)) // if e->obj is Goomba 
+			{
+				DebugOut(L" kill brick top");
+				//CGoomba *goomba = dynamic_cast<CGoomba *>(e->obj);
+				if (e->ny > 0)
+					this->y = y-0.5;
+				// jump on top >> kill Goomba and deflect a bit 
+				
+				
+			} // if brickTop
+			else if (dynamic_cast<CQuestion *>(e->obj)) // if e->obj is Goomba 
+			{
+				DebugOut(L"qestion box");
+
+				// jump on top >> kill Goomba and deflect a bit 
+				CQuestion *question = dynamic_cast<CQuestion *>(e->obj);
+				question->isQuestion = false;
+				
+			} // if box question
+			else if (dynamic_cast<CBrickTop *>(e->obj)) // if e->obj is Goomba 
+			{
+				//DebugOut(L" kill brick top");
+				//CGoomba *goomba = dynamic_cast<CGoomba *>(e->obj);
+				if (e->ny > 0)
+					this->y = y - 0.5;
+				// jump on top >> kill Goomba and deflect a bit 
+
+
+			} // if brickTop
 			else if (dynamic_cast<CPortal *>(e->obj))
 			{
 				CPortal *p = dynamic_cast<CPortal *>(e->obj);
@@ -152,7 +187,7 @@ void CMario::Render()
 		{
 			if (nx > 0) {
 				if (state == MARIO_STATE_JUMP) {
-					DebugOut(L"vao");
+					//DebugOut(L"vao");
 					ani = MARIO_ANI_SMALL_JUMP_RIGHT;
 				}
 				else
@@ -229,14 +264,14 @@ void CMario::SetState(int state)
 	case MARIO_STATE_JUMP:
 		// TODO: need to check if Mario is *current* on a platform before allowing to jump again
 		if (checkMarioColision == true) {
-			DebugOut(L"va cham");
+			//DebugOut(L"va cham");
 			vy = -MARIO_JUMP_SPEED_Y;
 			//vy = -0.7;
 			break;
 		}
 		else 
 		{
-			DebugOut(L" khong va cham");
+			//DebugOut(L" khong va cham");
 			//vy = -0.1;//
 			break;
 		}
@@ -254,7 +289,7 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	left = x;
 	top = y; 
 
-	if (level==MARIO_LEVEL_BIG)
+	if (level == MARIO_LEVEL_BIG)
 	{
 		right = x + MARIO_BIG_BBOX_WIDTH;
 		bottom = y + MARIO_BIG_BBOX_HEIGHT;
