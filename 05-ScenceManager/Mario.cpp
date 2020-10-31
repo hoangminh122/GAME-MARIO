@@ -185,16 +185,14 @@ void CMario::Render()
 	{
 		if (vx == 0)
 		{
-			if (nx > 0) {
-				if (state == MARIO_STATE_JUMP) {
-					//DebugOut(L"vao");
-					ani = MARIO_ANI_SMALL_JUMP_RIGHT;
-				}
-				else
-				{
+			//DebugOut(L"vao1111%d",state);
+			if (state == MARIO_STATE_JUMP) {
+				DebugOut(L"vaossssss");
+				ani = MARIO_ANI_SMALL_JUMP_RIGHT;
+			}
+			else if (nx > 0) {
+				
 					ani = MARIO_ANI_SMALL_IDLE_RIGHT;
-
-				}
 				/*
 				try {
 					if (state == MARIO_STATE_JUMP) {
