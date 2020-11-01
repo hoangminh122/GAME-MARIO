@@ -314,7 +314,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		mario->SetState(MARIO_STATE_JUMP);
 	
 	}
-	/*if (game->IsKeyDown(DIK_RIGHT)) {
+	else if (game->IsKeyDown(DIK_RIGHT)) {
 		if (game->IsKeyDown(DIK_Z))
 		{
 			mario->SetState(MARIO_STATE_RUN_RIGHT);
@@ -332,7 +332,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 			mario->SetState(MARIO_STATE_WALKING_LEFT);
 		}
 	}
-	*/
+	
 	else
 		mario->SetState(MARIO_STATE_IDLE);
 }
