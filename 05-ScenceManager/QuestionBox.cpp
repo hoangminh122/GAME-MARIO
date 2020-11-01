@@ -2,19 +2,28 @@
 
 CQuestion::CQuestion() : CGameObject() {
 	isQuestion = true;
-
+	ani = 0 ;
+	mushroomRun = false;
+	delMushroom = false;
 }
 void CQuestion::Render()
 {
-	
-	if (!isQuestion) {
-		if(this ->x == 220)
-			animation_set->at(2)->Render(x, y);
-		else
-			animation_set->at(1)->Render(x, y);
+	if (delMushroom) return;
+
+	else if (mushroomRun)
+	{
+		ani = 2;
 	}
+	else if (!isQuestion) {
+		if (this->x == 220)
+			ani = 2;
+		else
+			ani = 1;
+	}
+	
 	else
-		animation_set->at(0)->Render(x, y);
+		ani = 0;
+	animation_set->at(ani)->Render(x, y);
 	RenderBoundingBox();
 }
 
@@ -25,3 +34,14 @@ void CQuestion::GetBoundingBox(float &l, float &t, float &r, float &b)
 	r = x + QUESTION_BBOX_WIDTH;
 	b = y + QUESTION_BBOX_HEIGHT;
 }
+void CQuestion::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
+{
+	CGameObject::Update(dt, coObjects);
+	if (mushroomRun)
+	{
+		y = 45;
+		x += 0.3;
+	}
+	//y += dy;
+}
+

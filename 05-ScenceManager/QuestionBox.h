@@ -7,8 +7,15 @@
 class CQuestion : public CGameObject
 {
 public:
+	int ani;
+	bool mushroomRun;
+	bool delMushroom;
+public:
+
 	CQuestion();
 	bool isQuestion;
 	virtual void Render();
 	virtual void GetBoundingBox(float &l, float &t, float &r, float &b);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
+
 };
