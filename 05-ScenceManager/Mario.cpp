@@ -129,16 +129,19 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			{
 				CQuestion *question = dynamic_cast<CQuestion *>(e->obj);
 				question->isQuestion = false;
-				if (question->ani == 2) {
-					if (!question->mushroomRun) 
+				if (question -> x == 220)
+					question -> ani = 2;
+				if (question -> ani == 2) {
+					if (!question -> mushroomRun) 
 					{
-						question->mushroomRun = true;
+						question -> mushroomRun = true ;
 					}
 					else
 					{
-						DebugOut(L" ccccc xuat hienc cccccccc :\n");
-						question->delMushroom = true;
-						//question->mushroomRun = false;
+						DebugOut(L" ccccc xuat hienc cccccccc :\n") ;
+						question->delMushroom = true ;
+						this->level = MARIO_LEVEL_BIG ;
+						
 						//delete question;
 					}
 				}
@@ -171,8 +174,7 @@ void CMario::Render()
 	/*int ani = MARIO_ANI_SMALL_IDLE_RIGHT; */            
 	if (state == MARIO_STATE_DIE)
 		ani = MARIO_ANI_DIE;
-	//else
-	/*if (level == MARIO_LEVEL_BIG)
+	else if (level == MARIO_LEVEL_BIG)
 	{
 		if (vx == 0)
 		{
@@ -182,7 +184,7 @@ void CMario::Render()
 		else if (vx > 0) 
 			ani = MARIO_ANI_BIG_WALKING_RIGHT; 
 		else ani = MARIO_ANI_BIG_WALKING_LEFT;
-	}*/
+	}
 	else if (level == MARIO_LEVEL_SMALL)
 	{
 		if (vx == 0)
@@ -299,7 +301,8 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 {
 	left = x;
 	top = y; 
-
+	/*right = x + MARIO_BIG_BBOX_WIDTH;
+	bottom = y + MARIO_BIG_BBOX_HEIGHT;*/
 	if (level == MARIO_LEVEL_BIG)
 	{
 		right = x + MARIO_BIG_BBOX_WIDTH;

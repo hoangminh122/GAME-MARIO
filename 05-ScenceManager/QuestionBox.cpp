@@ -14,10 +14,15 @@ void CQuestion::Render()
 	{
 		ani = 2;
 	}
-	else if (!isQuestion) {
+	/*else if (!isQuestion) {
 		if (this->x == 220)
 			ani = 2;
 		else
+			ani = 1;
+	}*/
+
+	else if (!isQuestion) {
+		if (this->x != 220)
 			ani = 1;
 	}
 	
@@ -40,7 +45,7 @@ void CQuestion::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (mushroomRun)
 	{
 		y = 45;
-		x += 0.3;
+		x += 0.2;
 	}
 	//y += dy;
 }
