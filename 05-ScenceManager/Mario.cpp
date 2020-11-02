@@ -22,8 +22,7 @@ CMario::CMario(float x, float y) : CGameObject()
 	this->x = x; 
 	this->y = y; 
 	checkMarioColision = false;
-	//test = new GameMap();
-	//test->LoadMap("textures/map/map01.txt");
+	ani = MARIO_ANI_SMALL_IDLE_RIGHT;
 }
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -122,31 +121,37 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			} // if Goomba
 			else if (dynamic_cast<CBrickTop *>(e->obj)) // if e->obj is Goomba 
 			{
-				DebugOut(L" kill brick top");
-				//CGoomba *goomba = dynamic_cast<CGoomba *>(e->obj);
 				if (e->ny > 0)
 					this->y = y-0.5;
-				// jump on top >> kill Goomba and deflect a bit 
-				
-				
+
 			} // if brickTop
 			else if (dynamic_cast<CQuestion *>(e->obj)) // if e->obj is Goomba 
 			{
-				DebugOut(L"qestion box");
-
-				// jump on top >> kill Goomba and deflect a bit 
 				CQuestion *question = dynamic_cast<CQuestion *>(e->obj);
 				question->isQuestion = false;
+				if (question -> x == 220)
+					question -> ani = 2;
+				if (question -> ani == 2) {
+					if (!question -> mushroomRun) 
+					{
+						question -> mushroomRun = true ;
+					}
+					else
+					{
+						DebugOut(L" ccccc xuat hienc cccccccc :\n") ;
+						question->delMushroom = true ;
+						this->level = MARIO_LEVEL_BIG ;
+						
+						//delete question;
+					}
+				}
 				
 			} // if box question
 			else if (dynamic_cast<CBrickTop *>(e->obj)) // if e->obj is Goomba 
 			{
 				//DebugOut(L" kill brick top");
-				//CGoomba *goomba = dynamic_cast<CGoomba *>(e->obj);
 				if (e->ny > 0)
 					this->y = y - 0.5;
-				// jump on top >> kill Goomba and deflect a bit 
-
 
 			} // if brickTop
 			else if (dynamic_cast<CPortal *>(e->obj))
@@ -166,11 +171,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 void CMario::Render()
 {
-	int ani = MARIO_ANI_SMALL_IDLE_RIGHT;             
+	/*int ani = MARIO_ANI_SMALL_IDLE_RIGHT; */            
 	if (state == MARIO_STATE_DIE)
 		ani = MARIO_ANI_DIE;
-	//else
-	/*if (level == MARIO_LEVEL_BIG)
+	else if (level == MARIO_LEVEL_BIG)
 	{
 		if (vx == 0)
 		{
@@ -180,18 +184,22 @@ void CMario::Render()
 		else if (vx > 0) 
 			ani = MARIO_ANI_BIG_WALKING_RIGHT; 
 		else ani = MARIO_ANI_BIG_WALKING_LEFT;
-	}*/
+	}
 	else if (level == MARIO_LEVEL_SMALL)
 	{
 		if (vx == 0)
 		{
 			//DebugOut(L"vao1111%d",state);
-			if (state == MARIO_STATE_JUMP) {
+			/*if (state == MARIO_STATE_JUMP) {
 				DebugOut(L"vaossssss");
 				ani = MARIO_ANI_SMALL_JUMP_RIGHT;
-			}
-			else if (nx > 0) {
-				
+			}*/
+			if (nx > 0) {
+				if (state == MARIO_STATE_JUMP) {
+					DebugOut(L"vaossssss");
+					ani = MARIO_ANI_SMALL_JUMP_RIGHT;
+				}
+				else
 					ani = MARIO_ANI_SMALL_IDLE_RIGHT;
 				/*
 				try {
@@ -203,7 +211,14 @@ void CMario::Render()
 				catch (exception e) { ; }*/
 				
 			}
-			else ani = MARIO_ANI_SMALL_IDLE_LEFT;
+			else 
+			{
+				if (state == MARIO_STATE_JUMP) {
+					ani = MARIO_ANI_SMALL_JUMP_LEFT;
+				}
+				else
+					ani = MARIO_ANI_SMALL_IDLE_LEFT;
+			}
 		}
 		else if (vx > 0) {
 			
@@ -286,7 +301,8 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 {
 	left = x;
 	top = y; 
-
+	/*right = x + MARIO_BIG_BBOX_WIDTH;
+	bottom = y + MARIO_BIG_BBOX_HEIGHT;*/
 	if (level == MARIO_LEVEL_BIG)
 	{
 		right = x + MARIO_BIG_BBOX_WIDTH;
