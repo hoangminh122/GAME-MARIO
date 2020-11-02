@@ -210,7 +210,7 @@ void CMario::Render()
 				ani = MARIO_ANI_BIG_JUMP_RIGHT;
 			else if (state == MARIO_STATE_RUN_RIGHT)
 			{
-				//ani = MARIO_ANI_BIG_RUN_RIGHT;
+				ani = MARIO_ANI_BIG_RUN_RIGHT;
 			}
 			else
 				ani = MARIO_ANI_BIG_WALKING_RIGHT;
@@ -221,7 +221,7 @@ void CMario::Render()
 				ani = MARIO_ANI_BIG_JUMP_LEFT;
 			else if (state == MARIO_STATE_RUN_LEFT)
 			{
-				//ani = MARIO_ANI_BIG_RUN_LEFT;
+				ani = MARIO_ANI_BIG_RUN_LEFT;
 			}
 			else
 				ani = MARIO_ANI_BIG_WALKING_LEFT;
