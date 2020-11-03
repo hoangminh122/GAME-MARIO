@@ -113,7 +113,10 @@
 60002	28	129	43	155	50
 #plant
 70001	13	63	28	86	10
-70002	60	63	75	86	10					
+70002	60	63	75	86	10
+#bullet
+80001	385	47	402	64	10
+					
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 
@@ -199,7 +202,8 @@
 901	60001	150	60002	150
 #plant
 1001	70001	100	70002	100
-
+#bullet
+1101	80001	100
 
 #
 # id	ani1	ani2	ani3
@@ -241,6 +245,8 @@
 9	901
 #plant
 10	1001	1002
+#bulet
+11	1101
 
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
@@ -412,7 +418,8 @@
 #8	220	68	8
 # Turle
 3	570	128	9
-
+#bullet
+11	350	230	11
 
 
 # --- SCENE PORTAL ----

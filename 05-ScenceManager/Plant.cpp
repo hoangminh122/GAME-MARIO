@@ -1,5 +1,8 @@
 #include "Plant.h"
+#include "Bullet.h"
+#include "Utils.h"
 
+bool CPlant::start = false;
 CPlant::CPlant() : CGameObject()
 {
 	vy = 0.1;
@@ -27,13 +30,16 @@ void CPlant::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// 
 	
 	//x += 0.1;
-	y += vy;
+	y +=4*vy;
 
-	if (vy > 0 && y > 150) {
-		y = 138; vy = -vy;
+	if (vy > 0 && y > 200) {
+		y = 200; vy = -vy;
 	}
-
+	start = false;
 	if (vy < 0 && y < 112) {
+		DebugOut(L"start ban dan");
+		start = true;
 		y = 112; vy = -vy;
 	}
+
 }

@@ -8,6 +8,7 @@
 #include "Portal.h"
 #include "QuestionBox.h"
 #include "Plant.h"
+#include "Bullet.h"
 
 using namespace std;
 
@@ -38,6 +39,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define OBJECT_TYPE_MUSHROOM	8
 #define OBJECT_TYPE_QUESTION_BOX	9
 #define OBJECT_TYPE_PLANT	10
+#define OBJECT_TYPE_BULLET	11
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -167,6 +169,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_QUESTION_BOX: obj = new CQuestion; break;
 	case OBJECT_TYPE_MUSHROOM: obj = new CMushroom(); break;
 	case OBJECT_TYPE_PLANT: obj = new CPlant(); break;
+	case OBJECT_TYPE_BULLET: obj = new CBullet(); break;
 	case OBJECT_TYPE_PORTAL:
 		{	
 			float r = atof(tokens[4].c_str());
