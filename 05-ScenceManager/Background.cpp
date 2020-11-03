@@ -15,6 +15,5 @@ CBackground::CBackground(int id, int left, int top, int right, int bottom, LPDIR
 
 void CBackground::Draw(float x, float y, int alpha)
 {
-
 	CSprite::Draw(x, y, 255);
 }

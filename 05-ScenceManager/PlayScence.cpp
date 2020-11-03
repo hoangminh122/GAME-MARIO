@@ -6,6 +6,7 @@
 #include "Textures.h"
 #include "Sprites.h"
 #include "Portal.h"
+#include "QuestionBox.h"
 
 
 using namespace std;
@@ -31,7 +32,11 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define OBJECT_TYPE_MARIO	0
 #define OBJECT_TYPE_BRICK	1
 #define OBJECT_TYPE_GOOMBA	2
-#define OBJECT_TYPE_KOOPAS	3
+#define OBJECT_TYPE_TURLE	3
+#define OBJECT_TYPE_BRICKTOP	4
+
+#define OBJECT_TYPE_MUSHROOM	8
+#define OBJECT_TYPE_QUESTION_BOX	9
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -156,7 +161,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
-	case OBJECT_TYPE_KOOPAS: obj = new CKoopas(); break;
+	case OBJECT_TYPE_BRICKTOP: obj = new CBrickTop(); break;
+	case OBJECT_TYPE_TURLE: obj = new CTurle(); break;
+	case OBJECT_TYPE_QUESTION_BOX: obj = new CQuestion; break;
+	case OBJECT_TYPE_MUSHROOM: obj = new CMushroom(); break;
 	case OBJECT_TYPE_PORTAL:
 		{	
 			float r = atof(tokens[4].c_str());
@@ -300,10 +308,31 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 
 	// disable control key when Mario die 
 	if (mario->GetState() == MARIO_STATE_DIE) return;
-	if (game->IsKeyDown(DIK_RIGHT))
-		mario->SetState(MARIO_STATE_WALKING_RIGHT);
-	else if (game->IsKeyDown(DIK_LEFT))
-		mario->SetState(MARIO_STATE_WALKING_LEFT);
+	if (game->IsKeyDown(DIK_SPACE))
+	{
+		//DebugOut(L"okaaaa");
+		mario->SetState(MARIO_STATE_JUMP);
+	
+	}
+	else if (game->IsKeyDown(DIK_RIGHT)) {
+		if (game->IsKeyDown(DIK_Z))
+		{
+			mario->SetState(MARIO_STATE_RUN_RIGHT);
+		}
+		else
+			mario->SetState(MARIO_STATE_WALKING_RIGHT);
+	}
+	else if (game->IsKeyDown(DIK_LEFT)) {
+		if (game->IsKeyDown(DIK_Z))
+		{
+			mario->SetState(MARIO_STATE_RUN_LEFT);
+		}
+		else
+		{
+			mario->SetState(MARIO_STATE_WALKING_LEFT);
+		}
+	}
+	
 	else
 		mario->SetState(MARIO_STATE_IDLE);
 }
