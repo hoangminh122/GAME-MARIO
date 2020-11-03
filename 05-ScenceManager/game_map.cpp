@@ -149,17 +149,17 @@ CBackground* GameMap::getTileMapSwitch(int id, LPDIRECT3DTEXTURE9 d3dtt)
 {
 	switch (id) {
 	case 1:
-		return new CBackground(1, 223, 223, 237, 237, d3dtt);
+		return new CBackground(1, 222, 222, 239, 239, d3dtt);
 	case 2:
-		return new CBackground(2, 137, 18, 152, 34, d3dtt);
+		return new CBackground(2, 136, 18, 153, 35, d3dtt);
 	case 3:
-		return new CBackground(3, 137, 1, 152, 17, d3dtt);
+		return new CBackground(3, 136, 1, 153, 18, d3dtt);
 	case 4:
-		return new CBackground(4, 154, 1, 168, 17, d3dtt);
+		return new CBackground(4, 153, 1, 170, 18, d3dtt);
 	case 5:
-		return new CBackground(5, 154, 18, 168, 34, d3dtt);
+		return new CBackground(5, 153, 18, 170, 35, d3dtt);
 	case 6:
-		return new CBackground(6, 137, 36, 152, 51, d3dtt);
+		return new CBackground(6, 136, 35, 153, 52, d3dtt);
 	case 7:
 		return new CBackground(7, 153, 35, 170, 53, d3dtt);
 	case 8:
