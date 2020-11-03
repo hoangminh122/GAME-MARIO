@@ -132,6 +132,7 @@
     <ClCompile Include="game_map.cpp" />
     <ClCompile Include="game_map.h" />
     <ClCompile Include="Koopas.cpp" />
+    <ClCompile Include="Plant.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="QuestionBox.cpp" />
     <ClCompile Include="Turle.cpp" />
@@ -154,6 +155,7 @@
     <ClInclude Include="CMushroom.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Koopas.h" />
+    <ClInclude Include="Plant.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="QuestionBox.h" />
     <ClInclude Include="test.h" />
