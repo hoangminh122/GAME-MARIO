@@ -13,7 +13,7 @@
 CMario::CMario(float x, float y) : CGameObject()
 {
 	//this->CheckToMap(test->game_map_);
-	level = MARIO_LEVEL_SMALL;
+	level = MARIO_LEVEL_BIG;
 	untouchable = 0;
 	SetState(MARIO_STATE_IDLE);
 
@@ -178,12 +178,54 @@ void CMario::Render()
 	{
 		if (vx == 0)
 		{
-			if (nx>0) ani = MARIO_ANI_BIG_IDLE_RIGHT;
-			else ani = MARIO_ANI_BIG_IDLE_LEFT;
+			if (nx > 0) {
+				if (state == MARIO_STATE_JUMP) {
+					DebugOut(L"vaossssss");
+					ani = MARIO_ANI_BIG_JUMP_RIGHT;
+				}
+				else
+					ani = MARIO_ANI_BIG_IDLE_RIGHT;
+				/*
+				try {
+					if (state == MARIO_STATE_JUMP) {
+						DebugOut(L"vao day jump");
+						ani = MARIO_ANI_SMALL_JUMP_LEFT;
+					}
+				}
+				catch (exception e) { ; }*/
+
+			}
+			else
+			{
+				if (state == MARIO_STATE_JUMP) {
+					ani = MARIO_ANI_BIG_JUMP_LEFT;
+				}
+				else
+					ani = MARIO_ANI_BIG_IDLE_LEFT;
+			}
 		}
-		else if (vx > 0) 
-			ani = MARIO_ANI_BIG_WALKING_RIGHT; 
-		else ani = MARIO_ANI_BIG_WALKING_LEFT;
+		else if (vx > 0)
+		{
+			if (state == MARIO_STATE_JUMP && checkMarioColision == false)                    //ANI JUMP RIGHT
+				ani = MARIO_ANI_BIG_JUMP_RIGHT;
+			else if (state == MARIO_STATE_RUN_RIGHT)
+			{
+				ani = MARIO_ANI_BIG_RUN_RIGHT;
+			}
+			else
+				ani = MARIO_ANI_BIG_WALKING_RIGHT;
+		}
+		else
+		{
+			if (state == MARIO_STATE_JUMP && checkMarioColision == false)				   //ANI JUMP LEFT
+				ani = MARIO_ANI_BIG_JUMP_LEFT;
+			else if (state == MARIO_STATE_RUN_LEFT)
+			{
+				ani = MARIO_ANI_BIG_RUN_LEFT;
+			}
+			else
+				ani = MARIO_ANI_BIG_WALKING_LEFT;
+		}
 	}
 	else if (level == MARIO_LEVEL_SMALL)
 	{
@@ -220,7 +262,8 @@ void CMario::Render()
 					ani = MARIO_ANI_SMALL_IDLE_LEFT;
 			}
 		}
-		else if (vx > 0) {
+		else if (vx > 0) 
+		{
 			
 			if(state == MARIO_STATE_JUMP && checkMarioColision == false)                    //ANI JUMP RIGHT
 				ani = MARIO_ANI_SMALL_JUMP_RIGHT;
