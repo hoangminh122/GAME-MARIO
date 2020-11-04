@@ -13,7 +13,7 @@
 CMario::CMario(float x, float y) : CGameObject()
 {
 	//this->CheckToMap(test->game_map_);
-	level = MARIO_LEVEL_BIG;
+	level = MARIO_LEVEL_SMALL;
 	untouchable = 0;
 	SetState(MARIO_STATE_IDLE);
 
