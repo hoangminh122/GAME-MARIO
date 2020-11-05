@@ -290,6 +290,7 @@
 10	350	112	10
 # GOOMBA
 2	260	170	3
+2	760	170	3
 # BRICK 
 # --- platform (hint: I created the list using Excel!) ----
 1	0	187	2
@@ -431,8 +432,8 @@
 1	357	170	37
 
 # Mushroom
-#8	220	200	8
-8	260	170	8
+8	220	200	8
+#8	260	170	8
 # ---- question box group 1 ----
 #1	100	74	2
 #1	100	90	22
