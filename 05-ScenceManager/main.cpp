@@ -35,7 +35,7 @@
 #define SCREEN_HEIGHT 240
 
 #define MAX_FRAME_RATE 120
-#define BACKGROUND_TEXTURE_PATH L"0.png"
+#define BACKGROUND_TEXTURE_PATH L"textures/map/man1/tiles.png"
 
 CGameObject *background ; 
 CGame *game;

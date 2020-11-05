@@ -48,9 +48,9 @@ void CTurle::Render()
 	else if (vx > 0) ani = TURLE_ANI_WALKING_RIGHT;
 	else if (vx <= 0) ani = TURLE_ANI_WALKING_LEFT;
 
-	animation_set->at(ani)->Render(x, y);
+	animation_set->at(2)->Render(x, y);
 
-	RenderBoundingBox();
+	RenderBoundingBox(); 
 }
 
 void CTurle::SetState(int state)

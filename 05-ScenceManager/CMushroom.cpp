@@ -6,10 +6,11 @@ bool CMushroom::isRun = false;
 CMushroom * CMushroom::__instance = NULL;
 CMushroom::CMushroom() : CGameObject()
 {
-	vx = -0.02f;
-	isStart = true;
-	isRun = true;
+	vx = 0.0f;
+	isStart = false;
+	isRun = false;
 	isDie = false;
+
 }
 CMushroom *CMushroom::GetInstance()
 {
@@ -42,7 +43,7 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	if (isDie || x < 0)
 	{
-		x = 0; y = 0;
+		x = -17; y = -17;
 		vx = 0;
 		isRun = false;
 		isStart = false;
