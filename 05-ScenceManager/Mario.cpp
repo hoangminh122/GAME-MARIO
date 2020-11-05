@@ -9,6 +9,8 @@
 #include "Portal.h"
 #include "BrickTop.h"
 #include "QuestionBox.h"
+#include "Bullet.h"
+#include "CMushroom.h"
 
 CMario::CMario(float x, float y) : CGameObject()
 {
@@ -84,16 +86,38 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-
-			if (dynamic_cast<CGoomba *>(e->obj)) // if e->obj is Goomba 
+			if (dynamic_cast<CBullet *>(e->obj)) // if e->obj is Bullet
 			{
-				DebugOut(L"kill 0");
+				//DebugOut(L" dan ban trung");
+				if (level > MARIO_LEVEL_SMALL)
+				{
+					level = MARIO_LEVEL_SMALL;
+					StartUntouchable();
+				}
+				else
+					SetState(MARIO_STATE_DIE);
+
+			} // if bullet dan bay
+			if (dynamic_cast<CMushroom *>(e->obj)) // if e->obj is mushroom
+			{
+				DebugOut(L"kill nam");
+				CMushroom *mushroom = dynamic_cast<CMushroom *>(e->obj);
+				mushroom->isDie = true;
+				//mushroom->x = 0;
+				//mushroom->y = 0;
+
+				this->level = MARIO_LEVEL_BIG;
+				this->y = 150;
+			} // if mushroom
+			else if (dynamic_cast<CGoomba *>(e->obj)) // if e->obj is Goomba 
+			{
+				
 				CGoomba *goomba = dynamic_cast<CGoomba *>(e->obj);
 
 				// jump on top >> kill Goomba and deflect a bit 
 				if (e->ny < 0)
 				{
-					DebugOut(L"kill");
+					
 
 					if (goomba->GetState()!= GOOMBA_STATE_DIE)
 					{
@@ -119,41 +143,60 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					}
 				}
 			} // if Goomba
-			else if (dynamic_cast<CBrickTop *>(e->obj)) // if e->obj is Goomba 
-			{
-				if (e->ny > 0)
-					this->y = y-0.5;
+			//else if (dynamic_cast<CBullet *>(e->obj)) // if e->obj is Bullet
+			//{
+			//	DebugOut(L" dan ban trung");
+			//	if (level > MARIO_LEVEL_SMALL)
+			//	{
+			//		level = MARIO_LEVEL_SMALL;
+			//		StartUntouchable();
+			//	}
+			//	else
+			//		SetState(MARIO_STATE_DIE);
 
-			} // if brickTop
-			else if (dynamic_cast<CQuestion *>(e->obj)) // if e->obj is Goomba 
+			//} // if bullet dan bay
+			else if (dynamic_cast<CQuestion *>(e->obj)) // if e->obj is Question 
 			{
+				
 				CQuestion *question = dynamic_cast<CQuestion *>(e->obj);
 				question->isQuestion = false;
-				if (question -> x == 220)
-					question -> ani = 2;
-				if (question -> ani == 2) {
-					if (!question -> mushroomRun) 
-					{
-						question -> mushroomRun = true ;
-					}
-					else
-					{
-						DebugOut(L" ccccc xuat hienc cccccccc :\n") ;
-						question->delMushroom = true ;
-						this->level = MARIO_LEVEL_BIG ;
-						
-						//delete question;
-					}
+				if (question->x == 220)
+				{
+					CMushroom* mushroom = CMushroom::GetInstance();
+					CMushroom::isStart = true;
+					CMushroom::isRun = true;
+					DebugOut(L" ccccc xuat hienc cccccccc :\n");
+					
 				}
+
+				//question->isQuestion = false;
+				//if (question -> x == 220)
+				//	question -> ani = 2;
+				//if (question -> ani == 2) {
+				//	if (!question -> mushroomRun) 
+				//	{
+				//		question -> mushroomRun = true ;
+				//	}
+				//	else
+				//	{
+				//		//DebugOut(L" ccccc xuat hienc cccccccc :\n") ;
+				//		question->delMushroom = true ;
+				//		this->level = MARIO_LEVEL_BIG ;
+				//		
+				//		//delete question;
+				//	}
+				//}
 				
 			} // if box question
-			else if (dynamic_cast<CBrickTop *>(e->obj)) // if e->obj is Goomba 
+			else if (dynamic_cast<CBrickTop *>(e->obj)) // if e->obj is brickTop
 			{
 				//DebugOut(L" kill brick top");
 				if (e->ny > 0)
 					this->y = y - 0.5;
 
 			} // if brickTop
+			
+			
 			else if (dynamic_cast<CPortal *>(e->obj))
 			{
 				CPortal *p = dynamic_cast<CPortal *>(e->obj);

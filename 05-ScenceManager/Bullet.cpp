@@ -2,12 +2,16 @@
 #include "Plant.h"
 #include "Utils.h"
 
-CBullet::CBullet() {
-	isStart = false;
-}
+//CBullet::CBullet() {
+//	isStart = false;
+//}
 
 CBullet * CBullet::__instance = NULL;
-
+CBullet::CBullet() : CGameObject()
+{
+	isStart = false;
+	vx = 0.8;
+}
 CBullet *CBullet::GetInstance()
 {
 	if (__instance == NULL) __instance = new CBullet();
@@ -33,7 +37,7 @@ void CBullet::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	if (isStart)
 	{
-		x -= 0.1*dt;
+		x -= vx;
 		y += 0.5;
 	}
 	CPlant* plant = new CPlant();

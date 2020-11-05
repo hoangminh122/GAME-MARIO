@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 
-#define BULLET_BBOX_WIDTH  8
+#define BULLET_BBOX_WIDTH 8
 #define BULLET_BBOX_HEIGHT 8
 
 class CBullet : public CGameObject
