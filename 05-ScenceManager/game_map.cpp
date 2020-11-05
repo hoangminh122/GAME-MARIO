@@ -149,7 +149,7 @@ CBackground* GameMap::getTileMapSwitch(int id, LPDIRECT3DTEXTURE9 d3dtt)
 {
 	switch (id) {
 	case 1:
-		return new CBackground(1, 222, 222, 239, 239, d3dtt);
+		return new CBackground(1, 221, 222, 238, 239, d3dtt);
 	case 2:
 		return new CBackground(2, 136, 18, 153, 35, d3dtt);
 	case 3:
@@ -167,23 +167,23 @@ CBackground* GameMap::getTileMapSwitch(int id, LPDIRECT3DTEXTURE9 d3dtt)
 	case 9:
 		return new CBackground(9, 222, 205, 237, 221, d3dtt);
 	case 10:
-		return new CBackground(10, 1, 52, 18, 68, d3dtt);
+		return new CBackground(10, 1, 52, 18, 69, d3dtt);
 	case 11:
-		return new CBackground(11, 18, 52, 35, 68, d3dtt);
+		return new CBackground(11, 18, 52, 35, 69, d3dtt);
 	case 12:
-		return new CBackground(12, 36, 52, 53, 68, d3dtt);
+		return new CBackground(12, 35, 52, 52, 69, d3dtt);
 	case 13:
-		return new CBackground(13, 1, 69, 18, 85, d3dtt);
+		return new CBackground(13, 1, 69, 18, 86, d3dtt);
 	case 14:
-		return new CBackground(14, 19, 69, 36, 85, d3dtt);
+		return new CBackground(14, 16, 69, 35, 86, d3dtt);
 	case 15:
-		return new CBackground(15, 37, 69, 54, 85, d3dtt);
+		return new CBackground(15, 35, 69, 52, 86, d3dtt);
 	case 16:
-		return new CBackground(16, 1, 86, 18, 102, d3dtt);
+		return new CBackground(16, 1, 86, 18, 103, d3dtt);
 	case 17:
-		return new CBackground(17, 19, 86, 36, 102, d3dtt);
+		return new CBackground(17, 16, 86, 36, 103, d3dtt);
 	case 18:
-		return new CBackground(18, 37, 86, 54, 102, d3dtt);
+		return new CBackground(18, 35, 86, 52, 103, d3dtt);
 	case 19:
 		return new CBackground(19, 256, 188, 272, 204, d3dtt);
 	case 20:
@@ -205,13 +205,13 @@ CBackground* GameMap::getTileMapSwitch(int id, LPDIRECT3DTEXTURE9 d3dtt)
 	case 28:
 		return new CBackground(28, 86, 86, 103, 101, d3dtt);
 	case 29:
-		return new CBackground(29, 290, 52, 307, 69, d3dtt);
+		return new CBackground(29, 289, 52, 306, 69, d3dtt);
 	case 30:
-		return new CBackground(30, 307, 52, 324, 69, d3dtt);
+		return new CBackground(30, 306, 52, 324, 69, d3dtt);
 	case 31:
-		return new CBackground(31, 290, 69, 307, 86, d3dtt);
+		return new CBackground(31, 289, 69, 306, 86, d3dtt);
 	case 32:
-		return new CBackground(32, 307, 68, 324, 86, d3dtt);
+		return new CBackground(32, 306, 68, 324, 86, d3dtt);
 	case 33:
 		return new CBackground(33, 52, 1, 69, 18, d3dtt);
 	case 34:
