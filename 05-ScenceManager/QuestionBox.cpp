@@ -3,17 +3,17 @@
 CQuestion::CQuestion() : CGameObject() {
 	isQuestion = true;
 	ani = 0 ;
-	mushroomRun = false;
-	delMushroom = false;
+	//mushroomRun = false;
+	//delMushroom = false;
 }
 void CQuestion::Render()
 {
-	if (delMushroom) return;
+	//if (delMushroom) return;
 
-	else if (mushroomRun)
+	/*else if (mushroomRun)
 	{
 		ani = 2;
-	}
+	}*/
 	/*else if (!isQuestion) {
 		if (this->x == 220)
 			ani = 2;
@@ -21,8 +21,7 @@ void CQuestion::Render()
 			ani = 1;
 	}*/
 
-	else if (!isQuestion) {
-		if (this->x != 220)
+	if (!isQuestion) {
 			ani = 1;
 	}
 	
@@ -44,8 +43,14 @@ void CQuestion::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	CGameObject::Update(dt, coObjects);
 	if (mushroomRun)
 	{
-		y = 45;
-		x += 0.2;
+		y = 52;
+		//y += 0.005*dt;
+		x -= 0.1;
+		if (x < 220)
+		{
+			y += 0.005*dt;
+		}
+
 	}
 	//y += dy;
 }

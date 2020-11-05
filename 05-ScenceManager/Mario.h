@@ -2,7 +2,7 @@
 #include "GameObject.h"
 //#include "game_map.h"
 
-#define MARIO_WALKING_SPEED		0.15f 
+#define MARIO_WALKING_SPEED		0.1f 
 //0.1f
 #define MARIO_JUMP_SPEED_Y		0.4f
 #define MARIO_JUMP_DEFLECT_SPEED 0.2f
@@ -33,7 +33,10 @@
 #define MARIO_ANI_SMALL_RUN_RIGHT		11
 #define MARIO_ANI_CHANGE_BIG_LEFT		13
 #define MARIO_ANI_CHANGE_BIG_RIGHT		14
-
+#define MARIO_ANI_BIG_JUMP_RIGHT		15
+#define MARIO_ANI_BIG_JUMP_LEFT		16
+#define MARIO_ANI_BIG_RUN_RIGHT		17
+#define MARIO_ANI_BIG_RUN_LEFT		18
 
 #define MARIO_ANI_DIE				8
 
