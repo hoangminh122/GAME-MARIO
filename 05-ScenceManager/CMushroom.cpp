@@ -40,13 +40,15 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		this->y = 52;
 		isStart = false;
 	}
-	if (isDie)
+	if (isDie || x < 0)
 	{
 		x = 0; y = 0;
 		vx = 0;
+		isRun = false;
+		isStart = false;
 		return;
 	}
-	
+
 	else if (isRun)
 	{
 		if (y >= 170)
