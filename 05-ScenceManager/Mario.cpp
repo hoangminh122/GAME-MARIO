@@ -11,6 +11,7 @@
 #include "QuestionBox.h"
 #include "Bullet.h"
 #include "CMushroom.h"
+#include "Plant.h"
 
 CMario::CMario(float x, float y) : CGameObject()
 {
@@ -109,6 +110,18 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				this->level = MARIO_LEVEL_BIG;
 				this->y = 150;
 			} // if mushroom
+			else if (dynamic_cast<CPlant *>(e->obj)) // if e->obj is plant
+			{
+				if (level > MARIO_LEVEL_SMALL)
+				{
+					level = MARIO_LEVEL_SMALL;
+					StartUntouchable();
+				}
+				else
+					SetState(MARIO_STATE_DIE);
+
+				
+			} // if plant
 			else if (dynamic_cast<CGoomba *>(e->obj)) // if e->obj is Goomba 
 			{
 				
@@ -223,7 +236,6 @@ void CMario::Render()
 		{
 			if (nx > 0) {
 				if (state == MARIO_STATE_JUMP) {
-					DebugOut(L"vaossssss");
 					ani = MARIO_ANI_BIG_JUMP_RIGHT;
 				}
 				else
@@ -353,11 +365,11 @@ void CMario::SetState(int state)
 		nx = -1;
 		break;
 	case MARIO_STATE_RUN_LEFT:
-		vx = -0.5;
+		vx = -0.2;
 		nx = -1;
 		break;
 	case MARIO_STATE_RUN_RIGHT:
-		vx = 0.5;
+		vx = 0.2;
 		nx = 1;
 		break;
 	case MARIO_STATE_JUMP:
