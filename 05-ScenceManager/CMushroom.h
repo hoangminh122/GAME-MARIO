@@ -6,7 +6,15 @@
 
 class CMushroom : public CGameObject
 {
+
 public:
+	CMushroom();
+	static bool isStart;
+	static bool isRun;
+	bool isDie;
+	static CMushroom * __instance;
+	static CMushroom * GetInstance();
 	virtual void Render();
 	virtual void GetBoundingBox(float &l, float &t, float &r, float &b);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 };
