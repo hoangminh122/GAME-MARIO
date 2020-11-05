@@ -19,7 +19,7 @@ void CTurle::GetBoundingBox(float &left, float &top, float &right, float &bottom
 
 void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	CGameObject::Update(dt, coObjects);
+	CGameObject::Update(dt, coObjects);  
 
 	//
 	// TO-DO: make sure Koopas can interact with the world and to each of them too!
@@ -48,7 +48,7 @@ void CTurle::Render()
 	else if (vx > 0) ani = TURLE_ANI_WALKING_RIGHT;
 	else if (vx <= 0) ani = TURLE_ANI_WALKING_LEFT;
 
-	animation_set->at(0)->Render(x, y);
+	animation_set->at(ani)->Render(x, y);
 
 	RenderBoundingBox();
 }
