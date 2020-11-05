@@ -24,7 +24,10 @@ class CTurle : public CGameObject
 	virtual void Render();
 
 public:
+	
 	int ani;
+	int isStop;
+	static bool isTreeStart;
 	CTurle();
 	virtual void SetState(int state);
 };

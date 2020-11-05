@@ -1,9 +1,14 @@
 #include "Turle.h"
 
+bool CTurle::isTreeStart = false;
 CTurle::CTurle()
 {
+	
+	isStop = 0;
+	//ani = TURLE_STATE_RUN_DIE;
 	ani = TURLE_ANI_WALKING_LEFT;
 	SetState(TURLE_STATE_WALKING);
+	//SetState(TURLE_STATE_RUN_DIE);
 }
 
 void CTurle::GetBoundingBox(float &left, float &top, float &right, float &bottom)
@@ -27,18 +32,49 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// TO-DO: make sure Koopas can interact with the world and to each of them too!
 	// 
 
+	
+
+	if (state == TURLE_STATE_RUN_DIE)
+	{
+		vx += 0.005f;
+		if (x > 637)
+		{
+			//vx -= 0.05f;
+			x -= 15;
+			//y = 200;
+			vx = 0;
+			vy = 0;
+			isStop ++;
+			//if()
+		}
+		if (vx > 0 && x > 610) {
+			//x = 290; 
+			vy += 0.01f;
+			y = 153;
+			if (isStop == 2)
+			{
+				y = 200;
+				vx = 0;
+				vy = 0;
+				isTreeStart = true;
+			}
+		}
+	}
+	else
+	{
+		if (vx < 0 && x < 530) {
+			//x = 0; 
+			vx = -vx;
+		}
+
+		if (vx > 0 && x > 600) {
+			//x = 290; 
+			vx = -vx;
+		}
+		
+	}
 	x += dx;
 	y += dy;
-
-	if (vx < 0 && x < 530) {
-		//x = 0; 
-		vx = -vx;
-	}
-
-	if (vx > 0 && x > 600) {
-		//x = 290; 
-		vx = -vx;
-	}
 }
 
 void CTurle::Render()

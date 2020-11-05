@@ -1,4 +1,6 @@
 #include "QuestionBox.h"
+#include "Turle.h"
+#include "Utils.h"
 
 CQuestion::CQuestion() : CGameObject() {
 	isQuestion = true;
@@ -41,17 +43,26 @@ void CQuestion::GetBoundingBox(float &l, float &t, float &r, float &b)
 void CQuestion::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	CGameObject::Update(dt, coObjects);
-	if (mushroomRun)
+	if (CTurle::isTreeStart == true)
 	{
-		y = 52;
-		//y += 0.005*dt;
-		x -= 0.1;
-		if (x < 220)
+		
+		if (x == 646.0f)
 		{
-			y += 0.005*dt;
+			isQuestion = false;
+			ani = 1;
 		}
-
 	}
+	//if (mushroomRun)
+	//{
+	//	y = 52;
+	//	//y += 0.005*dt;
+	//	x -= 0.1;
+	//	if (x < 220)
+	//	{
+	//		y += 0.005*dt;
+	//	}
+
+	//}
 	//y += dy;
 }
 

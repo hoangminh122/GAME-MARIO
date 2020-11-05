@@ -171,16 +171,19 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			//} // if bullet dan bay
 			else if (dynamic_cast<CQuestion *>(e->obj)) // if e->obj is Question 
 			{
-				
-				CQuestion *question = dynamic_cast<CQuestion *>(e->obj);
-				question->isQuestion = false;
-				if (question->x == 220)
+				if (e->ny > 0)
 				{
-					CMushroom* mushroom = CMushroom::GetInstance();
-					CMushroom::isStart = true;
-					CMushroom::isRun = true;
-					DebugOut(L" ccccc xuat hienc cccccccc :\n");
-					
+					CQuestion *question = dynamic_cast<CQuestion *>(e->obj);
+
+					question->isQuestion = false;
+					if (question->x == 220)
+					{
+						CMushroom* mushroom = CMushroom::GetInstance();
+						CMushroom::isStart = true;
+						CMushroom::isRun = true;
+						DebugOut(L" ccccc xuat hienc cccccccc :\n");
+
+					}
 				}
 
 				//question->isQuestion = false;
