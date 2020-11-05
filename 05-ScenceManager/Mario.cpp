@@ -12,6 +12,7 @@
 #include "Bullet.h"
 #include "CMushroom.h"
 #include "Plant.h"
+#include "Turle.h"
 
 CMario::CMario(float x, float y) : CGameObject()
 {
@@ -117,7 +118,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					level = MARIO_LEVEL_SMALL;
 					StartUntouchable();
 				}
-				else
+				else 
 					SetState(MARIO_STATE_DIE);
 
 				
@@ -208,6 +209,52 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					this->y = y - 0.5;
 
 			} // if brickTop
+			else if (dynamic_cast<CTurle *>(e->obj)) // if e->obj is TURLE
+			{
+				CTurle *turle = dynamic_cast<CTurle *>(e->obj);
+				if (e->ny < 0)
+				{
+					this->x -= 28; 
+					this->y -= 2;
+					
+					this->vy = -0.4f;
+					DebugOut(L" kill CON RUA");
+					turle->SetState(TURLE_STATE_DIE);
+					
+				}
+				else if (e->nx != 0)
+				{
+					if (turle->ani == TURLE_ANI_DIE)
+					{
+						turle->SetState(TURLE_STATE_RUN_DIE);
+					}
+					else if(turle->ani == TURLE_ANI_RUN_DIE)
+					{
+						;
+					}
+					else
+					{
+						DebugOut(L"kill 2");
+						if (untouchable == 0)
+						{
+							if (turle->GetState() != TURLE_STATE_DIE)
+							{
+								if (level > MARIO_LEVEL_SMALL)
+								{
+									level = MARIO_LEVEL_SMALL;
+									StartUntouchable();
+								}
+								else
+									SetState(MARIO_STATE_DIE);
+							}
+						}
+					}
+
+					
+				}
+
+
+			} // if TURLE
 			
 			
 			else if (dynamic_cast<CPortal *>(e->obj))
