@@ -16,6 +16,7 @@
 #define MARIO_STATE_DIE				400
 #define MARIO_STATE_RUN_RIGHT		500
 #define MARIO_STATE_RUN_LEFT		600
+#define MARIO_STATE_KICK		900
 
 #define MARIO_STATE_ROTATORY_RIGHT		700
 #define MARIO_STATE_ROTATORY_LEFT		800
@@ -41,6 +42,10 @@
 #define MARIO_ANI_BIG_JUMP_LEFT		16
 #define MARIO_ANI_BIG_RUN_RIGHT		17
 #define MARIO_ANI_BIG_RUN_LEFT		18
+
+
+#define MARIO_ANI_BIG_KICK_LEFT		20
+#define MARIO_ANI_BIG_KICK_RIGHT		19
 
 #define MARIO_ANI_BIG_ONE_LEFT		21
 #define MARIO_ANI_BIG_ONE_RIGHT		22
@@ -84,7 +89,7 @@ class CMario : public CGameObject
 	float start_y; 
 	//GameMap* test;
 	int ani; 
-
+public: static bool kick;            //mario da chan 
 	bool checkMarioColision;
 public: 
 	CMario(float x = 0.0f, float y = 0.0f);

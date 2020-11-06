@@ -14,10 +14,12 @@
 #include "Plant.h"
 #include "Turle.h"
 
+bool CMario::kick = false;
 CMario::CMario(float x, float y) : CGameObject()
 {
 	//this->CheckToMap(test->game_map_);
-	level = MARIO_LEVEL_TAIL_BIG;
+	//level = MARIO_LEVEL_TAIL_BIG;
+	level = MARIO_LEVEL_BIG;
 	untouchable = 0;
 	SetState(MARIO_STATE_IDLE);
 
@@ -26,7 +28,8 @@ CMario::CMario(float x, float y) : CGameObject()
 	this->x = x; 
 	this->y = y; 
 	checkMarioColision = false;
-	ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
+	//ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
+	ani = MARIO_ANI_BIG_IDLE_LEFT;
 }
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -234,18 +237,27 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				CTurle *turle = dynamic_cast<CTurle *>(e->obj);
 				if (e->ny < 0)
 				{
-					this->x -= 28; 
-					this->y -= 2;
-					
-					this->vy = -0.4f;
-					DebugOut(L" kill CON RUA");
-					turle->SetState(TURLE_STATE_DIE);
+					if (turle->state == TURLE_STATE_WALKING)
+					{
+						this->x -= 28;
+						this->y -= 2;
+
+						this->vy = -0.4f;
+						DebugOut(L" kill CON RUA");
+						turle->SetState(TURLE_STATE_DIE);
+					}
+					else
+					{
+						;
+					}
 					
 				}
 				else if (e->nx != 0)
 				{
 					if (turle->ani == TURLE_ANI_DIE)
 					{
+						this->kick = true;
+						this->SetState(MARIO_STATE_KICK);
 						turle->SetState(TURLE_STATE_RUN_DIE);
 					}
 					else if(turle->ani == TURLE_ANI_RUN_DIE)
@@ -303,11 +315,18 @@ void CMario::Render()
 		if (vx == 0)
 		{
 			if (nx > 0) {
-				if (state == MARIO_STATE_JUMP) {
+				if (state == MARIO_STATE_KICK && kick == true) {
+					DebugOut(L"da rua11111");
+					ani = MARIO_ANI_BIG_KICK_RIGHT;
+				}
+				else if (state == MARIO_STATE_JUMP) {
 					ani = MARIO_ANI_BIG_JUMP_RIGHT;
 				}
-				else
+				else {
+					DebugOut(L"trang thai %d\n",state);
 					ani = MARIO_ANI_BIG_IDLE_RIGHT;
+
+				}
 				/*
 				try {
 					if (state == MARIO_STATE_JUMP) {
@@ -320,7 +339,11 @@ void CMario::Render()
 			}
 			else
 			{
-				if (state == MARIO_STATE_JUMP) {
+				if (state == MARIO_STATE_KICK) {
+					DebugOut(L"da rua 2222");
+					ani = MARIO_ANI_BIG_KICK_RIGHT;
+				}
+				else if (state == MARIO_STATE_JUMP) {
 					ani = MARIO_ANI_BIG_JUMP_LEFT;
 				}
 				else
@@ -329,6 +352,7 @@ void CMario::Render()
 		}
 		else if (vx > 0)
 		{
+			DebugOut(L"vao111");
 			if (state == MARIO_STATE_JUMP && checkMarioColision == false)                    //ANI JUMP RIGHT
 				ani = MARIO_ANI_BIG_JUMP_RIGHT;
 			else if (state == MARIO_STATE_RUN_RIGHT)
@@ -340,6 +364,7 @@ void CMario::Render()
 		}
 		else
 		{
+			DebugOut(L"vao2222");
 			if (state == MARIO_STATE_JUMP && checkMarioColision == false)				   //ANI JUMP LEFT
 				ani = MARIO_ANI_BIG_JUMP_LEFT;
 			else if (state == MARIO_STATE_RUN_LEFT)
@@ -467,7 +492,7 @@ void CMario::Render()
 	int alpha = 255;
 	if (untouchable) alpha = 128;
 
-	animation_set->at(22)->Render(x, y, alpha);
+	animation_set->at(ani)->Render(x, y, alpha);
 
 	RenderBoundingBox();
 }
@@ -509,6 +534,9 @@ void CMario::SetState(int state)
 			break;
 		}
 	case MARIO_STATE_IDLE: 
+		vx = 0;
+		break;
+	case MARIO_STATE_KICK:
 		vx = 0;
 		break;
 	case MARIO_STATE_DIE:

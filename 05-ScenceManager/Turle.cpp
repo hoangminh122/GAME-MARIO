@@ -1,4 +1,5 @@
 #include "Turle.h"
+#include "Mario.h"
 
 bool CTurle::isTreeStart = false;
 CTurle::CTurle()
@@ -48,6 +49,9 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			//if()
 		}
 		if (vx > 0 && x > 610) {
+			//change state mario kick -> idle
+			CMario::kick = false;
+			
 			//x = 290; 
 			vy += 0.01f;
 			y = 153;

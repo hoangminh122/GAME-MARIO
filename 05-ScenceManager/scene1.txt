@@ -177,9 +177,9 @@
 #run left big
 407	10011	20	10012	20	10013	20	10017	20
 #da phai big
-408	10018	100
+408	10018	1000
 #da trai big
-409	10019	100
+409	10019	1000
 #co chan dao chieu phai
 410	10050	100
 #co chan dao chieu trai
