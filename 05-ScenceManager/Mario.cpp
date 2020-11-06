@@ -15,6 +15,8 @@
 #include "Turle.h"
 
 bool CMario::kick = false;
+bool CMario::isRotatory = false;
+int CMario::positionXIdle = 0;
 CMario::CMario(float x, float y) : CGameObject()
 {
 	//this->CheckToMap(test->game_map_);
@@ -30,7 +32,7 @@ CMario::CMario(float x, float y) : CGameObject()
 	checkMarioColision = false;
 	//ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
 	ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
-	positionXIdle = 0;
+	//positionXIdle = 0;
 }
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -394,6 +396,7 @@ void CMario::Render()
 				}
 				else if (state == MARIO_STATE_ROTATORY_IDLE)
 				{
+					isRotatory = true;
 					this->x = positionXIdle + 6;
 					ani = MARIO_ANI_BIG_TAIL_ROTATORY_LEFT;
 					//this->x -= 6;
@@ -401,6 +404,12 @@ void CMario::Render()
 				else {
 					positionXIdle = x;
 					ani = MARIO_ANI_BIG_TAIL_IDLE_RIGHT;
+					if (isRotatory)
+					{
+						this->x = positionXIdle - 6;
+						isRotatory = false;
+
+					}
 				}
 				/*
 				try {

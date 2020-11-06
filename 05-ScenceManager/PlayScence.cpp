@@ -266,6 +266,11 @@ void CPlayScene::Update(DWORD dt)
 	CGame *game = CGame::GetInstance();
 	if (cx <= game->GetScreenWidth() / 2)
 		cx = 0.0f;
+	else if (CMario::isRotatory)
+	{
+		cx = CMario::positionXIdle;
+		cx -= game->GetScreenWidth() / 2;
+	}
 	else
 		cx -= game->GetScreenWidth() / 2;
 	if (cy <= 0)

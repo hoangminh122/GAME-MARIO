@@ -95,8 +95,10 @@ class CMario : public CGameObject
 	float start_y; 
 	//GameMap* test;
 	int ani;
-	int positionXIdle;
-public: static bool kick;            //mario da chan 
+public: 
+	static bool kick;            //mario da chan 
+	static int positionXIdle;
+	static bool isRotatory;
 	bool checkMarioColision;
 public: 
 	CMario(float x = 0.0f, float y = 0.0f);
