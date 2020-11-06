@@ -401,6 +401,10 @@ void CMario::Render()
 					ani = MARIO_ANI_BIG_TAIL_ROTATORY_LEFT;
 					//this->x -= 6;
 				}
+				else if (state == MARIO_STATE_DOWN)
+				{
+					ani = MARIO_ANI_BIG_TAIL_DOWN_RIGHT;
+				}
 				else {
 					positionXIdle = x;
 					ani = MARIO_ANI_BIG_TAIL_IDLE_RIGHT;
@@ -425,6 +429,10 @@ void CMario::Render()
 			{
 				if (state == MARIO_STATE_JUMP) {
 					ani = MARIO_ANI_BIG_TAIL_JUMP_LEFT;
+				}
+				else if (state == MARIO_STATE_DOWN)
+				{
+					ani = MARIO_ANI_BIG_TAIL_DOWN_LEFT;
 				}
 				else if (state == MARIO_STATE_ROTATORY_IDLE)
 				{
@@ -611,11 +619,16 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	{
 		right = x + MARIO_BIG_BBOX_WIDTH;
 		bottom = y + MARIO_BIG_BBOX_HEIGHT;
+		if (state == MARIO_STATE_DOWN)
+			bottom = y + MARIO_TAIL_BIG_DOWN_BBOX_HEIGHT;
+		else
+			bottom = y + MARIO_BIG_BBOX_HEIGHT;
 	}
 	else
 	{
 		right = x + MARIO_SMALL_BBOX_WIDTH;
 		bottom = y + MARIO_SMALL_BBOX_HEIGHT;
+
 	}
 }
 
