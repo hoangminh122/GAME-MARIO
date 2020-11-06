@@ -29,13 +29,18 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	x += dx;
 	y += dy;
 
-	if (vx < 0 && x < 0) {
-		x = 0; vx = -vx;
+	if ((vx < 0 && x < 0) 
+		|| (vx < 0 && x < 400 && x > 320)
+		|| (vx < 0 && x < 670 && x > 610) ) {
+		 vx = -vx;
 	}
 
-	if (vx > 0 && x > 290) {
-		x = 290; vx = -vx;
+	if ((vx > 0 && x > 290 && x <320) 
+		|| (vx > 0 && x > 580 && x < 610)
+		|| (vx > 0 && x > 800)) {
+		vx = -vx;
 	}
+
 }
 
 void CGoomba::Render()
@@ -44,7 +49,6 @@ void CGoomba::Render()
 	if (state == GOOMBA_STATE_DIE) {
 		ani = GOOMBA_ANI_DIE;
 	}
-
 	animation_set->at(ani)->Render(x,y);
 
 	RenderBoundingBox();

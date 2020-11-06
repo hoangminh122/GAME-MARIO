@@ -10,7 +10,7 @@ CBullet * CBullet::__instance = NULL;
 CBullet::CBullet() : CGameObject()
 {
 	isStart = false;
-	vx = 0.8;
+	//vx = 0.8;
 }
 CBullet *CBullet::GetInstance()
 {
@@ -38,7 +38,9 @@ void CBullet::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (isStart)
 	{
 		x -= vx;
-		y += 0.5;
+		vx = -0.08f;
+		vy = +0.05f;
+		
 	}
 	CPlant* plant = new CPlant();
 	if (plant->start == true)
@@ -47,7 +49,10 @@ void CBullet::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		DebugOut(L"bat dau", plant->start);
 		x = 350;
 		y = 112;
+		vx = 0;
 	}
+	x += dx;
+	y += dy;
 	/*if (y > 200) {
 		isStart = false;
 	}*/
