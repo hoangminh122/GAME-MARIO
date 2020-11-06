@@ -29,13 +29,18 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	x += dx;
 	y += dy;
 
-	if ((vx < 0 && x < 0) || (vx < 0 && x < 400 && x > 320)) {
+	if ((vx < 0 && x < 0) 
+		|| (vx < 0 && x < 400 && x > 320)
+		|| (vx < 0 && x < 670 && x > 610) ) {
 		 vx = -vx;
 	}
 
-	if ((vx > 0 && x > 290 && x <320) || (vx > 0 && x > 600)) {
+	if ((vx > 0 && x > 290 && x <320) 
+		|| (vx > 0 && x > 580 && x < 610)
+		|| (vx > 0 && x > 800)) {
 		vx = -vx;
 	}
+
 }
 
 void CGoomba::Render()

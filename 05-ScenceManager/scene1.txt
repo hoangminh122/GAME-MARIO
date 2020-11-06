@@ -31,7 +31,28 @@
 #da phai
 10018	252	283	273	309	0
 #da trai
-10019	133	283	153	310	0
+10019	133	283	154	310	0
+#co duoi idle phai
+10052	322	523	343	551	0
+#co duoi idle trai
+10053	63	523	84	551	0
+#co duoi di phai
+10054	351	523	372	551	0
+#co duoi di trai
+10055	33	523	54	551	0
+#co duoi run phai
+10056	381	523	404	551	0
+#co duoi run trai
+10057	2	523	25	551	0
+#co duoi nhay phai
+10058	52	443	75	470	0
+#co duoi nhay trai
+10059	331	443	354	470	0
+#co duoi nam ngang phai ,trai
+10060	236	443	258	470	0
+10061	148	443	170	470	0
+
+
 #co chan dao chieu phai
 10050	215	283	231	311	0
 #co chan dao chieu trai
@@ -117,6 +138,8 @@
 40006	137	137	153	152	30
 # Mushroom
 50001	137	137	153	152	30
+#la cay
+50002	180	123	195	136	40
 
 #Turle trai phai
 60001	2	1	18	26	60
@@ -154,13 +177,31 @@
 #run left big
 407	10011	20	10012	20	10013	20	10017	20
 #da phai big
-408	10018	100
+408	10018	1000
 #da trai big
-409	10019	100
+409	10019	1000
 #co chan dao chieu phai
 410	10050	100
 #co chan dao chieu trai
 411	10051	100
+#co duoi idle phai
+412	10052	100
+#co duoi idle trai
+413	10053	100
+#co duoi di phai
+414	10052	100	10054	100
+#co duoi di trai
+415	10053	100	10055	100
+#co duoi run phai
+416	10052	10	10054	10	10056	10
+#co duoi run trai
+417	10053	10	10055	10	10057	10
+#co duoi nhay phai
+418	10058	100
+#co duoi nhay trai
+419	10059	100
+
+
 
 #walk right big
 500	10001	100	10002	100	10003	100
@@ -223,9 +264,9 @@
 # die
 702	30003	100
 
-# Mushroom
+# Mushroom,leaf
 801	50001	100
-
+802	50002	100
 #Turle
 901	60001	150	60002	150
 902	60003	150	60004	150
@@ -241,7 +282,7 @@
 #
 [ANIMATION_SETS]
 # MARIO
-1	400	401	402	403	500	501	502	503	599	505	504	506	507	508	509	404	405	406	407	408	409	410	411
+1	400	401	402	403	500	501	502	503	599	505	504	506	507	508	509	404	405	406	407	408	409	410	411	412	413	414	415	416	417	418	419
 # BRICK 
 2	601
 # brick doi
@@ -270,7 +311,7 @@
 # GOOMBA
 3	701	702
 # Mushroom
-8	801
+8	801	802
 
 #Turle
 9	901	902	903	904
@@ -292,7 +333,8 @@
 10	350	112	10
 # GOOMBA
 2	260	170	3
-2	760	170	3
+2	550	170	3
+2	850	153	3
 # BRICK 
 # --- platform (hint: I created the list using Excel!) ----
 1	0	187	2
@@ -450,6 +492,9 @@
 #1	220	74	2
 9	220	68	22
 9	204	68	22
+# ---- brick group 4 ----
+9	646	153	22
+9	697	119	22
 
 # Turle
 3	570	128	9
