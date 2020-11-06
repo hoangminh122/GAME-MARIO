@@ -45,24 +45,12 @@ void CQuestion::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	CGameObject::Update(dt, coObjects);
 	if (CTurle::isTreeStart == true)
 	{
-		
 		if (x == 646.0f)
 		{
 			isQuestion = false;
 			ani = 1;
 		}
 	}
-	//if (mushroomRun)
-	//{
-	//	y = 52;
-	//	//y += 0.005*dt;
-	//	x -= 0.1;
-	//	if (x < 220)
-	//	{
-	//		y += 0.005*dt;
-	//	}
-
-	//}
-	//y += dy;
+	
 }
 

@@ -17,7 +17,7 @@
 CMario::CMario(float x, float y) : CGameObject()
 {
 	//this->CheckToMap(test->game_map_);
-	level = MARIO_LEVEL_SMALL;
+	level = MARIO_LEVEL_TAIL_BIG;
 	untouchable = 0;
 	SetState(MARIO_STATE_IDLE);
 
@@ -26,7 +26,7 @@ CMario::CMario(float x, float y) : CGameObject()
 	this->x = x; 
 	this->y = y; 
 	checkMarioColision = false;
-	ani = MARIO_ANI_SMALL_IDLE_RIGHT;
+	ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
 }
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -107,9 +107,24 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				mushroom->isDie = true;
 				//mushroom->x = 0;
 				//mushroom->y = 0;
-
-				this->level = MARIO_LEVEL_BIG;
-				this->y = 150;
+				if (mushroom->ani = LEAF_GREEN_ANI)
+				{
+					if (level == MARIO_LEVEL_SMALL)
+					{
+						level = MARIO_LEVEL_BIG;
+					}
+					else if (level = MARIO_LEVEL_BIG)
+					{
+						level = MARIO_LEVEL_TAIL_BIG;
+					}
+					
+				}
+				else if (mushroom->ani = MUSHROOM_ANI)
+				{
+					this->level = MARIO_LEVEL_BIG;
+					this->y = 150;
+				}
+				
 			} // if mushroom
 			else if (dynamic_cast<CPlant *>(e->obj)) // if e->obj is plant
 			{
@@ -181,6 +196,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						CMushroom* mushroom = CMushroom::GetInstance();
 						CMushroom::isStart = true;
 						CMushroom::isRun = true;
+						//mushroom->SetState(MUSHROOM_STATE);
+
 						DebugOut(L" ccccc xuat hienc cccccccc :\n");
 
 					}
@@ -266,7 +283,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				CGame::GetInstance()->SwitchScene(p->GetSceneId());
 			}
 		}
-	}
+	
+}
 
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
@@ -332,6 +350,60 @@ void CMario::Render()
 				ani = MARIO_ANI_BIG_WALKING_LEFT;
 		}
 	}
+	else if (level == MARIO_LEVEL_TAIL_BIG)
+	{
+		if (vx == 0)
+		{
+			if (nx > 0) {
+				if (state == MARIO_STATE_JUMP) {
+					ani = MARIO_ANI_BIG_TAIL_JUMP_RIGHT;
+				}
+				else
+					ani = MARIO_ANI_BIG_TAIL_IDLE_RIGHT;
+				/*
+				try {
+					if (state == MARIO_STATE_JUMP) {
+						DebugOut(L"vao day jump");
+						ani = MARIO_ANI_SMALL_JUMP_LEFT;
+					}
+				}
+				catch (exception e) { ; }*/
+
+			}
+			else
+			{
+				if (state == MARIO_STATE_JUMP) {
+					ani = MARIO_ANI_BIG_TAIL_JUMP_LEFT;
+				}
+				else
+					ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
+			}
+		}
+		else if (vx > 0)
+		{
+			if (state == MARIO_STATE_JUMP && checkMarioColision == false)                    //ANI JUMP RIGHT
+				ani = MARIO_ANI_BIG_TAIL_JUMP_RIGHT;
+			else if (state == MARIO_STATE_RUN_RIGHT)
+			{
+				ani = MARIO_ANI_BIG_TAIL_RUN_RIGHT;
+			}
+			else
+				ani = MARIO_ANI_BIG_TAIL_WALKING_RIGHT;
+		}
+		else
+		{
+			if (state == MARIO_STATE_JUMP && checkMarioColision == false)				   //ANI JUMP LEFT
+				ani = MARIO_ANI_BIG_TAIL_JUMP_LEFT;
+			else if (state == MARIO_STATE_RUN_LEFT)
+			{
+				ani = MARIO_ANI_BIG_TAIL_RUN_LEFT;
+			}
+			else
+				ani = MARIO_ANI_BIG_TAIL_WALKING_LEFT;
+		}
+
+		//ani = MARIO_ANI_BIG_TAIL_IDLE_RIGHT;
+	}
 	else if (level == MARIO_LEVEL_SMALL)
 	{
 		if (vx == 0)
@@ -395,7 +467,7 @@ void CMario::Render()
 	int alpha = 255;
 	if (untouchable) alpha = 128;
 
-	animation_set->at(ani)->Render(x, y, alpha);
+	animation_set->at(22)->Render(x, y, alpha);
 
 	RenderBoundingBox();
 }
@@ -452,6 +524,11 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	/*right = x + MARIO_BIG_BBOX_WIDTH;
 	bottom = y + MARIO_BIG_BBOX_HEIGHT;*/
 	if (level == MARIO_LEVEL_BIG)
+	{
+		right = x + MARIO_BIG_BBOX_WIDTH;
+		bottom = y + MARIO_BIG_BBOX_HEIGHT;
+	}
+	else if(level == MARIO_LEVEL_TAIL_BIG)
 	{
 		right = x + MARIO_BIG_BBOX_WIDTH;
 		bottom = y + MARIO_BIG_BBOX_HEIGHT;

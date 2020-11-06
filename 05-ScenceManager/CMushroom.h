@@ -4,10 +4,17 @@
 #define MUSHROOM_BBOX_WIDTH  17
 #define MUSHROOM_BBOX_HEIGHT 17
 
+#define MUSHROOM_STATE 100
+#define LEAF_GREEN_STATE 200
+
+#define MUSHROOM_ANI 0
+#define LEAF_GREEN_ANI 1
+
 class CMushroom : public CGameObject
 {
 
 public:
+	int ani;
 	CMushroom();
 	static bool isStart;
 	static bool isRun;
@@ -17,4 +24,5 @@ public:
 	virtual void Render();
 	virtual void GetBoundingBox(float &l, float &t, float &r, float &b);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
+	virtual void SetState(int state);
 };
