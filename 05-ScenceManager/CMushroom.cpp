@@ -1,8 +1,12 @@
 #include "CMushroom.h"
 #include "Turle.h"
+#include "Utils.h"
 
+bool CMushroom::isMoney = false;
 bool CMushroom::isStart = false;
 bool CMushroom::isRun = false;
+int CMushroom::xBox = 0;
+int CMushroom::yBox = 0;
 CMushroom * CMushroom::__instance = NULL;
 CMushroom::CMushroom() : CGameObject()
 {
@@ -22,6 +26,8 @@ void CMushroom::Render()
 {
 	if (state == LEAF_GREEN_STATE)
 		ani = 1;
+	else if (state == MONEY_STATE)
+		ani = 2;
 	else
 		ani = 0;
 	animation_set->at(ani)->Render(x, y);
@@ -42,25 +48,53 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	if (isRun)
 	{
+		DebugOut(L"is Run \n");
 		state = MUSHROOM_STATE;
 	}
+	else if (isMoney)
+	{
+		state = MONEY_STATE;
+	}
+	else if (isDie || x < 0)
+	{
+		y = -17;
+		vx = 0;
+		isRun = false;
+		isStart = false;
+		//state = -1;
+		return;
+	}    //trang thai die
+
 	if (CTurle::isTreeStart == true)
 	{
 		state = LEAF_GREEN_STATE;
 		x = 646;
 		y = 136;
 
-	}
-	if (isDie || x < 0)
+	}	//trang thai la cay
+	
+	if (state == MONEY_STATE)
 	{
-		x = -17; y = -17;
-		vx = 0;
-		isRun = false;
-		isStart = false;
-		return;
+		if (isMoney)
+		{
+			x = xBox;
+			y = yBox;
+			isMoney = false;
+		}
+		if (y < yBox - 60)
+		{
+			 y = -17;
+			vx = 0;
+			return;
+		}
+		vy = -0.2f;
+		y += dy;
+		DebugOut(L"ashdgahsg");
+
 	}
 	else if (state == MUSHROOM_STATE)
 	{
+		DebugOut(L"vao nam\n");
 		if (isStart)
 		{
 			this->x = 220;
@@ -93,8 +127,8 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			}
 		}
 		x += dx;
-	}
-
+	}   // trang thai cua nam
+	
 	
 	
 }

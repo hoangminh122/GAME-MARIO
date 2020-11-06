@@ -197,6 +197,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					CQuestion *question = dynamic_cast<CQuestion *>(e->obj);
 
 					question->isQuestion = false;
+					//xet position mushrooom
+					CMushroom::xBox = question->x;
+					CMushroom::yBox = question->y;
 					if (question->x == 220)
 					{
 						CMushroom* mushroom = CMushroom::GetInstance();
@@ -207,6 +210,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						DebugOut(L" ccccc xuat hienc cccccccc :\n");
 
 					}
+					else
+					{
+						CMushroom::isMoney = true;
+						DebugOut(L" ismoney ===true :\n");
+					}
+
 				}
 
 				//question->isQuestion = false;
