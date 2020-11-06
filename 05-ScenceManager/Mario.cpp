@@ -19,7 +19,7 @@ CMario::CMario(float x, float y) : CGameObject()
 {
 	//this->CheckToMap(test->game_map_);
 	//level = MARIO_LEVEL_TAIL_BIG;
-	level = MARIO_LEVEL_BIG;
+	level = MARIO_LEVEL_TAIL_BIG;
 	untouchable = 0;
 	SetState(MARIO_STATE_IDLE);
 
@@ -29,7 +29,8 @@ CMario::CMario(float x, float y) : CGameObject()
 	this->y = y; 
 	checkMarioColision = false;
 	//ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
-	ani = MARIO_ANI_BIG_IDLE_LEFT;
+	ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
+	positionXIdle = 0;
 }
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -391,8 +392,16 @@ void CMario::Render()
 				if (state == MARIO_STATE_JUMP) {
 					ani = MARIO_ANI_BIG_TAIL_JUMP_RIGHT;
 				}
-				else
+				else if (state == MARIO_STATE_ROTATORY_IDLE)
+				{
+					this->x = positionXIdle + 6;
+					ani = MARIO_ANI_BIG_TAIL_ROTATORY_LEFT;
+					//this->x -= 6;
+				}
+				else {
+					positionXIdle = x;
 					ani = MARIO_ANI_BIG_TAIL_IDLE_RIGHT;
+				}
 				/*
 				try {
 					if (state == MARIO_STATE_JUMP) {
@@ -409,7 +418,11 @@ void CMario::Render()
 					ani = MARIO_ANI_BIG_TAIL_JUMP_LEFT;
 				}
 				else
+				{
+					positionXIdle = x;
 					ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
+
+				}
 			}
 		}
 		else if (vx > 0)
@@ -545,6 +558,9 @@ void CMario::SetState(int state)
 		vx = 0;
 		break;
 	case MARIO_STATE_DOWN:
+		vx = 0;
+		break;
+	case MARIO_STATE_ROTATORY_IDLE:
 		vx = 0;
 		break;
 	case MARIO_STATE_KICK:

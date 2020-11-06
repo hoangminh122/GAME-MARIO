@@ -19,8 +19,7 @@
 #define MARIO_STATE_KICK		900
 #define MARIO_STATE_DOWN		910
 
-#define MARIO_STATE_ROTATORY_RIGHT		700
-#define MARIO_STATE_ROTATORY_LEFT		800
+#define MARIO_STATE_ROTATORY_IDLE		700
 
 
 #define MARIO_ANI_BIG_IDLE_RIGHT		0
@@ -61,6 +60,10 @@
 #define MARIO_ANI_BIG_TAIL_JUMP_RIGHT		30
 #define MARIO_ANI_BIG_TAIL_JUMP_LEFT		29
 
+#define MARIO_ANI_BIG_TAIL_ROTATORY_RIGHT		33
+#define MARIO_ANI_BIG_TAIL_ROTATORY_LEFT		34
+
+
 #define MARIO_ANI_DIE				8
 
 #define	MARIO_LEVEL_SMALL	1
@@ -91,7 +94,8 @@ class CMario : public CGameObject
 	float start_x;			// initial position of Mario at scene
 	float start_y; 
 	//GameMap* test;
-	int ani; 
+	int ani;
+	int positionXIdle;
 public: static bool kick;            //mario da chan 
 	bool checkMarioColision;
 public: 

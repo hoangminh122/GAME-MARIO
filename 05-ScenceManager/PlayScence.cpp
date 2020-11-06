@@ -306,6 +306,9 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_SPACE:
 		mario->SetState(MARIO_STATE_JUMP);
 		break;
+	case DIK_X:
+		mario->SetState(MARIO_STATE_ROTATORY_IDLE);
+		break;
 
 	case DIK_A: 
 		mario->Reset();
@@ -340,6 +343,12 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		//DebugOut(L"okaaaa");
 		mario->SetState(MARIO_STATE_JUMP);
 	
+	}
+	else if (game->IsKeyDown(DIK_X))
+	{
+		//DebugOut(L"okaaaa");
+		mario->SetState(MARIO_STATE_ROTATORY_IDLE);
+
 	}
 	else if (game->IsKeyDown(DIK_DOWN))
 	{
