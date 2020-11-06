@@ -16,11 +16,22 @@
 #define MARIO_STATE_DIE				400
 #define MARIO_STATE_RUN_RIGHT		500
 #define MARIO_STATE_RUN_LEFT		600
+<<<<<<< Updated upstream
 #define MARIO_STATE_KICK		900
+=======
+<<<<<<< Updated upstream
+=======
+#define MARIO_STATE_KICK		900
+#define MARIO_STATE_DOWN		910
+>>>>>>> Stashed changes
 
 #define MARIO_STATE_ROTATORY_RIGHT		700
 #define MARIO_STATE_ROTATORY_LEFT		800
 
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 
 #define MARIO_ANI_BIG_IDLE_RIGHT		0
 #define MARIO_ANI_BIG_IDLE_LEFT			1
@@ -43,6 +54,13 @@
 #define MARIO_ANI_BIG_RUN_RIGHT		17
 #define MARIO_ANI_BIG_RUN_LEFT		18
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+#define MARIO_ANI_BIG_DOWN_RIGHT		31
+#define MARIO_ANI_BIG_DOWN_LEFT		32
+>>>>>>> Stashed changes
 
 #define MARIO_ANI_BIG_KICK_LEFT		20
 #define MARIO_ANI_BIG_KICK_RIGHT		19
@@ -59,6 +77,12 @@
 #define MARIO_ANI_BIG_TAIL_JUMP_RIGHT		30
 #define MARIO_ANI_BIG_TAIL_JUMP_LEFT		29
 
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 #define MARIO_ANI_DIE				8
 
 #define	MARIO_LEVEL_SMALL	1
@@ -68,6 +92,8 @@
 
 #define MARIO_BIG_BBOX_WIDTH  15
 #define MARIO_BIG_BBOX_HEIGHT 27
+#define MARIO_BIG_DOWN_BBOX_HEIGHT 18
+
 
 #define MARIO_TAIL_BIG_BBOX_WIDTH  21
 #define MARIO_TAIL_BIG_BBOX_HEIGHT 28
@@ -89,8 +115,18 @@ class CMario : public CGameObject
 	float start_y; 
 	//GameMap* test;
 	int ani; 
+<<<<<<< Updated upstream
 public: static bool kick;            //mario da chan 
+=======
+<<<<<<< Updated upstream
+
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 	bool checkMarioColision;
+
+public: 
+	static bool kick;            //mario da chan 
 public: 
 	CMario(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);

@@ -315,11 +315,27 @@ void CMario::Render()
 		if (vx == 0)
 		{
 			if (nx > 0) {
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+				if (state == MARIO_STATE_JUMP) {
+					DebugOut(L"vaossssss");
+=======
+>>>>>>> Stashed changes
 				if (state == MARIO_STATE_KICK && kick == true) {
 					DebugOut(L"da rua11111");
 					ani = MARIO_ANI_BIG_KICK_RIGHT;
 				}
+<<<<<<< Updated upstream
 				else if (state == MARIO_STATE_JUMP) {
+=======
+				else if(state == MARIO_STATE_DOWN)
+				{
+					ani = MARIO_ANI_BIG_DOWN_RIGHT;
+				}
+				else if (state == MARIO_STATE_JUMP) {
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 					ani = MARIO_ANI_BIG_JUMP_RIGHT;
 				}
 				else {
@@ -339,11 +355,26 @@ void CMario::Render()
 			}
 			else
 			{
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+				if (state == MARIO_STATE_JUMP) {
+=======
+>>>>>>> Stashed changes
 				if (state == MARIO_STATE_KICK) {
 					DebugOut(L"da rua 2222");
 					ani = MARIO_ANI_BIG_KICK_RIGHT;
 				}
+<<<<<<< Updated upstream
 				else if (state == MARIO_STATE_JUMP) {
+=======
+				else if (state == MARIO_STATE_DOWN)
+				{
+					ani = MARIO_ANI_BIG_DOWN_LEFT;
+				}
+				else if (state == MARIO_STATE_JUMP) {
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 					ani = MARIO_ANI_BIG_JUMP_LEFT;
 				}
 				else
@@ -536,9 +567,21 @@ void CMario::SetState(int state)
 	case MARIO_STATE_IDLE: 
 		vx = 0;
 		break;
+<<<<<<< Updated upstream
 	case MARIO_STATE_KICK:
 		vx = 0;
 		break;
+=======
+<<<<<<< Updated upstream
+=======
+	case MARIO_STATE_DOWN:
+		vx = 0;
+		break;
+	case MARIO_STATE_KICK:
+		vx = 0;
+		break;
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 	case MARIO_STATE_DIE:
 		vy = -MARIO_DIE_DEFLECT_SPEED;
 		break;
@@ -554,7 +597,10 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	if (level == MARIO_LEVEL_BIG)
 	{
 		right = x + MARIO_BIG_BBOX_WIDTH;
-		bottom = y + MARIO_BIG_BBOX_HEIGHT;
+		if(state == MARIO_STATE_DOWN)
+			bottom = y + MARIO_BIG_DOWN_BBOX_HEIGHT;
+		else 
+			bottom = y + MARIO_BIG_BBOX_HEIGHT;
 	}
 	else if(level == MARIO_LEVEL_TAIL_BIG)
 	{
