@@ -2,6 +2,7 @@
 
 CTurle::CTurle()
 {
+	ani = TURLE_ANI_WALKING_LEFT;
 	SetState(TURLE_STATE_WALKING);
 }
 
@@ -11,8 +12,9 @@ void CTurle::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	top = y;
 	right = x + TURLE_BBOX_WIDTH;
 
-	if (state == TURLE_STATE_DIE)
+	if (state == TURLE_STATE_DIE || state == TURLE_STATE_RUN_DIE)
 		bottom = y + TURLE_BBOX_HEIGHT_DIE;
+	
 	else
 		bottom = y + TURLE_BBOX_HEIGHT;
 }
@@ -41,14 +43,17 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 void CTurle::Render()
 {
-	int ani = TURLE_ANI_WALKING_LEFT;
+	
 	if (state == TURLE_STATE_DIE) {
 		ani = TURLE_ANI_DIE;
+	}
+	else if (state == TURLE_STATE_RUN_DIE) {
+		ani = TURLE_ANI_RUN_DIE;
 	}
 	else if (vx > 0) ani = TURLE_ANI_WALKING_RIGHT;
 	else if (vx <= 0) ani = TURLE_ANI_WALKING_LEFT;
 
-	animation_set->at(2)->Render(x, y);
+	animation_set->at(ani)->Render(x, y);
 
 	RenderBoundingBox(); 
 }
@@ -65,6 +70,10 @@ void CTurle::SetState(int state)
 		break;
 	case TURLE_STATE_WALKING:
 		vx = TURLE_WALKING_SPEED;
+		break;
+	case TURLE_STATE_RUN_DIE:
+		vx = TURLE_WALKING_SPEED;
+		break;
 	}
 
 }

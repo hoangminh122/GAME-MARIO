@@ -10,10 +10,12 @@
 
 #define TURLE_STATE_WALKING 100
 #define TURLE_STATE_DIE 200
+#define TURLE_STATE_RUN_DIE 300
 
 #define TURLE_ANI_WALKING_LEFT 0
 #define TURLE_ANI_WALKING_RIGHT 1
 #define TURLE_ANI_DIE 2
+#define TURLE_ANI_RUN_DIE 3
 
 class CTurle : public CGameObject
 {
@@ -22,6 +24,7 @@ class CTurle : public CGameObject
 	virtual void Render();
 
 public:
+	int ani;
 	CTurle();
 	virtual void SetState(int state);
 };

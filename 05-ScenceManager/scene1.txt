@@ -284,7 +284,8 @@
 # type: 0 = Mario , 1 = Brick, 2 = Goomba
 
 # MARIO
-0	48.0	0	1
+#0	48.0	0	1
+0	748.0	0	1
 #bullet
 11	350	230	11
 #plant
