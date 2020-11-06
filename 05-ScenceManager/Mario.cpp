@@ -15,11 +15,13 @@
 #include "Turle.h"
 
 bool CMario::kick = false;
+bool CMario::isRotatory = false;
+int CMario::positionXIdle = 0;
 CMario::CMario(float x, float y) : CGameObject()
 {
 	//this->CheckToMap(test->game_map_);
 	//level = MARIO_LEVEL_TAIL_BIG;
-	level = MARIO_LEVEL_BIG;
+	level = MARIO_LEVEL_TAIL_BIG;
 	untouchable = 0;
 	SetState(MARIO_STATE_IDLE);
 
@@ -29,7 +31,8 @@ CMario::CMario(float x, float y) : CGameObject()
 	this->y = y; 
 	checkMarioColision = false;
 	//ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
-	ani = MARIO_ANI_BIG_IDLE_LEFT;
+	ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
+	//positionXIdle = 0;
 }
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -391,8 +394,27 @@ void CMario::Render()
 				if (state == MARIO_STATE_JUMP) {
 					ani = MARIO_ANI_BIG_TAIL_JUMP_RIGHT;
 				}
-				else
+				else if (state == MARIO_STATE_ROTATORY_IDLE)
+				{
+					isRotatory = true;
+					this->x = positionXIdle + 6;
+					ani = MARIO_ANI_BIG_TAIL_ROTATORY_LEFT;
+					//this->x -= 6;
+				}
+				else if (state == MARIO_STATE_DOWN)
+				{
+					ani = MARIO_ANI_BIG_TAIL_DOWN_RIGHT;
+				}
+				else {
+					positionXIdle = x;
 					ani = MARIO_ANI_BIG_TAIL_IDLE_RIGHT;
+					if (isRotatory)
+					{
+						this->x = positionXIdle - 6;
+						isRotatory = false;
+
+					}
+				}
 				/*
 				try {
 					if (state == MARIO_STATE_JUMP) {
@@ -408,8 +430,28 @@ void CMario::Render()
 				if (state == MARIO_STATE_JUMP) {
 					ani = MARIO_ANI_BIG_TAIL_JUMP_LEFT;
 				}
+				else if (state == MARIO_STATE_DOWN)
+				{
+					ani = MARIO_ANI_BIG_TAIL_DOWN_LEFT;
+				}
+				else if (state == MARIO_STATE_ROTATORY_IDLE)
+				{
+					isRotatory = true;
+					this->x = positionXIdle - 6;
+					ani = MARIO_ANI_BIG_TAIL_ROTATORY_RIGHT;
+					//this->x -= 6;
+				}
 				else
+				{
+					positionXIdle = x;
 					ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
+					if (isRotatory)
+					{
+						this->x = positionXIdle + 6;
+						isRotatory = false;
+
+					}
+				}
 			}
 		}
 		else if (vx > 0)
@@ -547,6 +589,9 @@ void CMario::SetState(int state)
 	case MARIO_STATE_DOWN:
 		vx = 0;
 		break;
+	case MARIO_STATE_ROTATORY_IDLE:
+		vx = 0;
+		break;
 	case MARIO_STATE_KICK:
 		vx = 0;
 		break;
@@ -574,11 +619,16 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	{
 		right = x + MARIO_BIG_BBOX_WIDTH;
 		bottom = y + MARIO_BIG_BBOX_HEIGHT;
+		if (state == MARIO_STATE_DOWN)
+			bottom = y + MARIO_TAIL_BIG_DOWN_BBOX_HEIGHT;
+		else
+			bottom = y + MARIO_BIG_BBOX_HEIGHT;
 	}
 	else
 	{
 		right = x + MARIO_SMALL_BBOX_WIDTH;
 		bottom = y + MARIO_SMALL_BBOX_HEIGHT;
+
 	}
 }
 
