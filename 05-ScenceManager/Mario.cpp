@@ -319,6 +319,10 @@ void CMario::Render()
 					DebugOut(L"da rua11111");
 					ani = MARIO_ANI_BIG_KICK_RIGHT;
 				}
+				else if (state == MARIO_STATE_DOWN)
+				{
+					ani = MARIO_ANI_BIG_DOWN_RIGHT;
+				}
 				else if (state == MARIO_STATE_JUMP) {
 					ani = MARIO_ANI_BIG_JUMP_RIGHT;
 				}
@@ -342,6 +346,10 @@ void CMario::Render()
 				if (state == MARIO_STATE_KICK) {
 					DebugOut(L"da rua 2222");
 					ani = MARIO_ANI_BIG_KICK_RIGHT;
+				}
+				else if (state == MARIO_STATE_DOWN)
+				{
+					ani = MARIO_ANI_BIG_DOWN_LEFT;
 				}
 				else if (state == MARIO_STATE_JUMP) {
 					ani = MARIO_ANI_BIG_JUMP_LEFT;
@@ -536,6 +544,9 @@ void CMario::SetState(int state)
 	case MARIO_STATE_IDLE: 
 		vx = 0;
 		break;
+	case MARIO_STATE_DOWN:
+		vx = 0;
+		break;
 	case MARIO_STATE_KICK:
 		vx = 0;
 		break;
@@ -554,7 +565,10 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	if (level == MARIO_LEVEL_BIG)
 	{
 		right = x + MARIO_BIG_BBOX_WIDTH;
-		bottom = y + MARIO_BIG_BBOX_HEIGHT;
+		if (state == MARIO_STATE_DOWN)
+			bottom = y + MARIO_BIG_DOWN_BBOX_HEIGHT;
+		else
+			bottom = y + MARIO_BIG_BBOX_HEIGHT;
 	}
 	else if(level == MARIO_LEVEL_TAIL_BIG)
 	{
