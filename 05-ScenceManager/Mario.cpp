@@ -426,11 +426,23 @@ void CMario::Render()
 				if (state == MARIO_STATE_JUMP) {
 					ani = MARIO_ANI_BIG_TAIL_JUMP_LEFT;
 				}
+				else if (state == MARIO_STATE_ROTATORY_IDLE)
+				{
+					isRotatory = true;
+					this->x = positionXIdle - 6;
+					ani = MARIO_ANI_BIG_TAIL_ROTATORY_RIGHT;
+					//this->x -= 6;
+				}
 				else
 				{
 					positionXIdle = x;
 					ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
+					if (isRotatory)
+					{
+						this->x = positionXIdle + 6;
+						isRotatory = false;
 
+					}
 				}
 			}
 		}
