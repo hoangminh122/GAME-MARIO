@@ -20,8 +20,9 @@ int CMario::positionXIdle = 0;
 CMario::CMario(float x, float y) : CGameObject()
 {
 	//this->CheckToMap(test->game_map_);
+	level = MARIO_LEVEL_SMALL;
+	//level = MARIO_LEVEL_BIG;
 	//level = MARIO_LEVEL_TAIL_BIG;
-	level = MARIO_LEVEL_TAIL_BIG;
 	untouchable = 0;
 	SetState(MARIO_STATE_IDLE);
 
@@ -30,8 +31,9 @@ CMario::CMario(float x, float y) : CGameObject()
 	this->x = x; 
 	this->y = y; 
 	checkMarioColision = false;
+	ani = MARIO_ANI_SMALL_IDLE_RIGHT;
+	 //ani= MARIO_ANI_BIG_IDLE_LEFT;
 	//ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
-	ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
 	//positionXIdle = 0;
 }
 
@@ -113,8 +115,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				mushroom->isDie = true;
 				//mushroom->x = 0;
 				//mushroom->y = 0;
-				if (mushroom->ani = LEAF_GREEN_ANI)
+				if (mushroom->ani == LEAF_GREEN_ANI)
 				{
+					DebugOut(L"an nam ssssssssssssssssssssssssssssssssssssssssss\n");
+
 					if (level == MARIO_LEVEL_SMALL)
 					{
 						level = MARIO_LEVEL_BIG;
@@ -125,10 +129,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					}
 					
 				}
-				else if (mushroom->ani = MUSHROOM_ANI)
+				else if (mushroom->ani == MUSHROOM_ANI)
 				{
-					this->level = MARIO_LEVEL_BIG;
 					this->y = 150;
+					this->level = MARIO_LEVEL_BIG;
 				}
 				
 			} // if mushroom

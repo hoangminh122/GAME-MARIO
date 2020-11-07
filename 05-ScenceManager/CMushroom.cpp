@@ -46,26 +46,30 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	CGameObject::Update(dt, coObjects);
 
-	if (isRun)
-	{
-		DebugOut(L"is Run \n");
-		state = MUSHROOM_STATE;
-	}
-	else if (isMoney)
+	if (isMoney)
 	{
 		state = MONEY_STATE;
 	}
-	else if (isDie || x < 0)
+	if (isDie || x < 0)
 	{
+		x = 17;
 		y = -17;
 		vx = 0;
 		isRun = false;
 		isStart = false;
+		isDie = false;
 		//state = -1;
 		return;
 	}    //trang thai die
+	else if (isRun)
+	{
+		DebugOut(L"is Run \n");
+		state = MUSHROOM_STATE;
+	}
+	
+	
 
-	if (CTurle::isTreeStart == true)
+	else if (CTurle::isTreeStart == true)
 	{
 		state = LEAF_GREEN_STATE;
 		x = 646;
