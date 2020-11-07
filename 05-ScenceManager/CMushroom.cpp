@@ -58,19 +58,19 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		vx = 0;
 		isRun = false;
 		isStart = false;
-		//isDie = false;
-		//CTurle::isTreeStart = false;
-		//state = -1;
+		isDie = false;
+		CTurle::isTreeStart = false;
+		state = -1;
 		return;
 	}    //trang thai die
-	else if (CTurle::isTreeStart == true)
+	if (CTurle::isTreeStart == true)
 	{
 		state = LEAF_GREEN_STATE;
 		x = 646;
 		y = 136;
 
 	}	//trang thai la cay
-	else if (isRun)
+	if (isRun)
 	{
 		DebugOut(L"is Run \n");
 		state = MUSHROOM_STATE;

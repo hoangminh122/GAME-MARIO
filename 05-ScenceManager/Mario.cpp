@@ -20,9 +20,9 @@ int CMario::positionXIdle = 0;
 CMario::CMario(float x, float y) : CGameObject()
 {
 	//this->CheckToMap(test->game_map_);
-	//level = MARIO_LEVEL_SMALL;
+	level = MARIO_LEVEL_SMALL;
 	//level = MARIO_LEVEL_BIG;
-	level = MARIO_LEVEL_TAIL_BIG;
+	//level = MARIO_LEVEL_TAIL_BIG;
 	untouchable = 0;
 	SetState(MARIO_STATE_IDLE);
 
@@ -31,9 +31,9 @@ CMario::CMario(float x, float y) : CGameObject()
 	this->x = x; 
 	this->y = y; 
 	checkMarioColision = false;
-	//ani = MARIO_ANI_SMALL_IDLE_RIGHT;
+	ani = MARIO_ANI_SMALL_IDLE_RIGHT;
 	 //ani= MARIO_ANI_BIG_IDLE_LEFT;
-	ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
+	//ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
 	//positionXIdle = 0;
 }
 
@@ -156,6 +156,17 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				else if (e->nx != 0)
 				{
 					DebugOut(L"kill 2");
+					if (this->state == MARIO_STATE_ROTATORY_IDLE)
+					{
+						DebugOut(L"SHGDSG");
+						if (goomba->GetState() != GOOMBA_STATE_DIE)
+						{
+							goomba->SetState(GOOMBA_STATE_DIE);
+							vy = -MARIO_JUMP_DEFLECT_SPEED;
+						}
+						untouchable = -1;
+
+					}
 					if (untouchable==0)
 					{
 						if (goomba->GetState()!=GOOMBA_STATE_DIE)
@@ -629,6 +640,10 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 		bottom = y + MARIO_BIG_BBOX_HEIGHT;
 		if (state == MARIO_STATE_DOWN)
 			bottom = y + MARIO_TAIL_BIG_DOWN_BBOX_HEIGHT;
+		else if (state == MARIO_STATE_ROTATORY_IDLE)
+		{
+			right = x + MARIO_TAIL_FLY_BIG_BBOX_WIDTH;
+		}
 		else
 			bottom = y + MARIO_BIG_BBOX_HEIGHT;
 	}
