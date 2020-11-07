@@ -20,9 +20,9 @@ int CMario::positionXIdle = 0;
 CMario::CMario(float x, float y) : CGameObject()
 {
 	//this->CheckToMap(test->game_map_);
-	level = MARIO_LEVEL_SMALL;
+	//level = MARIO_LEVEL_SMALL;
 	//level = MARIO_LEVEL_BIG;
-	//level = MARIO_LEVEL_TAIL_BIG;
+	level = MARIO_LEVEL_TAIL_BIG;
 	untouchable = 0;
 	SetState(MARIO_STATE_IDLE);
 
@@ -31,9 +31,9 @@ CMario::CMario(float x, float y) : CGameObject()
 	this->x = x; 
 	this->y = y; 
 	checkMarioColision = false;
-	ani = MARIO_ANI_SMALL_IDLE_RIGHT;
+	//ani = MARIO_ANI_SMALL_IDLE_RIGHT;
 	 //ani= MARIO_ANI_BIG_IDLE_LEFT;
-	//ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
+	ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
 	//positionXIdle = 0;
 }
 
@@ -96,25 +96,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (dynamic_cast<CBullet *>(e->obj)) // if e->obj is Bullet
-			{
-				//DebugOut(L" dan ban trung");
-				if (level > MARIO_LEVEL_SMALL)
-				{
-					level = MARIO_LEVEL_SMALL;
-					StartUntouchable();
-				}
-				else
-					SetState(MARIO_STATE_DIE);
-
-			} // if bullet dan bay
+			
 			if (dynamic_cast<CMushroom *>(e->obj)) // if e->obj is mushroom
 			{
 				DebugOut(L"kill nam");
 				CMushroom *mushroom = dynamic_cast<CMushroom *>(e->obj);
 				mushroom->isDie = true;
-				//mushroom->x = 0;
-				//mushroom->y = 0;
+				/*mushroom->x = -17;
+				mushroom->y = -17;*/
 				if (mushroom->ani == LEAF_GREEN_ANI)
 				{
 					DebugOut(L"an nam ssssssssssssssssssssssssssssssssssssssssss\n");
@@ -182,18 +171,19 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					}
 				}
 			} // if Goomba
-			//else if (dynamic_cast<CBullet *>(e->obj)) // if e->obj is Bullet
-			//{
-			//	DebugOut(L" dan ban trung");
-			//	if (level > MARIO_LEVEL_SMALL)
-			//	{
-			//		level = MARIO_LEVEL_SMALL;
-			//		StartUntouchable();
-			//	}
-			//	else
-			//		SetState(MARIO_STATE_DIE);
+			else if (dynamic_cast<CBullet *>(e->obj)) // if e->obj is Bullet
+			{
+				DebugOut(L" dan ban trung%d\n",this->level);
+				if (level > MARIO_LEVEL_SMALL)
+				{
+					DebugOut(L" dan ban trung level %d\n",this->level);
+					level = MARIO_LEVEL_SMALL;
+					//StartUntouchable();
+				}
+				else
+					SetState(MARIO_STATE_DIE);
 
-			//} // if bullet dan bay
+			} // if bullet dan bay
 			else if (dynamic_cast<CQuestion *>(e->obj)) // if e->obj is Question 
 			{
 				if (e->ny > 0)
@@ -406,6 +396,11 @@ void CMario::Render()
 			if (nx > 0) {
 				if (state == MARIO_STATE_JUMP) {
 					ani = MARIO_ANI_BIG_TAIL_JUMP_RIGHT;
+				}
+				else if (state == MARIO_STATE_FLY)
+				{
+					
+					ani = MARIO_ANI_BIG_TAIL_FLY_RIGHT;
 				}
 				else if (state == MARIO_STATE_ROTATORY_IDLE)
 				{

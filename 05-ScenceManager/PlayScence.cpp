@@ -349,6 +349,12 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		mario->SetState(MARIO_STATE_JUMP);
 	
 	}
+	else if (game->IsKeyDown(DIK_C))
+	{
+		//DebugOut(L"okaaaa");
+		mario->SetState(MARIO_STATE_FLY);
+
+	}
 	else if (game->IsKeyDown(DIK_X))
 	{
 		//DebugOut(L"okaaaa");
