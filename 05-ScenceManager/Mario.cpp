@@ -17,8 +17,10 @@
 bool CMario::kick = false;
 bool CMario::isRotatory = false;
 int CMario::positionXIdle = 0;
+bool CMario::isFire = false;
 CMario::CMario(float x, float y) : CGameObject()
 {
+levelBefore = 1;
 	//this->CheckToMap(test->game_map_);
 	level = MARIO_LEVEL_SMALL;
 	//level = MARIO_LEVEL_BIG;
@@ -372,20 +374,26 @@ void CMario::Render()
 					ani = MARIO_ANI_BIG_JUMP_LEFT;
 				}
 				else
+				{
 					ani = MARIO_ANI_BIG_IDLE_LEFT;
+
+				}
 			}
 		}
 		else if (vx > 0)
 		{
 			DebugOut(L"vao111");
 			if (state == MARIO_STATE_JUMP && checkMarioColision == false)                    //ANI JUMP RIGHT
-				ani = MARIO_ANI_BIG_JUMP_RIGHT;
+				ani = MARIO_ANI_BIG_FIRE_JUMP_RIGHT;
 			else if (state == MARIO_STATE_RUN_RIGHT)
 			{
 				ani = MARIO_ANI_BIG_RUN_RIGHT;
 			}
 			else
+			{
 				ani = MARIO_ANI_BIG_WALKING_RIGHT;
+			}
+				
 		}
 		else
 		{
@@ -397,36 +405,38 @@ void CMario::Render()
 				ani = MARIO_ANI_BIG_RUN_LEFT;
 			}
 			else
+			{
 				ani = MARIO_ANI_BIG_WALKING_LEFT;
+			}
 		}
 	}
-	else if (level == MARIO_LEVEL_TAIL_BIG)
+	else if (level == MARIO_LEVEL_FIRE_BIG)
 	{
 		if (vx == 0)
 		{
 			if (nx > 0) {
 				if (state == MARIO_STATE_JUMP) {
-					ani = MARIO_ANI_BIG_TAIL_JUMP_RIGHT;
+					ani = MARIO_ANI_BIG_FIRE_JUMP_RIGHT;
 				}
 				else if (state == MARIO_STATE_FLY)
 				{
 					
 					ani = MARIO_ANI_BIG_TAIL_FLY_RIGHT;
 				}
-				else if (state == MARIO_STATE_ROTATORY_IDLE)
+				//else if (state == MARIO_STATE_ROTATORY_IDLE)
+				//{
+				//	isRotatory = true;
+				//	this->x = positionXIdle + 6;
+				//	ani = MARIO_ANI_BIG_TAIL_ROTATORY_LEFT;
+				//	//this->x -= 6;
+				//}
+				/*else if (state == MARIO_STATE_DOWN)
 				{
-					isRotatory = true;
-					this->x = positionXIdle + 6;
-					ani = MARIO_ANI_BIG_TAIL_ROTATORY_LEFT;
-					//this->x -= 6;
-				}
-				else if (state == MARIO_STATE_DOWN)
-				{
-					ani = MARIO_ANI_BIG_TAIL_DOWN_RIGHT;
-				}
+					ani = MARIO_ANI_BIG_FIRE_DOWN_RIGHT;
+				}*/
 				else {
 					positionXIdle = x;
-					ani = MARIO_ANI_BIG_TAIL_IDLE_RIGHT;
+					ani = MARIO_ANI_BIG_FIRE_RIGHT;
 					if (isRotatory)
 					{
 						this->x = positionXIdle - 6;
@@ -447,23 +457,23 @@ void CMario::Render()
 			else
 			{
 				if (state == MARIO_STATE_JUMP) {
-					ani = MARIO_ANI_BIG_TAIL_JUMP_LEFT;
+					ani = MARIO_ANI_BIG_FIRE_JUMP_LEFT;
 				}
-				else if (state == MARIO_STATE_DOWN)
+				/*else if (state == MARIO_STATE_DOWN)
 				{
-					ani = MARIO_ANI_BIG_TAIL_DOWN_LEFT;
-				}
-				else if (state == MARIO_STATE_ROTATORY_IDLE)
-				{
-					isRotatory = true;
-					this->x = positionXIdle - 6;
-					ani = MARIO_ANI_BIG_TAIL_ROTATORY_RIGHT;
-					//this->x -= 6;
-				}
+					ani = MARIO_ANI_BIG_FIRE_DOWN_LEFT;
+				}*/
+				//else if (state == MARIO_STATE_ROTATORY_IDLE)
+				//{
+				//	isRotatory = true;
+				//	this->x = positionXIdle - 6;
+				//	ani = MARIO_ANI_BIG_TAIL_ROTATORY_RIGHT;
+				//	//this->x -= 6;
+				//}
 				else
 				{
 					positionXIdle = x;
-					ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
+					ani = MARIO_ANI_BIG_FIRE_RIGHT;
 					if (isRotatory)
 					{
 						this->x = positionXIdle + 6;
@@ -476,27 +486,125 @@ void CMario::Render()
 		else if (vx > 0)
 		{
 			if (state == MARIO_STATE_JUMP && checkMarioColision == false)                    //ANI JUMP RIGHT
-				ani = MARIO_ANI_BIG_TAIL_JUMP_RIGHT;
+				ani = MARIO_ANI_BIG_FIRE_JUMP_RIGHT;
 			else if (state == MARIO_STATE_RUN_RIGHT)
 			{
-				ani = MARIO_ANI_BIG_TAIL_RUN_RIGHT;
+					ani = MARIO_ANI_BIG_FIRE_RUN_RIGHT;
 			}
 			else
-				ani = MARIO_ANI_BIG_TAIL_WALKING_RIGHT;
+				ani = MARIO_ANI_BIG_FIRE_WALKING_RIGHT;
 		}
 		else
 		{
 			if (state == MARIO_STATE_JUMP && checkMarioColision == false)				   //ANI JUMP LEFT
-				ani = MARIO_ANI_BIG_TAIL_JUMP_LEFT;
+				ani = MARIO_ANI_BIG_FIRE_JUMP_LEFT;
 			else if (state == MARIO_STATE_RUN_LEFT)
 			{
-				ani = MARIO_ANI_BIG_TAIL_RUN_LEFT;
+					ani = MARIO_ANI_BIG_FIRE_RUN_LEFT;
 			}
 			else
-				ani = MARIO_ANI_BIG_TAIL_WALKING_LEFT;
+				ani = MARIO_ANI_BIG_FIRE_WALKING_LEFT;
 		}
 
 		//ani = MARIO_ANI_BIG_TAIL_IDLE_RIGHT;
+	}
+	else if (level == MARIO_LEVEL_TAIL_BIG)
+	{
+	if (vx == 0)
+	{
+		if (nx > 0) {
+			if (state == MARIO_STATE_JUMP) {
+				ani = MARIO_ANI_BIG_TAIL_JUMP_RIGHT;
+			}
+			else if (state == MARIO_STATE_FLY)
+			{
+
+				ani = MARIO_ANI_BIG_TAIL_FLY_RIGHT;
+			}
+			else if (state == MARIO_STATE_ROTATORY_IDLE)
+			{
+				isRotatory = true;
+				this->x = positionXIdle + 6;
+				ani = MARIO_ANI_BIG_TAIL_ROTATORY_LEFT;
+				//this->x -= 6;
+			}
+			else if (state == MARIO_STATE_DOWN)
+			{
+				ani = MARIO_ANI_BIG_TAIL_DOWN_RIGHT;
+			}
+			else {
+				positionXIdle = x;
+				ani = MARIO_ANI_BIG_TAIL_IDLE_RIGHT;
+				if (isRotatory)
+				{
+					this->x = positionXIdle - 6;
+					isRotatory = false;
+
+				}
+			}
+			/*
+			try {
+				if (state == MARIO_STATE_JUMP) {
+					DebugOut(L"vao day jump");
+					ani = MARIO_ANI_SMALL_JUMP_LEFT;
+				}
+			}
+			catch (exception e) { ; }*/
+
+		}
+		else
+		{
+			if (state == MARIO_STATE_JUMP) {
+				ani = MARIO_ANI_BIG_TAIL_JUMP_LEFT;
+			}
+			else if (state == MARIO_STATE_DOWN)
+			{
+				ani = MARIO_ANI_BIG_TAIL_DOWN_LEFT;
+			}
+			else if (state == MARIO_STATE_ROTATORY_IDLE)
+			{
+				isRotatory = true;
+				this->x = positionXIdle - 6;
+				ani = MARIO_ANI_BIG_TAIL_ROTATORY_RIGHT;
+				//this->x -= 6;
+			}
+			else
+			{
+				positionXIdle = x;
+				ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
+				if (isRotatory)
+				{
+					this->x = positionXIdle + 6;
+					isRotatory = false;
+
+				}
+			}
+		}
+	}
+	else if (vx > 0)
+	{
+		if (state == MARIO_STATE_JUMP && checkMarioColision == false)                    //ANI JUMP RIGHT
+			ani = MARIO_ANI_BIG_TAIL_JUMP_RIGHT;
+		else if (state == MARIO_STATE_RUN_RIGHT)
+		{
+			ani = MARIO_ANI_BIG_TAIL_RUN_RIGHT;
+		}
+		else
+			ani = MARIO_ANI_BIG_TAIL_WALKING_RIGHT;
+	}
+	else
+	{
+		if (state == MARIO_STATE_JUMP && checkMarioColision == false)				   //ANI JUMP LEFT
+			ani = MARIO_ANI_BIG_TAIL_JUMP_LEFT;
+		else if (state == MARIO_STATE_RUN_LEFT)
+		{
+			ani = MARIO_ANI_BIG_TAIL_RUN_LEFT;
+		}
+		else
+			ani = MARIO_ANI_BIG_TAIL_WALKING_LEFT;
+	}
+
+	//ani = MARIO_ANI_BIG_TAIL_IDLE_RIGHT;
 	}
 	else if (level == MARIO_LEVEL_SMALL)
 	{
@@ -633,6 +741,11 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 			bottom = y + MARIO_BIG_DOWN_BBOX_HEIGHT;
 		else
 			bottom = y + MARIO_BIG_BBOX_HEIGHT;
+	}
+	else if (level == MARIO_LEVEL_FIRE_BIG)
+	{
+		right = x + MARIO_BIG_BBOX_WIDTH;
+		bottom = y + MARIO_BIG_BBOX_HEIGHT;
 	}
 	else if(level == MARIO_LEVEL_TAIL_BIG)
 	{

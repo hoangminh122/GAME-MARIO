@@ -331,7 +331,19 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_DOWN:
 		mario->SetPosition(mario->x, mario->y - 17);
 		break;
+	case DIK_V:
+	{
+		//if (mario->levelBefore == MARIO_LEVEL_SMALL)
+		//{
+			DebugOut(L"shgdshg");
+			mario->SetPosition(mario->x, mario->y - 60);
+			break;
+
+		//}
 	}
+	
+	}
+
 }
 
 void CPlayScenceKeyHandler::KeyState(BYTE *states)
@@ -355,6 +367,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		mario->SetState(MARIO_STATE_FLY);
 
 	}
+	
 	else if (game->IsKeyDown(DIK_X))
 	{
 		//DebugOut(L"okaaaa");
@@ -388,7 +401,17 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	
 	else
 	{
-		mario->SetState(MARIO_STATE_IDLE);
+		if (game->IsKeyDown(DIK_V))
+		{
+			//DebugOut(L"okaaaa");
+			/*mario->levelBefore = mario->GetLevel();
+			DebugOut(L"okaaaa%d\n",mario->levelBefore);*/
+
+			mario->SetLevel(MARIO_LEVEL_FIRE_BIG);
+			mario->isFire = true;
+		}
+		else
+			mario->SetState(MARIO_STATE_IDLE);
 
 	}
 }
