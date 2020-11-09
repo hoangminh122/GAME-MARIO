@@ -423,6 +423,10 @@ void CMario::Render()
 					
 					ani = MARIO_ANI_BIG_TAIL_FLY_RIGHT;
 				}
+				else if (state == MARIO_STATE_BULLET)
+				{
+					ani = MARIO_ANI_BIG_FIRE_BULLET_RIGHT;
+				}
 				//else if (state == MARIO_STATE_ROTATORY_IDLE)
 				//{
 				//	isRotatory = true;
@@ -459,6 +463,10 @@ void CMario::Render()
 				if (state == MARIO_STATE_JUMP) {
 					ani = MARIO_ANI_BIG_FIRE_JUMP_LEFT;
 				}
+				else if (state == MARIO_STATE_BULLET)
+				{
+					ani = MARIO_ANI_BIG_FIRE_BULLET_LEFT;
+				}
 				/*else if (state == MARIO_STATE_DOWN)
 				{
 					ani = MARIO_ANI_BIG_FIRE_DOWN_LEFT;
@@ -473,7 +481,7 @@ void CMario::Render()
 				else
 				{
 					positionXIdle = x;
-					ani = MARIO_ANI_BIG_FIRE_RIGHT;
+					ani = MARIO_ANI_BIG_FIRE_LEFT;
 					if (isRotatory)
 					{
 						this->x = positionXIdle + 6;
@@ -711,6 +719,9 @@ void CMario::SetState(int state)
 			break;
 		}
 	case MARIO_STATE_IDLE: 
+		vx = 0;
+		break;
+	case MARIO_STATE_BULLET:
 		vx = 0;
 		break;
 	case MARIO_STATE_DOWN:

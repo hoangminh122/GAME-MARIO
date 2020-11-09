@@ -314,8 +314,11 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_X:
 		mario->SetState(MARIO_STATE_ROTATORY_IDLE);
 		break;
+	case DIK_A:
+		mario->SetState(MARIO_STATE_BULLET);
+		break;
 
-	case DIK_A: 
+	case DIK_S: 
 		mario->Reset();
 		break;
 	}
@@ -397,6 +400,9 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		{
 			mario->SetState(MARIO_STATE_WALKING_LEFT);
 		}
+	}
+	else if (game->IsKeyDown(DIK_A)) {
+		mario->SetState(MARIO_STATE_BULLET);
 	}
 	
 	else
