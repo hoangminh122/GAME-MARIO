@@ -57,6 +57,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			y = 153;
 			if (isStop == 2)
 			{
+				state = -1;
 				y = 200;
 				vx = 0;
 				vy = 0;

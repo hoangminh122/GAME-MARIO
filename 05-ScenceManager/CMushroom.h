@@ -6,9 +6,11 @@
 
 #define MUSHROOM_STATE 100
 #define LEAF_GREEN_STATE 200
+#define MONEY_STATE 300
 
 #define MUSHROOM_ANI 0
 #define LEAF_GREEN_ANI 1
+#define MONEY_ANI 2
 
 class CMushroom : public CGameObject
 {
@@ -18,6 +20,10 @@ public:
 	CMushroom();
 	static bool isStart;
 	static bool isRun;
+	static bool isMoney;
+	static int  xBox;
+	static int  yBox;
+
 	bool isDie;
 	static CMushroom * __instance;
 	static CMushroom * GetInstance();
