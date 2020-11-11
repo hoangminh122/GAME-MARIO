@@ -22,9 +22,9 @@ CMario::CMario(float x, float y) : CGameObject()
 {
 levelBefore = 1;
 	//this->CheckToMap(test->game_map_);
-	level = MARIO_LEVEL_SMALL;
+	//level = MARIO_LEVEL_SMALL;
 	//level = MARIO_LEVEL_BIG;
-	//level = MARIO_LEVEL_TAIL_BIG;
+	level = MARIO_LEVEL_TAIL_BIG;
 	untouchable = 0;
 	SetState(MARIO_STATE_IDLE);
 
@@ -35,7 +35,7 @@ levelBefore = 1;
 	checkMarioColision = false;
 	ani = MARIO_ANI_SMALL_IDLE_RIGHT;
 	 //ani= MARIO_ANI_BIG_IDLE_LEFT;
-	//ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
+	ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
 	//positionXIdle = 0;
 }
 
@@ -597,6 +597,11 @@ void CMario::Render()
 		{
 			ani = MARIO_ANI_BIG_TAIL_RUN_RIGHT;
 		}
+		else if (state == MARIO_STATE_FLY)
+		{
+
+			ani = MARIO_ANI_BIG_TAIL_FLY_RIGHT;
+		}
 		else
 			ani = MARIO_ANI_BIG_TAIL_WALKING_RIGHT;
 	}
@@ -607,6 +612,11 @@ void CMario::Render()
 		else if (state == MARIO_STATE_RUN_LEFT)
 		{
 			ani = MARIO_ANI_BIG_TAIL_RUN_LEFT;
+		}
+		else if (state == MARIO_STATE_FLY)
+		{
+
+			ani = MARIO_ANI_BIG_TAIL_FLY_LEFT;
 		}
 		else
 			ani = MARIO_ANI_BIG_TAIL_WALKING_LEFT;
@@ -733,6 +743,10 @@ void CMario::SetState(int state)
 	case MARIO_STATE_KICK:
 		vx = 0;
 		break;
+	case MARIO_STATE_FLY:
+		vy = -0.1;
+		vx = 0.04;
+		break;
 	case MARIO_STATE_DIE:
 		vy = -MARIO_DIE_DEFLECT_SPEED;
 		break;
@@ -785,7 +799,7 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 void CMario::Reset()
 {
 	SetState(MARIO_STATE_IDLE);
-	SetLevel(MARIO_LEVEL_SMALL);
+	SetLevel(MARIO_LEVEL_TAIL_BIG);
 	SetPosition(start_x, start_y);
 	SetSpeed(0, 0);
 }
