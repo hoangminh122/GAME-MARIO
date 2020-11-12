@@ -107,7 +107,7 @@ void GameMap::DrawMap(LPDIRECT3DTEXTURE9 d3dtt) {
 	map_y = game_map_.start_y_ / TILE_SIZE;
 	y1 = (game_map_.start_y_%TILE_SIZE)*-1;
 	//y2 = y1 + CGame::GetInstance()->GetScreenWidth() + (y1 == 0 ? 0 : TILE_SIZE);
-	y2 = 17 * 12;
+	y2 = 17 * 20;
 
 	for (int i = y1; i < y2; i += TILE_SIZE)
 	{

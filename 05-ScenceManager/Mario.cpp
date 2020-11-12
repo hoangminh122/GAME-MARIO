@@ -13,6 +13,7 @@
 #include "CMushroom.h"
 #include "Plant.h"
 #include "Turle.h"
+#include "BulletMario.h"
 
 bool CMario::kick = false;
 bool CMario::isRotatory = false;
@@ -122,7 +123,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 				else if (mushroom->ani == MUSHROOM_ANI)
 				{
-					this->y = 150;
+					this->y = 286;
 					this->level = MARIO_LEVEL_BIG;
 				}
 				
@@ -425,6 +426,9 @@ void CMario::Render()
 				}
 				else if (state == MARIO_STATE_BULLET)
 				{
+					//set position dan mario
+					CBulletMario::isStart = true;
+					this->GetPosition(CBulletMario::x0, CBulletMario :: y0);
 					ani = MARIO_ANI_BIG_FIRE_BULLET_RIGHT;
 				}
 				//else if (state == MARIO_STATE_ROTATORY_IDLE)

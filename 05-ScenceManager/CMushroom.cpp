@@ -67,7 +67,7 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		state = LEAF_GREEN_STATE;
 		x = 646;
-		y = 136;
+		y = 272;
 
 	}	//trang thai la cay
 	if (isRun)
@@ -110,18 +110,18 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (isStart)
 		{
 			this->x = 220;
-			this->y = 52;
+			this->y = 188;
 			isStart = false;
 		}
 		
 
 		else if (isRun)
 		{
-			if (y >= 170)
+			if (y >= 306)
 			{
 				//vy = 0.01;
 				vx = -0.055;
-				y = 170;
+				y =306;
 				//x -= dx;
 			}
 			else if (x < 186)
@@ -132,7 +132,7 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			}
 			else
 			{
-				y = 52;
+				y = 188;
 				//y += 0.005*dt;
 				//x -= 0.4*vx;
 				vx = -0.04;

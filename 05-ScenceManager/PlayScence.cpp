@@ -9,6 +9,7 @@
 #include "QuestionBox.h"
 #include "Plant.h"
 #include "Bullet.h"
+#include "BulletMario.h"
 
 using namespace std;
 
@@ -40,6 +41,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define OBJECT_TYPE_QUESTION_BOX	9
 #define OBJECT_TYPE_PLANT	10
 #define OBJECT_TYPE_BULLET	11
+#define OBJECT_TYPE_BULLET_MARIO	12
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -170,6 +172,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_MUSHROOM: obj = new CMushroom(); break;
 	case OBJECT_TYPE_PLANT: obj = new CPlant(); break;
 	case OBJECT_TYPE_BULLET: obj = new CBullet(); break;
+	case OBJECT_TYPE_BULLET_MARIO: obj = new CBulletMario(); break;
 	case OBJECT_TYPE_PORTAL:
 		{	
 			float r = atof(tokens[4].c_str());
@@ -265,7 +268,11 @@ void CPlayScene::Update(DWORD dt)
 
 	CGame *game = CGame::GetInstance();
 	if (cx <= game->GetScreenWidth() / 2)
+	{
 		cx = 0.0f;
+		//cy = 136.0f;
+	}
+		
 	else if (CMario::isRotatory)
 	{
 		cx = CMario::positionXIdle;
@@ -273,10 +280,10 @@ void CPlayScene::Update(DWORD dt)
 	}
 	else
 		cx -= game->GetScreenWidth() / 2;
-	if (cy <= 0)
+	if (cy <=136)
 		cy -= game->GetScreenHeight() / 2;
 	else
-		cy = 0.0f;
+		cy = 136.0f;
 
 	CGame::GetInstance()->SetCamPos(cx,cy);
 }

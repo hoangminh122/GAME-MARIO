@@ -54,11 +54,11 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			
 			//x = 290; 
 			vy += 0.01f;
-			y = 153;
+			y = 289;
 			if (isStop == 2)
 			{
 				state = -1;
-				y = 200;
+				y = 336;
 				vx = 0;
 				vy = 0;
 				isTreeStart = true;
