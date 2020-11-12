@@ -3,6 +3,9 @@
 #include "Utils.h"
 #include "BrickTop.h"
 #include "Brick.h"
+#include "Goomba.h"
+
+
 
 //CBullet::CBullet() {
 //	isStart = false;
@@ -19,6 +22,7 @@ CBulletMario::CBulletMario() : CGameObject()
 {
 	isStart = false;
 	state = -1;
+	heightAfter = 0;
 }
 CBulletMario *CBulletMario::GetInstance()
 {
@@ -47,8 +51,8 @@ void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		this->x = x0 + 10;
 		this->y = y0 + 3;
-		vx = 0.08f;
-		vy = 0.05f;
+		vx = 0.09f;
+		vy = 0.06f;
 		isStart = false;
 
 	}
@@ -68,8 +72,15 @@ void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
 	{
+		if (heightAfter - y > MAX_HEIGHT_JUMP_BULLET)
+		{
+			vy = -vy-0.01;
+			heightAfter = y;
+		}
+			
 		x += dx;
 		y += dy;
+
 	}
 	else
 	{
@@ -81,6 +92,7 @@ void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		//
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
+			heightAfter = y;
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
 			
@@ -93,6 +105,17 @@ void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					this->y = y - 0.5;*/
 
 			} // if brickTop
+			else if (dynamic_cast<CGoomba *>(e->obj)) // if e->obj is Goomba 
+			{
+
+				CGoomba *goomba = dynamic_cast<CGoomba *>(e->obj);
+				goomba->SetState(GOOMBA_STATE_DIE);
+				this->x = 0;
+				this->y = 0;
+				// jump on top >> kill Goomba and deflect a bit 
+				
+				
+			} // if Goomba
 			else if (dynamic_cast<CBrickTop *>(e->obj)) // if e->obj is brickTop
 			{
 				DebugOut(L" dan trung brick top");
@@ -102,6 +125,13 @@ void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					this->y = y - 0.5;*/
 
 			} // if brickTop
+			else
+			{
+				if (e->ny != 0)
+					vy = -vy;
+				else if (e->nx != 0)
+					vx = -vx;
+			}
 
 		}
 		// clean up collision events
