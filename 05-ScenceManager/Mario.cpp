@@ -161,7 +161,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				else if (e->nx != 0)
 				{
 					DebugOut(L"kill 2");
-					if (this->state == MARIO_STATE_ROTATORY_IDLE)
+					if (this->state == MARIO_STATE_ROTATORY_IDLE && goomba->nx != e->nx )
 					{
 						DebugOut(L"SHGDSG");
 						if (goomba->GetState() != GOOMBA_STATE_DIE)
