@@ -50,7 +50,6 @@ void CGoomba::Render()
 		ani = GOOMBA_ANI_DIE;
 	}
 	animation_set->at(ani)->Render(x,y);
-
 	RenderBoundingBox();
 }
 

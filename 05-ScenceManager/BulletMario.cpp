@@ -4,12 +4,13 @@
 #include "BrickTop.h"
 #include "Brick.h"
 #include "Goomba.h"
-
+#include "Game.h"
 
 
 //CBullet::CBullet() {
 //	isStart = false;
 //}
+bool CBulletMario::isSetPosition = false;
 bool CBulletMario::isStart = false;
 float CBulletMario::x0 = 0;
 float CBulletMario::y0 = 0;
@@ -23,6 +24,7 @@ CBulletMario::CBulletMario() : CGameObject()
 	isStart = false;
 	state = -1;
 	heightAfter = 0;
+	isDie = true;
 }
 CBulletMario *CBulletMario::GetInstance()
 {
@@ -47,16 +49,19 @@ void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	CGameObject::Update(dt);
 	DebugOut(L"IS sTART%d \n", this->vx);
-	if (isStart)
+	if (isDie && isStart)
 	{
 		this->x = x0 + 10;
 		this->y = y0 + 3;
 		vx = 0.09f;
 		vy = 0.06f;
-		isStart = false;
+		isDie = false;
+		if(!isDie)
+			isStart = false;
 
 	}
-
+	if (x > 150)
+		isDie = true;
 	// Simple fall down
 
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -109,7 +114,10 @@ void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			{
 
 				CGoomba *goomba = dynamic_cast<CGoomba *>(e->obj);
-				goomba->SetState(GOOMBA_STATE_DIE);
+				//goomba->SetState(GOOMBA_STATE_DIE);
+				//goomba ->D3DXMatrixTransformation2D1
+			/*	CGame* minh = (CGame)goomba;
+					minh->D3DXMatrixTransformation2D1();*/
 				this->x = 0;
 				this->y = 0;
 				// jump on top >> kill Goomba and deflect a bit 

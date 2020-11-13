@@ -10,6 +10,8 @@ class CBulletMario : public CGameObject
 {
 public:
 	static bool isStart;
+	static bool isSetPosition;
+	bool isDie;
 	CBulletMario();
 	static CBulletMario * __instance;
 	static CBulletMario * GetInstance();

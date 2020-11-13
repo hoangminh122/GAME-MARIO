@@ -428,6 +428,7 @@ void CMario::Render()
 				{
 					//set position dan mario
 					CBulletMario::isStart = true;
+					CBulletMario::isSetPosition = true;
 					this->GetPosition(CBulletMario::x0, CBulletMario :: y0);
 					ani = MARIO_ANI_BIG_FIRE_BULLET_RIGHT;
 				}
