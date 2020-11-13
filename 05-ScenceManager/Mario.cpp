@@ -19,6 +19,7 @@ bool CMario::kick = false;
 bool CMario::isRotatory = false;
 int CMario::positionXIdle = 0;
 bool CMario::isFire = false;
+float CMario::xRealTime = 0;
 CMario::CMario(float x, float y) : CGameObject()
 {
 levelBefore = 1;
@@ -67,6 +68,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// No collision occured, proceed normally
 	if (coEvents.size()==0)
 	{
+		xRealTime = x;
 		checkMarioColision = false;
 		x += dx; 
 		y += dy;

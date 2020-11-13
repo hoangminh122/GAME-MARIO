@@ -123,6 +123,7 @@ class CMario : public CGameObject
 	//GameMap* test;
 	int ani;
 public: 
+	static float xRealTime;
 	int levelBefore;
 
 	static bool kick;            //mario da chan 

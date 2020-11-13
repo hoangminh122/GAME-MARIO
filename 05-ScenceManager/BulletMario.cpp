@@ -5,6 +5,7 @@
 #include "Brick.h"
 #include "Goomba.h"
 #include "Game.h"
+#include "Mario.h"
 
 
 //CBullet::CBullet() {
@@ -53,15 +54,20 @@ void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		this->x = x0 + 10;
 		this->y = y0 + 3;
-		vx = 0.09f;
-		vy = 0.06f;
+		vx = 0.11f;
+		vy = 0.08f;
 		isDie = false;
 		if(!isDie)
 			isStart = false;
 
 	}
-	if (x > 150)
-		isDie = true;
+	if (isStart)
+	{
+		CGame *game = CGame::GetInstance();
+		if (x > CMario::xRealTime + game->GetScreenWidth() / 2)
+			isDie = true;
+	}
+	
 	// Simple fall down
 
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -120,6 +126,7 @@ void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					minh->D3DXMatrixTransformation2D1();*/
 				this->x = 0;
 				this->y = 0;
+				isDie = true;
 				// jump on top >> kill Goomba and deflect a bit 
 				
 				
