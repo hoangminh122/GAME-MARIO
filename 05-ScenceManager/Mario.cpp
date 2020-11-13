@@ -15,6 +15,7 @@
 #include "Turle.h"
 #include "BulletMario.h"
 
+int CMario::energyFly = 20;
 bool CMario::kick = false;
 bool CMario::isRotatory = false;
 int CMario::positionXIdle = 0;
@@ -503,7 +504,6 @@ void CMario::Render()
 			}
 			else if (state == MARIO_STATE_FLY)
 			{
-
 				ani = MARIO_ANI_BIG_TAIL_FLY_RIGHT;
 			}
 			else if (state == MARIO_STATE_ROTATORY_IDLE)
@@ -721,6 +721,11 @@ void CMario::SetState(int state)
 		vx = 0;
 		break;
 	case MARIO_STATE_FLY:
+	{
+			vy = -0.1;
+		vx = 0.04;
+		break;
+	}
 		vy = -0.1;
 		vx = 0.04;
 		break;

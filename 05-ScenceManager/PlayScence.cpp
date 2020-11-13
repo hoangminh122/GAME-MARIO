@@ -354,6 +354,12 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 
 		//}
 	}
+	case DIK_C:
+	{
+		if(CMario::energyFly < 0)
+			CMario::energyFly = 20;
+	}
+		break;
 	
 	}
 
@@ -376,8 +382,11 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	}
 	else if (game->IsKeyDown(DIK_C))
 	{
+		CMario::energyFly--;
 		//DebugOut(L"okaaaa");
-		mario->SetState(MARIO_STATE_FLY);
+		if(CMario::energyFly > 0)
+			mario->SetState(MARIO_STATE_FLY);
+
 
 	}
 	
@@ -413,6 +422,12 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		}*/
 		if (game->IsKeyDown(DIK_Z))
 		{
+			if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG)
+			{
+				if(CMario::energyFly <200)
+					CMario::energyFly += 5;
+				DebugOut(L"SSSSSSSSSS%d\n", CMario::energyFly);
+			}
 			mario->SetState(MARIO_STATE_RUN_LEFT);
 		}
 		else
@@ -438,7 +453,9 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 			mario->isFire = true;
 		}
 		else
+		{
 			mario->SetState(MARIO_STATE_IDLE);
+		}
 
 	}
 }
