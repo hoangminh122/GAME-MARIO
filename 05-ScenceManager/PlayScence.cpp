@@ -322,7 +322,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		mario->SetState(MARIO_STATE_ROTATORY_IDLE);
 		break;
 	case DIK_A:
-		mario->SetState(MARIO_STATE_BULLET);
+		mario->SetState(MARIO_STATE_BULLET_IDLE);
 		break;
 
 	case DIK_S: 
@@ -340,6 +340,9 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	{
 	case DIK_DOWN:
 		mario->SetPosition(mario->x, mario->y - 17);
+		break;
+	case DIK_A:
+		CBulletMario::isStart = false;
 		break;
 	case DIK_V:
 	{
@@ -391,6 +394,11 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 
 	}
 	else if (game->IsKeyDown(DIK_RIGHT)) {
+		/*if (game->IsKeyDown(DIK_A)) 
+		{
+			DebugOut(L"SHSGSHDGshdgshfahsgfahsgfjhagfhagfhagfhagf\n");
+			CMario::isBullet = true;
+		}*/
 		if (game->IsKeyDown(DIK_Z))
 		{
 			mario->SetState(MARIO_STATE_RUN_RIGHT);
@@ -399,6 +407,10 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 			mario->SetState(MARIO_STATE_WALKING_RIGHT);
 	}
 	else if (game->IsKeyDown(DIK_LEFT)) {
+		/*if (game->IsKeyDown(DIK_A))
+		{
+			CMario::isBullet = true;
+		}*/
 		if (game->IsKeyDown(DIK_Z))
 		{
 			mario->SetState(MARIO_STATE_RUN_LEFT);
@@ -409,7 +421,9 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		}
 	}
 	else if (game->IsKeyDown(DIK_A)) {
-		mario->SetState(MARIO_STATE_BULLET);
+		DebugOut(L"000000000000000000000000000000000000000000000000000000000000000000000000\n");
+
+		mario->SetState(MARIO_STATE_BULLET_IDLE);
 	}
 	
 	else

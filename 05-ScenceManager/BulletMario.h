@@ -9,16 +9,19 @@
 class CBulletMario : public CGameObject
 {
 public:
-	static bool isStart;
-	static bool isSetPosition;
-	bool isDie;
+	DWORD timeStart;
+	static int nxBullet;										//ban trai or phai
+	static bool isStart;								//bat dau ban dan su kien
+
+	static bool isSetPosition;							//set laij vi tri dan
+	bool isDie;											//dan bien mat do va cham hoac ra khoi camera
 	CBulletMario();
 	static CBulletMario * __instance;
 	static CBulletMario * GetInstance();
 	static float x0;
 	static float y0;
 	float heightAfter;							//so sang co dan nhay len 1 khoang nhat dinh
-
+	bool isBullet;									//dan da xuat phat chua
 public:
 	static void setPosition(float x0, float y0);
 	virtual void Render();

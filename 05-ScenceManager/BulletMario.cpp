@@ -11,6 +11,7 @@
 //CBullet::CBullet() {
 //	isStart = false;
 //}
+int CBulletMario::nxBullet = 1;
 bool CBulletMario::isSetPosition = false;
 bool CBulletMario::isStart = false;
 float CBulletMario::x0 = 0;
@@ -26,6 +27,7 @@ CBulletMario::CBulletMario() : CGameObject()
 	state = -1;
 	heightAfter = 0;
 	isDie = true;
+	isBullet = false;
 }
 CBulletMario *CBulletMario::GetInstance()
 {
@@ -49,23 +51,57 @@ void CBulletMario::GetBoundingBox(float &l, float &t, float &r, float &b)
 void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	CGameObject::Update(dt);
-	DebugOut(L"IS sTART%d \n", this->vx);
-	if (isDie && isStart)
-	{
-		this->x = x0 + 10;
-		this->y = y0 + 3;
-		vx = 0.11f;
-		vy = 0.08f;
-		isDie = false;
-		if(!isDie)
-			isStart = false;
+	/*DebugOut(L"IS sTART%d \n", this->isStart);*/
 
-	}
 	if (isStart)
 	{
+		DebugOut(L"IS sTART%d \n", this->isStart);
+		if (((rand() % 2) + 1) == 1)
+		{
+			isBullet = true;
+		}
+		else
+			isBullet = false;
+	}
+	if (isDie && isBullet)
+	{
+		//timeStart = GetTickCount();                        //time bat dau ban dan
+		if (nxBullet == 1)
+			this->x = x0 + 10;
+		else
+			this->x = x0 - 10;
+		this->y = y0 + 3;
+		if (nxBullet == 1)
+		{
+			vx = 0.13f;
+			
+		}
+		else 
+			vx = -0.11f;
+		vy = 0.1f;
+		isDie = false;									//dan van con song
+		if(isBullet)
+			isStart = false;							
+
+	}
+	else if (isDie)
+	{
+		this->x = 0;
+		this->y = 0;
+		vy = 0;
+		vx = 0;
+		isBullet = false;
+	}
+	else if (isBullet)															//check xem dan co dang con song khong
+	{
 		CGame *game = CGame::GetInstance();
-		if (x > CMario::xRealTime + game->GetScreenWidth() / 2)
+		if (nxBullet == 1 && x > CMario::xRealTime + game->GetScreenWidth() / 2
+			|| nxBullet == -1 && x < CMario::xRealTime - game->GetScreenWidth() / 2)
+		{
+			DebugOut(L"SHFGSHDFSDFGSHDF");
 			isDie = true;
+			isBullet = false;
+		}
 	}
 	
 	// Simple fall down
@@ -120,13 +156,9 @@ void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			{
 
 				CGoomba *goomba = dynamic_cast<CGoomba *>(e->obj);
-				//goomba->SetState(GOOMBA_STATE_DIE);
-				//goomba ->D3DXMatrixTransformation2D1
-			/*	CGame* minh = (CGame)goomba;
-					minh->D3DXMatrixTransformation2D1();*/
-				this->x = 0;
-				this->y = 0;
+				goomba->SetState(GOOMBA_STATE_DIE);
 				isDie = true;
+				isStart = false;
 				// jump on top >> kill Goomba and deflect a bit 
 				
 				

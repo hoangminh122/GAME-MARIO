@@ -19,7 +19,9 @@
 #define MARIO_STATE_KICK		900
 #define MARIO_STATE_DOWN		910
 #define MARIO_STATE_HOLD_TURTLE	930
-#define MARIO_STATE_BULLET	940
+#define MARIO_STATE_BULLET_IDLE	940
+//#define MARIO_STATE_BULLET_RUN	950
+
 
 
 #define MARIO_STATE_FLY		920
@@ -123,6 +125,7 @@ class CMario : public CGameObject
 	//GameMap* test;
 	int ani;
 public: 
+	static bool isBullet;								//Kiem tra xem no co dang o trang thai ban dan khong khi dang chay, nhay
 	static float xRealTime;
 	int levelBefore;
 
