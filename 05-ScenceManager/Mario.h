@@ -4,7 +4,7 @@
 
 #define MARIO_WALKING_SPEED		0.1f 
 //0.1f
-#define MARIO_JUMP_SPEED_Y		0.5f
+#define MARIO_JUMP_SPEED_Y		0.45f
 #define MARIO_JUMP_DEFLECT_SPEED 0.2f
 #define MARIO_GRAVITY			0.002f
 #define MARIO_DIE_DEFLECT_SPEED	 0.5f
@@ -91,10 +91,10 @@
 #define MARIO_ANI_BIG_TAIL_FLY_LEFT		38
 #define MARIO_ANI_BIG_TAIL_HOLD_TURTLE_RIGHT	51
 #define MARIO_ANI_BIG_TAIL_HOLD_TURTLE_LEFT	52
-#define MARIO_ANI_BIG_TAIL_WALKING_HOLD_TURTLE_LEFT	53
-#define MARIO_ANI_BIG_TAIL_WALKING_HOLD_TURTLE_LEFT	54
-#define MARIO_ANI_BIG_TAIL_RUN_HOLD_TURTLE_LEFT	55
-#define MARIO_ANI_BIG_TAIL_RUN_HOLD_TURTLE_LEFT	56
+//#define MARIO_ANI_BIG_TAIL_WALKING_HOLD_TURTLE_LEFT	53
+//#define MARIO_ANI_BIG_TAIL_WALKING_HOLD_TURTLE_LEFT	54
+//#define MARIO_ANI_BIG_TAIL_RUN_HOLD_TURTLE_LEFT	55
+//#define MARIO_ANI_BIG_TAIL_RUN_HOLD_TURTLE_LEFT	56
 
 
 
@@ -138,7 +138,7 @@ public:
 	int levelBefore;
 
 	static bool kick;            //mario da chan 
-	static int positionXIdle;
+	static float positionXIdle;
 	static bool isRotatory;
 	bool checkMarioColision;
 	static bool isFire;

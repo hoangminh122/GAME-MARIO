@@ -18,7 +18,7 @@
 int CMario::energyFly = 20;
 bool CMario::kick = false;
 bool CMario::isRotatory = false;
-int CMario::positionXIdle = 0;
+float CMario::positionXIdle = 0;
 bool CMario::isFire = false;
 float CMario::xRealTime = 0;
 bool CMario::isBullet = false;
@@ -251,7 +251,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			{
 				//DebugOut(L" kill brick top");
 				if (e->ny > 0)
-					this->y = y - 0.5;
+					this->y = y - 0.5f;
 
 			} // if brickTop
 			else if (dynamic_cast<CTurle *>(e->obj)) // if e->obj is TURLE
@@ -684,11 +684,11 @@ void CMario::SetState(int state)
 		nx = -1;
 		break;
 	case MARIO_STATE_RUN_LEFT:
-		vx = -0.2;
+		vx = -0.2f;
 		nx = -1;
 		break;
 	case MARIO_STATE_RUN_RIGHT:
-		vx = 0.2;
+		vx = 0.2f;
 		nx = 1;
 		break;
 	case MARIO_STATE_JUMP:
@@ -722,12 +722,12 @@ void CMario::SetState(int state)
 		break;
 	case MARIO_STATE_FLY:
 	{
-			vy = -0.1;
-		vx = 0.04;
+		vy = -0.1f;
+		vx = 0.04f;
 		break;
 	}
-		vy = -0.1;
-		vx = 0.04;
+		vy = -0.1f;
+		vx = 0.04f;
 		break;
 	case MARIO_STATE_DIE:
 		vy = -MARIO_DIE_DEFLECT_SPEED;

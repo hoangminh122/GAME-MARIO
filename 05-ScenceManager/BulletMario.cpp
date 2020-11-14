@@ -121,7 +121,7 @@ void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		if (heightAfter - y > MAX_HEIGHT_JUMP_BULLET)
 		{
-			vy = -vy-0.01;
+			vy = -vy-0.01f;
 			heightAfter = y;
 		}
 			
