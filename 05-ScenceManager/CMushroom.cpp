@@ -5,8 +5,8 @@
 bool CMushroom::isMoney = false;
 bool CMushroom::isStart = false;
 bool CMushroom::isRun = false;
-int CMushroom::xBox = 0;
-int CMushroom::yBox = 0;
+float CMushroom::xBox = 0;
+float CMushroom::yBox = 0;
 CMushroom * CMushroom::__instance = NULL;
 CMushroom::CMushroom() : CGameObject()
 {
@@ -67,7 +67,7 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		state = LEAF_GREEN_STATE;
 		x = 646;
-		y = 136;
+		y = 272;
 
 	}	//trang thai la cay
 	if (isRun)
@@ -110,32 +110,32 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (isStart)
 		{
 			this->x = 220;
-			this->y = 52;
+			this->y = 188;
 			isStart = false;
 		}
 		
 
 		else if (isRun)
 		{
-			if (y >= 170)
+			if (y >= 306)
 			{
 				//vy = 0.01;
-				vx = -0.055;
-				y = 170;
+				vx = -0.055f;
+				y =306;
 				//x -= dx;
 			}
 			else if (x < 186)
 			{
 				//x = 0;
 				vx = 0;
-				y += 0.5*dt;
+				y += 0.5f*dt;
 			}
 			else
 			{
-				y = 52;
+				y = 188;
 				//y += 0.005*dt;
 				//x -= 0.4*vx;
-				vx = -0.04;
+				vx = -0.04f;
 			}
 		}
 		x += dx;

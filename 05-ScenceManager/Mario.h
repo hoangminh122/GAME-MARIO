@@ -4,7 +4,7 @@
 
 #define MARIO_WALKING_SPEED		0.1f 
 //0.1f
-#define MARIO_JUMP_SPEED_Y		0.5f
+#define MARIO_JUMP_SPEED_Y		0.45f
 #define MARIO_JUMP_DEFLECT_SPEED 0.2f
 #define MARIO_GRAVITY			0.002f
 #define MARIO_DIE_DEFLECT_SPEED	 0.5f
@@ -19,7 +19,9 @@
 #define MARIO_STATE_KICK		900
 #define MARIO_STATE_DOWN		910
 #define MARIO_STATE_HOLD_TURTLE	930
-#define MARIO_STATE_BULLET	940
+#define MARIO_STATE_BULLET_IDLE	940
+//#define MARIO_STATE_BULLET_RUN	950
+
 
 
 #define MARIO_STATE_FLY		920
@@ -76,8 +78,8 @@
 #define MARIO_ANI_BIG_TAIL_IDLE_LEFT		24
 #define MARIO_ANI_BIG_TAIL_WALKING_RIGHT		25
 #define MARIO_ANI_BIG_TAIL_WALKING_LEFT		26
-#define MARIO_ANI_BIG_TAIL_RUN_LEFT		27
-#define MARIO_ANI_BIG_TAIL_RUN_RIGHT		28
+#define MARIO_ANI_BIG_TAIL_RUN_LEFT		28
+#define MARIO_ANI_BIG_TAIL_RUN_RIGHT		27
 #define MARIO_ANI_BIG_TAIL_JUMP_RIGHT		30
 #define MARIO_ANI_BIG_TAIL_JUMP_LEFT		29
 
@@ -87,6 +89,13 @@
 #define MARIO_ANI_BIG_TAIL_DOWN_LEFT		36
 #define MARIO_ANI_BIG_TAIL_FLY_RIGHT		37
 #define MARIO_ANI_BIG_TAIL_FLY_LEFT		38
+#define MARIO_ANI_BIG_TAIL_HOLD_TURTLE_RIGHT	51
+#define MARIO_ANI_BIG_TAIL_HOLD_TURTLE_LEFT	52
+//#define MARIO_ANI_BIG_TAIL_WALKING_HOLD_TURTLE_LEFT	53
+//#define MARIO_ANI_BIG_TAIL_WALKING_HOLD_TURTLE_LEFT	54
+//#define MARIO_ANI_BIG_TAIL_RUN_HOLD_TURTLE_LEFT	55
+//#define MARIO_ANI_BIG_TAIL_RUN_HOLD_TURTLE_LEFT	56
+
 
 
 #define MARIO_ANI_DIE				8
@@ -123,10 +132,13 @@ class CMario : public CGameObject
 	//GameMap* test;
 	int ani;
 public: 
+	int static energyFly;									//nang luong bay time 
+	static bool isBullet;								//Kiem tra xem no co dang o trang thai ban dan khong khi dang chay, nhay
+	static float xRealTime;
 	int levelBefore;
 
 	static bool kick;            //mario da chan 
-	static int positionXIdle;
+	static float positionXIdle;
 	static bool isRotatory;
 	bool checkMarioColision;
 	static bool isFire;

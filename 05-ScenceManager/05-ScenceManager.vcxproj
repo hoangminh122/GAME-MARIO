@@ -130,6 +130,7 @@
     <ClCompile Include="BrickTop.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletMario.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CMushroom.cpp" />
     <ClCompile Include="game_map.cpp" />
     <ClCompile Include="game_map.h" />
@@ -156,6 +157,7 @@
     <ClInclude Include="BrickTop.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="BulletMario.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="CMushroom.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Koopas.h" />

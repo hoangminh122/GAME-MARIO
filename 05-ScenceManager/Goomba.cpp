@@ -24,7 +24,7 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// TO-DO: make sure Goomba can interact with the world and to each of them too!
 	// 
 	if (state == GOOMBA_STATE_DIE) {
-		y = 287;
+		y = 423;
 	}
 	x += dx;
 	y += dy;
@@ -50,7 +50,6 @@ void CGoomba::Render()
 		ani = GOOMBA_ANI_DIE;
 	}
 	animation_set->at(ani)->Render(x,y);
-
 	RenderBoundingBox();
 }
 

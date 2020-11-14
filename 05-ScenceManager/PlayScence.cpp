@@ -9,6 +9,7 @@
 #include "QuestionBox.h"
 #include "Plant.h"
 #include "Bullet.h"
+#include "BulletMario.h"
 
 using namespace std;
 
@@ -40,6 +41,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define OBJECT_TYPE_QUESTION_BOX	9
 #define OBJECT_TYPE_PLANT	10
 #define OBJECT_TYPE_BULLET	11
+#define OBJECT_TYPE_BULLET_MARIO	12
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -170,6 +172,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_MUSHROOM: obj = new CMushroom(); break;
 	case OBJECT_TYPE_PLANT: obj = new CPlant(); break;
 	case OBJECT_TYPE_BULLET: obj = new CBullet(); break;
+	case OBJECT_TYPE_BULLET_MARIO: obj = new CBulletMario(); break;
 	case OBJECT_TYPE_PORTAL:
 		{	
 			float r = atof(tokens[4].c_str());
@@ -265,7 +268,11 @@ void CPlayScene::Update(DWORD dt)
 
 	CGame *game = CGame::GetInstance();
 	if (cx <= game->GetScreenWidth() / 2)
+	{
 		cx = 0.0f;
+		//cy = 136.0f;
+	}
+		
 	else if (CMario::isRotatory)
 	{
 		cx = CMario::positionXIdle;
@@ -273,10 +280,10 @@ void CPlayScene::Update(DWORD dt)
 	}
 	else
 		cx -= game->GetScreenWidth() / 2;
-	if (cy <= 0)
+	if (cy <=136)
 		cy -= game->GetScreenHeight() / 2;
 	else
-		cy = 0.0f;
+		cy = 136.0f;
 
 	CGame::GetInstance()->SetCamPos(cx,cy);
 }
@@ -315,7 +322,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		mario->SetState(MARIO_STATE_ROTATORY_IDLE);
 		break;
 	case DIK_A:
-		mario->SetState(MARIO_STATE_BULLET);
+		mario->SetState(MARIO_STATE_BULLET_IDLE);
 		break;
 
 	case DIK_S: 
@@ -334,6 +341,9 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_DOWN:
 		mario->SetPosition(mario->x, mario->y - 17);
 		break;
+	case DIK_A:
+		CBulletMario::isStart = false;
+		break;
 	case DIK_V:
 	{
 		//if (mario->levelBefore == MARIO_LEVEL_SMALL)
@@ -344,6 +354,12 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 
 		//}
 	}
+	case DIK_C:
+	{
+		if(CMario::energyFly < 0)
+			CMario::energyFly = 20;
+	}
+		break;
 	
 	}
 
@@ -366,8 +382,11 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	}
 	else if (game->IsKeyDown(DIK_C))
 	{
+		CMario::energyFly--;
 		//DebugOut(L"okaaaa");
-		mario->SetState(MARIO_STATE_FLY);
+		if(CMario::energyFly > 0)
+			mario->SetState(MARIO_STATE_FLY);
+
 
 	}
 	
@@ -384,6 +403,11 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 
 	}
 	else if (game->IsKeyDown(DIK_RIGHT)) {
+		/*if (game->IsKeyDown(DIK_A)) 
+		{
+			DebugOut(L"SHSGSHDGshdgshfahsgfahsgfjhagfhagfhagfhagf\n");
+			CMario::isBullet = true;
+		}*/
 		if (game->IsKeyDown(DIK_Z))
 		{
 			mario->SetState(MARIO_STATE_RUN_RIGHT);
@@ -392,8 +416,18 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 			mario->SetState(MARIO_STATE_WALKING_RIGHT);
 	}
 	else if (game->IsKeyDown(DIK_LEFT)) {
+		/*if (game->IsKeyDown(DIK_A))
+		{
+			CMario::isBullet = true;
+		}*/
 		if (game->IsKeyDown(DIK_Z))
 		{
+			if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG)
+			{
+				if(CMario::energyFly <200)
+					CMario::energyFly += 5;
+				DebugOut(L"SSSSSSSSSS%d\n", CMario::energyFly);
+			}
 			mario->SetState(MARIO_STATE_RUN_LEFT);
 		}
 		else
@@ -402,7 +436,9 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		}
 	}
 	else if (game->IsKeyDown(DIK_A)) {
-		mario->SetState(MARIO_STATE_BULLET);
+		DebugOut(L"000000000000000000000000000000000000000000000000000000000000000000000000\n");
+
+		mario->SetState(MARIO_STATE_BULLET_IDLE);
 	}
 	
 	else
@@ -417,7 +453,9 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 			mario->isFire = true;
 		}
 		else
+		{
 			mario->SetState(MARIO_STATE_IDLE);
+		}
 
 	}
 }

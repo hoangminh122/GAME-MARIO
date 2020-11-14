@@ -21,8 +21,8 @@ public:
 	static bool isStart;
 	static bool isRun;
 	static bool isMoney;
-	static int  xBox;
-	static int  yBox;
+	static float  xBox;
+	static float  yBox;
 
 	bool isDie;
 	static CMushroom * __instance;

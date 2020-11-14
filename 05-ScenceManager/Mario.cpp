@@ -13,14 +13,18 @@
 #include "CMushroom.h"
 #include "Plant.h"
 #include "Turle.h"
+#include "BulletMario.h"
 
+int CMario::energyFly = 20;
 bool CMario::kick = false;
 bool CMario::isRotatory = false;
-int CMario::positionXIdle = 0;
+float CMario::positionXIdle = 0;
 bool CMario::isFire = false;
+float CMario::xRealTime = 0;
+bool CMario::isBullet = false;
 CMario::CMario(float x, float y) : CGameObject()
 {
-levelBefore = 1;
+	levelBefore = 1;
 	//this->CheckToMap(test->game_map_);
 	//level = MARIO_LEVEL_SMALL;
 	//level = MARIO_LEVEL_BIG;
@@ -66,6 +70,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// No collision occured, proceed normally
 	if (coEvents.size()==0)
 	{
+		xRealTime = x;
 		checkMarioColision = false;
 		x += dx; 
 		y += dy;
@@ -122,7 +127,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 				else if (mushroom->ani == MUSHROOM_ANI)
 				{
-					this->y = 150;
+					this->y = 286;
 					this->level = MARIO_LEVEL_BIG;
 				}
 				
@@ -132,7 +137,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				if (level > MARIO_LEVEL_SMALL)
 				{
 					level = MARIO_LEVEL_SMALL;
-					StartUntouchable();
 				}
 				else 
 					SetState(MARIO_STATE_DIE);
@@ -158,7 +162,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				else if (e->nx != 0)
 				{
 					DebugOut(L"kill 2");
-					if (this->state == MARIO_STATE_ROTATORY_IDLE)
+					if (this->state == MARIO_STATE_ROTATORY_IDLE && goomba->nx != e->nx )
 					{
 						DebugOut(L"SHGDSG");
 						if (goomba->GetState() != GOOMBA_STATE_DIE)
@@ -176,7 +180,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 							if (level > MARIO_LEVEL_SMALL)
 							{
 								level = MARIO_LEVEL_SMALL;
-								StartUntouchable();
 							}
 							else 
 								SetState(MARIO_STATE_DIE);
@@ -248,7 +251,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			{
 				//DebugOut(L" kill brick top");
 				if (e->ny > 0)
-					this->y = y - 0.5;
+					this->y = y - 0.5f;
 
 			} // if brickTop
 			else if (dynamic_cast<CTurle *>(e->obj)) // if e->obj is TURLE
@@ -418,44 +421,18 @@ void CMario::Render()
 				if (state == MARIO_STATE_JUMP) {
 					ani = MARIO_ANI_BIG_FIRE_JUMP_RIGHT;
 				}
-				else if (state == MARIO_STATE_FLY)
+				else if (state == MARIO_STATE_BULLET_IDLE)	//isBullet ==false :kiem tra truong hop mario khong state run,jump
 				{
-					
-					ani = MARIO_ANI_BIG_TAIL_FLY_RIGHT;
-				}
-				else if (state == MARIO_STATE_BULLET)
-				{
+					//set position dan mario
+					CBulletMario::nxBullet = 1;
+					CBulletMario::isStart = true;
+					CBulletMario::isSetPosition = true;
+					this->GetPosition(CBulletMario::x0, CBulletMario :: y0);
 					ani = MARIO_ANI_BIG_FIRE_BULLET_RIGHT;
 				}
-				//else if (state == MARIO_STATE_ROTATORY_IDLE)
-				//{
-				//	isRotatory = true;
-				//	this->x = positionXIdle + 6;
-				//	ani = MARIO_ANI_BIG_TAIL_ROTATORY_LEFT;
-				//	//this->x -= 6;
-				//}
-				/*else if (state == MARIO_STATE_DOWN)
-				{
-					ani = MARIO_ANI_BIG_FIRE_DOWN_RIGHT;
-				}*/
 				else {
-					positionXIdle = x;
 					ani = MARIO_ANI_BIG_FIRE_RIGHT;
-					if (isRotatory)
-					{
-						this->x = positionXIdle - 6;
-						isRotatory = false;
-
-					}
 				}
-				/*
-				try {
-					if (state == MARIO_STATE_JUMP) {
-						DebugOut(L"vao day jump");
-						ani = MARIO_ANI_SMALL_JUMP_LEFT;
-					}
-				}
-				catch (exception e) { ; }*/
 
 			}
 			else
@@ -463,47 +440,48 @@ void CMario::Render()
 				if (state == MARIO_STATE_JUMP) {
 					ani = MARIO_ANI_BIG_FIRE_JUMP_LEFT;
 				}
-				else if (state == MARIO_STATE_BULLET)
+				
+				else if (state == MARIO_STATE_BULLET_IDLE)
 				{
+					//set position dan mario
+					CBulletMario::nxBullet = -1;
+					CBulletMario::isStart = true;
+					CBulletMario::isSetPosition = true;
+					this->GetPosition(CBulletMario::x0, CBulletMario::y0);
 					ani = MARIO_ANI_BIG_FIRE_BULLET_LEFT;
 				}
-				/*else if (state == MARIO_STATE_DOWN)
-				{
-					ani = MARIO_ANI_BIG_FIRE_DOWN_LEFT;
-				}*/
-				//else if (state == MARIO_STATE_ROTATORY_IDLE)
-				//{
-				//	isRotatory = true;
-				//	this->x = positionXIdle - 6;
-				//	ani = MARIO_ANI_BIG_TAIL_ROTATORY_RIGHT;
-				//	//this->x -= 6;
-				//}
 				else
 				{
-					positionXIdle = x;
 					ani = MARIO_ANI_BIG_FIRE_LEFT;
-					if (isRotatory)
-					{
-						this->x = positionXIdle + 6;
-						isRotatory = false;
-
-					}
+					
 				}
 			}
 		}
 		else if (vx > 0)
 		{
+			/*if (isBullet) {
+				CBulletMario::nxBullet = 1;
+				CBulletMario::isStart = true;
+				CBulletMario::isSetPosition = true;
+				this->GetPosition(CBulletMario::x0, CBulletMario::y0);
+			}*/
 			if (state == MARIO_STATE_JUMP && checkMarioColision == false)                    //ANI JUMP RIGHT
 				ani = MARIO_ANI_BIG_FIRE_JUMP_RIGHT;
 			else if (state == MARIO_STATE_RUN_RIGHT)
 			{
-					ani = MARIO_ANI_BIG_FIRE_RUN_RIGHT;
+				ani = MARIO_ANI_BIG_FIRE_RUN_RIGHT;
 			}
 			else
 				ani = MARIO_ANI_BIG_FIRE_WALKING_RIGHT;
 		}
 		else
 		{
+			/*if (isBullet) {
+				CBulletMario::nxBullet = -1;
+				CBulletMario::isStart = true;
+				CBulletMario::isSetPosition = true;
+				this->GetPosition(CBulletMario::x0, CBulletMario::y0);
+			}*/
 			if (state == MARIO_STATE_JUMP && checkMarioColision == false)				   //ANI JUMP LEFT
 				ani = MARIO_ANI_BIG_FIRE_JUMP_LEFT;
 			else if (state == MARIO_STATE_RUN_LEFT)
@@ -526,7 +504,6 @@ void CMario::Render()
 			}
 			else if (state == MARIO_STATE_FLY)
 			{
-
 				ani = MARIO_ANI_BIG_TAIL_FLY_RIGHT;
 			}
 			else if (state == MARIO_STATE_ROTATORY_IDLE)
@@ -707,11 +684,11 @@ void CMario::SetState(int state)
 		nx = -1;
 		break;
 	case MARIO_STATE_RUN_LEFT:
-		vx = -0.2;
+		vx = -0.2f;
 		nx = -1;
 		break;
 	case MARIO_STATE_RUN_RIGHT:
-		vx = 0.2;
+		vx = 0.2f;
 		nx = 1;
 		break;
 	case MARIO_STATE_JUMP:
@@ -731,7 +708,7 @@ void CMario::SetState(int state)
 	case MARIO_STATE_IDLE: 
 		vx = 0;
 		break;
-	case MARIO_STATE_BULLET:
+	case MARIO_STATE_BULLET_IDLE:
 		vx = 0;
 		break;
 	case MARIO_STATE_DOWN:
@@ -744,8 +721,13 @@ void CMario::SetState(int state)
 		vx = 0;
 		break;
 	case MARIO_STATE_FLY:
-		vy = -0.1;
-		vx = 0.04;
+	{
+		vy = -0.1f;
+		vx = 0.04f;
+		break;
+	}
+		vy = -0.1f;
+		vx = 0.04f;
 		break;
 	case MARIO_STATE_DIE:
 		vy = -MARIO_DIE_DEFLECT_SPEED;
