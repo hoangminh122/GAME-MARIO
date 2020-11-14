@@ -19,11 +19,11 @@ void CGoomba::GetBoundingBox(float &left, float &top, float &right, float &botto
 void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	CGameObject::Update(dt, coObjects);
-
+	y = 0;
 	//
 	// TO-DO: make sure Goomba can interact with the world and to each of them too!
 	// 
-	if (state == GOOMBA_STATE_DIE) {
+	/*if (state == GOOMBA_STATE_DIE) {
 		y = 423;
 	}
 	x += dx;
@@ -39,7 +39,7 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		|| (vx > 0 && x > 580 && x < 610)
 		|| (vx > 0 && x > 800)) {
 		vx = -vx;
-	}
+	}*/
 
 }
 
@@ -49,7 +49,7 @@ void CGoomba::Render()
 	if (state == GOOMBA_STATE_DIE) {
 		ani = GOOMBA_ANI_DIE;
 	}
-	animation_set->at(ani)->Render(x,y);
+	animation_set->at(0)->Render(x,y,255,true);
 	RenderBoundingBox();
 }
 

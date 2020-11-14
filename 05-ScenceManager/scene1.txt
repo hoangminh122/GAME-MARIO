@@ -459,9 +459,10 @@
 #plant
 10	350	384	10
 # GOOMBA
-2	260	306	3
-2	550	306	3
-2	850	289	3
+#2	260	306	3
+2	10	0	3
+#2	550	306	3
+#2	850	289	3
 # BRICK 
 # --- platform (hint: I created the list using Excel!) ----
 1	0	323	2
