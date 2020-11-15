@@ -1,7 +1,11 @@
 #include "Goomba.h"
+#include "Utils.h"
+
 CGoomba::CGoomba()
 {
 	SetState(GOOMBA_STATE_WALKING);
+	isReverse = false;
+	//nx = -1;
 }
 
 void CGoomba::GetBoundingBox(float &left, float &top, float &right, float &bottom)
@@ -19,12 +23,33 @@ void CGoomba::GetBoundingBox(float &left, float &top, float &right, float &botto
 void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	CGameObject::Update(dt, coObjects);
-
 	//
 	// TO-DO: make sure Goomba can interact with the world and to each of them too!
 	// 
+	if (vx > 0)
+		nx = 1;
+	else
+		nx = -1;
+	if (state == GOOMBA_STATE_REVERSE_DIE) {
+		if (y > 500)
+			vy = 0;
+		else if (y < 280)
+		{
+			vy = 0.1f;
+			vx = 0.05f;
+		}
+		/*else if(ny == 1)
+		{
+			vy = -0.1f;
+			vx = 0.05f;
+			
+		}*/
+		isReverse = true;
+	}
 	if (state == GOOMBA_STATE_DIE) {
-		y = 423;
+		vy = 0.1f;
+		if (y > 500)
+			vy = 0;
 	}
 	x += dx;
 	y += dy;
@@ -49,7 +74,7 @@ void CGoomba::Render()
 	if (state == GOOMBA_STATE_DIE) {
 		ani = GOOMBA_ANI_DIE;
 	}
-	animation_set->at(ani)->Render(x,y);
+	animation_set->at(ani)->Render(x,y,255,isReverse);
 	RenderBoundingBox();
 }
 
@@ -58,6 +83,10 @@ void CGoomba::SetState(int state)
 	CGameObject::SetState(state);
 	switch (state)
 	{
+		case GOOMBA_STATE_REVERSE_DIE:
+			vx = 0.05f;
+			vy = -0.1f;
+			break;
 		case GOOMBA_STATE_DIE:
 			y += GOOMBA_BBOX_HEIGHT - GOOMBA_BBOX_HEIGHT_DIE + 1;
 			vx = 0;

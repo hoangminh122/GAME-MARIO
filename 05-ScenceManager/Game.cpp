@@ -74,7 +74,8 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture)
 
 void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha,bool yReverse)
 {
-	D3DXVECTOR3 p(x - cam_x, y - cam_y, 0);
+	D3DXVECTOR3 p(x-cam_x, y-cam_y, 0);
+	//D3DXVECTOR3 p1(x, y, 0);
 	//float xNew = floor(x - xD - CCamera::GetInstance()->GetPosition().x + GetScreenWidth() / 2);
 	//float yNew = floor(y - yD - CCamera::GetInstance()->GetPosition().y + GetScreenHeight() / 2);
 
@@ -90,21 +91,22 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 	r.bottom = bottom;
 	if (yReverse)
 	{
-		
-		/*D3DXVECTOR2 scale(1, -1);
-		D3DXVECTOR2 center = D3DXVECTOR2(xNew +(right - left) / 2, yNew + (bottom - top) / 2);
+		D3DXVECTOR2 scale(1, -1);
+		D3DXVECTOR2 center = D3DXVECTOR2(x-cam_x,y+7-cam_y);
 		D3DXMATRIX oldMatrix, newMatrix;
 
 		spriteHandler->GetTransform(&oldMatrix);
-
 		D3DXMatrixTransformation2D(&newMatrix, &center, 0.0f, &scale, NULL, 0.0f, NULL);
 
 		spriteHandler->SetTransform(&newMatrix);
 		spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
-		spriteHandler->SetTransform(&oldMatrix);*/
+		spriteHandler->SetTransform(&oldMatrix);
 	}
 	else
+	{
 		spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
+
+	}
 
 }
 

@@ -113,7 +113,7 @@
 #define MARIO_TAIL_BIG_BBOX_WIDTH  21
 #define MARIO_TAIL_BIG_BBOX_HEIGHT 28
 #define MARIO_TAIL_BIG_DOWN_BBOX_HEIGHT 18
-#define MARIO_TAIL_FLY_BIG_BBOX_WIDTH  23
+#define MARIO_TAIL_FLY_BIG_BBOX_WIDTH   19        //23
 #define MARIO_TAIL_FLY_BIG_BBOX_HEIGHT 29
 
 #define MARIO_SMALL_BBOX_WIDTH  13  //12
@@ -132,6 +132,7 @@ class CMario : public CGameObject
 	//GameMap* test;
 	int ani;
 public: 
+	int nxx;				//check truing hop nx = 0 xem mario xoay huong nao
 	int static energyFly;									//nang luong bay time 
 	static bool isBullet;								//Kiem tra xem no co dang o trang thai ban dan khong khi dang chay, nhay
 	static float xRealTime;

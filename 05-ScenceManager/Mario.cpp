@@ -41,6 +41,7 @@ CMario::CMario(float x, float y) : CGameObject()
 	 //ani= MARIO_ANI_BIG_IDLE_LEFT;
 	ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
 	//positionXIdle = 0;
+	nxx = 0;
 }
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -161,16 +162,16 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 				else if (e->nx != 0)
 				{
-					DebugOut(L"kill 2");
-					if (this->state == MARIO_STATE_ROTATORY_IDLE && goomba->nx != e->nx )
+					DebugOut(L"gomga nx %d,mario nx %f\n",goomba->nx,this->nxx);
+					if (this->state == MARIO_STATE_ROTATORY_IDLE && goomba->nx != this->nxx )
 					{
-						DebugOut(L"SHGDSG");
 						if (goomba->GetState() != GOOMBA_STATE_DIE)
 						{
-							goomba->SetState(GOOMBA_STATE_DIE);
+							goomba->SetState(GOOMBA_STATE_REVERSE_DIE);
 							vy = -MARIO_JUMP_DEFLECT_SPEED;
+							untouchable = -1;
+
 						}
-						untouchable = -1;
 
 					}
 					if (untouchable==0)
@@ -459,6 +460,8 @@ void CMario::Render()
 		}
 		else if (vx > 0)
 		{
+			nxx = 1;								//mario huong ben phai
+
 			/*if (isBullet) {
 				CBulletMario::nxBullet = 1;
 				CBulletMario::isStart = true;
@@ -476,6 +479,8 @@ void CMario::Render()
 		}
 		else
 		{
+			nxx = -1;          //mario huong ben trai
+
 			/*if (isBullet) {
 				CBulletMario::nxBullet = -1;
 				CBulletMario::isStart = true;
@@ -678,18 +683,22 @@ void CMario::SetState(int state)
 	case MARIO_STATE_WALKING_RIGHT:
 		vx = MARIO_WALKING_SPEED;
 		nx = 1;
+		nxx = 1;
 		break;
 	case MARIO_STATE_WALKING_LEFT: 
 		vx = -MARIO_WALKING_SPEED;
 		nx = -1;
+		nxx = -1;
 		break;
 	case MARIO_STATE_RUN_LEFT:
 		vx = -0.2f;
 		nx = -1;
+		nxx = -1;
 		break;
 	case MARIO_STATE_RUN_RIGHT:
 		vx = 0.2f;
 		nx = 1;
+		nxx = 1;
 		break;
 	case MARIO_STATE_JUMP:
 		// TODO: need to check if Mario is *current* on a platform before allowing to jump again
