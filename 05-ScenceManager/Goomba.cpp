@@ -5,7 +5,7 @@ CGoomba::CGoomba()
 {
 	SetState(GOOMBA_STATE_WALKING);
 	isReverse = false;
-	ny = 1;
+	//nx = -1;
 }
 
 void CGoomba::GetBoundingBox(float &left, float &top, float &right, float &bottom)
@@ -23,15 +23,20 @@ void CGoomba::GetBoundingBox(float &left, float &top, float &right, float &botto
 void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	CGameObject::Update(dt, coObjects);
-	DebugOut(L"GIA TRI Y%d\n", y);
 	//
 	// TO-DO: make sure Goomba can interact with the world and to each of them too!
 	// 
+	if (vx > 0)
+		nx = 1;
+	else
+		nx = -1;
 	if (state == GOOMBA_STATE_REVERSE_DIE) {
-		if (y < 280)
+		if (y > 500)
+			vy = 0;
+		else if (y < 280)
 		{
 			vy = 0.1f;
-			ny = -1;
+			vx = 0.05f;
 		}
 		/*else if(ny == 1)
 		{
@@ -42,9 +47,9 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		isReverse = true;
 	}
 	if (state == GOOMBA_STATE_DIE) {
-		if(y <400)
-			y += 2;
-
+		vy = 0.1f;
+		if (y > 500)
+			vy = 0;
 	}
 	x += dx;
 	y += dy;

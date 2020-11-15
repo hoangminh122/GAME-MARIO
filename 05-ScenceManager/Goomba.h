@@ -22,8 +22,7 @@ class CGoomba : public CGameObject
 	virtual void Render();
 
 public: 	
-	int isReverse;						//xoay 180
-	int ny;								//chieu theo truc y	
+	bool isReverse;						//xoay 180
 	CGoomba();
 	virtual void SetState(int state);
 };

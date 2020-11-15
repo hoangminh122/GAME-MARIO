@@ -132,6 +132,7 @@ class CMario : public CGameObject
 	//GameMap* test;
 	int ani;
 public: 
+	int nxx;				//check truing hop nx = 0 xem mario xoay huong nao
 	int static energyFly;									//nang luong bay time 
 	static bool isBullet;								//Kiem tra xem no co dang o trang thai ban dan khong khi dang chay, nhay
 	static float xRealTime;
