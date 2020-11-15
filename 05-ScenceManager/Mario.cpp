@@ -169,8 +169,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						{
 							goomba->SetState(GOOMBA_STATE_REVERSE_DIE);
 							vy = -MARIO_JUMP_DEFLECT_SPEED;
+							untouchable = -1;
+
 						}
-						untouchable = -1;
 
 					}
 					if (untouchable==0)
