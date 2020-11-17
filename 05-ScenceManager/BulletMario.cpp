@@ -6,6 +6,7 @@
 #include "Goomba.h"
 #include "Game.h"
 #include "Mario.h"
+#include "BackgroundDie.h"
 
 
 //CBullet::CBullet() {
@@ -178,6 +179,13 @@ void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					this->y = y - 0.5;*/
 
 			} // if brickTop
+			else if (dynamic_cast<CBackgroundDie *>(e->obj)) // if e->obj is brickTop
+			{
+				isDie = true;
+				isStart = false;
+				isBullet = false;
+
+			} // if background die
 			else
 			{
 				if (e->ny != 0)
