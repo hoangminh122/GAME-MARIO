@@ -51,11 +51,15 @@ void CBulletMario::GetBoundingBox(float &l, float &t, float &r, float &b)
 void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	CGameObject::Update(dt);
-	/*DebugOut(L"IS sTART%d \n", this->isStart);*/
-
+	DebugOut(L"timeT%d sss %d \n", this->timeStart,this->nextStart);
+	if (nextStart - timeStart > 5000)
+	{
+		isDie = true;
+		isBullet = false;
+		nextStart = timeStart = 0;
+	}
 	if (isStart)
 	{
-		DebugOut(L"IS sTART%d \n", this->isStart);
 		if (((rand() % 2) + 1) == 1)
 		{
 			isBullet = true;
@@ -65,7 +69,8 @@ void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	if (isDie && isBullet)
 	{
-		//timeStart = GetTickCount();                        //time bat dau ban dan
+		timeStart = GetTickCount();                        //time bat dau ban dan
+		nextStart = GetTickCount();
 		if (nxBullet == 1)
 			this->x = x0 + 10;
 		else
@@ -94,6 +99,7 @@ void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	else if (isBullet)															//check xem dan co dang con song khong
 	{
+		nextStart = GetTickCount();
 		CGame *game = CGame::GetInstance();
 		if (nxBullet == 1 && x > CMario::xRealTime + game->GetScreenWidth() / 2
 			|| nxBullet == -1 && x < CMario::xRealTime - game->GetScreenWidth() / 2)

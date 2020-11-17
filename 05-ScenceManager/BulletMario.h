@@ -10,6 +10,7 @@ class CBulletMario : public CGameObject
 {
 public:
 	DWORD timeStart;
+	DWORD nextStart;
 	static int nxBullet;										//ban trai or phai
 	static bool isStart;								//bat dau ban dan su kien
 

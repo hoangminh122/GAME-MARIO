@@ -97,6 +97,8 @@
 //#define MARIO_ANI_BIG_TAIL_RUN_HOLD_TURTLE_LEFT	56
 #define MARIO_ANI_BIG_TAIL_FLY_LIMIT_RIGHT	57
 #define MARIO_ANI_BIG_TAIL_FLY_LIMIT_LEFT	58
+#define MARIO_ANI_BIG_TAIL_FLY_FALLING_RIGHT	59
+#define MARIO_ANI_BIG_TAIL_FLY_FALLING_LEFT	60
 
 
 
@@ -138,7 +140,8 @@ public:
 	int static energyFly;									//nang luong bay time 
 	static bool isBullet;								//Kiem tra xem no co dang o trang thai ban dan khong khi dang chay, nhay
 	static float xRealTime;
-	int levelBefore;
+	int levelBefore;									//level truoc do
+	bool isStateFly;									//trang thai dang bay tren khong
 
 	static bool kick;            //mario da chan 
 	static float positionXIdle;

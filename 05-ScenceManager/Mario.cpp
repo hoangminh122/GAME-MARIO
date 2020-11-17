@@ -42,6 +42,7 @@ CMario::CMario(float x, float y) : CGameObject()
 	ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
 	//positionXIdle = 0;
 	nxx = 0;
+	isStateFly = false;
 }
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -523,14 +524,22 @@ void CMario::Render()
 				ani = MARIO_ANI_BIG_TAIL_DOWN_RIGHT;
 			}
 			else {
-				positionXIdle = x;
-				ani = MARIO_ANI_BIG_TAIL_IDLE_RIGHT;
-				if (isRotatory)
+				
+				if(this->isStateFly == true && checkMarioColision == false)
+					ani = MARIO_ANI_BIG_TAIL_FLY_FALLING_RIGHT;
+				else
 				{
-					this->x = positionXIdle - 6;
-					isRotatory = false;
+					this->isStateFly == false;
+					positionXIdle = x;
+					ani = MARIO_ANI_BIG_TAIL_IDLE_RIGHT;
+					if (isRotatory)
+					{
+						this->x = positionXIdle - 6;
+						isRotatory = false;
 
+					}
 				}
+				
 			}
 
 		}
@@ -573,12 +582,13 @@ void CMario::Render()
 			ani = MARIO_ANI_BIG_TAIL_JUMP_RIGHT;
 		else if (state == MARIO_STATE_RUN_RIGHT)
 		{
+			positionXIdle = x;
 			ani = MARIO_ANI_BIG_TAIL_RUN_RIGHT;
 		}
 		else if (state == MARIO_STATE_ROTATORY_IDLE)
 		{
 			isRotatory = true;
-			this->x = positionXIdle - 6;
+			this->x = positionXIdle + 6;
 			ani = MARIO_ANI_BIG_TAIL_ROTATORY_RIGHT;
 			//this->x -= 6;
 		}
@@ -593,6 +603,12 @@ void CMario::Render()
 		{
 			positionXIdle = x;
 			ani = MARIO_ANI_BIG_TAIL_WALKING_RIGHT;
+			if (isRotatory)
+			{
+				this->x = positionXIdle - 6;
+				isRotatory = false;
+
+			}
 
 		}
 	}
@@ -602,6 +618,7 @@ void CMario::Render()
 			ani = MARIO_ANI_BIG_TAIL_JUMP_LEFT;
 		else if (state == MARIO_STATE_RUN_LEFT)
 		{
+			positionXIdle = x;
 			ani = MARIO_ANI_BIG_TAIL_RUN_LEFT;
 		}
 		else if (state == MARIO_STATE_ROTATORY_IDLE)
@@ -623,6 +640,12 @@ void CMario::Render()
 		{
 			positionXIdle = x;
 			ani = MARIO_ANI_BIG_TAIL_WALKING_LEFT;
+			if (isRotatory)
+			{
+				this->x = positionXIdle + 6;
+				isRotatory = false;
+
+			}
 		}
 	}
 
@@ -753,7 +776,7 @@ void CMario::SetState(int state)
 		break;
 	case MARIO_STATE_FLY:
 	{
-		
+		this->isStateFly = true;
 		vy = -0.1f;
 		if(nxx > 0)
 			vx = 0.04f;
