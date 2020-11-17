@@ -410,6 +410,12 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		}*/
 		if (game->IsKeyDown(DIK_Z))
 		{
+			if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG)
+			{
+				if (CMario::energyFly < 200)
+					CMario::energyFly += 5;
+				DebugOut(L"SSSSSSSSSS%d\n", CMario::energyFly);
+			}
 			mario->SetState(MARIO_STATE_RUN_RIGHT);
 		}
 		else
