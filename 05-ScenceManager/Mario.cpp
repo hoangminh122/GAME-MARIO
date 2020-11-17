@@ -13,13 +13,22 @@
 #include "CMushroom.h"
 #include "Plant.h"
 #include "Turle.h"
+#include "BulletMario.h"
 
+int CMario::energyFly = 20;
 bool CMario::kick = false;
+bool CMario::isRotatory = false;
+float CMario::positionXIdle = 0;
+bool CMario::isFire = false;
+float CMario::xRealTime = 0;
+bool CMario::isBullet = false;
 CMario::CMario(float x, float y) : CGameObject()
 {
+	levelBefore = 1;
 	//this->CheckToMap(test->game_map_);
-	//level = MARIO_LEVEL_TAIL_BIG;
-	level = MARIO_LEVEL_BIG;
+	//level = MARIO_LEVEL_SMALL;
+	//level = MARIO_LEVEL_BIG;
+	level = MARIO_LEVEL_TAIL_BIG;
 	untouchable = 0;
 	SetState(MARIO_STATE_IDLE);
 
@@ -28,8 +37,11 @@ CMario::CMario(float x, float y) : CGameObject()
 	this->x = x; 
 	this->y = y; 
 	checkMarioColision = false;
-	//ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
-	ani = MARIO_ANI_BIG_IDLE_LEFT;
+	ani = MARIO_ANI_SMALL_IDLE_RIGHT;
+	 //ani= MARIO_ANI_BIG_IDLE_LEFT;
+	ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
+	//positionXIdle = 0;
+	nxx = 0;
 }
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -59,6 +71,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// No collision occured, proceed normally
 	if (coEvents.size()==0)
 	{
+		xRealTime = x;
 		checkMarioColision = false;
 		x += dx; 
 		y += dy;
@@ -91,27 +104,18 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (dynamic_cast<CBullet *>(e->obj)) // if e->obj is Bullet
-			{
-				//DebugOut(L" dan ban trung");
-				if (level > MARIO_LEVEL_SMALL)
-				{
-					level = MARIO_LEVEL_SMALL;
-					StartUntouchable();
-				}
-				else
-					SetState(MARIO_STATE_DIE);
-
-			} // if bullet dan bay
+			
 			if (dynamic_cast<CMushroom *>(e->obj)) // if e->obj is mushroom
 			{
 				DebugOut(L"kill nam");
 				CMushroom *mushroom = dynamic_cast<CMushroom *>(e->obj);
 				mushroom->isDie = true;
-				//mushroom->x = 0;
-				//mushroom->y = 0;
-				if (mushroom->ani = LEAF_GREEN_ANI)
+				/*mushroom->x = -17;
+				mushroom->y = -17;*/
+				if (mushroom->ani == LEAF_GREEN_ANI)
 				{
+					DebugOut(L"an nam ssssssssssssssssssssssssssssssssssssssssss\n");
+
 					if (level == MARIO_LEVEL_SMALL)
 					{
 						level = MARIO_LEVEL_BIG;
@@ -122,10 +126,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					}
 					
 				}
-				else if (mushroom->ani = MUSHROOM_ANI)
+				else if (mushroom->ani == MUSHROOM_ANI)
 				{
+					this->y = 286;
 					this->level = MARIO_LEVEL_BIG;
-					this->y = 150;
 				}
 				
 			} // if mushroom
@@ -134,7 +138,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				if (level > MARIO_LEVEL_SMALL)
 				{
 					level = MARIO_LEVEL_SMALL;
-					StartUntouchable();
 				}
 				else 
 					SetState(MARIO_STATE_DIE);
@@ -159,7 +162,18 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 				else if (e->nx != 0)
 				{
-					DebugOut(L"kill 2");
+					DebugOut(L"gomga nx %d,mario nx %f\n",goomba->nx,this->nxx);
+					if (this->state == MARIO_STATE_ROTATORY_IDLE && goomba->nx != this->nxx )
+					{
+						if (goomba->GetState() != GOOMBA_STATE_DIE)
+						{
+							goomba->SetState(GOOMBA_STATE_REVERSE_DIE);
+							vy = -MARIO_JUMP_DEFLECT_SPEED;
+							untouchable = -1;
+
+						}
+
+					}
 					if (untouchable==0)
 					{
 						if (goomba->GetState()!=GOOMBA_STATE_DIE)
@@ -167,7 +181,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 							if (level > MARIO_LEVEL_SMALL)
 							{
 								level = MARIO_LEVEL_SMALL;
-								StartUntouchable();
 							}
 							else 
 								SetState(MARIO_STATE_DIE);
@@ -175,18 +188,19 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					}
 				}
 			} // if Goomba
-			//else if (dynamic_cast<CBullet *>(e->obj)) // if e->obj is Bullet
-			//{
-			//	DebugOut(L" dan ban trung");
-			//	if (level > MARIO_LEVEL_SMALL)
-			//	{
-			//		level = MARIO_LEVEL_SMALL;
-			//		StartUntouchable();
-			//	}
-			//	else
-			//		SetState(MARIO_STATE_DIE);
+			else if (dynamic_cast<CBullet *>(e->obj)) // if e->obj is Bullet
+			{
+				DebugOut(L" dan ban trung%d\n",this->level);
+				if (level > MARIO_LEVEL_SMALL)
+				{
+					DebugOut(L" dan ban trung level %d\n",this->level);
+					level = MARIO_LEVEL_SMALL;
+					//StartUntouchable();
+				}
+				else
+					SetState(MARIO_STATE_DIE);
 
-			//} // if bullet dan bay
+			} // if bullet dan bay
 			else if (dynamic_cast<CQuestion *>(e->obj)) // if e->obj is Question 
 			{
 				if (e->ny > 0)
@@ -194,6 +208,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					CQuestion *question = dynamic_cast<CQuestion *>(e->obj);
 
 					question->isQuestion = false;
+					//xet position mushrooom
+					CMushroom::xBox = question->x;
+					CMushroom::yBox = question->y;
 					if (question->x == 220)
 					{
 						CMushroom* mushroom = CMushroom::GetInstance();
@@ -204,6 +221,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						DebugOut(L" ccccc xuat hienc cccccccc :\n");
 
 					}
+					else
+					{
+						CMushroom::isMoney = true;
+						DebugOut(L" ismoney ===true :\n");
+					}
+
 				}
 
 				//question->isQuestion = false;
@@ -229,7 +252,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			{
 				//DebugOut(L" kill brick top");
 				if (e->ny > 0)
-					this->y = y - 0.5;
+					this->y = y - 0.5f;
 
 			} // if brickTop
 			else if (dynamic_cast<CTurle *>(e->obj)) // if e->obj is TURLE
@@ -355,20 +378,26 @@ void CMario::Render()
 					ani = MARIO_ANI_BIG_JUMP_LEFT;
 				}
 				else
+				{
 					ani = MARIO_ANI_BIG_IDLE_LEFT;
+
+				}
 			}
 		}
 		else if (vx > 0)
 		{
 			DebugOut(L"vao111");
 			if (state == MARIO_STATE_JUMP && checkMarioColision == false)                    //ANI JUMP RIGHT
-				ani = MARIO_ANI_BIG_JUMP_RIGHT;
+				ani = MARIO_ANI_BIG_FIRE_JUMP_RIGHT;
 			else if (state == MARIO_STATE_RUN_RIGHT)
 			{
 				ani = MARIO_ANI_BIG_RUN_RIGHT;
 			}
 			else
+			{
 				ani = MARIO_ANI_BIG_WALKING_RIGHT;
+			}
+				
 		}
 		else
 		{
@@ -380,62 +409,202 @@ void CMario::Render()
 				ani = MARIO_ANI_BIG_RUN_LEFT;
 			}
 			else
+			{
 				ani = MARIO_ANI_BIG_WALKING_LEFT;
+			}
 		}
 	}
-	else if (level == MARIO_LEVEL_TAIL_BIG)
+	else if (level == MARIO_LEVEL_FIRE_BIG)
 	{
 		if (vx == 0)
 		{
 			if (nx > 0) {
 				if (state == MARIO_STATE_JUMP) {
-					ani = MARIO_ANI_BIG_TAIL_JUMP_RIGHT;
+					ani = MARIO_ANI_BIG_FIRE_JUMP_RIGHT;
 				}
-				else
-					ani = MARIO_ANI_BIG_TAIL_IDLE_RIGHT;
-				/*
-				try {
-					if (state == MARIO_STATE_JUMP) {
-						DebugOut(L"vao day jump");
-						ani = MARIO_ANI_SMALL_JUMP_LEFT;
-					}
+				else if (state == MARIO_STATE_BULLET_IDLE)	//isBullet ==false :kiem tra truong hop mario khong state run,jump
+				{
+					//set position dan mario
+					CBulletMario::nxBullet = 1;
+					CBulletMario::isStart = true;
+					CBulletMario::isSetPosition = true;
+					this->GetPosition(CBulletMario::x0, CBulletMario :: y0);
+					ani = MARIO_ANI_BIG_FIRE_BULLET_RIGHT;
 				}
-				catch (exception e) { ; }*/
+				else {
+					ani = MARIO_ANI_BIG_FIRE_RIGHT;
+				}
 
 			}
 			else
 			{
 				if (state == MARIO_STATE_JUMP) {
-					ani = MARIO_ANI_BIG_TAIL_JUMP_LEFT;
+					ani = MARIO_ANI_BIG_FIRE_JUMP_LEFT;
+				}
+				
+				else if (state == MARIO_STATE_BULLET_IDLE)
+				{
+					//set position dan mario
+					CBulletMario::nxBullet = -1;
+					CBulletMario::isStart = true;
+					CBulletMario::isSetPosition = true;
+					this->GetPosition(CBulletMario::x0, CBulletMario::y0);
+					ani = MARIO_ANI_BIG_FIRE_BULLET_LEFT;
 				}
 				else
-					ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
+				{
+					ani = MARIO_ANI_BIG_FIRE_LEFT;
+					
+				}
 			}
 		}
 		else if (vx > 0)
 		{
+			nxx = 1;								//mario huong ben phai
+
+			/*if (isBullet) {
+				CBulletMario::nxBullet = 1;
+				CBulletMario::isStart = true;
+				CBulletMario::isSetPosition = true;
+				this->GetPosition(CBulletMario::x0, CBulletMario::y0);
+			}*/
 			if (state == MARIO_STATE_JUMP && checkMarioColision == false)                    //ANI JUMP RIGHT
-				ani = MARIO_ANI_BIG_TAIL_JUMP_RIGHT;
+				ani = MARIO_ANI_BIG_FIRE_JUMP_RIGHT;
 			else if (state == MARIO_STATE_RUN_RIGHT)
 			{
-				ani = MARIO_ANI_BIG_TAIL_RUN_RIGHT;
+				ani = MARIO_ANI_BIG_FIRE_RUN_RIGHT;
 			}
 			else
-				ani = MARIO_ANI_BIG_TAIL_WALKING_RIGHT;
+				ani = MARIO_ANI_BIG_FIRE_WALKING_RIGHT;
 		}
 		else
 		{
+			nxx = -1;          //mario huong ben trai
+
+			/*if (isBullet) {
+				CBulletMario::nxBullet = -1;
+				CBulletMario::isStart = true;
+				CBulletMario::isSetPosition = true;
+				this->GetPosition(CBulletMario::x0, CBulletMario::y0);
+			}*/
 			if (state == MARIO_STATE_JUMP && checkMarioColision == false)				   //ANI JUMP LEFT
-				ani = MARIO_ANI_BIG_TAIL_JUMP_LEFT;
+				ani = MARIO_ANI_BIG_FIRE_JUMP_LEFT;
 			else if (state == MARIO_STATE_RUN_LEFT)
 			{
-				ani = MARIO_ANI_BIG_TAIL_RUN_LEFT;
+					ani = MARIO_ANI_BIG_FIRE_RUN_LEFT;
 			}
 			else
-				ani = MARIO_ANI_BIG_TAIL_WALKING_LEFT;
+				ani = MARIO_ANI_BIG_FIRE_WALKING_LEFT;
 		}
 
 		//ani = MARIO_ANI_BIG_TAIL_IDLE_RIGHT;
+	}
+	else if (level == MARIO_LEVEL_TAIL_BIG)
+	{
+	if (vx == 0)
+	{
+		if (nx > 0) {
+			if (state == MARIO_STATE_JUMP) {
+				ani = MARIO_ANI_BIG_TAIL_JUMP_RIGHT;
+			}
+			else if (state == MARIO_STATE_FLY)
+			{
+				ani = MARIO_ANI_BIG_TAIL_FLY_RIGHT;
+			}
+			else if (state == MARIO_STATE_ROTATORY_IDLE)
+			{
+				isRotatory = true;
+				this->x = positionXIdle + 6;
+				ani = MARIO_ANI_BIG_TAIL_ROTATORY_LEFT;
+				//this->x -= 6;
+			}
+			else if (state == MARIO_STATE_DOWN)
+			{
+				ani = MARIO_ANI_BIG_TAIL_DOWN_RIGHT;
+			}
+			else {
+				positionXIdle = x;
+				ani = MARIO_ANI_BIG_TAIL_IDLE_RIGHT;
+				if (isRotatory)
+				{
+					this->x = positionXIdle - 6;
+					isRotatory = false;
+
+				}
+			}
+			/*
+			try {
+				if (state == MARIO_STATE_JUMP) {
+					DebugOut(L"vao day jump");
+					ani = MARIO_ANI_SMALL_JUMP_LEFT;
+				}
+			}
+			catch (exception e) { ; }*/
+
+		}
+		else
+		{
+			if (state == MARIO_STATE_JUMP) {
+				ani = MARIO_ANI_BIG_TAIL_JUMP_LEFT;
+			}
+			else if (state == MARIO_STATE_DOWN)
+			{
+				ani = MARIO_ANI_BIG_TAIL_DOWN_LEFT;
+			}
+			else if (state == MARIO_STATE_ROTATORY_IDLE)
+			{
+				isRotatory = true;
+				this->x = positionXIdle - 6;
+				ani = MARIO_ANI_BIG_TAIL_ROTATORY_RIGHT;
+				//this->x -= 6;
+			}
+			else
+			{
+				positionXIdle = x;
+				ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
+				if (isRotatory)
+				{
+					this->x = positionXIdle + 6;
+					isRotatory = false;
+
+				}
+			}
+		}
+	}
+	else if (vx > 0)
+	{
+		if (state == MARIO_STATE_JUMP && checkMarioColision == false)                    //ANI JUMP RIGHT
+			ani = MARIO_ANI_BIG_TAIL_JUMP_RIGHT;
+		else if (state == MARIO_STATE_RUN_RIGHT)
+		{
+			ani = MARIO_ANI_BIG_TAIL_RUN_RIGHT;
+		}
+		else if (state == MARIO_STATE_FLY)
+		{
+
+			ani = MARIO_ANI_BIG_TAIL_FLY_RIGHT;
+		}
+		else
+			ani = MARIO_ANI_BIG_TAIL_WALKING_RIGHT;
+	}
+	else
+	{
+		if (state == MARIO_STATE_JUMP && checkMarioColision == false)				   //ANI JUMP LEFT
+			ani = MARIO_ANI_BIG_TAIL_JUMP_LEFT;
+		else if (state == MARIO_STATE_RUN_LEFT)
+		{
+			ani = MARIO_ANI_BIG_TAIL_RUN_LEFT;
+		}
+		else if (state == MARIO_STATE_FLY)
+		{
+
+			ani = MARIO_ANI_BIG_TAIL_FLY_LEFT;
+		}
+		else
+			ani = MARIO_ANI_BIG_TAIL_WALKING_LEFT;
+	}
+
+	//ani = MARIO_ANI_BIG_TAIL_IDLE_RIGHT;
 	}
 	else if (level == MARIO_LEVEL_SMALL)
 	{
@@ -514,18 +683,22 @@ void CMario::SetState(int state)
 	case MARIO_STATE_WALKING_RIGHT:
 		vx = MARIO_WALKING_SPEED;
 		nx = 1;
+		nxx = 1;
 		break;
 	case MARIO_STATE_WALKING_LEFT: 
 		vx = -MARIO_WALKING_SPEED;
 		nx = -1;
+		nxx = -1;
 		break;
 	case MARIO_STATE_RUN_LEFT:
-		vx = -0.2;
+		vx = -0.2f;
 		nx = -1;
+		nxx = -1;
 		break;
 	case MARIO_STATE_RUN_RIGHT:
-		vx = 0.2;
+		vx = 0.2f;
 		nx = 1;
+		nxx = 1;
 		break;
 	case MARIO_STATE_JUMP:
 		// TODO: need to check if Mario is *current* on a platform before allowing to jump again
@@ -544,11 +717,26 @@ void CMario::SetState(int state)
 	case MARIO_STATE_IDLE: 
 		vx = 0;
 		break;
+	case MARIO_STATE_BULLET_IDLE:
+		vx = 0;
+		break;
 	case MARIO_STATE_DOWN:
+		vx = 0;
+		break;
+	case MARIO_STATE_ROTATORY_IDLE:
 		vx = 0;
 		break;
 	case MARIO_STATE_KICK:
 		vx = 0;
+		break;
+	case MARIO_STATE_FLY:
+	{
+		vy = -0.1f;
+		vx = 0.04f;
+		break;
+	}
+		vy = -0.1f;
+		vx = 0.04f;
 		break;
 	case MARIO_STATE_DIE:
 		vy = -MARIO_DIE_DEFLECT_SPEED;
@@ -570,15 +758,29 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 		else
 			bottom = y + MARIO_BIG_BBOX_HEIGHT;
 	}
+	else if (level == MARIO_LEVEL_FIRE_BIG)
+	{
+		right = x + MARIO_BIG_BBOX_WIDTH;
+		bottom = y + MARIO_BIG_BBOX_HEIGHT;
+	}
 	else if(level == MARIO_LEVEL_TAIL_BIG)
 	{
 		right = x + MARIO_BIG_BBOX_WIDTH;
 		bottom = y + MARIO_BIG_BBOX_HEIGHT;
+		if (state == MARIO_STATE_DOWN)
+			bottom = y + MARIO_TAIL_BIG_DOWN_BBOX_HEIGHT;
+		else if (state == MARIO_STATE_ROTATORY_IDLE)
+		{
+			right = x + MARIO_TAIL_FLY_BIG_BBOX_WIDTH;
+		}
+		else
+			bottom = y + MARIO_BIG_BBOX_HEIGHT;
 	}
 	else
 	{
 		right = x + MARIO_SMALL_BBOX_WIDTH;
 		bottom = y + MARIO_SMALL_BBOX_HEIGHT;
+
 	}
 }
 
@@ -588,7 +790,7 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 void CMario::Reset()
 {
 	SetState(MARIO_STATE_IDLE);
-	SetLevel(MARIO_LEVEL_SMALL);
+	SetLevel(MARIO_LEVEL_TAIL_BIG);
 	SetPosition(start_x, start_y);
 	SetSpeed(0, 0);
 }

@@ -9,9 +9,11 @@
 
 #define GOOMBA_STATE_WALKING 100
 #define GOOMBA_STATE_DIE 200
+#define GOOMBA_STATE_REVERSE_DIE 300
 
 #define GOOMBA_ANI_WALKING 0
 #define GOOMBA_ANI_DIE 1
+//#define GOOMBA_ANI_REVERSE_DIE 2
 
 class CGoomba : public CGameObject
 {
@@ -20,6 +22,7 @@ class CGoomba : public CGameObject
 	virtual void Render();
 
 public: 	
+	bool isReverse;						//xoay 180
 	CGoomba();
 	virtual void SetState(int state);
 };

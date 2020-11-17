@@ -32,14 +32,14 @@ void CPlant::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	//x += 0.1;
 	y +=4*vy;
 
-	if (vy > 0 && y > 200) {
-		y = 200; vy = -vy;
+	if (vy > 0 && y > 336) {
+		y = 336; vy = -vy;
 	}
 	start = false;
-	if (vy < 0 && y < 112) {
+	if (vy < 0 && y < 248) {
 		DebugOut(L"start ban dan");
 		start = true;
-		y = 112; vy = -vy;
+		y = 248; vy = -vy;
 	}
 
 }
