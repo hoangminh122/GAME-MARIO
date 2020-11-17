@@ -387,7 +387,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		if(CMario::energyFly > 0)
 			mario->SetState(MARIO_STATE_FLY);
 
-
 	}
 	
 	else if (game->IsKeyDown(DIK_X))
@@ -442,8 +441,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		}
 	}
 	else if (game->IsKeyDown(DIK_A)) {
-		DebugOut(L"000000000000000000000000000000000000000000000000000000000000000000000000\n");
-
 		mario->SetState(MARIO_STATE_BULLET_IDLE);
 	}
 	
