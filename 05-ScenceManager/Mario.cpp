@@ -27,8 +27,8 @@ CMario::CMario(float x, float y) : CGameObject()
 	levelBefore = 1;
 	//this->CheckToMap(test->game_map_);
 	//level = MARIO_LEVEL_SMALL;
-	//level = MARIO_LEVEL_BIG;
-	level = MARIO_LEVEL_TAIL_BIG;
+	level = MARIO_LEVEL_BIG;
+	//level = MARIO_LEVEL_TAIL_BIG;
 	untouchable = 0;
 	SetState(MARIO_STATE_IDLE);
 
@@ -37,9 +37,9 @@ CMario::CMario(float x, float y) : CGameObject()
 	this->x = x; 
 	this->y = y; 
 	checkMarioColision = false;
-	ani = MARIO_ANI_SMALL_IDLE_RIGHT;
-	 //ani= MARIO_ANI_BIG_IDLE_LEFT;
-	ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
+	//ani = MARIO_ANI_SMALL_IDLE_RIGHT;
+	 ani= MARIO_ANI_BIG_IDLE_LEFT;
+	//ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
 	//positionXIdle = 0;
 	nxx = 0;
 	isStateFly = false;
@@ -283,9 +283,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				{
 					if (turle->ani == TURLE_ANI_DIE)
 					{
-						this->kick = true;
-						this->SetState(MARIO_STATE_KICK);
-						turle->SetState(TURLE_STATE_RUN_DIE);
+						/*this->kick = true;
+						this->SetState(MARIO_STATE_KICK);*/
+						//turle->SetState(TURLE_STATE_RUN_DIE);
 					}
 					else if(turle->ani == TURLE_ANI_RUN_DIE)
 					{

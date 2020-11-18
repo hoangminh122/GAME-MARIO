@@ -407,6 +407,14 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		mario->SetState(MARIO_STATE_DOWN);
 
 	}
+	else if (game->IsKeyDown(DIK_B))								//MARIO DA CHAN
+	{
+		DebugOut(L"ashsssssssssssssssssssssssssssssssssssssssssssssssssssssssssss\n");
+		mario->kick = true;
+		mario->SetState(MARIO_STATE_KICK);
+						//turle->SetState(TURLE_STATE_RUN_DIE);
+
+	}
 	else if (game->IsKeyDown(DIK_RIGHT)) {
 		/*if (game->IsKeyDown(DIK_A)) 
 		{

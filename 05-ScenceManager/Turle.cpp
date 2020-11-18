@@ -31,8 +31,11 @@ void CTurle::GetBoundingBox(float &left, float &top, float &right, float &bottom
 
 void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
+
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
+
+
 
 	// Simple fall down
 	vy += MARIO_GRAVITY * dt;
@@ -45,7 +48,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	coEvents.clear();
 
 	// turn off collision when die 
-	if (state != MARIO_STATE_DIE)
+	//if (state != TURLE_STATE_DIE)
 		CalcPotentialCollisions(coObjects, coEvents);
 
 	// reset untouchable timer if untouchable time has passed
@@ -53,7 +56,6 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
 	{
-				
 		x += dx;
 		y += dy;
 	}
@@ -107,6 +109,14 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			else if (dynamic_cast<CQuestion *>(e->obj)) // if e->obj is CQuestion
 			{
 				this->isTreeStart = true;
+			}
+			else if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is CQuestion
+			{
+				if (state == TURLE_STATE_DIE)
+				{
+					vx = 0;
+				}
+				vy = 0;
 			}
 			
 		}
