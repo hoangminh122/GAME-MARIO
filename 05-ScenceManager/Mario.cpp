@@ -263,6 +263,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				{
 					if (turle->state == TURLE_STATE_WALKING)
 					{
+						turle->x = this->x;
+						turle->y = this->y;
+
 						this->x -= 28;
 						this->y -= 2;
 

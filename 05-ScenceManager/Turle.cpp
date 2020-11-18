@@ -77,18 +77,30 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			if (dynamic_cast<CBrickTop *>(e->obj)) // if e->obj is brickTop
 			{
-				vx = vxx;
-				if (vx < 0 && x < 530) {
-					//x = 0; 
-					vxx = -vxx;
-					vx = vxx;
+				if (state == TURLE_STATE_DIE)
+				{
+					vx = 0;
+					vy = 0;
 				}
+				else if(state == TURLE_STATE_RUN_DIE)
+					vx = 0.2f;
+				else
+					vx = vxx;
+				if (state == TURLE_STATE_WALKING)
+				{
+					if (vx < 0 && x < 530) {
+						//x = 0; 
+						vxx = -vxx;
+						vx = vxx;
+					}
 
-				else if (vx > 0 && x > 600) {
-					//x = 290; 
-					vxx = -vxx;
-					vx = vxx;
+					else if (vx > 0 && x > 600) {
+						//x = 290; 
+						vxx = -vxx;
+						vx = vxx;
+					}
 				}
+				
 
 			} // if brickTop
 			
@@ -131,7 +143,7 @@ void CTurle::SetState(int state)
 		vx = TURLE_WALKING_SPEED;
 		break;
 	case TURLE_STATE_RUN_DIE:
-		vx = TURLE_WALKING_SPEED;
+		vx = -TURLE_WALKING_SPEED;
 		break;
 	}
 
