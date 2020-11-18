@@ -24,7 +24,7 @@ class CTurle : public CGameObject
 	virtual void Render();
 
 public:
-	
+	float vxx;											//van toc rua 
 	int ani;
 	int isStop;
 	static bool isTreeStart;

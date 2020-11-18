@@ -1,10 +1,13 @@
 #include "Turle.h"
 #include "Mario.h"
+#include "Brick.h"
+#include "Utils.h"
+#include "BrickTop.h"
 
 bool CTurle::isTreeStart = false;
 CTurle::CTurle()
 {
-	
+	vxx = TURLE_WALKING_SPEED;
 	isStop = 0;
 	//ani = TURLE_STATE_RUN_DIE;
 	ani = TURLE_ANI_WALKING_LEFT;
@@ -27,59 +30,74 @@ void CTurle::GetBoundingBox(float &left, float &top, float &right, float &bottom
 
 void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	CGameObject::Update(dt, coObjects);  
+	// Calculate dx, dy 
+	CGameObject::Update(dt);
 
-	//
-	// TO-DO: make sure Koopas can interact with the world and to each of them too!
-	// 
+	// Simple fall down
+	vy += MARIO_GRAVITY * dt;
 
 	
 
-	if (state == TURLE_STATE_RUN_DIE)
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
+
+	coEvents.clear();
+
+	// turn off collision when die 
+	if (state != MARIO_STATE_DIE)
+		CalcPotentialCollisions(coObjects, coEvents);
+
+	// reset untouchable timer if untouchable time has passed
+
+	// No collision occured, proceed normally
+	if (coEvents.size() == 0)
 	{
-		vx += 0.005f;
-		if (x > 637)
-		{
-			//vx -= 0.05f;
-			x -= 15;
-			//y = 200;
-			vx = 0;
-			vy = 0;
-			isStop ++;
-			//if()
-		}
-		if (vx > 0 && x > 610) {
-			//change state mario kick -> idle
-			CMario::kick = false;
-			
-			//x = 290; 
-			vy += 0.01f;
-			y = 289;
-			if (isStop == 2)
-			{
-				state = -1;
-				y = 336;
-				vx = 0;
-				vy = 0;
-				isTreeStart = true;
-			}
-		}
+				
+		x += dx;
+		y += dy;
 	}
 	else
 	{
-		if (vx < 0 && x < 530) {
-			//x = 0; 
-			vx = -vx;
+		float min_tx, min_ty, nx = 0, ny;
+		float rdx = 0;
+		float rdy = 0;
+
+		// TODO: This is a very ugly designed function!!!!
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+
+		if (nx != 0) vx = 0;
+		if (ny != 0) vy = 0;
+
+
+		// Collision logic with other objects
+		//
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			vx = vxx;
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (dynamic_cast<CBrickTop *>(e->obj)) // if e->obj is brickTop
+			{
+				vx = vxx;
+				if (vx < 0 && x < 530) {
+					//x = 0; 
+					vxx = -vxx;
+					vx = vxx;
+				}
+
+				else if (vx > 0 && x > 600) {
+					//x = 290; 
+					vxx = -vxx;
+					vx = vxx;
+				}
+
+			} // if brickTop
+			
 		}
 
-		if (vx > 0 && x > 600) {
-			//x = 290; 
-			vx = -vx;
-		}
-		
 	}
-	x += dx;
-	y += dy;
+
+	// clean up collision events
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
 void CTurle::Render()
