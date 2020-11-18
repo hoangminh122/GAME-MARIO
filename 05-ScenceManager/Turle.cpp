@@ -3,6 +3,7 @@
 #include "Brick.h"
 #include "Utils.h"
 #include "BrickTop.h"
+#include "QuestionBox.h"
 
 bool CTurle::isTreeStart = false;
 CTurle::CTurle()
@@ -103,6 +104,10 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				
 
 			} // if brickTop
+			else if (dynamic_cast<CQuestion *>(e->obj)) // if e->obj is CQuestion
+			{
+				this->isTreeStart = true;
+			}
 			
 		}
 
