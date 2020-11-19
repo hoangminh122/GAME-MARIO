@@ -7,6 +7,7 @@
 #include "Game.h"
 #include "Mario.h"
 #include "BackgroundDie.h"
+#include "Turle.h"
 
 
 //CBullet::CBullet() {
@@ -174,6 +175,11 @@ void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				/*if (e->ny > 0)
 					this->y = y - 0.5;*/
 
+			} // if brickTop
+			else if (dynamic_cast<CTurle *>(e->obj)) // if e->obj is brickTop
+			{
+				CTurle *turle = dynamic_cast<CTurle *>(e->obj);
+				turle->SetState(TURLE_STATE_DIE_OVER);
 			} // if brickTop
 			else if (dynamic_cast<CBackgroundDie *>(e->obj)) // if e->obj is brickTop
 			{
