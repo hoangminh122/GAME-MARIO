@@ -25,6 +25,7 @@ class CTurle : public CGameObject
 	virtual void Render();
 
 public:
+	bool isHold;										//TRANG thai cam rua cho tung con phan biet
 	float vxx;											//van toc rua 
 	int ani;
 	int isStop;

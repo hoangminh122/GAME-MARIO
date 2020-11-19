@@ -367,6 +367,7 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_N:											//cam rua
 		mario->SetState(MARIO_STATE_IDLE);
 		mario->isHoldTurtle = false;
+		mario->isDropTurle = true;
 		break;
 	case DIK_V:
 	{

@@ -137,13 +137,14 @@ class CMario : public CGameObject
 	//GameMap* test;
 	int ani;
 public: 
+	bool static isDropTurle;        //fix xu ly khi tha rua de khong bi va cham
 	bool static isHoldTurtle;
 	float static xx;				//gia tri static x cua mario
 	float static vxx;				//gia tri static x cua mario
 	float static vyy;
 
 	float static yy;		
-	int nxx;				//check truing hop nx = 0 xem mario xoay huong nao
+	int static nxx;				//check truing hop nx = 0 xem mario xoay huong nao
 	int static energyFly;									//nang luong bay time 
 	static bool isBullet;								//Kiem tra xem no co dang o trang thai ban dan khong khi dang chay, nhay
 	static float xRealTime;
