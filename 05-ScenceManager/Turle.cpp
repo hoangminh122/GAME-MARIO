@@ -66,6 +66,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			x += dx;
 			y += dy;
 		}
+			
 		
 	}
 	else

@@ -57,6 +57,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
 
+	if(isHoldTurtle)
+	{
+		xx = this->x;
+		yy = this->y;
+	}
 	// Simple fall down
 	vy += MARIO_GRAVITY*dt;
 
