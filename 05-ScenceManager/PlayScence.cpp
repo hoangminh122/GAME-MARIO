@@ -334,6 +334,17 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_S: 
 		mario->Reset();
 		break;
+	
+	case DIK_B:
+		DebugOut(L"ashsssssssssssssssssssssssss22222222222222222222222sssssssssss%d\n", mario->kick);
+
+		mario->kick = true;
+		DebugOut(L"ashsssssssssssssssssssssssssssssssssssssssssssssssssssssssssss%d\n", mario->kick);
+
+		mario->SetState(MARIO_STATE_KICK);
+
+		//turle->SetState(TURLE_STATE_RUN_DIE);
+
 	}
 }
 
@@ -360,6 +371,12 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 
 		//}
 	}
+	case DIK_B:
+		DebugOut(L"ashsssssssssssssssssssssssss22222222222222222222222sssssssssss%d\n", mario->kick);
+		mario->SetState(MARIO_STATE_IDLE);
+		mario->kick = false;
+
+
 	case DIK_C:
 	{
 		if(CMario::energyFly < 0)
@@ -405,14 +422,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	{
 		//DebugOut(L"okaaaa");
 		mario->SetState(MARIO_STATE_DOWN);
-
-	}
-	else if (game->IsKeyDown(DIK_B))								//MARIO DA CHAN
-	{
-		DebugOut(L"ashsssssssssssssssssssssssssssssssssssssssssssssssssssssssssss\n");
-		mario->kick = true;
-		mario->SetState(MARIO_STATE_KICK);
-						//turle->SetState(TURLE_STATE_RUN_DIE);
 
 	}
 	else if (game->IsKeyDown(DIK_RIGHT)) {

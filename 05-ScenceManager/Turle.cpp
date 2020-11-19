@@ -12,7 +12,7 @@ CTurle::CTurle()
 	isStop = 0;
 	//ani = TURLE_STATE_RUN_DIE;
 	ani = TURLE_ANI_WALKING_LEFT;
-	SetState(TURLE_STATE_WALKING);
+	SetState(TURLE_STATE_DIE);
 	//SetState(TURLE_STATE_RUN_DIE);
 }
 
@@ -118,6 +118,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 				vy = 0;
 			}
+			
 			
 		}
 
