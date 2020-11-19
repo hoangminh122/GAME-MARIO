@@ -453,6 +453,26 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 			else
 				mario->SetState(MARIO_STATE_WALKING_RIGHT);
 		}
+		else if (game->IsKeyDown(DIK_LEFT)) {
+			/*if (game->IsKeyDown(DIK_A))
+			{
+				CMario::isBullet = true;
+			}*/
+			if (game->IsKeyDown(DIK_Z))
+			{
+				if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG)
+				{
+					if (CMario::energyFly < 200)
+						CMario::energyFly += 5;
+					DebugOut(L"SSSSSSSSSS%d\n", CMario::energyFly);
+				}
+				mario->SetState(MARIO_STATE_RUN_LEFT);
+			}
+			else
+			{
+				mario->SetState(MARIO_STATE_WALKING_LEFT);
+			}
+		}
 	}
 	else if (game->IsKeyDown(DIK_DOWN))
 	{
