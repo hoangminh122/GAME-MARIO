@@ -281,15 +281,20 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 				else if (e->nx != 0)
 				{
+					DebugOut(L"SHHHHHHHH1111111111111111111111111111111111111111111HHHHHHHHss%d\n", kick);
+
 					if (turle->ani == TURLE_ANI_DIE)
 					{
-						/*this->kick = true;
-						this->SetState(MARIO_STATE_KICK);*/
+						DebugOut(L"SHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHss%d\n",kick);
+
 						//turle->SetState(TURLE_STATE_RUN_DIE);
-					}
-					else if(turle->ani == TURLE_ANI_RUN_DIE)
-					{
-						;
+						if (kick == true)
+						{
+							this->vx = 0.01;
+							turle->SetState(TURLE_STATE_RUN_DIE);
+						}
+						//this->kick = true;
+						//this->SetState(MARIO_STATE_KICK);
 					}
 					else
 					{
@@ -343,7 +348,6 @@ void CMario::Render()
 		{
 			if (nx > 0) {
 				if (state == MARIO_STATE_KICK && kick == true) {
-					DebugOut(L"da rua11111");
 					ani = MARIO_ANI_BIG_KICK_RIGHT;
 				}
 				else if (state == MARIO_STATE_DOWN)
@@ -396,6 +400,9 @@ void CMario::Render()
 			else if (state == MARIO_STATE_RUN_RIGHT)
 			{
 				ani = MARIO_ANI_BIG_RUN_RIGHT;
+			}
+			else if (state == MARIO_STATE_KICK && kick == true) {
+				ani = MARIO_ANI_BIG_KICK_RIGHT;
 			}
 			else
 			{
@@ -775,7 +782,7 @@ void CMario::SetState(int state)
 		vx = 0;
 		break;
 	case MARIO_STATE_KICK:
-		vx = 0;
+		vx = 0.01;
 		break;
 	case MARIO_STATE_FLY:
 	{
@@ -804,7 +811,10 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	bottom = y + MARIO_BIG_BBOX_HEIGHT;*/
 	if (level == MARIO_LEVEL_BIG)
 	{
-		right = x + MARIO_BIG_BBOX_WIDTH;
+		/*if (state == MARIO_STATE_KICK)
+			right = x + MARIO_BIG_KICK_WIDTH;
+		else*/
+			right = x + MARIO_BIG_BBOX_WIDTH;
 		if (state == MARIO_STATE_DOWN)
 			bottom = y + MARIO_BIG_DOWN_BBOX_HEIGHT;
 		else
@@ -842,7 +852,7 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 void CMario::Reset()
 {
 	SetState(MARIO_STATE_IDLE);
-	SetLevel(MARIO_LEVEL_TAIL_BIG);
+	SetLevel(MARIO_LEVEL_BIG);
 	SetPosition(start_x, start_y);
 	SetSpeed(0, 0);
 }
