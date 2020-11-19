@@ -311,13 +311,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 				else if (e->nx != 0)
 				{
-					if (this->nx > 0)
+					/*if (this->nx > 0)
 						vx = 0.01f;
 					else
-						vx = -0.01f;
+						vx = -0.01f;*/
 					if (turle->ani == TURLE_ANI_DIE)
 					{
-
+						DebugOut(L"555555555555555555555\n");
 						//turle->SetState(TURLE_STATE_RUN_DIE);
 						if (kick == true)
 						{
@@ -326,8 +326,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						}
 						else if (this->GetState() == MARIO_STATE_HOLD_TURTLE)
 						{
+							
 							isHoldTurtle = true;
 							turle->isHold = true;
+							DebugOut(L"shgsdhgdhfg state%d\n",this->state);
 						}
 						//this->kick = true;
 						//this->SetState(MARIO_STATE_KICK);
@@ -438,6 +440,7 @@ void CMario::Render()
 		}
 		else if (vx > 0)
 		{
+			nxx = 1;
 			DebugOut(L"vao111");
 			if (state == MARIO_STATE_JUMP && checkMarioColision == false)                    //ANI JUMP RIGHT
 				ani = MARIO_ANI_BIG_FIRE_JUMP_RIGHT;
@@ -459,6 +462,7 @@ void CMario::Render()
 		}
 		else
 		{
+			nxx = -1;
 			DebugOut(L"vao2222");
 			if (state == MARIO_STATE_JUMP && checkMarioColision == false)				   //ANI JUMP LEFT
 				ani = MARIO_ANI_BIG_JUMP_LEFT;

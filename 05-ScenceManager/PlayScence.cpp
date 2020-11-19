@@ -365,9 +365,13 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		CBulletMario::isStart = false;
 		break;
 	case DIK_N:											//cam rua
-		mario->SetState(MARIO_STATE_IDLE);
-		mario->isHoldTurtle = false;
-		mario->isDropTurle = true;
+		if (mario->isHoldTurtle)
+		{
+			mario->isHoldTurtle = false;
+			mario->isDropTurle = true;
+			mario->SetState(MARIO_STATE_IDLE);
+		}
+		
 		break;
 	case DIK_V:
 	{
@@ -428,9 +432,14 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	}
 	else if (game->IsKeyDown(DIK_N))
 	{
-		//DebugOut(L"okaaaa");
+		DebugOut(L"okaaaamario state%d\n",mario->isHoldTurtle);
 		if (mario->isHoldTurtle == false)
 		{
+			DebugOut(L"SHSGSHDGshdgshfahsgfahsgfjhnxnxnxn%d\n",mario->nx);
+			if (mario->nx == 1)
+				mario->vx = 0.01f;
+			else
+				mario->vx = -0.01f;
 			mario->SetState(MARIO_STATE_HOLD_TURTLE);
 			mario->xx = mario->x;
 			mario->yy = mario->y;
