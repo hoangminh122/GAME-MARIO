@@ -57,10 +57,29 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
 
-	if(isHoldTurtle)
+	if(isHoldTurtle)						//xu ly vi tri mario cam rua chay 
 	{
-		xx = this->x;
-		yy = this->y;
+		if (state == MARIO_STATE_IDLE)
+		{
+			if (vx > 0)
+			{
+				xx = this->x;
+				yy = this->y;
+			}
+			
+		}
+		else if (state == MARIO_STATE_WALKING_RIGHT)
+		{
+				xx = this->x;
+				yy = this->y;
+		}
+		else if (state == MARIO_STATE_WALKING_LEFT)
+		{
+			xx = this->x - MARIO_BIG_BBOX_WIDTH;
+			yy = this->y;
+		}
+
+
 	}
 	// Simple fall down
 	vy += MARIO_GRAVITY*dt;
@@ -361,6 +380,8 @@ void CMario::Render()
 		if (vx == 0)
 		{
 			if (nx > 0) {
+
+
 				if (state == MARIO_STATE_KICK && kick == true) {
 					ani = MARIO_ANI_BIG_KICK_RIGHT;
 				}
@@ -699,7 +720,6 @@ void CMario::Render()
 			}*/
 			if (nx > 0) {
 				if (state == MARIO_STATE_JUMP) {
-					DebugOut(L"vaossssss");
 					ani = MARIO_ANI_SMALL_JUMP_RIGHT;
 				}
 				else
