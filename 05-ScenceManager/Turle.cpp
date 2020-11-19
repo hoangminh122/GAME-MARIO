@@ -56,8 +56,17 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
 	{
-		x += dx;
-		y += dy;
+		if (CMario::isHoldTurtle == true)
+		{
+			y = CMario::yy+4;								//set lai vi tri cho con rua
+			x = CMario::xx +8;
+		}
+		else
+		{
+			x += dx;
+			y += dy;
+		}
+		
 	}
 	else
 	{

@@ -371,12 +371,13 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 
 		//}
 	}
-	case DIK_B:
+	case DIK_B:											//da rua
 		DebugOut(L"ashsssssssssssssssssssssssss22222222222222222222222sssssssssss%d\n", mario->kick);
 		mario->SetState(MARIO_STATE_IDLE);
 		mario->kick = false;
 
-
+	case DIK_N:											//cam rua
+		mario->SetState(MARIO_STATE_HOLD_TURTLE);
 	case DIK_C:
 	{
 		if(CMario::energyFly < 0)
@@ -416,6 +417,14 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	{
 		//DebugOut(L"okaaaa");
 		mario->SetState(MARIO_STATE_ROTATORY_IDLE);
+
+	}
+	else if (game->IsKeyDown(DIK_N))
+	{
+		//DebugOut(L"okaaaa");
+		mario->SetState(MARIO_STATE_HOLD_TURTLE);
+		mario->xx = mario->x;
+		mario->yy = mario->y;
 
 	}
 	else if (game->IsKeyDown(DIK_DOWN))

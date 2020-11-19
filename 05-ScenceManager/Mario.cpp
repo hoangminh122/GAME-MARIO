@@ -15,6 +15,13 @@
 #include "Turle.h"
 #include "BulletMario.h"
 
+
+
+float CMario::vxx = 0.0f;
+float CMario::vyy = 0.0f;
+bool CMario::isHoldTurtle = false;
+float CMario::xx = 0.0f;
+float CMario::yy = 0.0f;
 int CMario::energyFly = 20;
 bool CMario::kick = false;
 bool CMario::isRotatory = false;
@@ -293,6 +300,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 							this->vx = 0.01;
 							turle->SetState(TURLE_STATE_RUN_DIE);
 						}
+						else if (this->GetState() == MARIO_STATE_HOLD_TURTLE)
+							isHoldTurtle = true;
 						//this->kick = true;
 						//this->SetState(MARIO_STATE_KICK);
 					}
@@ -357,6 +366,9 @@ void CMario::Render()
 				else if (state == MARIO_STATE_JUMP) {
 					ani = MARIO_ANI_BIG_JUMP_RIGHT;
 				}
+				else if (state == MARIO_STATE_HOLD_TURTLE) {
+					ani = MARIO_ANI_BIG_HOLD_TURTLE_RIGHT;
+				}
 				else {
 					DebugOut(L"trang thai %d\n",state);
 					ani = MARIO_ANI_BIG_IDLE_RIGHT;
@@ -382,6 +394,9 @@ void CMario::Render()
 				{
 					ani = MARIO_ANI_BIG_DOWN_LEFT;
 				}
+				else if (state == MARIO_STATE_HOLD_TURTLE) {
+					ani = MARIO_ANI_BIG_HOLD_TURTLE_LEFT;
+				}
 				else if (state == MARIO_STATE_JUMP) {
 					ani = MARIO_ANI_BIG_JUMP_LEFT;
 				}
@@ -401,6 +416,9 @@ void CMario::Render()
 			{
 				ani = MARIO_ANI_BIG_RUN_RIGHT;
 			}
+			else if (state == MARIO_STATE_HOLD_TURTLE) {
+				ani = MARIO_ANI_BIG_HOLD_TURTLE_RIGHT;
+			}
 			else if (state == MARIO_STATE_KICK && kick == true) {
 				ani = MARIO_ANI_BIG_KICK_RIGHT;
 			}
@@ -418,6 +436,9 @@ void CMario::Render()
 			else if (state == MARIO_STATE_RUN_LEFT)
 			{
 				ani = MARIO_ANI_BIG_RUN_LEFT;
+			}
+			else if (state == MARIO_STATE_HOLD_TURTLE) {
+				ani = MARIO_ANI_BIG_HOLD_TURTLE_LEFT;
 			}
 			else
 			{
@@ -442,6 +463,7 @@ void CMario::Render()
 					this->GetPosition(CBulletMario::x0, CBulletMario :: y0);
 					ani = MARIO_ANI_BIG_FIRE_BULLET_RIGHT;
 				}
+				
 				else {
 					ani = MARIO_ANI_BIG_FIRE_RIGHT;
 				}
@@ -782,6 +804,9 @@ void CMario::SetState(int state)
 		vx = 0;
 		break;
 	case MARIO_STATE_KICK:
+		//vx = 0.01;
+		break;
+	case MARIO_STATE_HOLD_TURTLE:
 		vx = 0.01;
 		break;
 	case MARIO_STATE_FLY:
