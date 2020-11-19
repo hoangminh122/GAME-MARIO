@@ -48,7 +48,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	coEvents.clear();
 
 	// turn off collision when die 
-	//if (state != TURLE_STATE_DIE)
+	if (state != TURLE_STATE_DIE_OVER)
 		CalcPotentialCollisions(coObjects, coEvents);
 
 	// reset untouchable timer if untouchable time has passed
@@ -56,7 +56,12 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
 	{
-		if (CMario::isHoldTurtle == true)
+		if (state == TURLE_STATE_DIE_OVER)
+		{
+			x = 0;
+			y = 0;
+		}
+		else if (CMario::isHoldTurtle == true)
 		{
 			y = CMario::yy+4;								//set lai vi tri cho con rua
 			x = CMario::xx +8;
@@ -170,6 +175,10 @@ void CTurle::SetState(int state)
 		break;
 	case TURLE_STATE_RUN_DIE:
 		vx = -TURLE_WALKING_SPEED;
+		break;
+	case TURLE_STATE_DIE_OVER:
+		vx = 0;
+		vy = 0;
 		break;
 	}
 

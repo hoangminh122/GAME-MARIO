@@ -302,7 +302,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						//turle->SetState(TURLE_STATE_RUN_DIE);
 						if (kick == true)
 						{
-							this->vx = 0.01;
+							this->vx = 0.015;
 							turle->SetState(TURLE_STATE_RUN_DIE);
 						}
 						else if (this->GetState() == MARIO_STATE_HOLD_TURTLE)
