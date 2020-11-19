@@ -16,8 +16,9 @@
 #include "BulletMario.h"
 
 
-
+bool CMario::isDropTurle = false;
 float CMario::vxx = 0.0f;
+int CMario::nxx = 0;
 float CMario::vyy = 0.0f;
 bool CMario::isHoldTurtle = false;
 float CMario::xx = 0.0f;
@@ -48,7 +49,6 @@ CMario::CMario(float x, float y) : CGameObject()
 	 ani= MARIO_ANI_BIG_IDLE_LEFT;
 	//ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
 	//positionXIdle = 0;
-	nxx = 0;
 	isStateFly = false;
 }
 
@@ -78,7 +78,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			xx = this->x - MARIO_BIG_BBOX_WIDTH;
 			yy = this->y;
 		}
-
 
 	}
 	// Simple fall down
@@ -312,11 +311,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 				else if (e->nx != 0)
 				{
-					DebugOut(L"SHHHHHHHH1111111111111111111111111111111111111111111HHHHHHHHss%d\n", kick);
-
+					if (this->nx > 0)
+						vx = 0.01f;
+					else
+						vx = -0.01f;
 					if (turle->ani == TURLE_ANI_DIE)
 					{
-						DebugOut(L"SHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHss%d\n",kick);
 
 						//turle->SetState(TURLE_STATE_RUN_DIE);
 						if (kick == true)
@@ -325,7 +325,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 							turle->SetState(TURLE_STATE_RUN_DIE);
 						}
 						else if (this->GetState() == MARIO_STATE_HOLD_TURTLE)
+						{
 							isHoldTurtle = true;
+							turle->isHold = true;
+						}
 						//this->kick = true;
 						//this->SetState(MARIO_STATE_KICK);
 					}
@@ -832,7 +835,7 @@ void CMario::SetState(int state)
 		//vx = 0.01;
 		break;
 	case MARIO_STATE_HOLD_TURTLE:
-		vx = 0.01;
+		//vx = 0.01;
 		break;
 	case MARIO_STATE_FLY:
 	{

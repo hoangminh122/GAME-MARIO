@@ -8,6 +8,7 @@
 bool CTurle::isTreeStart = false;
 CTurle::CTurle()
 {
+	isHold = false;
 	vxx = TURLE_WALKING_SPEED;
 	isStop = 0;
 	//ani = TURLE_STATE_RUN_DIE;
@@ -39,7 +40,20 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	// Simple fall down
 	vy += MARIO_GRAVITY * dt;
-
+	if (CMario::isDropTurle == true && isHold == true)
+	{
+		if (CMario::nxx == 1)
+		{
+			this->x = this->x + 10;
+			
+		}
+		else 
+		{
+			this->x = this->x-MARIO_BIG_BBOX_WIDTH;
+		}
+		CMario::isDropTurle = false;
+		isHold = false;
+	}
 	
 
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -61,7 +75,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			x = 0;
 			y = 0;
 		}
-		else if (CMario::isHoldTurtle == true)
+		else if (CMario::isHoldTurtle == true && isHold==true)
 		{
 			y = CMario::yy+4;								//set lai vi tri cho con rua
 			x = CMario::xx +8;
