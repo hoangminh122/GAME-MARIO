@@ -2,7 +2,7 @@
 
 #include "GameObject.h"
 
-#define TURLE_WALKING_SPEED 0.03f;
+#define TURLE_WALKING_SPEED 0.05f;
 
 #define TURLE_BBOX_WIDTH 16
 #define TURLE_BBOX_HEIGHT 26
@@ -24,7 +24,7 @@ class CTurle : public CGameObject
 	virtual void Render();
 
 public:
-	
+	float vxx;											//van toc rua 
 	int ani;
 	int isStop;
 	static bool isTreeStart;

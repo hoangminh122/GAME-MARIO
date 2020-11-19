@@ -6,6 +6,7 @@
 #include "Goomba.h"
 #include "Game.h"
 #include "Mario.h"
+#include "BackgroundDie.h"
 
 
 //CBullet::CBullet() {
@@ -51,7 +52,6 @@ void CBulletMario::GetBoundingBox(float &l, float &t, float &r, float &b)
 void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	CGameObject::Update(dt);
-	DebugOut(L"timeT%d sss %d \n", this->timeStart,this->nextStart);
 	if (nextStart - timeStart > 5000)
 	{
 		isDie = true;
@@ -104,7 +104,6 @@ void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (nxBullet == 1 && x > CMario::xRealTime + game->GetScreenWidth() / 2
 			|| nxBullet == -1 && x < CMario::xRealTime - game->GetScreenWidth() / 2)
 		{
-			DebugOut(L"SHFGSHDFSDFGSHDF");
 			isDie = true;
 			isBullet = false;
 		}
@@ -151,7 +150,6 @@ void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			
 			if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is brickTop
 			{
-				DebugOut(L" dan trung brick top");
 				//vx = 0;
 				vy = -vy;
 				/*if (e->ny > 0)
@@ -171,13 +169,19 @@ void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			} // if Goomba
 			else if (dynamic_cast<CBrickTop *>(e->obj)) // if e->obj is brickTop
 			{
-				DebugOut(L" dan trung brick top");
 				//vx = 0;
 				vy = -vy;
 				/*if (e->ny > 0)
 					this->y = y - 0.5;*/
 
 			} // if brickTop
+			else if (dynamic_cast<CBackgroundDie *>(e->obj)) // if e->obj is brickTop
+			{
+				isDie = true;
+				isStart = false;
+				isBullet = false;
+
+			} // if background die
 			else
 			{
 				if (e->ny != 0)

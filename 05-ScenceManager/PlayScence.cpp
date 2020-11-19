@@ -10,6 +10,7 @@
 #include "Plant.h"
 #include "Bullet.h"
 #include "BulletMario.h"
+#include "BackgroundDie.h"
 
 using namespace std;
 
@@ -42,6 +43,8 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define OBJECT_TYPE_PLANT	10
 #define OBJECT_TYPE_BULLET	11
 #define OBJECT_TYPE_BULLET_MARIO	12
+#define OBJECT_TYPE_BACKGROUND_DIE	13
+
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -173,6 +176,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_PLANT: obj = new CPlant(); break;
 	case OBJECT_TYPE_BULLET: obj = new CBullet(); break;
 	case OBJECT_TYPE_BULLET_MARIO: obj = new CBulletMario(); break;
+	case OBJECT_TYPE_BACKGROUND_DIE: obj = new CBackgroundDie(); break;
+
+
 	case OBJECT_TYPE_PORTAL:
 		{	
 			float r = atof(tokens[4].c_str());
@@ -399,6 +405,14 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	{
 		//DebugOut(L"okaaaa");
 		mario->SetState(MARIO_STATE_DOWN);
+
+	}
+	else if (game->IsKeyDown(DIK_B))								//MARIO DA CHAN
+	{
+		DebugOut(L"ashsssssssssssssssssssssssssssssssssssssssssssssssssssssssssss\n");
+		mario->kick = true;
+		mario->SetState(MARIO_STATE_KICK);
+						//turle->SetState(TURLE_STATE_RUN_DIE);
 
 	}
 	else if (game->IsKeyDown(DIK_RIGHT)) {
