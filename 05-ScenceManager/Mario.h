@@ -129,7 +129,6 @@
 
 class CMario : public CGameObject
 {
-	int level;
 	int untouchable;
 	DWORD untouchable_start;
 	float start_x;			// initial position of Mario at scene
@@ -137,6 +136,7 @@ class CMario : public CGameObject
 	//GameMap* test;
 	int ani;
 public: 
+	int static level;
 	bool static isDropTurle;        //fix xu ly khi tha rua de khong bi va cham
 	bool static isHoldTurtle;
 	float static xx;				//gia tri static x cua mario
