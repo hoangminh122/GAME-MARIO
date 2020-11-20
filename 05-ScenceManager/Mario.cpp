@@ -433,6 +433,10 @@ void CMario::Render()
 			{
 				ani = MARIO_ANI_BIG_RUN_RIGHT;
 			}
+			else if (state == MARIO_STATE_BRAKE)
+			{
+				ani = MARIO_ANI_BIG_BRAKE_RIGHT;
+			}
 			else if (state == MARIO_STATE_HOLD_TURTLE) {
 				ani = MARIO_ANI_BIG_HOLD_TURTLE_RIGHT;
 			}
@@ -453,6 +457,10 @@ void CMario::Render()
 			else if (state == MARIO_STATE_RUN_LEFT)
 			{
 				ani = MARIO_ANI_BIG_RUN_LEFT;
+			}
+			else if (state == MARIO_STATE_BRAKE)
+			{
+				ani = MARIO_ANI_BIG_BRAKE_LEFT;
 			}
 			else if (state == MARIO_STATE_HOLD_TURTLE) {
 				ani = MARIO_ANI_BIG_HOLD_TURTLE_LEFT;
@@ -520,6 +528,8 @@ void CMario::Render()
 			}*/
 			if (state == MARIO_STATE_JUMP && checkMarioColision == false)                    //ANI JUMP RIGHT
 				ani = MARIO_ANI_BIG_FIRE_JUMP_RIGHT;
+			else if (state == MARIO_STATE_BRAKE)
+				ani = MARIO_ANI_BIG_FIRE_BRAKE_RIGHT;
 			else if (state == MARIO_STATE_RUN_RIGHT)
 			{
 				ani = MARIO_ANI_BIG_FIRE_RUN_RIGHT;
@@ -539,6 +549,8 @@ void CMario::Render()
 			}*/
 			if (state == MARIO_STATE_JUMP && checkMarioColision == false)				   //ANI JUMP LEFT
 				ani = MARIO_ANI_BIG_FIRE_JUMP_LEFT;
+			else if (state == MARIO_STATE_BRAKE)
+				ani = MARIO_ANI_BIG_FIRE_BRAKE_LEFT;
 			else if (state == MARIO_STATE_RUN_LEFT)
 			{
 					ani = MARIO_ANI_BIG_FIRE_RUN_LEFT;
@@ -643,6 +655,8 @@ void CMario::Render()
 		else if (state == MARIO_STATE_KICK && kick == true) {
 			ani = MARIO_ANI_BIG_TAIL_KICK_TURLE_RIGHT;
 		}
+		else if (state == MARIO_STATE_BRAKE)
+			ani = MARIO_ANI_BIG_TAIL_BRAKE_RIGHT;
 		else if (state == MARIO_STATE_ROTATORY_IDLE)
 		{
 			isRotatory = true;
@@ -679,6 +693,8 @@ void CMario::Render()
 			positionXIdle = x;
 			ani = MARIO_ANI_BIG_TAIL_RUN_LEFT;
 		}
+		else if (state == MARIO_STATE_BRAKE)
+			ani = MARIO_ANI_BIG_TAIL_BRAKE_LEFT;
 		else if (state == MARIO_STATE_KICK && kick == true) {
 			ani = MARIO_ANI_BIG_TAIL_KICK_TURLE_LEFT;
 		}
@@ -750,6 +766,8 @@ void CMario::Render()
 			
 			if(state == MARIO_STATE_JUMP && checkMarioColision == false)                    //ANI JUMP RIGHT
 				ani = MARIO_ANI_SMALL_JUMP_RIGHT;
+			else if(state == MARIO_STATE_BRAKE)
+				ani = MARIO_ANI_SMALL_BRAKE_RIGHT;
 			else if (state == MARIO_STATE_RUN_RIGHT)
 			{
 				ani = MARIO_ANI_SMALL_RUN_RIGHT;
@@ -761,6 +779,8 @@ void CMario::Render()
 		{
 			if (state == MARIO_STATE_JUMP && checkMarioColision == false)				   //ANI JUMP LEFT
 				ani = MARIO_ANI_SMALL_JUMP_LEFT;
+			else if (state == MARIO_STATE_BRAKE)
+				ani = MARIO_ANI_SMALL_BRAKE_LEFT;
 			else if (state == MARIO_STATE_RUN_LEFT)
 			{
 				ani = MARIO_ANI_SMALL_RUN_LEFT;
@@ -785,12 +805,12 @@ void CMario::SetState(int state)
 	switch (state)
 	{
 	case MARIO_STATE_WALKING_RIGHT:
-		vx = MARIO_WALKING_SPEED;
+		//vx = MARIO_WALKING_SPEED;
 		nx = 1;
 		nxx = 1;
 		break;
 	case MARIO_STATE_WALKING_LEFT: 
-		vx = -MARIO_WALKING_SPEED;
+		//vx = -MARIO_WALKING_SPEED;
 		nx = -1;
 		nxx = -1;
 		break;
