@@ -436,7 +436,10 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 			else
 				mario->vx = -0.01f;
 			mario->SetState(MARIO_STATE_HOLD_TURTLE);
-			mario->xx = mario->x;
+			if(mario->nx == 1)
+				mario->xx = mario->x;
+			else 
+				mario->xx = mario->x-15;
 			mario->yy = mario->y;
 		}
 		else if (game->IsKeyDown(DIK_RIGHT)) {

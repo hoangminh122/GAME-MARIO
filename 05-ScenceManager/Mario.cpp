@@ -428,7 +428,7 @@ void CMario::Render()
 		{
 			nxx = 1;
 			if (state == MARIO_STATE_JUMP && checkMarioColision == false)                    //ANI JUMP RIGHT
-				ani = MARIO_ANI_BIG_FIRE_JUMP_RIGHT;
+				ani = MARIO_ANI_BIG_JUMP_RIGHT;
 			else if (state == MARIO_STATE_RUN_RIGHT)
 			{
 				ani = MARIO_ANI_BIG_RUN_RIGHT;
@@ -561,6 +561,9 @@ void CMario::Render()
 			{
 				ani = MARIO_ANI_BIG_TAIL_FLY_RIGHT;
 			}
+			else if (state == MARIO_STATE_KICK && kick == true) {
+				ani = MARIO_ANI_BIG_TAIL_KICK_TURLE_RIGHT;
+			}
 			else if (state == MARIO_STATE_ROTATORY_IDLE)
 			{
 				isRotatory = true;
@@ -596,6 +599,9 @@ void CMario::Render()
 		{
 			if (state == MARIO_STATE_JUMP) {
 				ani = MARIO_ANI_BIG_TAIL_JUMP_LEFT;
+			}
+			else if (state == MARIO_STATE_KICK && kick == true) {
+				ani = MARIO_ANI_BIG_TAIL_KICK_TURLE_LEFT;
 			}
 			else if (state == MARIO_STATE_FLY)
 			{
@@ -634,6 +640,9 @@ void CMario::Render()
 			positionXIdle = x;
 			ani = MARIO_ANI_BIG_TAIL_RUN_RIGHT;
 		}
+		else if (state == MARIO_STATE_KICK && kick == true) {
+			ani = MARIO_ANI_BIG_TAIL_KICK_TURLE_RIGHT;
+		}
 		else if (state == MARIO_STATE_ROTATORY_IDLE)
 		{
 			isRotatory = true;
@@ -669,6 +678,9 @@ void CMario::Render()
 		{
 			positionXIdle = x;
 			ani = MARIO_ANI_BIG_TAIL_RUN_LEFT;
+		}
+		else if (state == MARIO_STATE_KICK && kick == true) {
+			ani = MARIO_ANI_BIG_TAIL_KICK_TURLE_LEFT;
 		}
 		else if (state == MARIO_STATE_ROTATORY_IDLE)
 		{
@@ -867,8 +879,8 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	}
 	else if(level == MARIO_LEVEL_TAIL_BIG)
 	{
-		right = x + MARIO_BIG_BBOX_WIDTH;
-		bottom = y + MARIO_BIG_BBOX_HEIGHT;
+		right = x + MARIO_TAIL_BIG_BBOX_WIDTH;
+		bottom = y + MARIO_TAIL_BIG_BBOX_HEIGHT;
 		if (state == MARIO_STATE_DOWN)
 			bottom = y + MARIO_TAIL_BIG_DOWN_BBOX_HEIGHT;
 		else if (state == MARIO_STATE_ROTATORY_IDLE)
@@ -876,7 +888,7 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 			right = x + MARIO_TAIL_FLY_BIG_BBOX_WIDTH;
 		}
 		else
-			bottom = y + MARIO_BIG_BBOX_HEIGHT;
+			bottom = y + MARIO_TAIL_BIG_BBOX_HEIGHT;
 	}
 	else
 	{
