@@ -367,6 +367,9 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_DOWN:
 		mario->SetPosition(mario->x, mario->y - 17);
 		break;
+	case DIK_D:
+		mario->SetPosition(mario->x, mario->y - 200);
+		break;
 	case DIK_A:
 		CBulletMario::isStart = false;
 		break;
