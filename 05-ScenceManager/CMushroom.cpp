@@ -72,7 +72,6 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}	//trang thai la cay
 	if (isRun)
 	{
-		DebugOut(L"is Run \n");
 		state = MUSHROOM_STATE;
 	}
 	
@@ -101,12 +100,10 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		}
 		vy = -0.2f;
 		y += dy;
-		DebugOut(L"ashdgahsg");
 
 	}
 	else if (state == MUSHROOM_STATE)
 	{
-		DebugOut(L"vao nam\n");
 		if (isStart)
 		{
 			this->x = 220;

@@ -37,7 +37,6 @@ void CPlant::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	start = false;
 	if (vy < 0 && y < 248) {
-		DebugOut(L"start ban dan");
 		start = true;
 		y = 248; vy = -vy;
 	}

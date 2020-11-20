@@ -46,7 +46,6 @@ void CBullet::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (plant->start == true)
 	{
 		isStart = true;
-		DebugOut(L"bat dau", plant->start);
 		x = 350;
 		y = 248;
 		vx = 0;

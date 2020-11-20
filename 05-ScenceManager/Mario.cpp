@@ -138,15 +138,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			
 			if (dynamic_cast<CMushroom *>(e->obj)) // if e->obj is mushroom
 			{
-				DebugOut(L"kill nam");
 				CMushroom *mushroom = dynamic_cast<CMushroom *>(e->obj);
 				mushroom->isDie = true;
 				/*mushroom->x = -17;
 				mushroom->y = -17;*/
 				if (mushroom->ani == LEAF_GREEN_ANI)
 				{
-					DebugOut(L"an nam ssssssssssssssssssssssssssssssssssssssssss\n");
-
 					if (level == MARIO_LEVEL_SMALL)
 					{
 						level = MARIO_LEVEL_BIG;
@@ -193,7 +190,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 				else if (e->nx != 0)
 				{
-					DebugOut(L"gomga nx %d,mario nx %f\n",goomba->nx,this->nxx);
 					if (this->state == MARIO_STATE_ROTATORY_IDLE && goomba->nx != this->nxx )
 					{
 						if (goomba->GetState() != GOOMBA_STATE_DIE)
@@ -221,10 +217,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			} // if Goomba
 			else if (dynamic_cast<CBullet *>(e->obj)) // if e->obj is Bullet
 			{
-				DebugOut(L" dan ban trung%d\n",this->level);
 				if (level > MARIO_LEVEL_SMALL)
 				{
-					DebugOut(L" dan ban trung level %d\n",this->level);
 					level = MARIO_LEVEL_SMALL;
 					//StartUntouchable();
 				}
@@ -249,13 +243,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						CMushroom::isRun = true;
 						//mushroom->SetState(MUSHROOM_STATE);
 
-						DebugOut(L" ccccc xuat hienc cccccccc :\n");
 
 					}
 					else
 					{
 						CMushroom::isMoney = true;
-						DebugOut(L" ismoney ===true :\n");
 					}
 
 				}
@@ -300,7 +292,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						this->y -= 2;
 
 						this->vy = -0.4f;
-						DebugOut(L" kill CON RUA");
 						turle->SetState(TURLE_STATE_DIE);
 					}
 					else
@@ -317,7 +308,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						vx = -0.01f;*/
 					if (turle->ani == TURLE_ANI_DIE)
 					{
-						DebugOut(L"555555555555555555555\n");
 						//turle->SetState(TURLE_STATE_RUN_DIE);
 						if (kick == true)
 						{
@@ -329,14 +319,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 							
 							isHoldTurtle = true;
 							turle->isHold = true;
-							DebugOut(L"shgsdhgdhfg state%d\n",this->state);
 						}
 						//this->kick = true;
 						//this->SetState(MARIO_STATE_KICK);
 					}
 					else
 					{
-						DebugOut(L"kill 2");
 						if (untouchable == 0)
 						{
 							if (turle->GetState() != TURLE_STATE_DIE)
@@ -401,7 +389,6 @@ void CMario::Render()
 					ani = MARIO_ANI_BIG_HOLD_TURTLE_RIGHT;
 				}
 				else {
-					DebugOut(L"trang thai %d\n",state);
 					ani = MARIO_ANI_BIG_IDLE_RIGHT;
 
 				}
@@ -418,7 +405,6 @@ void CMario::Render()
 			else
 			{
 				if (state == MARIO_STATE_KICK) {
-					DebugOut(L"da rua 2222");
 					ani = MARIO_ANI_BIG_KICK_RIGHT;
 				}
 				else if (state == MARIO_STATE_DOWN)
@@ -441,7 +427,6 @@ void CMario::Render()
 		else if (vx > 0)
 		{
 			nxx = 1;
-			DebugOut(L"vao111");
 			if (state == MARIO_STATE_JUMP && checkMarioColision == false)                    //ANI JUMP RIGHT
 				ani = MARIO_ANI_BIG_FIRE_JUMP_RIGHT;
 			else if (state == MARIO_STATE_RUN_RIGHT)
@@ -463,7 +448,6 @@ void CMario::Render()
 		else
 		{
 			nxx = -1;
-			DebugOut(L"vao2222");
 			if (state == MARIO_STATE_JUMP && checkMarioColision == false)				   //ANI JUMP LEFT
 				ani = MARIO_ANI_BIG_JUMP_LEFT;
 			else if (state == MARIO_STATE_RUN_LEFT)
@@ -722,7 +706,6 @@ void CMario::Render()
 		{
 			//DebugOut(L"vao1111%d",state);
 			/*if (state == MARIO_STATE_JUMP) {
-				DebugOut(L"vaossssss");
 				ani = MARIO_ANI_SMALL_JUMP_RIGHT;
 			}*/
 			if (nx > 0) {
