@@ -15,7 +15,7 @@
 #include "Turle.h"
 #include "BulletMario.h"
 
-
+int CMario::level = 1;
 bool CMario::isDropTurle = false;
 float CMario::vxx = 0.0f;
 int CMario::nxx = 0;
@@ -35,8 +35,8 @@ CMario::CMario(float x, float y) : CGameObject()
 	levelBefore = 1;
 	//this->CheckToMap(test->game_map_);
 	//level = MARIO_LEVEL_SMALL;
-	level = MARIO_LEVEL_BIG;
-	//level = MARIO_LEVEL_TAIL_BIG;
+//	level = MARIO_LEVEL_BIG;
+	level = MARIO_LEVEL_TAIL_BIG;
 	untouchable = 0;
 	SetState(MARIO_STATE_IDLE);
 

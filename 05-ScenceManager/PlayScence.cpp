@@ -334,6 +334,12 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_S: 
 		mario->Reset();
 		break;
+	case DIK_D:
+		if (mario->level > 3)
+			mario->level = 0;
+		else
+			mario->level ++;
+		break;
 	//case DIK_N:											//cam rua
 	//	mario->SetState(MARIO_STATE_IDLE);
 	//	mario->isHoldTurtle = false;
