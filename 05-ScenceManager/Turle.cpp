@@ -45,7 +45,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (CMario::nxx == 1)
 		{
 			if (CMario::level == MARIO_LEVEL_BIG)
-				this->x = this->x + MARIO_BIG_BBOX_WIDTH/2 +3;
+				this->x = this->x + MARIO_BIG_BBOX_WIDTH/2 +3.2f;
 			else if (CMario::level == MARIO_LEVEL_TAIL_BIG)
 				this->x = this->x + MARIO_TAIL_BIG_BBOX_WIDTH/2+3;
 			//this->x = this->x + 10;
@@ -54,7 +54,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		else 
 		{
 			if(CMario::level == MARIO_LEVEL_BIG)
-				this->x = this->x-MARIO_BIG_BBOX_WIDTH/2-3;
+				this->x = this->x-MARIO_BIG_BBOX_WIDTH/2-4.3f;
 			else if(CMario::level == MARIO_LEVEL_TAIL_BIG)
 				this->x = this->x - MARIO_TAIL_BIG_BBOX_WIDTH/2-3;
 		}
@@ -86,8 +86,9 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			if (CMario::level == MARIO_LEVEL_BIG)
 			{
-				y = CMario::yy + 4;								//set lai vi tri cho con rua
 				x = CMario::xx + 8;
+				y = CMario::yy + 4;								//set lai vi tri cho con rua
+				
 			}
 			else
 			{
