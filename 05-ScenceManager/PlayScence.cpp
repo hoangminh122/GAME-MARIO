@@ -11,6 +11,7 @@
 #include "Bullet.h"
 #include "BulletMario.h"
 #include "BackgroundDie.h"
+//#include "TileMap.h"
 
 using namespace std;
 
@@ -31,6 +32,8 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define SCENE_SECTION_ANIMATIONS 4
 #define SCENE_SECTION_ANIMATION_SETS	5
 #define SCENE_SECTION_OBJECTS	6
+#define SCENE_SECTION_MAP	7
+
 
 #define OBJECT_TYPE_MARIO	0
 #define OBJECT_TYPE_BRICK	1
@@ -89,6 +92,19 @@ void CPlayScene::_ParseSection_SPRITES(string line)
 	CSprites::GetInstance()->Add(ID, l, t, r, b, tex);
 }
 
+void CPlayScene::_ParseSection_MAP(string line)
+{
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 2) return;         // truong hop bo trong
+
+	int idTex = atoi(tokens[1].c_str());  //atoi co nhiem vu chuyen thanh so ngueyn
+	float mapWidth = atoi(tokens[2].c_str());
+	float mapHeight = atoi(tokens[3].c_str());
+	map = new CTileMap(idTex, tokens[0]);
+	
+}
+
 void CPlayScene::_ParseSection_ANIMATIONS(string line)
 {
 	vector<string> tokens = split(line);
@@ -103,7 +119,7 @@ void CPlayScene::_ParseSection_ANIMATIONS(string line)
 	for (int i = 1; i < tokens.size(); i += 2)	// why i+=2 ?  sprite_id | frame_time  
 	{
 		int sprite_id = atoi(tokens[i].c_str());
-		int frame_time = atoi(tokens[i+1].c_str());
+		int frame_time = atoi(tokens[i + 1].c_str());
 		ani->Add(sprite_id, frame_time);
 	}
 
@@ -227,6 +243,9 @@ void CPlayScene::Load()
 			section = SCENE_SECTION_ANIMATION_SETS; continue; }
 		if (line == "[OBJECTS]") { 
 			section = SCENE_SECTION_OBJECTS; continue; }
+		if (line == "[MAP]") {
+			section = SCENE_SECTION_MAP; continue;
+		}
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }	
 
 		//
@@ -239,6 +258,7 @@ void CPlayScene::Load()
 			case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
 			case SCENE_SECTION_ANIMATION_SETS: _ParseSection_ANIMATION_SETS(line); break;
 			case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
+			case SCENE_SECTION_MAP: _ParseSection_MAP(line); break;
 		}
 	}
 
@@ -273,10 +293,11 @@ void CPlayScene::Update(DWORD dt)
 	player->GetPosition(cx, cy);
 
 	CGame *game = CGame::GetInstance();
-	if (cx <= game->GetScreenWidth() / 2)
+	cy -= game->GetScreenHeight()/1.1;
+	/*if (cx <= game->GetScreenWidth() / 2)
 	{
 		cx = 0.0f;
-		//cy = 136.0f;
+		cy = 136.0f;
 	}
 		
 	else if (CMario::isRotatory)
@@ -290,12 +311,16 @@ void CPlayScene::Update(DWORD dt)
 		cy -= game->GetScreenHeight() / 2;
 	else
 		cy = 136.0f;
-
+*/
 	CGame::GetInstance()->SetCamPos(cx,cy);
 }
 
 void CPlayScene::Render()
 {
+	if (map != NULL)
+	{
+		map->Render(player);				//load map len
+	}
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
 }

@@ -2,9 +2,15 @@
 #include "TileMap.h"
 #include <fstream>
 #include "Textures.h"
+#include "Utils.h"
+#include <string>
+
 
 CTileMap::CTileMap(int idTex, string txtMapPath)
 {
+	//string path = "textures/map/man1/" + txtMapPath;
+	DebugOut(L"SDFSDFSDDDFSFSDF%s\n", txtMapPath);
+	string xxx = txtMapPath;
 		fstream fs;
 		fs.open(txtMapPath);
 
@@ -54,9 +60,9 @@ CTileMap::~CTileMap()
 }
 void CTileMap::Render(CMario* player)
 {
-	for (int x = 0; x <= 176; x++)
+	for (int x = 0; x <= 50; x++)
 	{
-		for (int y = 0; y <= 27; y++)
+		for (int y = 0; y <= 26; y++)
 		{
 			int xDrawIndex, yDrawIndex, xDraw, yDraw, i;
 			i = x + y * numXTiles;
