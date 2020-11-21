@@ -81,7 +81,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	}
 	// Simple fall down
-	vy += MARIO_GRAVITY*dt;
+	if (this->isStateFly == true && checkMarioColision == false && this->energyFly < 20)
+		//vy += 0.0009f*dt;
+		vy = 0.05f;
+	else
+		vy += MARIO_GRAVITY*dt;
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;

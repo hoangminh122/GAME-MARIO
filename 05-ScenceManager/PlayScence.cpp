@@ -361,7 +361,7 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		mario->SetPosition(mario->x, mario->y - 17);
 		break;
 	case DIK_D:
-		mario->SetPosition(mario->x, mario->y - 200);
+		mario->SetPosition(mario->x, mario->y - 120);
 		break;
 	case DIK_A:
 		CBulletMario::isStart = false;
@@ -390,10 +390,11 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		break;
 	
 	case DIK_C:
-	{
-		if(CMario::energyFly < 0)
-			CMario::energyFly = 20;
-	}
+		if (mario->level == MARIO_LEVEL_TAIL_BIG)
+		{
+			if (CMario::energyFly < 0)
+				CMario::energyFly = 20;
+		}
 		break;
 	
 	}
@@ -416,9 +417,13 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	}
 	else if (game->IsKeyDown(DIK_C))
 	{
-		CMario::energyFly--;
-		if(CMario::energyFly > 0)
-			mario->SetState(MARIO_STATE_FLY);
+		DebugOut(L"STATE     %d\n", mario->state);
+		if (mario->level == MARIO_LEVEL_TAIL_BIG)
+		{
+			CMario::energyFly--;
+			if (CMario::energyFly > 0)
+				mario->SetState(MARIO_STATE_FLY);
+		}
 
 	}
 	

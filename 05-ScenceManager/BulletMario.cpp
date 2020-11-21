@@ -53,6 +53,7 @@ void CBulletMario::GetBoundingBox(float &l, float &t, float &r, float &b)
 void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	CGameObject::Update(dt);
+
 	if (nextStart - timeStart > 5000)
 	{
 		isDie = true;
@@ -103,7 +104,8 @@ void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		nextStart = GetTickCount();
 		CGame *game = CGame::GetInstance();
 		if (nxBullet == 1 && x > CMario::xRealTime + game->GetScreenWidth() / 2
-			|| nxBullet == -1 && x < CMario::xRealTime - game->GetScreenWidth() / 2)
+			|| nxBullet == -1 && x < CMario::xRealTime - game->GetScreenWidth() / 2
+			|| CMario::xx <0)
 		{
 			isDie = true;
 			isBullet = false;
@@ -130,7 +132,13 @@ void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			vy = -vy-0.01f;
 			heightAfter = y;
 		}
-			
+		
+		else if (vx == 0.0f)
+		{
+			isDie = true;
+			isBullet = false;
+		}
+
 		x += dx;
 		y += dy;
 
@@ -194,6 +202,7 @@ void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					vy = -vy;
 				else if (e->nx != 0)
 					vx = -vx;
+				
 			}
 
 		}
