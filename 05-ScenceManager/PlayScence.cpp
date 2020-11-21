@@ -457,7 +457,10 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 				mario->SetState(MARIO_STATE_RUN_RIGHT);
 			}
 			else
+			{
 				mario->SetState(MARIO_STATE_WALKING_RIGHT);
+				mario->vx = MARIO_WALKING_SPEED;											//cai nay fix tam. chua xu ly kip
+			}
 		}
 		else if (game->IsKeyDown(DIK_LEFT)) {
 			/*if (game->IsKeyDown(DIK_A))
@@ -476,6 +479,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 			else
 			{
 				mario->SetState(MARIO_STATE_WALKING_LEFT);
+				mario->vx = -MARIO_WALKING_SPEED;
 			}
 		}
 	}
@@ -499,7 +503,17 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 			mario->SetState(MARIO_STATE_RUN_RIGHT);
 		}
 		else
-			mario->SetState(MARIO_STATE_WALKING_RIGHT);
+		{
+			if (mario->vx < MARIO_WALKING_SPEED)
+				mario->vx += 0.005f;
+			if (mario->vx < 0)
+			{
+				DebugOut(L"SHGDHSGF\n");
+				mario->SetState(MARIO_STATE_BRAKE);
+			}
+			else
+				mario->SetState(MARIO_STATE_WALKING_RIGHT);
+		}
 	}
 	else if (game->IsKeyDown(DIK_LEFT)) {
 		/*if (game->IsKeyDown(DIK_A))
@@ -517,7 +531,12 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		}
 		else
 		{
-			mario->SetState(MARIO_STATE_WALKING_LEFT);
+			if (mario->vx > -MARIO_WALKING_SPEED)
+				mario->vx -= 0.005f;
+			if (mario->vx > 0 )
+				mario->SetState(MARIO_STATE_BRAKE);
+			else
+				mario->SetState(MARIO_STATE_WALKING_LEFT);
 		}
 	}
 	else if (game->IsKeyDown(DIK_A)) {
