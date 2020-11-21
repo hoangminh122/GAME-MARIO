@@ -8,6 +8,15 @@
 50	textures\enemie\enemies.png	255	255	255
 60	textures\enemie\enemies-2.png	255	255	255
 70	textures\enemie\enemies-3.png	255	255	255
+80	textures\map\man1\tile-map1-1.png	255	255	255
+
+
+#maptile
+#name    texture_id	widthmap	geightmap
+[MAP]
+tile-map1-1.txt	30	2816	432
+
+
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]

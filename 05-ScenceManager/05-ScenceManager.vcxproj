@@ -139,6 +139,7 @@
     <ClCompile Include="Plant.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="QuestionBox.cpp" />
+    <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="Turle.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -167,6 +168,7 @@
     <ClInclude Include="Portal.h" />
     <ClInclude Include="QuestionBox.h" />
     <ClInclude Include="test.h" />
+    <ClInclude Include="TileMap.h" />
     <ClInclude Include="Turle.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Game.h" />
