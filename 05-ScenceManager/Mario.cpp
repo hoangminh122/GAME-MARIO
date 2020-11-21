@@ -408,8 +408,8 @@ void CMario::Render()
 			}
 			else
 			{
-				if (state == MARIO_STATE_KICK) {
-					ani = MARIO_ANI_BIG_KICK_RIGHT;
+				if (state == MARIO_STATE_KICK && kick == true) {
+					ani = MARIO_ANI_BIG_KICK_LEFT;
 				}
 				else if (state == MARIO_STATE_DOWN)
 				{
@@ -483,6 +483,12 @@ void CMario::Render()
 				if (state == MARIO_STATE_JUMP) {
 					ani = MARIO_ANI_BIG_FIRE_JUMP_RIGHT;
 				}
+				if (state == MARIO_STATE_KICK && kick == true) {
+					ani = MARIO_ANI_BIG_FIRE_KICK_RIGHT;
+				}
+				else if (state == MARIO_STATE_HOLD_TURTLE) {
+					ani = MARIO_ANI_BIG_FIRE_HOLD_TURLE_RIGHT;
+				}
 				else if (state == MARIO_STATE_BULLET_IDLE)	//isBullet ==false :kiem tra truong hop mario khong state run,jump
 				{
 					//set position dan mario
@@ -503,7 +509,12 @@ void CMario::Render()
 				if (state == MARIO_STATE_JUMP) {
 					ani = MARIO_ANI_BIG_FIRE_JUMP_LEFT;
 				}
-				
+				else if (state == MARIO_STATE_HOLD_TURTLE) {
+					ani = MARIO_ANI_BIG_FIRE_HOLD_TURLE_LEFT;
+				}
+				else if (state == MARIO_STATE_KICK && kick == true) {
+					ani = MARIO_ANI_BIG_FIRE_KICK_LEFT;
+				}
 				else if (state == MARIO_STATE_BULLET_IDLE)
 				{
 					//set position dan mario
@@ -532,6 +543,9 @@ void CMario::Render()
 			}*/
 			if (state == MARIO_STATE_JUMP && checkMarioColision == false)                    //ANI JUMP RIGHT
 				ani = MARIO_ANI_BIG_FIRE_JUMP_RIGHT;
+			else if (state == MARIO_STATE_KICK && kick == true) {
+				ani = MARIO_ANI_BIG_FIRE_KICK_RIGHT;
+			}
 			else if (state == MARIO_STATE_BRAKE)
 				ani = MARIO_ANI_BIG_FIRE_BRAKE_RIGHT;
 			else if (state == MARIO_STATE_RUN_RIGHT)
@@ -553,6 +567,9 @@ void CMario::Render()
 			}*/
 			if (state == MARIO_STATE_JUMP && checkMarioColision == false)				   //ANI JUMP LEFT
 				ani = MARIO_ANI_BIG_FIRE_JUMP_LEFT;
+			else if (state == MARIO_STATE_KICK && kick == true) {
+				ani = MARIO_ANI_BIG_FIRE_KICK_LEFT;
+			}
 			else if (state == MARIO_STATE_BRAKE)
 				ani = MARIO_ANI_BIG_FIRE_BRAKE_LEFT;
 			else if (state == MARIO_STATE_RUN_LEFT)
@@ -744,6 +761,13 @@ void CMario::Render()
 				if (state == MARIO_STATE_JUMP) {
 					ani = MARIO_ANI_SMALL_JUMP_RIGHT;
 				}
+				if (state == MARIO_STATE_KICK && kick == true) {
+					ani = MARIO_ANI_SMALL_KICK_RIGHT;
+				}
+				else if (state == MARIO_STATE_HOLD_TURTLE)
+				{
+					ani = MARIO_ANI_SMALL_HOLD_TURLE_RIGHT;
+				}
 				else
 					ani = MARIO_ANI_SMALL_IDLE_RIGHT;
 				/*
@@ -761,6 +785,13 @@ void CMario::Render()
 				if (state == MARIO_STATE_JUMP) {
 					ani = MARIO_ANI_SMALL_JUMP_LEFT;
 				}
+				if (state == MARIO_STATE_KICK && kick == true) {
+					ani = MARIO_ANI_SMALL_KICK_RIGHT;
+				}
+				else if (state == MARIO_STATE_HOLD_TURTLE)
+				{
+					ani = MARIO_ANI_SMALL_HOLD_TURLE_LEFT;
+				}
 				else
 					ani = MARIO_ANI_SMALL_IDLE_LEFT;
 			}
@@ -772,17 +803,24 @@ void CMario::Render()
 				ani = MARIO_ANI_SMALL_JUMP_RIGHT;
 			else if(state == MARIO_STATE_BRAKE)
 				ani = MARIO_ANI_SMALL_BRAKE_RIGHT;
+			else if (state == MARIO_STATE_KICK && kick == true) {
+				ani = MARIO_ANI_SMALL_KICK_RIGHT;
+			}
 			else if (state == MARIO_STATE_RUN_RIGHT)
 			{
 				ani = MARIO_ANI_SMALL_RUN_RIGHT;
 			}
 			else
 				ani = MARIO_ANI_SMALL_WALKING_RIGHT;
+
 		}
 		else 
 		{
 			if (state == MARIO_STATE_JUMP && checkMarioColision == false)				   //ANI JUMP LEFT
 				ani = MARIO_ANI_SMALL_JUMP_LEFT;
+			else if (state == MARIO_STATE_KICK && kick == true) {
+				ani = MARIO_ANI_SMALL_KICK_RIGHT;
+			}
 			else if (state == MARIO_STATE_BRAKE)
 				ani = MARIO_ANI_SMALL_BRAKE_LEFT;
 			else if (state == MARIO_STATE_RUN_LEFT)

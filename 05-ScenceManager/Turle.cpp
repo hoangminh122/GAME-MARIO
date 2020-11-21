@@ -13,7 +13,7 @@ CTurle::CTurle()
 	isStop = 0;
 	//ani = TURLE_STATE_RUN_DIE;
 	ani = TURLE_ANI_WALKING_LEFT;
-	SetState(TURLE_STATE_DIE);
+	SetState(TURLE_STATE_WALKING);
 	//SetState(TURLE_STATE_RUN_DIE);
 }
 
@@ -44,7 +44,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		if (CMario::nxx == 1)
 		{
-			if (CMario::level == MARIO_LEVEL_BIG)
+			if (CMario::level == MARIO_LEVEL_BIG || CMario::level == MARIO_LEVEL_FIRE_BIG)
 				this->x = this->x + MARIO_BIG_BBOX_WIDTH/2 +3.2f;
 			else if (CMario::level == MARIO_LEVEL_TAIL_BIG)
 				this->x = this->x + MARIO_TAIL_BIG_BBOX_WIDTH/2+3;
@@ -53,7 +53,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		}
 		else 
 		{
-			if(CMario::level == MARIO_LEVEL_BIG)
+			if(CMario::level == MARIO_LEVEL_BIG || CMario::level == MARIO_LEVEL_FIRE_BIG)
 				this->x = this->x-MARIO_BIG_BBOX_WIDTH/2-4.3f;
 			else if(CMario::level == MARIO_LEVEL_TAIL_BIG)
 				this->x = this->x - MARIO_TAIL_BIG_BBOX_WIDTH/2-3;
