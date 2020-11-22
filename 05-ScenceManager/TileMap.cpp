@@ -60,9 +60,9 @@ CTileMap::~CTileMap()
 }
 void CTileMap::Render(CMario* player)
 {
-	for (int x = 0; x <= 50; x++)
+	for (int x = 0; x < 17; x++)
 	{
-		for (int y = 0; y <= 26; y++)
+		for (int y = 0; y < 27; y++)
 		{
 			int xDrawIndex, yDrawIndex, xDraw, yDraw, i;
 			i = x + y * numXTiles;

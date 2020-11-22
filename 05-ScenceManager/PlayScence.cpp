@@ -292,12 +292,23 @@ void CPlayScene::Update(DWORD dt)
 	float cx, cy;
 	player->GetPosition(cx, cy);
 
-	CGame *game = CGame::GetInstance();
+	CGame* game = CGame::GetInstance();
+	cx -= game->GetScreenWidth() / 2;
+	cy -= game->GetScreenHeight() / 2;
+
+	CGame::GetInstance()->SetCamPos(cx, cy);
+
+	//CCamera::GetInstance()->Update(player);
+
+
+
+
+	/*CGame *game = CGame::GetInstance();
 	cy -= game->GetScreenHeight()/1.1;
-	/*if (cx <= game->GetScreenWidth() / 2)
+	if (cx <= game->GetScreenWidth() / 2)
 	{
 		cx = 0.0f;
-		cy = 136.0f;
+		cy = 236.0f;
 	}
 		
 	else if (CMario::isRotatory)
@@ -310,9 +321,10 @@ void CPlayScene::Update(DWORD dt)
 	if (cy <=136)
 		cy -= game->GetScreenHeight() / 2;
 	else
-		cy = 136.0f;
+		cy = 236.0f;
 */
-	CGame::GetInstance()->SetCamPos(cx,cy);
+
+
 }
 
 void CPlayScene::Render()
