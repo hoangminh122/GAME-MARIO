@@ -2,6 +2,7 @@
 #include <vector>
 #include "Sprites.h"
 #include "Mario.h"
+#define CELL_SIZE 150
 
 //using namespace std;
 

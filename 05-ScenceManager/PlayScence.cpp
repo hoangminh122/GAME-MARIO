@@ -11,6 +11,7 @@
 #include "Bullet.h"
 #include "BulletMario.h"
 #include "BackgroundDie.h"
+#include "Camera.h"
 //#include "TileMap.h"
 
 using namespace std;
@@ -297,8 +298,7 @@ void CPlayScene::Update(DWORD dt)
 	cy -= game->GetScreenHeight() / 2;
 
 	CGame::GetInstance()->SetCamPos(cx, cy);
-
-	//CCamera::GetInstance()->Update(player);
+	CCamera::GetInstance()->Update(player);
 
 
 

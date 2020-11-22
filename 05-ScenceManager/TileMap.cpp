@@ -4,6 +4,7 @@
 #include "Textures.h"
 #include "Utils.h"
 #include <string>
+#include "Game.h"
 
 
 CTileMap::CTileMap(int idTex, string txtMapPath)
@@ -60,9 +61,31 @@ CTileMap::~CTileMap()
 }
 void CTileMap::Render(CMario* player)
 {
-	for (int x = 0; x < 17; x++)
+	//chi ve khung camera, khong ve het
+	CGame* game = CGame::GetInstance();
+	float  cx, cy;
+	player->GetPosition(cx, cy);	//lay vi tri cua mario
+	//tinh vi tri topleft va bottonright cua camera
+
+	int xTopLeftCam = cx - game->GetScreenWidth() / 2;  //vi tri tren ben trai cua camera
+	int yTopLeftCam = cy - game->GetScreenHeight() / 2;
+	int xBotRightCam = cx + game->GetScreenWidth() / 2;
+	int yBotRightCam = cy + game->GetScreenHeight() / 2;
+
+	//chia cho width,height cua moi tile nho => vi
+	int xTopLeft = xTopLeftCam / 16;
+	int yTopLeft = yTopLeftCam / 16;
+	int xBotRight = xBotRightCam / 16;
+	int yBotRight = yBotRightCam / 16;
+
+	if (xBotRight >= numXTiles - 1)
+		xBotRight = numXTiles - 1;
+	if (yBotRight >= numYTiles - 1)
+		yBotRight = numYTiles - 1;
+
+	for (int x = xTopLeft; x <= xBotRight; x++)
 	{
-		for (int y = 0; y < 27; y++)
+		for (int y = yTopLeft; y <= yBotRight; y++)
 		{
 			int xDrawIndex, yDrawIndex, xDraw, yDraw, i;
 			i = x + y * numXTiles;
