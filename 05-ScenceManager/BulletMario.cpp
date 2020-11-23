@@ -26,7 +26,7 @@ CBulletMario * CBulletMario::__instance = NULL;
 CBulletMario::CBulletMario() : CGameObject()
 {
 	isStart = false;
-	state = -1;
+	this->SetState(-1);
 	heightAfter = 0;
 	isDie = true;
 	isBullet = false;
@@ -120,7 +120,7 @@ void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	coEvents.clear();
 
 	// turn off collision when die 
-	if (state != BULLET_MARIO_STATE_DIE)
+	if (this->GetState() != BULLET_MARIO_STATE_DIE)
 		CalcPotentialCollisions(coObjects, coEvents);
 
 

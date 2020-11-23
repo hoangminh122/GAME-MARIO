@@ -359,7 +359,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	CMario *mario = ((CPlayScene*)scence)->GetPlayer();
 	switch (KeyCode)
 	{
-	case DIK_SPACE:
+	case DIK_S:
 		mario->SetState(MARIO_STATE_JUMP);
 		break;
 	case DIK_X:
@@ -369,7 +369,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		mario->SetState(MARIO_STATE_BULLET_IDLE);
 		break;
 
-	case DIK_S: 
+	case DIK_T: 
 		mario->Reset();
 		break;
 	case DIK_D:
@@ -448,14 +448,14 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	if (mario->GetState() == MARIO_STATE_DIE) return;
 	if (mario->GetState() == MARIO_STATE_KICK)
 		mario->SetState(MARIO_STATE_KICK);
-	else if (game->IsKeyDown(DIK_SPACE))
+	else if (game->IsKeyDown(DIK_S))
 	{
 		mario->SetState(MARIO_STATE_JUMP);
 	
 	}
 	else if (game->IsKeyDown(DIK_C))
 	{
-		DebugOut(L"STATE     %d\n", mario->state);
+		DebugOut(L"STATE     %d\n", mario->GetState());
 		if (mario->level == MARIO_LEVEL_TAIL_BIG)
 		{
 			CMario::energyFly--;
@@ -532,10 +532,15 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 
 	}
 	else if (game->IsKeyDown(DIK_RIGHT)) {
-		/*if (game->IsKeyDown(DIK_A)) 
+		if (mario->vx < MARIO_WALKING_SPEED)
+			mario->vx += 0.01f;
+		if (mario->vx < 0)
 		{
-			CMario::isBullet = true;
-		}*/
+			DebugOut(L"SHGDHSGF\n");
+			mario->SetState(MARIO_STATE_BRAKE);
+		}
+		else
+			mario->SetState(MARIO_STATE_WALKING_RIGHT);
 		if (game->IsKeyDown(DIK_Z))
 		{
 			if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG)
@@ -544,18 +549,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 					CMario::energyFly += 5;
 			}
 			mario->SetState(MARIO_STATE_RUN_RIGHT);
-		}
-		else
-		{
-			if (mario->vx < MARIO_WALKING_SPEED)
-				mario->vx += 0.005f;
-			if (mario->vx < 0)
-			{
-				DebugOut(L"SHGDHSGF\n");
-				mario->SetState(MARIO_STATE_BRAKE);
-			}
-			else
-				mario->SetState(MARIO_STATE_WALKING_RIGHT);
 		}
 	}
 	else if (game->IsKeyDown(DIK_LEFT)) {

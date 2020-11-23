@@ -23,7 +23,7 @@ void CTurle::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	top = y;
 	right = x + TURLE_BBOX_WIDTH;
 
-	if (state == TURLE_STATE_DIE || state == TURLE_STATE_RUN_DIE)
+	if (this->GetState() == TURLE_STATE_DIE || this->GetState() == TURLE_STATE_RUN_DIE)
 		bottom = y + TURLE_BBOX_HEIGHT_DIE;
 	
 	else
@@ -69,7 +69,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	coEvents.clear();
 
 	// turn off collision when die 
-	if (state != TURLE_STATE_DIE_OVER)
+	if (this->GetState() != TURLE_STATE_DIE_OVER)
 		CalcPotentialCollisions(coObjects, coEvents);
 
 	// reset untouchable timer if untouchable time has passed
@@ -77,7 +77,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
 	{
-		if (state == TURLE_STATE_DIE_OVER)
+		if (this->GetState() == TURLE_STATE_DIE_OVER)
 		{
 			x = 0;
 			y = 0;
@@ -132,16 +132,16 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			if (dynamic_cast<CBrickTop *>(e->obj)) // if e->obj is brickTop
 			{
-				if (state == TURLE_STATE_DIE)
+				if (this->GetState() == TURLE_STATE_DIE)
 				{
 					vx = 0;
 					vy = 0;
 				}
-				else if(state == TURLE_STATE_RUN_DIE)
+				else if(this->GetState() == TURLE_STATE_RUN_DIE)
 					vx = 0.2f;
 				else
 					vx = vxx;
-				if (state == TURLE_STATE_WALKING)
+				if (this->GetState() == TURLE_STATE_WALKING)
 				{
 					if (vx < 0 && x < 530) {
 						//x = 0; 
@@ -164,7 +164,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			}
 			else if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is CQuestion
 			{
-				if (state == TURLE_STATE_DIE)
+				if (this->GetState() == TURLE_STATE_DIE)
 				{
 					vx = 0;
 				}
@@ -183,10 +183,10 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 void CTurle::Render()
 {
 	
-	if (state == TURLE_STATE_DIE) {
+	if (this->GetState() == TURLE_STATE_DIE) {
 		ani = TURLE_ANI_DIE;
 	}
-	else if (state == TURLE_STATE_RUN_DIE) {
+	else if (this->GetState() == TURLE_STATE_RUN_DIE) {
 		ani = TURLE_ANI_RUN_DIE;
 	}
 	else if (vx > 0) ani = TURLE_ANI_WALKING_RIGHT;
