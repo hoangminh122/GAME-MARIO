@@ -103,6 +103,7 @@ void CPlayScene::_ParseSection_MAP(string line)
 	float mapWidth = atoi(tokens[2].c_str());
 	float mapHeight = atoi(tokens[3].c_str());
 	map = new CTileMap(idTex, tokens[0]);
+	CCamera::GetInstance()->SetMapSize(mapWidth, mapHeight);
 	
 }
 

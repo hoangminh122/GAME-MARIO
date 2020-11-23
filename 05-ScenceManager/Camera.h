@@ -7,7 +7,7 @@ public:
 
 	CCamera();
 	static CCamera* GetInstance();
-
+	void SetPosition(float x, float y);
 	D3DXVECTOR3 GetPosition();
 	void SetPosition(D3DXVECTOR3 pos);
 	void SetWidth(int width);
@@ -15,6 +15,8 @@ public:
 	int GetWidth();
 	int GetHeight();
 	void Update(CMario* player);
+	void SetMapSize(int width, int height);
+	RECT GetBound();
 	~CCamera();
 
 
