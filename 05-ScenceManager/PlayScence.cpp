@@ -360,7 +360,8 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_S:
-		mario->SetState(MARIO_STATE_JUMP);
+		timeJumpStart = GetTickCount();
+		DebugOut(L"minh%d\n",timeJumpStart);
 		break;
 	case DIK_X:
 		mario->SetState(MARIO_STATE_ROTATORY_IDLE);
@@ -406,6 +407,9 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		break;
 	case DIK_D:
 		mario->SetPosition(mario->x, mario->y - 120);
+		break;
+	/*case DIK_S:
+		mario->jumpHigher = false;*/
 		break;
 	case DIK_A:
 		CBulletMario::isStart = false;
@@ -455,7 +459,20 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		mario->SetState(MARIO_STATE_KICK);*/
 	else if (game->IsKeyDown(DIK_S))
 	{
-		mario->SetState(MARIO_STATE_JUMP);
+		DebugOut(L"ssssss%d ss%dsdsd%d\n", GetTickCount() ,timeJumpStart, GetTickCount()-timeJumpStart);
+		if (GetTickCount() - timeJumpStart > TIME_KEEP_KEY)
+		{
+			DebugOut(L"vao nhay cao/n");
+
+			mario->jumpHigher = true;
+		}
+		if (mario->checkMarioColision == true)
+		{
+			mario->SetState(MARIO_STATE_JUMP);
+		}
+		else
+			mario->jumpHigher = false;
+		
 	}
 	//else if (game->IsKeyDown(DIK_C))
 	//{

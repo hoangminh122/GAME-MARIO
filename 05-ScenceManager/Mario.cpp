@@ -50,6 +50,7 @@ CMario::CMario(float x, float y) : CGameObject()
 	//ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
 	//positionXIdle = 0;
 	isStateFly = false;
+	jumpHigher = false;
 }
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -856,10 +857,13 @@ void CMario::SetState(int state)
 		nxx = 1;
 		break;
 	case MARIO_STATE_JUMP:
-		if (checkMarioColision == true) {
-			vy = -MARIO_JUMP_SPEED_Y;
-			break;
+		if (jumpHigher)
+		{
+			vy = -MARIO_JUMP_SPEED_HIGHER_Y;
 		}
+		else
+			vy = -MARIO_JUMP_SPEED_Y;
+		break;
 	case MARIO_STATE_IDLE: 
 		//vx = 0;
 		break;
