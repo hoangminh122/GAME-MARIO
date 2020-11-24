@@ -552,13 +552,10 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		}
 		else
 			mario->SetState(MARIO_STATE_WALKING);
-		if (game->IsKeyDown(DIK_Z))
+		if (game->IsKeyDown(DIK_A))
 		{
-			if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG)
-			{
-				if (CMario::energyFly < 200)
-					CMario::energyFly += 5;
-			}
+			if (mario->vx < MARIO_RUN_NORMAL_SPEED)
+				mario->vx += 0.01f;
 			mario->SetState(MARIO_STATE_RUN_RIGHT);
 		}
 	}
@@ -571,13 +568,10 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		else
 			mario->SetState(MARIO_STATE_WALKING);
 
-		if (game->IsKeyDown(DIK_Z))
+		if (game->IsKeyDown(DIK_A))
 		{
-			if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG)
-			{
-				if (CMario::energyFly < 200)
-					CMario::energyFly += 5;
-			}
+			if (mario->vx > -MARIO_RUN_NORMAL_SPEED)
+				mario->vx -= 0.01f;
 			mario->SetState(MARIO_STATE_RUN_LEFT);
 		}
 	}
@@ -593,15 +587,15 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		{
 			DebugOut(L"sadasdphai%f\n", mario->vx);
 			mario->vx -= MARIO_WALKING_ADD_SPEED;
-			/*if (mario < 0)
-				mario->vx = 0.0f;*/
+			if (mario->vx < 0)
+				mario->vx = 0.0f;
 		}
 		if(mario->vx < 0 && mario->checkMarioColision == true)
 		{
 			DebugOut(L"sadasd%f\n",mario->vx);
 			mario->vx += MARIO_WALKING_ADD_SPEED;
-			/*if (mario > 0)
-				mario->vx = 0.0f;*/
+			if (mario->vx > 0)
+				mario->vx = 0.0f;
 		}
 
 		//if (game->IsKeyDown(DIK_V))
