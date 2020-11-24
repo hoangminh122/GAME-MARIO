@@ -6,7 +6,7 @@
 #define MARIO_WALKING_ADD_SPEED	0.005f 
 //0.1f
 #define MARIO_JUMP_SPEED_Y		0.45f
-#define MARIO_JUMP_SPEED_HIGHER_Y		0.55f
+#define MARIO_JUMP_SPEED_HIGHER_Y		0.1f
 #define MARIO_JUMP_DEFLECT_SPEED 0.2f
 #define MARIO_GRAVITY			0.002f
 #define MARIO_DIE_DEFLECT_SPEED	 0.5f
@@ -14,7 +14,8 @@
 //#define MARIO_STATE_WALKING_RIGHT	100
 //#define MARIO_STATE_WALKING_LEFT	200
 #define MARIO_STATE_WALKING		200
-#define MARIO_STATE_JUMP			300
+#define MARIO_STATE_JUMP_HIGH	100
+#define MARIO_STATE_JUMP_NORMAL	300
 #define MARIO_STATE_DIE				400
 #define MARIO_STATE_RUN_RIGHT		500
 #define MARIO_STATE_RUN_LEFT		600
@@ -152,6 +153,7 @@ class CMario : public CGameObject
 	//GameMap* test;
 	int ani;
 public: 
+	DWORD timeJumpStart;
 	bool jumpHigher;			//mario jump cao hơn khi giữ S
 	int static level;
 	bool static isDropTurle;        //fix xu ly khi tha rua de khong bi va cham

@@ -362,15 +362,11 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_S:
 		timeJumpStart = GetTickCount();
 		DebugOut(L"minh%d\n",timeJumpStart);
+		/*if(mario->checkMarioColision == true)
+			mario->vy = -0.15f;*/
 		break;
 	case DIK_X:
 		mario->SetState(MARIO_STATE_ROTATORY_IDLE);
-		break;
-	case DIK_LEFT:
-		mario->nx = -1;
-		break;
-	case DIK_RIGHT:
-		mario-> nx = 1;
 		break;
 	case DIK_A:
 		mario->SetState(MARIO_STATE_BULLET_IDLE);
@@ -408,11 +404,11 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_D:
 		mario->SetPosition(mario->x, mario->y - 120);
 		break;
-	/*case DIK_S:
-		mario->jumpHigher = false;*/
-		break;
 	case DIK_A:
 		CBulletMario::isStart = false;
+		break;
+	case DIK_S:
+		mario->jumpHigher = false;
 		break;
 	case DIK_N:											//cam rua
 		if (mario->isHoldTurtle)
@@ -459,20 +455,13 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		mario->SetState(MARIO_STATE_KICK);*/
 	else if (game->IsKeyDown(DIK_S))
 	{
-		DebugOut(L"ssssss%d ss%dsdsd%d\n", GetTickCount() ,timeJumpStart, GetTickCount()-timeJumpStart);
-		if (GetTickCount() - timeJumpStart > TIME_KEEP_KEY)
+		mario->jumpHigher = true;         //dang o trang thai nhan giu phim S
+		mario->SetState(MARIO_STATE_JUMP_NORMAL);
+		DebugOut(L"ssssss%d ss%dsdsd%d\n", GetTickCount(),timeJumpStart, GetTickCount() - timeJumpStart);
+		if (GetTickCount() - timeJumpStart > 150 && GetTickCount() - timeJumpStart < 200 && timeJumpStart != 0)
 		{
-			DebugOut(L"vao nhay cao/n");
-
-			mario->jumpHigher = true;
+			mario->vy -= MARIO_JUMP_SPEED_HIGHER_Y;
 		}
-		if (mario->checkMarioColision == true)
-		{
-			mario->SetState(MARIO_STATE_JUMP);
-		}
-		else
-			mario->jumpHigher = false;
-		
 	}
 	//else if (game->IsKeyDown(DIK_C))
 	//{
@@ -553,6 +542,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 
 	//}
 	else if (game->IsKeyDown(DIK_RIGHT)) {
+		mario->nx = 1;
 		if (mario->vx < MARIO_WALKING_SPEED)
 			mario->vx += MARIO_WALKING_ADD_SPEED;
 		if (mario->vx < 0)
@@ -573,6 +563,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		}
 	}
 	else if (game->IsKeyDown(DIK_LEFT)) {
+		mario->nx = -1;
 		if (mario->vx > -MARIO_WALKING_SPEED)
 			mario->vx -= MARIO_WALKING_ADD_SPEED;
 		if (mario->vx > 0 )
@@ -596,7 +587,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	*/
 	else
 	{
-		
 		mario->SetState(MARIO_STATE_IDLE);
 		//chỉnh tốc dộ mario giảm dần -> 0 khi ở trên nên đất
 		if (mario->vx > 0 && mario ->checkMarioColision == true)

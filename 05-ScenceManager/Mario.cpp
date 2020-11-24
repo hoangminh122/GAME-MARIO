@@ -14,6 +14,7 @@
 #include "Plant.h"
 #include "Turle.h"
 #include "BulletMario.h"
+#include "Brick.h"
 
 int CMario::level = 1;
 bool CMario::isDropTurle = false;
@@ -58,35 +59,44 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
 
-	if(isHoldTurtle)						//xu ly vi tri mario cam rua chay 
-	{
-		if (this->GetState() == MARIO_STATE_IDLE)
-		{
-			if (vx > 0)
-			{
-				xx = this->x;
-				yy = this->y;
-			}
-			
-		}
-		/*else if (this->GetState() == MARIO_STATE_WALKING_RIGHT)
-		{
-				xx = this->x;
-				yy = this->y;
-		}
-		else if (this->GetState() == MARIO_STATE_WALKING_LEFT)
-		{
-			xx = this->x - MARIO_BIG_BBOX_WIDTH;
-			yy = this->y;
-		}*/
+	//if(isHoldTurtle)						//xu ly vi tri mario cam rua chay 
+	//{
+	//	if (this->GetState() == MARIO_STATE_IDLE)
+	//	{
+	//		if (vx > 0)
+	//		{
+	//			xx = this->x;
+	//			yy = this->y;
+	//		}
+	//		
+	//	}
 
-	}
+	//}
+	//DebugOut(L"SHDGFDSGsssssssssssssss%f\n", vy);
 	// Simple fall down
+	/*if (vy >= -0.001f && vy <= 0)
+		vy -= vy;*/
+
+	/*if (vy >= -0.02f && vy <= 0 && checkMarioColision == false  && vy <0)
+	{*/
+		
+
+	/*	DebugOut(L"SHDGFDSGssssssssssssssssssF\n");
+		vy += -0.1f;
+
+	}*/
+	
+
 	if (this->isStateFly == true && checkMarioColision == false && this->energyFly < 20)
 		//vy += 0.0009f*dt;
-		vy = 0.05f;
+		vy += -0.07f;
 	else
-		vy += MARIO_GRAVITY*dt;
+		vy += MARIO_GRAVITY * dt;
+	/*else if (checkMarioColision == true)
+	{
+
+	}*/
+	
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -108,13 +118,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (coEvents.size()==0)
 	{
 		xRealTime = x;
-		checkMarioColision = false;
+		if (vy != 0)
+			checkMarioColision = false;
 		x += dx; 
 		y += dy;
 	}
 	else
 	{
-		checkMarioColision = true;									//mario co va cham
 		float min_tx, min_ty, nx = 0, ny;
 		float rdx = 0; 
 		float rdy = 0;
@@ -130,9 +140,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		x += min_tx*dx + nx*0.4f;
 		y += min_ty*dy + ny*0.4f;
 
-		if (nx!=0) vx = 0;
-		if (ny!=0) vy = 0;
+		/*if (nx!=0) vx = 0;
+		if (ny!=0) vy = 0;*/
 
+		if (ny < 0 && vy >= 0)
+		{
+			checkMarioColision = true;
+			jumpHigher = true;
+		}
 
 		//
 		// Collision logic with other objects
@@ -177,6 +192,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 				
 			} // if plant
+			else if (dynamic_cast<CBrick *>(e->obj)) 
+			{
+				if(e->nx != 0)
+					x += dx;
+			}
 			else if (dynamic_cast<CGoomba *>(e->obj)) // if e->obj is Goomba 
 			{
 				
@@ -387,7 +407,7 @@ void CMario::Render()
 				{
 					ani = MARIO_ANI_BIG_DOWN_RIGHT;
 				}
-				else if (this->GetState() == MARIO_STATE_JUMP) {
+				else if (this->GetState() == MARIO_STATE_JUMP_NORMAL) {
 					ani = MARIO_ANI_BIG_JUMP_RIGHT;
 				}
 				else if (this->GetState() == MARIO_STATE_HOLD_TURTLE) {
@@ -419,7 +439,7 @@ void CMario::Render()
 				else if (this->GetState() == MARIO_STATE_HOLD_TURTLE) {
 					ani = MARIO_ANI_BIG_HOLD_TURTLE_LEFT;
 				}
-				else if (this->GetState() == MARIO_STATE_JUMP) {
+				else if (this->GetState() == MARIO_STATE_JUMP_NORMAL) {
 					ani = MARIO_ANI_BIG_JUMP_LEFT;
 				}
 				else
@@ -432,7 +452,7 @@ void CMario::Render()
 		else if (vx > 0)
 		{
 			nxx = 1;
-			if (this->GetState() == MARIO_STATE_JUMP && checkMarioColision == false)                    //ANI JUMP RIGHT
+			if (this->GetState() == MARIO_STATE_JUMP_NORMAL && checkMarioColision == false)                    //ANI JUMP RIGHT
 				ani = MARIO_ANI_BIG_JUMP_RIGHT;
 			else if (this->GetState() == MARIO_STATE_RUN_RIGHT)
 			{
@@ -457,7 +477,7 @@ void CMario::Render()
 		else
 		{
 			nxx = -1;
-			if (this->GetState() == MARIO_STATE_JUMP && checkMarioColision == false)				   //ANI JUMP LEFT
+			if (this->GetState() == MARIO_STATE_JUMP_NORMAL && checkMarioColision == false)				   //ANI JUMP LEFT
 				ani = MARIO_ANI_BIG_JUMP_LEFT;
 			else if (this->GetState() == MARIO_STATE_RUN_LEFT)
 			{
@@ -481,7 +501,7 @@ void CMario::Render()
 		if (vx == 0)
 		{
 			if (nx > 0) {
-				if (this->GetState() == MARIO_STATE_JUMP) {
+				if (this->GetState() == MARIO_STATE_JUMP_NORMAL) {
 					ani = MARIO_ANI_BIG_FIRE_JUMP_RIGHT;
 				}
 				if (this->GetState() == MARIO_STATE_KICK && kick == true) {
@@ -507,7 +527,7 @@ void CMario::Render()
 			}
 			else
 			{
-				if (this->GetState() == MARIO_STATE_JUMP) {
+				if (this->GetState() == MARIO_STATE_JUMP_NORMAL) {
 					ani = MARIO_ANI_BIG_FIRE_JUMP_LEFT;
 				}
 				else if (this->GetState() == MARIO_STATE_HOLD_TURTLE) {
@@ -542,7 +562,7 @@ void CMario::Render()
 				CBulletMario::isSetPosition = true;
 				this->GetPosition(CBulletMario::x0, CBulletMario::y0);
 			}*/
-			if (this->GetState() == MARIO_STATE_JUMP && checkMarioColision == false)                    //ANI JUMP RIGHT
+			if (this->GetState() == MARIO_STATE_JUMP_NORMAL && checkMarioColision == false)                    //ANI JUMP RIGHT
 				ani = MARIO_ANI_BIG_FIRE_JUMP_RIGHT;
 			else if (this->GetState() == MARIO_STATE_KICK && kick == true) {
 				ani = MARIO_ANI_BIG_FIRE_KICK_RIGHT;
@@ -566,7 +586,7 @@ void CMario::Render()
 				CBulletMario::isSetPosition = true;
 				this->GetPosition(CBulletMario::x0, CBulletMario::y0);
 			}*/
-			if (this->GetState() == MARIO_STATE_JUMP && checkMarioColision == false)				   //ANI JUMP LEFT
+			if (this->GetState() == MARIO_STATE_JUMP_NORMAL && checkMarioColision == false)				   //ANI JUMP LEFT
 				ani = MARIO_ANI_BIG_FIRE_JUMP_LEFT;
 			else if (this->GetState() == MARIO_STATE_KICK && kick == true) {
 				ani = MARIO_ANI_BIG_FIRE_KICK_LEFT;
@@ -588,7 +608,7 @@ void CMario::Render()
 	if (vx == 0)
 	{
 		if (nx > 0) {
-			if (this->GetState() == MARIO_STATE_JUMP) {
+			if (this->GetState() == MARIO_STATE_JUMP_NORMAL) {
 				ani = MARIO_ANI_BIG_TAIL_JUMP_RIGHT;
 			}
 			else if (this->GetState() == MARIO_STATE_FLY)
@@ -631,7 +651,7 @@ void CMario::Render()
 		}
 		else
 		{
-			if (this->GetState() == MARIO_STATE_JUMP) {
+			if (this->GetState() == MARIO_STATE_JUMP_NORMAL) {
 				ani = MARIO_ANI_BIG_TAIL_JUMP_LEFT;
 			}
 			else if (this->GetState() == MARIO_STATE_KICK && kick == true) {
@@ -667,7 +687,7 @@ void CMario::Render()
 	}
 	else if (vx > 0)
 	{
-		if (this->GetState() == MARIO_STATE_JUMP && checkMarioColision == false)                    //ANI JUMP RIGHT
+		if (this->GetState() == MARIO_STATE_JUMP_NORMAL && checkMarioColision == false)                    //ANI JUMP RIGHT
 			ani = MARIO_ANI_BIG_TAIL_JUMP_RIGHT;
 		else if (this->GetState() == MARIO_STATE_RUN_RIGHT)
 		{
@@ -708,7 +728,7 @@ void CMario::Render()
 	}
 	else
 	{
-		if (this->GetState() == MARIO_STATE_JUMP && checkMarioColision == false)				   //ANI JUMP LEFT
+		if (this->GetState() == MARIO_STATE_JUMP_NORMAL && checkMarioColision == false)				   //ANI JUMP LEFT
 			ani = MARIO_ANI_BIG_TAIL_JUMP_LEFT;
 		else if (this->GetState() == MARIO_STATE_RUN_LEFT)
 		{
@@ -755,7 +775,7 @@ void CMario::Render()
 		if (vx == 0)
 		{
 			if (nx > 0) {
-				if (this->GetState() == MARIO_STATE_JUMP) {
+				if (this->GetState() == MARIO_STATE_JUMP_NORMAL) {
 					ani = MARIO_ANI_SMALL_JUMP_RIGHT;
 				}
 				else if (this->GetState() == MARIO_STATE_KICK && kick == true) {
@@ -770,7 +790,7 @@ void CMario::Render()
 			}
 			else 
 			{
-				if (this->GetState() == MARIO_STATE_JUMP) {
+				if (this->GetState() == MARIO_STATE_JUMP_NORMAL) {
 					ani = MARIO_ANI_SMALL_JUMP_LEFT;
 				}
 				else if (this->GetState() == MARIO_STATE_KICK && kick == true) {
@@ -787,7 +807,7 @@ void CMario::Render()
 		else if (vx > 0) 
 		{
 			
-			if(this->GetState() == MARIO_STATE_JUMP && checkMarioColision == false)                    //ANI JUMP RIGHT
+			if(this->GetState() == MARIO_STATE_JUMP_NORMAL && checkMarioColision == false)                    //ANI JUMP RIGHT
 				ani = MARIO_ANI_SMALL_JUMP_RIGHT;
 			else if(this->GetState() == MARIO_STATE_BRAKE)
 				ani = MARIO_ANI_SMALL_BRAKE_RIGHT;
@@ -804,7 +824,7 @@ void CMario::Render()
 		}
 		else 
 		{
-			if (this->GetState() == MARIO_STATE_JUMP && checkMarioColision == false)				   //ANI JUMP LEFT
+			if (this->GetState() == MARIO_STATE_JUMP_NORMAL && checkMarioColision == false)				   //ANI JUMP LEFT
 				ani = MARIO_ANI_SMALL_JUMP_LEFT;
 			else if (this->GetState() == MARIO_STATE_KICK && kick == true) {
 				ani = MARIO_ANI_SMALL_KICK_RIGHT;
@@ -834,16 +854,6 @@ void CMario::SetState(int state)
 
 	switch (state)
 	{
-	/*case MARIO_STATE_WALKING_RIGHT:
-		vx = MARIO_WALKING_SPEED;
-		nx = 1;
-		nxx = 1;
-		break;
-	case MARIO_STATE_WALKING_LEFT: 
-		vx = -MARIO_WALKING_SPEED;
-		nx = -1;
-		nxx = -1;
-		break;*/
 	case MARIO_STATE_WALKING:
 		break; 
 	case MARIO_STATE_RUN_LEFT:
@@ -856,15 +866,16 @@ void CMario::SetState(int state)
 		nx = 1;
 		nxx = 1;
 		break;
-	case MARIO_STATE_JUMP:
-		if (jumpHigher)
-		{
-			vy = -MARIO_JUMP_SPEED_HIGHER_Y;
-		}
-		else
+	case MARIO_STATE_JUMP_NORMAL:
+		if(checkMarioColision == true && jumpHigher == true)
 			vy = -MARIO_JUMP_SPEED_Y;
 		break;
-	case MARIO_STATE_IDLE: 
+	case MARIO_STATE_JUMP_HIGH:
+		vy = -MARIO_JUMP_SPEED_HIGHER_Y;
+		break;
+	case MARIO_STATE_IDLE:
+		/*if(checkMarioColision == true)
+			vy = 0;*/
 		//vx = 0;
 		break;
 	case MARIO_STATE_BULLET_IDLE:

@@ -12,7 +12,6 @@
 #include "BrickTop.h"
 #include "TileMap.h"
 
-#define TIME_KEEP_KEY 120
 
 class CPlayScene: public CScene
 {
@@ -45,6 +44,7 @@ class CPlayScenceKeyHandler : public CScenceKeyHandler
 {
 public:
 	DWORD timeJumpStart;
+	DWORD timeJumpEnd;
 public: 
 	virtual void KeyState(BYTE *states);
 	virtual void OnKeyDown(int KeyCode);
