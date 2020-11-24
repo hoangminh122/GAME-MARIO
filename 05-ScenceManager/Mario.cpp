@@ -68,7 +68,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			}
 			
 		}
-		else if (this->GetState() == MARIO_STATE_WALKING_RIGHT)
+		/*else if (this->GetState() == MARIO_STATE_WALKING_RIGHT)
 		{
 				xx = this->x;
 				yy = this->y;
@@ -77,7 +77,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			xx = this->x - MARIO_BIG_BBOX_WIDTH;
 			yy = this->y;
-		}
+		}*/
 
 	}
 	// Simple fall down
@@ -753,15 +753,11 @@ void CMario::Render()
 	{
 		if (vx == 0)
 		{
-			//DebugOut(L"vao1111%d",state);
-			/*if (state == MARIO_STATE_JUMP) {
-				ani = MARIO_ANI_SMALL_JUMP_RIGHT;
-			}*/
 			if (nx > 0) {
 				if (this->GetState() == MARIO_STATE_JUMP) {
 					ani = MARIO_ANI_SMALL_JUMP_RIGHT;
 				}
-				if (this->GetState() == MARIO_STATE_KICK && kick == true) {
+				else if (this->GetState() == MARIO_STATE_KICK && kick == true) {
 					ani = MARIO_ANI_SMALL_KICK_RIGHT;
 				}
 				else if (this->GetState() == MARIO_STATE_HOLD_TURTLE)
@@ -770,22 +766,13 @@ void CMario::Render()
 				}
 				else
 					ani = MARIO_ANI_SMALL_IDLE_RIGHT;
-				/*
-				try {
-					if (state == MARIO_STATE_JUMP) {
-						DebugOut(L"vao day jump");
-						ani = MARIO_ANI_SMALL_JUMP_LEFT;
-					}
-				}
-				catch (exception e) { ; }*/
-				
 			}
 			else 
 			{
 				if (this->GetState() == MARIO_STATE_JUMP) {
 					ani = MARIO_ANI_SMALL_JUMP_LEFT;
 				}
-				if (this->GetState() == MARIO_STATE_KICK && kick == true) {
+				else if (this->GetState() == MARIO_STATE_KICK && kick == true) {
 					ani = MARIO_ANI_SMALL_KICK_RIGHT;
 				}
 				else if (this->GetState() == MARIO_STATE_HOLD_TURTLE)
@@ -846,16 +833,18 @@ void CMario::SetState(int state)
 
 	switch (state)
 	{
-	case MARIO_STATE_WALKING_RIGHT:
-		//vx = MARIO_WALKING_SPEED;
+	/*case MARIO_STATE_WALKING_RIGHT:
+		vx = MARIO_WALKING_SPEED;
 		nx = 1;
 		nxx = 1;
 		break;
 	case MARIO_STATE_WALKING_LEFT: 
-		//vx = -MARIO_WALKING_SPEED;
+		vx = -MARIO_WALKING_SPEED;
 		nx = -1;
 		nxx = -1;
-		break;
+		break;*/
+	case MARIO_STATE_WALKING:
+		break; 
 	case MARIO_STATE_RUN_LEFT:
 		vx = -0.2f;
 		nx = -1;
@@ -867,21 +856,12 @@ void CMario::SetState(int state)
 		nxx = 1;
 		break;
 	case MARIO_STATE_JUMP:
-		// TODO: need to check if Mario is *current* on a platform before allowing to jump again
 		if (checkMarioColision == true) {
-			//DebugOut(L"va cham");
 			vy = -MARIO_JUMP_SPEED_Y;
-			//vy = -0.7;
-			break;
-		}
-		else 
-		{
-			//DebugOut(L" khong va cham");
-			//vy = -0.1;//
 			break;
 		}
 	case MARIO_STATE_IDLE: 
-		vx = 0;
+		//vx = 0;
 		break;
 	case MARIO_STATE_BULLET_IDLE:
 		vx = 0;
