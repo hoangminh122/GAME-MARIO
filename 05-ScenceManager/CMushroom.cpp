@@ -24,9 +24,9 @@ CMushroom *CMushroom::GetInstance()
 }
 void CMushroom::Render()
 {
-	if (state == LEAF_GREEN_STATE)
+	if (this->GetState() == LEAF_GREEN_STATE)
 		ani = 1;
-	else if (state == MONEY_STATE)
+	else if (this->GetState() == MONEY_STATE)
 		ani = 2;
 	else
 		ani = 0;
@@ -48,7 +48,7 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	if (isMoney)
 	{
-		state = MONEY_STATE;
+		this->SetState(MONEY_STATE);
 	}
 	
 	if (isDie || x < 0)
@@ -60,19 +60,19 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		isStart = false;
 		isDie = false;
 		CTurle::isTreeStart = false;
-		state = -1;
+		this->SetState(-1);
 		return;
 	}    //trang thai die
 	if (CTurle::isTreeStart == true)
 	{
-		state = LEAF_GREEN_STATE;
+		this->SetState(LEAF_GREEN_STATE);
 		x = 646;
 		y = 272;
 
 	}	//trang thai la cay
 	if (isRun)
 	{
-		state = MUSHROOM_STATE;
+		this->SetState(MUSHROOM_STATE);
 	}
 	
 	
@@ -83,7 +83,7 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		y = -17;
 	}*/
 	
-	if (state == MONEY_STATE)
+	if (this->GetState() == MONEY_STATE)
 	{
 		if (isMoney)
 		{
@@ -102,7 +102,7 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		y += dy;
 
 	}
-	else if (state == MUSHROOM_STATE)
+	else if (this->GetState() == MUSHROOM_STATE)
 	{
 		if (isStart)
 		{
