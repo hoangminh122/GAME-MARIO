@@ -556,7 +556,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		{
 			if (mario->vx < MARIO_RUN_NORMAL_SPEED)
 				mario->vx += 0.01f;
-			mario->SetState(MARIO_STATE_RUN_RIGHT);
+			mario->SetState(MARIO_STATE_RUN);
 		}
 	}
 	else if (game->IsKeyDown(DIK_LEFT)) {
@@ -572,7 +572,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		{
 			if (mario->vx > -MARIO_RUN_NORMAL_SPEED)
 				mario->vx -= 0.01f;
-			mario->SetState(MARIO_STATE_RUN_LEFT);
+			mario->SetState(MARIO_STATE_RUN);
 		}
 	}
 	/*else if (game->IsKeyDown(DIK_A)) {
