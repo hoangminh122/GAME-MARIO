@@ -361,7 +361,6 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	{
 	case DIK_S:
 		timeJumpStart = GetTickCount();
-		DebugOut(L"minh%d\n",timeJumpStart);
 		/*if(mario->checkMarioColision == true)
 			mario->vy = -0.15f;*/
 		break;
@@ -457,7 +456,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	{
 		mario->jumpHigher = true;         //dang o trang thai nhan giu phim S
 		mario->SetState(MARIO_STATE_JUMP_NORMAL);
-		DebugOut(L"ssssss%d ss%dsdsd%d\n", GetTickCount(),timeJumpStart, GetTickCount() - timeJumpStart);
 		if (GetTickCount() - timeJumpStart > 150 && GetTickCount() - timeJumpStart < 200 && timeJumpStart != 0)
 		{
 			mario->vy -= MARIO_JUMP_SPEED_HIGHER_Y;
@@ -555,7 +553,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		//phanh
 		if (mario->vx < 0)
 		{
-			DebugOut(L"SHGDHSGF\n");
 			mario->SetState(MARIO_STATE_BRAKE);
 		}
 		else
@@ -592,14 +589,12 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		//chỉnh tốc dộ mario giảm dần -> 0 khi ở trên nên đất
 		if (mario->vx > 0 && mario ->checkMarioColision == true)
 		{
-			DebugOut(L"sadasdphai%f\n", mario->vx);
 			mario->vx -= MARIO_WALKING_ADD_SPEED;
 			if (mario->vx < 0)
 				mario->vx = 0.0f;
 		}
 		if(mario->vx < 0 && mario->checkMarioColision == true)
 		{
-			DebugOut(L"sadasd%f\n",mario->vx);
 			mario->vx += MARIO_WALKING_ADD_SPEED;
 			if (mario->vx > 0)
 				mario->vx = 0.0f;
