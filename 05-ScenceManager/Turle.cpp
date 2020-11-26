@@ -74,7 +74,6 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		SetState(TURLE_STATE_DIE_OVER);
 		timeRunTurle = 0;
 	}
-	DebugOut(L"SHDSGHSFGSHDGFSHDGSHDGF%d\n",mario->isHold);
 	//mario khong cam rua nua tha ra
 	if (!mario->isHold  && mario->isMarioDropTurle)
 	{

@@ -234,18 +234,20 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			//	}
 			//	
 			//} // if mushroom
-			////else if (dynamic_cast<CPlant *>(e->obj)) // if e->obj is plant
-			////{
-			////	if (level > MARIO_LEVEL_SMALL)
-			////	{
-			////		level = MARIO_LEVEL_SMALL;
-			////	}
-			////	else 
-			////		SetState(MARIO_STATE_DIE);
+			else if (dynamic_cast<CPlant *>(e->obj)) // if e->obj is plant
+			{
+				if (GetLevel() < 1)
+				{
+					SetState(MARIO_STATE_DIE);
+				}
+				else
+				{
+					SetLevel(GetLevel() - 1);
+				}
 
-			//	
-			//} // if plant
-			//
+				
+			} // if plant
+			
 			else if (dynamic_cast<CGoomba *>(e->obj)) // if e->obj is Goomba 
 			{
 				
@@ -397,8 +399,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					if (GetLevel() < 1)
 					{
 						SetState(MARIO_STATE_DIE);
-						//set cho mario mat va cham
-						//vy = +0.001f;
 					}
 					else
 					{
@@ -958,7 +958,7 @@ void CMario::Render()
 	int alpha = 255;
 	if (untouchable) alpha = 128;
 
-	animation_set->at(ani)->Render(x, y, alpha);
+	animation_set->at(56)->Render(x, y, alpha);
 
 	RenderBoundingBox();
 }
