@@ -2,6 +2,7 @@
 #include "GameObject.h"
 //#include "game_map.h"
 
+
 #define MARIO_WALKING_SPEED		0.1f 
 #define MARIO_WALKING_ADD_SPEED	0.005f 
 #define MARIO_RUN_NORMAL_SPEED	0.15f 
@@ -146,6 +147,7 @@
 
 class CMario : public CGameObject
 {
+	static CMario * __instance;
 	int untouchable;
 	DWORD untouchable_start;
 	float start_x;			// initial position of Mario at scene
@@ -153,6 +155,9 @@ class CMario : public CGameObject
 	//GameMap* test;
 	int ani;
 public: 
+	bool isMarioDropTurle;		//mario roi rua
+	static CMario * GetInstance(float x, float y);
+	bool isHold;					//mario cam rua khi nhan A
 	DWORD timeKickStart;			//time da rua
 	bool pressA;				//giu phim A
 	DWORD timeJumpStart;

@@ -1,13 +1,14 @@
 #pragma once
 
 #include "GameObject.h"
+#include "Mario.h"
 
 #define TURLE_WALKING_SPEED 0.05f;
 #define TURLE_RUN_SPEED 0.2f;
 
 #define TURLE_BBOX_WIDTH 16
 #define TURLE_BBOX_HEIGHT 26
-#define TURLE_BBOX_HEIGHT_DIE 16
+#define TURLE_BBOX_HEIGHT_DIE 15
 
 #define TURLE_STATE_WALKING 100
 #define TURLE_STATE_DIE 200
@@ -28,6 +29,8 @@ class CTurle : public CGameObject
 	virtual void Render();
 
 public:
+	bool checkCollision;		//kiem tra va cham cua rua voi mat dat, ..
+	CMario* mario;				//tao instance mario
 	DWORD timeRunTurle;						//max time gian chay cuar rua
 	bool isNoCollision;								// bo qua su va cham neu can
 	bool isHold;										//TRANG thai cam rua cho tung con phan biet

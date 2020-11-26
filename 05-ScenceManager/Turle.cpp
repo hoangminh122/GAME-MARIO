@@ -12,15 +12,18 @@
 bool CTurle::isTreeStart = false;
 CTurle::CTurle()
 {
+	checkCollision = false;
 	isHold = false;
 	vxx = TURLE_WALKING_SPEED;
 	isStop = 0;
 	//ani = TURLE_STATE_RUN_DIE;
 	ani = TURLE_ANI_WALKING_LEFT;
-	SetState(TURLE_STATE_WALKING);
-	//SetState(TURLE_STATE_DIE);
+	//SetState(TURLE_STATE_WALKING);
+	SetState(TURLE_STATE_DIE);
 	isNoCollision = false;
 	timeRunTurle = 0;
+	//tao instance mario dung chung-> chi tao 1 lan vi dungf nhieu
+	 mario = CMario::GetInstance(0,0);
 }
 
 void CTurle::GetBoundingBox(float &left, float &top, float &right, float &bottom)
@@ -40,7 +43,6 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
-
 
 	// Simple fall down
 	//vy += MARIO_GRAVITY * dt;
@@ -69,10 +71,19 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	if (GetTickCount() - timeRunTurle > MAX_TURLE_TIME_RUN && timeRunTurle != 0)			//fix time gian chay cho rua -> fix tam do chua lam den
 	{
-		DebugOut(L"shdsaghg%fsd%f\n", timeRunTurle,GetTickCount() - timeRunTurle);
-		//SetState(TURLE_STATE_DIE_OVER);
+		SetState(TURLE_STATE_DIE_OVER);
 		timeRunTurle = 0;
 	}
+	DebugOut(L"SHDSGHSFGSHDGFSHDGSHDGF%d\n",mario->isHold);
+	//mario khong cam rua nua tha ra
+	if (!mario->isHold  && mario->isMarioDropTurle)
+	{
+		timeRunTurle = GetTickCount();		//TIME CHAY CUA RUA
+		isHold = false;
+		vx =(mario->nx) * TURLE_RUN_SPEED;
+		SetState(TURLE_STATE_RUN_DIE);
+	}
+	
 
 	vy += MARIO_GRAVITY * dt;
 
@@ -90,6 +101,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
 	{
+		checkCollision = false;
 		/*if (this->GetState() == TURLE_STATE_DIE_OVER)
 		{
 			x = 0;
@@ -122,9 +134,35 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			y += dy;
 		}*/
 
-		x += dx;
-		y += dy;
-			
+		//check luc cam rua ko di chuyen
+		if (!isHold)
+		{
+			checkCollision = true; // rua co su va cham
+			x += dx;
+			y += dy;
+		}
+		else
+		{
+			if (mario->nx == 1)				//mario di chuyen qua phai -> set vi tri rua cho hop ly
+			{
+				if(mario ->GetLevel() > 1)
+					x = mario->x + MARIO_BIG_BBOX_WIDTH- MARIO_BIG_BBOX_WIDTH/4;
+				else
+					x = mario->x + MARIO_BIG_BBOX_WIDTH;
+			}
+			else
+			{
+				if (mario->GetLevel() > 1)
+					x = mario->x - TURLE_BBOX_WIDTH+ MARIO_BIG_BBOX_WIDTH /4;
+				else
+				x = mario->x - TURLE_BBOX_WIDTH;
+			}
+
+			if (mario->GetLevel() > 1)
+				y = mario->y + MARIO_BIG_BBOX_WIDTH/4;
+			else
+				y = mario->y;
+		}
 		
 	}
 	else
