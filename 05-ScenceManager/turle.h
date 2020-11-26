@@ -3,6 +3,7 @@
 #include "GameObject.h"
 
 #define TURLE_WALKING_SPEED 0.05f;
+#define TURLE_RUN_SPEED 0.2f;
 
 #define TURLE_BBOX_WIDTH 16
 #define TURLE_BBOX_HEIGHT 26

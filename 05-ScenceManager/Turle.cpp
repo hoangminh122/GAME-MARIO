@@ -14,8 +14,8 @@ CTurle::CTurle()
 	isStop = 0;
 	//ani = TURLE_STATE_RUN_DIE;
 	ani = TURLE_ANI_WALKING_LEFT;
-	SetState(TURLE_STATE_WALKING);
-	//SetState(TURLE_STATE_DIE);
+	//SetState(TURLE_STATE_WALKING);
+	SetState(TURLE_STATE_DIE);
 }
 
 void CTurle::GetBoundingBox(float &left, float &top, float &right, float &bottom)
@@ -145,7 +145,19 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 			if (dynamic_cast<CWallTurle *>(e->obj)) // if e->obj is brickTop
 			{
-				vx = -vx;
+				//rua khong va cham voi CWallTurle chieu tu tren xuong
+				if (e->ny < 0)
+					y += dy;
+				//state run -> vx khong doi
+				else if (nx != 0)
+				{
+					if (GetState() == TURLE_STATE_RUN_DIE)
+						x += dx;
+					else
+						//doi chieu neu state == walking
+						vx = -vx;
+				}
+				
 			}
 			if (dynamic_cast<CBrickTop *>(e->obj)) // if e->obj is brickTop
 			{
@@ -228,7 +240,7 @@ void CTurle::SetState(int state)
 	case TURLE_STATE_DIE:
 		y += TURLE_BBOX_HEIGHT - TURLE_BBOX_HEIGHT_DIE + 1;
 		vx = 0;
-		vy = 0;
+		//vy = 0;
 		break;
 	case TURLE_STATE_WALKING:
 		vx = TURLE_WALKING_SPEED;

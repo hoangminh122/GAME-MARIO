@@ -141,6 +141,7 @@
 
 #define MARIO_JUMP_HIGHER_TIME 7000
 #define MARIO_UNTOUCHABLE_TIME 5000
+#define MARIO_KICK_TIME 500
 
 
 class CMario : public CGameObject
@@ -152,8 +153,8 @@ class CMario : public CGameObject
 	//GameMap* test;
 	int ani;
 public: 
+	DWORD timeKickStart;			//time da rua
 	bool pressA;				//giu phim A
-	bool isLevelDown;				//luc mario giam level
 	DWORD timeJumpStart;
 	bool jumpHigher;			//mario jump cao hơn khi giữ S
 	int static level;

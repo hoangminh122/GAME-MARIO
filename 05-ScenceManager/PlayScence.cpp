@@ -454,8 +454,8 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 
 	// disable control key when Mario die 
 	if (mario->GetState() == MARIO_STATE_DIE) return;
-	/*if (mario->GetState() == MARIO_STATE_KICK)
-		mario->SetState(MARIO_STATE_KICK);*/
+	if (mario->GetState() == MARIO_STATE_KICK)
+		mario->SetState(MARIO_STATE_KICK);
 	else if (game->IsKeyDown(DIK_S))
 	{
 		mario->jumpHigher = true;         //dang o trang thai nhan giu phim S

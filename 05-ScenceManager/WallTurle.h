@@ -2,7 +2,7 @@
 #include "GameObject.h"
 
 #define WALL_TURLE_BBOX_WIDTH  3
-#define WALL_TURLE_BBOX_HEIGHT 16
+#define WALL_TURLE_BBOX_HEIGHT 10
 
 class CWallTurle : public CGameObject
 {
