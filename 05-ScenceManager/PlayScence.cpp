@@ -13,6 +13,7 @@
 #include "BackgroundDie.h"
 #include "Camera.h"
 #include "WallTurle.h"
+#include "BrickQuestion.h"
 //#include "TileMap.h"
 
 using namespace std;
@@ -48,8 +49,9 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define OBJECT_TYPE_PLANT	10
 #define OBJECT_TYPE_BULLET	11
 #define OBJECT_TYPE_BULLET_MARIO	12
-//#define OBJECT_TYPE_BACKGROUND_DIE	13
+#define OBJECT_TYPE_BACKGROUND_DIE	15
 #define OBJECT_TYPE_WALL_TURLE	13
+#define OBJECT_TYPE_BRICK_QUESTION	14
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -181,7 +183,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			DebugOut(L"[ERROR] MARIO object was created before!\n");
 			return;
 		}
-		obj = new CMario(x,y); 
+		obj = CMario::GetInstance(x,y); 
 		player = (CMario*)obj;  
 
 		DebugOut(L"[INFO] Player object created!\n");
@@ -196,7 +198,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_PLANT: obj = new CPlant(); break;
 	case OBJECT_TYPE_BULLET: obj = new CBullet(); break;
 	case OBJECT_TYPE_BULLET_MARIO: obj = new CBulletMario(); break;
-	//case OBJECT_TYPE_BACKGROUND_DIE: obj = new CBackgroundDie(); break;
+	case OBJECT_TYPE_BACKGROUND_DIE: obj = new CBackgroundDie(); break;
+	case OBJECT_TYPE_BRICK_QUESTION: obj = new CBrickQuestion(); break;
 
 
 	case OBJECT_TYPE_PORTAL:
@@ -372,6 +375,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_A:
 		//mario->SetState(MARIO_STATE_BULLET_IDLE);
 		mario->pressA = true;
+		//mario->isHold = true;   //cam rua
 		break;
 
 	case DIK_T: 
@@ -408,7 +412,18 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		break;
 	case DIK_A:
 		//CBulletMario::isStart = false;
+		DebugOut(L"2222222222222222%d\n",mario->isHold);
+		if (mario->isHold)
+		{
+			DebugOut(L"2222222222222222222222\n");
+			mario->isMarioDropTurle = true;
+			mario->timeKickStart = GetTickCount();
+			mario->isHold = false;      //khong cam rua
+
+		}
+		mario->isHold = false;      //khong cam rua
 		mario->pressA = false;
+		
 		break;
 	case DIK_S:
 		mario->jumpHigher = false;
@@ -547,9 +562,10 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		mario->nx = 1;
 		if (game->IsKeyDown(DIK_A))
 		{
+			//cam rua
+			DebugOut(L"nhan phm A\n");
 			if (mario->vx < MARIO_RUN_NORMAL_SPEED)
 				mario->vx += 0.008f;
-			//mario->SetState(MARIO_STATE_RUN);
 		}
 		else if (mario->vx < MARIO_WALKING_SPEED)
 			mario->vx += MARIO_WALKING_ADD_SPEED;
@@ -561,7 +577,11 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		}
 		else
 		{
-			if (mario->pressA)
+			if (mario->pressA && mario->isHold)						//nhan giu A ma dang cam rua  trang thai mario cam rua
+			{
+				mario->SetState(MARIO_STATE_HOLD_TURTLE);
+			}
+			else if (mario->pressA)						//nhan giu A trang thai mario chay
 			{
 				mario->SetState(MARIO_STATE_RUN);
 			}
@@ -577,7 +597,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		{
 			if (mario->vx > -MARIO_RUN_NORMAL_SPEED)
 				mario->vx -= 0.008f;
-			//mario->SetState(MARIO_STATE_RUN);
 		}
 		else if (mario->vx > -MARIO_WALKING_SPEED)
 			mario->vx -= MARIO_WALKING_ADD_SPEED;
@@ -587,7 +606,11 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 			mario->SetState(MARIO_STATE_BRAKE);
 		else
 		{
-			if (mario->pressA)
+			if (mario->pressA && mario->isHold)						//nhan giu A ma dang cam rua  trang thai mario cam rua
+			{
+				mario->SetState(MARIO_STATE_HOLD_TURTLE);
+			}
+			else if (mario->pressA)
 			{
 				mario->SetState(MARIO_STATE_RUN);
 			}
