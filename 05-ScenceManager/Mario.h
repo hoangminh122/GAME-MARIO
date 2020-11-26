@@ -17,8 +17,8 @@
 #define MARIO_STATE_JUMP_HIGH	100
 #define MARIO_STATE_JUMP_NORMAL	300
 #define MARIO_STATE_DIE				400
-#define MARIO_STATE_RUN_RIGHT		500
-#define MARIO_STATE_RUN_LEFT		600
+//#define MARIO_STATE_RUN_RIGHT		500
+#define MARIO_STATE_RUN		600
 #define MARIO_STATE_KICK		900
 #define MARIO_STATE_DOWN		910
 #define MARIO_STATE_HOLD_TURTLE	930
@@ -83,7 +83,6 @@
 #define MARIO_ANI_BIG_FIRE_HOLD_TURLE_LEFT	72
 
 
-
 #define MARIO_ANI_BIG_BRAKE_RIGHT		21
 #define MARIO_ANI_BIG_BRAKE_LEFT		22
 
@@ -142,6 +141,7 @@
 
 #define MARIO_JUMP_HIGHER_TIME 7000
 #define MARIO_UNTOUCHABLE_TIME 5000
+#define MARIO_KICK_TIME 500
 
 
 class CMario : public CGameObject
@@ -153,6 +153,8 @@ class CMario : public CGameObject
 	//GameMap* test;
 	int ani;
 public: 
+	DWORD timeKickStart;			//time da rua
+	bool pressA;				//giu phim A
 	DWORD timeJumpStart;
 	bool jumpHigher;			//mario jump cao hơn khi giữ S
 	int static level;

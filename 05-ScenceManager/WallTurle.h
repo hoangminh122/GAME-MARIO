@@ -1,11 +1,10 @@
 #pragma once
-#pragma once
 #include "GameObject.h"
 
-#define BRICK_BBOX_WIDTH  16
-#define BRICK_BBOX_HEIGHT 16
+#define WALL_TURLE_BBOX_WIDTH  3
+#define WALL_TURLE_BBOX_HEIGHT 10
 
-class CBrickTop : public CGameObject
+class CWallTurle : public CGameObject
 {
 public:
 	virtual void Render();

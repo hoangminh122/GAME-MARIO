@@ -12,6 +12,7 @@
 #include "BulletMario.h"
 #include "BackgroundDie.h"
 #include "Camera.h"
+#include "WallTurle.h"
 //#include "TileMap.h"
 
 using namespace std;
@@ -47,8 +48,8 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define OBJECT_TYPE_PLANT	10
 #define OBJECT_TYPE_BULLET	11
 #define OBJECT_TYPE_BULLET_MARIO	12
-#define OBJECT_TYPE_BACKGROUND_DIE	13
-
+//#define OBJECT_TYPE_BACKGROUND_DIE	13
+#define OBJECT_TYPE_WALL_TURLE	13
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -189,12 +190,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
 	case OBJECT_TYPE_BRICKTOP: obj = new CBrickTop(); break;
 	case OBJECT_TYPE_TURLE: obj = new CTurle(); break;
+	case OBJECT_TYPE_WALL_TURLE: obj = new CWallTurle(); break;
 	case OBJECT_TYPE_QUESTION_BOX: obj = new CQuestion; break;
 	case OBJECT_TYPE_MUSHROOM: obj = new CMushroom(); break;
 	case OBJECT_TYPE_PLANT: obj = new CPlant(); break;
 	case OBJECT_TYPE_BULLET: obj = new CBullet(); break;
 	case OBJECT_TYPE_BULLET_MARIO: obj = new CBulletMario(); break;
-	case OBJECT_TYPE_BACKGROUND_DIE: obj = new CBackgroundDie(); break;
+	//case OBJECT_TYPE_BACKGROUND_DIE: obj = new CBackgroundDie(); break;
 
 
 	case OBJECT_TYPE_PORTAL:
@@ -361,7 +363,6 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	{
 	case DIK_S:
 		timeJumpStart = GetTickCount();
-		DebugOut(L"minh%d\n",timeJumpStart);
 		/*if(mario->checkMarioColision == true)
 			mario->vy = -0.15f;*/
 		break;
@@ -369,7 +370,8 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		mario->SetState(MARIO_STATE_ROTATORY_IDLE);
 		break;
 	case DIK_A:
-		mario->SetState(MARIO_STATE_BULLET_IDLE);
+		//mario->SetState(MARIO_STATE_BULLET_IDLE);
+		mario->pressA = true;
 		break;
 
 	case DIK_T: 
@@ -405,7 +407,8 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		mario->SetPosition(mario->x, mario->y - 120);
 		break;
 	case DIK_A:
-		CBulletMario::isStart = false;
+		//CBulletMario::isStart = false;
+		mario->pressA = false;
 		break;
 	case DIK_S:
 		mario->jumpHigher = false;
@@ -451,13 +454,12 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 
 	// disable control key when Mario die 
 	if (mario->GetState() == MARIO_STATE_DIE) return;
-	/*if (mario->GetState() == MARIO_STATE_KICK)
-		mario->SetState(MARIO_STATE_KICK);*/
+	if (mario->GetState() == MARIO_STATE_KICK)
+		mario->SetState(MARIO_STATE_KICK);
 	else if (game->IsKeyDown(DIK_S))
 	{
 		mario->jumpHigher = true;         //dang o trang thai nhan giu phim S
 		mario->SetState(MARIO_STATE_JUMP_NORMAL);
-		DebugOut(L"ssssss%d ss%dsdsd%d\n", GetTickCount(),timeJumpStart, GetTickCount() - timeJumpStart);
 		if (GetTickCount() - timeJumpStart > 150 && GetTickCount() - timeJumpStart < 200 && timeJumpStart != 0)
 		{
 			mario->vy -= MARIO_JUMP_SPEED_HIGHER_Y;
@@ -543,37 +545,57 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	//}
 	else if (game->IsKeyDown(DIK_RIGHT)) {
 		mario->nx = 1;
-		if (mario->vx < MARIO_WALKING_SPEED)
-			mario->vx += MARIO_WALKING_ADD_SPEED;
-		if (mario->vx < 0)
-		{
-			DebugOut(L"SHGDHSGF\n");
-			mario->SetState(MARIO_STATE_BRAKE);
-		}
-		else
-			mario->SetState(MARIO_STATE_WALKING);
 		if (game->IsKeyDown(DIK_A))
 		{
 			if (mario->vx < MARIO_RUN_NORMAL_SPEED)
-				mario->vx += 0.01f;
-			mario->SetState(MARIO_STATE_RUN_RIGHT);
+				mario->vx += 0.008f;
+			//mario->SetState(MARIO_STATE_RUN);
 		}
+		else if (mario->vx < MARIO_WALKING_SPEED)
+			mario->vx += MARIO_WALKING_ADD_SPEED;
+
+		//phanh
+		if (mario->vx < 0)
+		{
+			mario->SetState(MARIO_STATE_BRAKE);
+		}
+		else
+		{
+			if (mario->pressA)
+			{
+				mario->SetState(MARIO_STATE_RUN);
+			}
+			else
+				mario->SetState(MARIO_STATE_WALKING);
+		}
+		
 	}
 	else if (game->IsKeyDown(DIK_LEFT)) {
 		mario->nx = -1;
-		if (mario->vx > -MARIO_WALKING_SPEED)
-			mario->vx -= MARIO_WALKING_ADD_SPEED;
-		if (mario->vx > 0 )
-			mario->SetState(MARIO_STATE_BRAKE);
-		else
-			mario->SetState(MARIO_STATE_WALKING);
 
 		if (game->IsKeyDown(DIK_A))
 		{
 			if (mario->vx > -MARIO_RUN_NORMAL_SPEED)
-				mario->vx -= 0.01f;
-			mario->SetState(MARIO_STATE_RUN_LEFT);
+				mario->vx -= 0.008f;
+			//mario->SetState(MARIO_STATE_RUN);
 		}
+		else if (mario->vx > -MARIO_WALKING_SPEED)
+			mario->vx -= MARIO_WALKING_ADD_SPEED;
+
+		//phanh
+		if (mario->vx > 0 )
+			mario->SetState(MARIO_STATE_BRAKE);
+		else
+		{
+			if (mario->pressA)
+			{
+				mario->SetState(MARIO_STATE_RUN);
+			}
+			else
+				mario->SetState(MARIO_STATE_WALKING);
+		}
+
+		
 	}
 	/*else if (game->IsKeyDown(DIK_A)) {
 		mario->SetState(MARIO_STATE_BULLET_IDLE);
@@ -585,14 +607,12 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		//chỉnh tốc dộ mario giảm dần -> 0 khi ở trên nên đất
 		if (mario->vx > 0 && mario ->checkMarioColision == true)
 		{
-			DebugOut(L"sadasdphai%f\n", mario->vx);
 			mario->vx -= MARIO_WALKING_ADD_SPEED;
 			if (mario->vx < 0)
 				mario->vx = 0.0f;
 		}
 		if(mario->vx < 0 && mario->checkMarioColision == true)
 		{
-			DebugOut(L"sadasd%f\n",mario->vx);
 			mario->vx += MARIO_WALKING_ADD_SPEED;
 			if (mario->vx > 0)
 				mario->vx = 0.0f;
