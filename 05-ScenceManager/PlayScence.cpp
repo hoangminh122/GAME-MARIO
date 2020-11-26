@@ -13,6 +13,7 @@
 #include "BackgroundDie.h"
 #include "Camera.h"
 #include "WallTurle.h"
+#include "BrickQuestion.h"
 //#include "TileMap.h"
 
 using namespace std;
@@ -48,8 +49,9 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define OBJECT_TYPE_PLANT	10
 #define OBJECT_TYPE_BULLET	11
 #define OBJECT_TYPE_BULLET_MARIO	12
-//#define OBJECT_TYPE_BACKGROUND_DIE	13
+#define OBJECT_TYPE_BACKGROUND_DIE	15
 #define OBJECT_TYPE_WALL_TURLE	13
+#define OBJECT_TYPE_BRICK_QUESTION	14
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -196,7 +198,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_PLANT: obj = new CPlant(); break;
 	case OBJECT_TYPE_BULLET: obj = new CBullet(); break;
 	case OBJECT_TYPE_BULLET_MARIO: obj = new CBulletMario(); break;
-	//case OBJECT_TYPE_BACKGROUND_DIE: obj = new CBackgroundDie(); break;
+	case OBJECT_TYPE_BACKGROUND_DIE: obj = new CBackgroundDie(); break;
+	case OBJECT_TYPE_BRICK_QUESTION: obj = new CBrickQuestion(); break;
 
 
 	case OBJECT_TYPE_PORTAL:
@@ -549,7 +552,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		{
 			if (mario->vx < MARIO_RUN_NORMAL_SPEED)
 				mario->vx += 0.008f;
-			//mario->SetState(MARIO_STATE_RUN);
 		}
 		else if (mario->vx < MARIO_WALKING_SPEED)
 			mario->vx += MARIO_WALKING_ADD_SPEED;
@@ -577,7 +579,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		{
 			if (mario->vx > -MARIO_RUN_NORMAL_SPEED)
 				mario->vx -= 0.008f;
-			//mario->SetState(MARIO_STATE_RUN);
 		}
 		else if (mario->vx > -MARIO_WALKING_SPEED)
 			mario->vx -= MARIO_WALKING_ADD_SPEED;

@@ -388,7 +388,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						//truong hop mario gio chan da
 						if (turle->GetState() == TURLE_STATE_DIE)
 						{
-							timeKickStart = GetTickCount();
+							turle->timeRunTurle = GetTickCount();		//TIME CHAY CUA RUA
+							timeKickStart = GetTickCount();   //TIME DA CUA MARIO
 							SetState(MARIO_STATE_KICK);
 							//rua chay theo chieu nguoc mario tranh va cham voi mario, chu y nx o day la trong ham va cham
 							turle->vx = -nx* TURLE_RUN_SPEED;

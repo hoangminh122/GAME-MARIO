@@ -128,6 +128,7 @@
     <ClCompile Include="Background.cpp" />
     <ClCompile Include="BackgroundDie.cpp" />
     <ClCompile Include="Brick.cpp" />
+    <ClCompile Include="BrickQuestion.cpp" />
     <ClCompile Include="BrickTop.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletMario.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="Background.h" />
     <ClInclude Include="BackgroundDie.h" />
     <ClInclude Include="Brick.h" />
+    <ClInclude Include="BrickQuestion.h" />
     <ClInclude Include="BrickTop.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="BulletMario.h" />

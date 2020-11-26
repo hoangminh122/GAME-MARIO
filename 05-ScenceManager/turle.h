@@ -7,7 +7,7 @@
 
 #define TURLE_BBOX_WIDTH 16
 #define TURLE_BBOX_HEIGHT 26
-#define TURLE_BBOX_HEIGHT_DIE 15
+#define TURLE_BBOX_HEIGHT_DIE 16
 
 #define TURLE_STATE_WALKING 100
 #define TURLE_STATE_DIE 200
@@ -19,6 +19,8 @@
 #define TURLE_ANI_DIE 2
 #define TURLE_ANI_RUN_DIE 3
 
+#define MAX_TURLE_TIME_RUN	3000
+
 class CTurle : public CGameObject
 {
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
@@ -26,6 +28,8 @@ class CTurle : public CGameObject
 	virtual void Render();
 
 public:
+	DWORD timeRunTurle;						//max time gian chay cuar rua
+	bool isNoCollision;								// bo qua su va cham neu can
 	bool isHold;										//TRANG thai cam rua cho tung con phan biet
 	float vxx;											//van toc rua 
 	int ani;
