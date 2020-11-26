@@ -4,6 +4,7 @@
 #include "Utils.h"
 #include "BrickTop.h"
 #include "QuestionBox.h"
+#include "WallTurle.h"
 
 bool CTurle::isTreeStart = false;
 CTurle::CTurle()
@@ -14,7 +15,7 @@ CTurle::CTurle()
 	//ani = TURLE_STATE_RUN_DIE;
 	ani = TURLE_ANI_WALKING_LEFT;
 	SetState(TURLE_STATE_WALKING);
-	//SetState(TURLE_STATE_RUN_DIE);
+	//SetState(TURLE_STATE_DIE);
 }
 
 void CTurle::GetBoundingBox(float &left, float &top, float &right, float &bottom)
@@ -32,36 +33,37 @@ void CTurle::GetBoundingBox(float &left, float &top, float &right, float &bottom
 
 void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
 
 
-
 	// Simple fall down
+	//vy += MARIO_GRAVITY * dt;
+	//if (CMario::isDropTurle == true && isHold == true)
+	//{
+	//	if (CMario::nxx == 1)
+	//	{
+	//		if (CMario::level == MARIO_LEVEL_BIG || CMario::level == MARIO_LEVEL_FIRE_BIG)
+	//			this->x = this->x + MARIO_BIG_BBOX_WIDTH/2 +3.2f;
+	//		else if (CMario::level == MARIO_LEVEL_TAIL_BIG)
+	//			this->x = this->x + MARIO_TAIL_BIG_BBOX_WIDTH/2+3;
+	//		//this->x = this->x + 10;
+	//		
+	//	}
+	//	else 
+	//	{
+	//		if(CMario::level == MARIO_LEVEL_BIG || CMario::level == MARIO_LEVEL_FIRE_BIG)
+	//			this->x = this->x-MARIO_BIG_BBOX_WIDTH/2-4.3f;
+	//		else if(CMario::level == MARIO_LEVEL_TAIL_BIG)
+	//			this->x = this->x - MARIO_TAIL_BIG_BBOX_WIDTH/2-3;
+	//	}
+	//	CMario::isDropTurle = false;
+	//	isHold = false;
+	//}
+	//
+
+
 	vy += MARIO_GRAVITY * dt;
-	if (CMario::isDropTurle == true && isHold == true)
-	{
-		if (CMario::nxx == 1)
-		{
-			if (CMario::level == MARIO_LEVEL_BIG || CMario::level == MARIO_LEVEL_FIRE_BIG)
-				this->x = this->x + MARIO_BIG_BBOX_WIDTH/2 +3.2f;
-			else if (CMario::level == MARIO_LEVEL_TAIL_BIG)
-				this->x = this->x + MARIO_TAIL_BIG_BBOX_WIDTH/2+3;
-			//this->x = this->x + 10;
-			
-		}
-		else 
-		{
-			if(CMario::level == MARIO_LEVEL_BIG || CMario::level == MARIO_LEVEL_FIRE_BIG)
-				this->x = this->x-MARIO_BIG_BBOX_WIDTH/2-4.3f;
-			else if(CMario::level == MARIO_LEVEL_TAIL_BIG)
-				this->x = this->x - MARIO_TAIL_BIG_BBOX_WIDTH/2-3;
-		}
-		CMario::isDropTurle = false;
-		isHold = false;
-	}
-	
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -77,37 +79,40 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
 	{
-		if (this->GetState() == TURLE_STATE_DIE_OVER)
+		/*if (this->GetState() == TURLE_STATE_DIE_OVER)
 		{
 			x = 0;
 			y = 0;
-		}
-		else if (CMario::isHoldTurtle == true && isHold==true)
-		{
-			if (CMario::level == MARIO_LEVEL_BIG)
-			{
-				x = CMario::xx + 8;
-				y = CMario::yy + 4;								//set lai vi tri cho con rua
-				
-			}
-			else
-			{
-				if (CMario::nxx == 1)
-				{
-					x = CMario::xx + 15;
-				}
-				else
-					x = CMario::xx+2;
-				y = CMario::yy + 4;								//set lai vi tri cho con rua
-			}
+		}*/
+		//else if (CMario::isHoldTurtle == true && isHold==true)
+		//{
+		//	if (CMario::level == MARIO_LEVEL_BIG)
+		//	{
+		//		x = CMario::xx + 8;
+		//		y = CMario::yy + 4;								//set lai vi tri cho con rua
+		//		
+		//	}
+		//	else
+		//	{
+		//		if (CMario::nxx == 1)
+		//		{
+		//			x = CMario::xx + 15;
+		//		}
+		//		else
+		//			x = CMario::xx+2;
+		//		y = CMario::yy + 4;								//set lai vi tri cho con rua
+		//	}
 
-			
-		}
-		else
+		//	
+		//}
+		/*else
 		{
 			x += dx;
 			y += dy;
-		}
+		}*/
+
+		x += dx;
+		y += dy;
 			
 		
 	}
@@ -120,57 +125,75 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		// TODO: This is a very ugly designed function!!!!
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 
-		if (nx != 0) vx = 0;
-		if (ny != 0) vy = 0;
+		/*if (nx != 0) vx = 0;
+		if (ny != 0) vy = 0;*/
 
 
 		// Collision logic with other objects
 		//
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
-			vx = vxx;
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (dynamic_cast<CBrickTop *>(e->obj)) // if e->obj is brickTop
-			{
-				if (this->GetState() == TURLE_STATE_DIE)
-				{
-					vx = 0;
-					vy = 0;
-				}
-				else if(this->GetState() == TURLE_STATE_RUN_DIE)
-					vx = 0.2f;
-				else
-					vx = vxx;
-				if (this->GetState() == TURLE_STATE_WALKING)
-				{
-					if (vx < 0 && x < 530) {
-						//x = 0; 
-						vxx = -vxx;
-						vx = vxx;
-					}
+			//vx = vxx;
 
-					else if (vx > 0 && x > 600) {
-						//x = 290; 
-						vxx = -vxx;
-						vx = vxx;
-					}
-				}
-				
-
-			} // if brickTop
-			else if (dynamic_cast<CQuestion *>(e->obj)) // if e->obj is CQuestion
+			if (ny < 0 && e->obj != NULL)
 			{
-				this->isTreeStart = true;
-			}
-			else if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is CQuestion
-			{
-				if (this->GetState() == TURLE_STATE_DIE)
-				{
-					vx = 0;
-				}
 				vy = 0;
 			}
+
+
+
+			if (dynamic_cast<CWallTurle *>(e->obj)) // if e->obj is brickTop
+			{
+				vx = -vx;
+			}
+			if (dynamic_cast<CBrickTop *>(e->obj)) // if e->obj is brickTop
+			{
+				x += dx;
+			}
 			
+
+			//if (dynamic_cast<CBrickTop *>(e->obj)) // if e->obj is brickTop
+			//{
+			//	if (this->GetState() == TURLE_STATE_DIE)
+			//	{
+			//		vx = 0;
+			//		vy = 0;
+			//	}
+			//	else if(this->GetState() == TURLE_STATE_RUN_DIE)
+			//		vx = 0.2f;
+			//	else
+			//		vx = vxx;
+			//	if (this->GetState() == TURLE_STATE_WALKING)
+			//	{
+			//		if (vx < 0 && x < 530) {
+			//			//x = 0; 
+			//			vxx = -vxx;
+			//			vx = vxx;
+			//		}
+
+			//		else if (vx > 0 && x > 600) {
+			//			//x = 290; 
+			//			vxx = -vxx;
+			//			vx = vxx;
+			//		}
+			//	}
+			//	
+
+			//} // if brickTop
+			//else if (dynamic_cast<CQuestion *>(e->obj)) // if e->obj is CQuestion
+			//{
+			//	this->isTreeStart = true;
+			//}
+			//else if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is CQuestion
+			//{
+			//	if (this->GetState() == TURLE_STATE_DIE)
+			//	{
+			//		vx = 0;
+			//	}
+			//	vy = 0;
+			//}
+			//
 			
 		}
 
@@ -211,11 +234,11 @@ void CTurle::SetState(int state)
 		vx = TURLE_WALKING_SPEED;
 		break;
 	case TURLE_STATE_RUN_DIE:
-		vx = -TURLE_WALKING_SPEED;
+		//vx = -TURLE_WALKING_SPEED;
 		break;
 	case TURLE_STATE_DIE_OVER:
-		vx = 0;
-		vy = 0;
+		//vx = 0;
+		//vy = 0;
 		break;
 	}
 

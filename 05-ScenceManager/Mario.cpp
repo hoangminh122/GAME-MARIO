@@ -52,12 +52,16 @@ CMario::CMario(float x, float y) : CGameObject()
 	//positionXIdle = 0;
 	isStateFly = false;
 	jumpHigher = false;
+	pressA = false;
+	isLevelDown = false;
 }
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
+
+	
 
 	//if(isHoldTurtle)						//xu ly vi tri mario cam rua chay 
 	//{
@@ -140,13 +144,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		x += min_tx*dx + nx*0.4f;
 		y += min_ty*dy + ny*0.4f;
 
-		/*if (nx != 0)
+		if (nx != 0)
 		{
 			vx = 0;
 		}
 		else if (ny != 0) {
 			vy = 0;
-		}*/
+		}
 
 		
 		if (ny < 0 && vy >= 0)
@@ -164,9 +168,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			
 			//phan nay sua lai phan va cham voi vat the lam cho mario dung yen
-			if (ny < 0 && e->obj != NULL)
+			if (ny < 0)
 			{
-				vy = 0;
+				if(!isLevelDown)
+					vy = 0;
+				//isLevelDown = false;
+			}
+			if (nx != 0 && checkMarioColision ==false)
+			{
+				vx = 0;
 			}
 
 			if (dynamic_cast<CMushroom *>(e->obj)) // if e->obj is mushroom
@@ -239,9 +249,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					{
 						if (goomba->GetState()!=GOOMBA_STATE_DIE)
 						{
-							if (level > MARIO_LEVEL_SMALL)
+							if (GetLevel()>1)
 							{
-								level = MARIO_LEVEL_SMALL;
+								vy = -0.001f;
+								SetLevel(GetLevel() - 1);
+
 							}
 							else 
 								SetState(MARIO_STATE_DIE);
@@ -315,9 +327,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				if (e -> nx != 0)
 					x += dx;
 					//vx +=dx;
-				//DebugOut(L" kill brick top");
-				/*if (e->ny > 0)
-					this->y = y - 0.5f;*/
 
 			} // if brickTop
 			//va cham gach nen phai nam sau va cham brick top
@@ -326,28 +335,56 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			if (e->nx != 0)
 				x += dx;
 			}*/
-			//else if (dynamic_cast<CTurle *>(e->obj)) // if e->obj is TURLE
-			//{
-			//	CTurle *turle = dynamic_cast<CTurle *>(e->obj);
-			//	if (e->ny < 0)
-			//	{
-			//		if (turle->GetState() == TURLE_STATE_WALKING)
-			//		{
-			//			turle->x = this->x;
-			//			turle->y = this->y;
+			else if (dynamic_cast<CTurle *>(e->obj)) // if e->obj is TURLE
+			{
+				CTurle *turle = dynamic_cast<CTurle *>(e->obj);
+				isLevelDown = true;
+				if (e->ny < 0)
+				{
+					if (turle->GetState() == TURLE_STATE_WALKING)
+					{
+						turle->x = this->x;
+						turle->y = this->y;
 
-			//			this->x -= 28;
-			//			this->y -= 2;
+						//mario nhay len 1 doan nho
+						vy += -0.35f;
 
-			//			this->vy = -0.4f;
-			//			turle->SetState(TURLE_STATE_DIE);
-			//		}
-			//		else
-			//		{
-			//			;
-			//		}
-			//		
-			//	}
+						turle->SetState(TURLE_STATE_DIE);
+					}
+					else if (turle->GetState() == TURLE_STATE_DIE || turle->GetState() == TURLE_STATE_DIE_OVER)
+					{
+						//giam level mario
+						SetLevel(GetLevel() - 1);
+						if (GetLevel() < 1)
+						{
+							SetState(MARIO_STATE_DIE);
+						}
+					}
+
+
+				}
+				else if (e->nx != 0 && turle->GetState() != TURLE_STATE_DIE)
+				{
+
+					
+					if (GetLevel() < 1)
+					{
+						SetState(MARIO_STATE_DIE);
+						//set cho mario mat va cham
+						//vy = +0.001f;
+					}
+					else
+					{
+						SetLevel(GetLevel() - 1);
+						//isLevelDown = true;
+					}
+					
+
+					
+				}
+			}
+
+
 			//	else if (e->nx != 0)
 			//	{
 			//		/*if (this->nx > 0)
@@ -801,13 +838,13 @@ void CMario::Render()
 				if (this->GetState() == MARIO_STATE_JUMP_NORMAL) {
 					ani = MARIO_ANI_SMALL_JUMP_RIGHT;
 				}
-				else if (this->GetState() == MARIO_STATE_KICK && kick == true) {
+				/*else if (this->GetState() == MARIO_STATE_KICK && kick == true) {
 					ani = MARIO_ANI_SMALL_KICK_RIGHT;
 				}
 				else if (this->GetState() == MARIO_STATE_HOLD_TURTLE)
 				{
 					ani = MARIO_ANI_SMALL_HOLD_TURLE_RIGHT;
-				}
+				}*/
 				else
 					ani = MARIO_ANI_SMALL_IDLE_RIGHT;
 			}

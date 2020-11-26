@@ -152,6 +152,8 @@ class CMario : public CGameObject
 	//GameMap* test;
 	int ani;
 public: 
+	bool pressA;				//giu phim A
+	bool isLevelDown;				//luc mario giam level
 	DWORD timeJumpStart;
 	bool jumpHigher;			//mario jump cao hơn khi giữ S
 	int static level;
