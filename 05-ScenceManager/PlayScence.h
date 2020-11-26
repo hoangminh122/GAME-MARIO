@@ -10,6 +10,7 @@
 #include "CMushroom.h"
 #include "Turle.h"
 #include "BrickTop.h"
+#include "TileMap.h"
 
 
 class CPlayScene: public CScene
@@ -17,6 +18,7 @@ class CPlayScene: public CScene
 protected: 
 	CMario *player;					// A play scene has to have player, right? 
 
+	CTileMap* map;
 	vector<LPGAMEOBJECT> objects;
 
 	void _ParseSection_TEXTURES(string line);
@@ -24,11 +26,10 @@ protected:
 	void _ParseSection_ANIMATIONS(string line);
 	void _ParseSection_ANIMATION_SETS(string line);
 	void _ParseSection_OBJECTS(string line);
-
+	void _ParseSection_MAP(string line);
 	
 public: 
 	CPlayScene(int id, LPCWSTR filePath);
-
 	virtual void Load();
 	virtual void Update(DWORD dt);
 	virtual void Render();
@@ -41,6 +42,9 @@ public:
 
 class CPlayScenceKeyHandler : public CScenceKeyHandler
 {
+public:
+	DWORD timeJumpStart;
+	DWORD timeJumpEnd;
 public: 
 	virtual void KeyState(BYTE *states);
 	virtual void OnKeyDown(int KeyCode);

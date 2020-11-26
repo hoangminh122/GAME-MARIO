@@ -2,15 +2,16 @@
 
 #include "GameObject.h"
 
-#define TURLE_WALKING_SPEED 0.03f;
+#define TURLE_WALKING_SPEED 0.35f;
 
 #define TURLE_BBOX_WIDTH 16
 #define TURLE_BBOX_HEIGHT 26
-#define TURLE_BBOX_HEIGHT_DIE 16
+#define TURLE_BBOX_HEIGHT_DIE 15
 
 #define TURLE_STATE_WALKING 100
 #define TURLE_STATE_DIE 200
 #define TURLE_STATE_RUN_DIE 300
+#define TURLE_STATE_DIE_OVER 400
 
 #define TURLE_ANI_WALKING_LEFT 0
 #define TURLE_ANI_WALKING_RIGHT 1
@@ -24,7 +25,8 @@ class CTurle : public CGameObject
 	virtual void Render();
 
 public:
-	
+	bool isHold;										//TRANG thai cam rua cho tung con phan biet
+	float vxx;											//van toc rua 
 	int ani;
 	int isStop;
 	static bool isTreeStart;

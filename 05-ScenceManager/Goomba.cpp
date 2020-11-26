@@ -14,7 +14,7 @@ void CGoomba::GetBoundingBox(float &left, float &top, float &right, float &botto
 	top = y;
 	right = x + GOOMBA_BBOX_WIDTH;
 
-	if (state == GOOMBA_STATE_DIE)
+	if (this->GetState() == GOOMBA_STATE_DIE)
 		bottom = y + GOOMBA_BBOX_HEIGHT_DIE;
 	else 	
 		bottom = y + GOOMBA_BBOX_HEIGHT;
@@ -30,7 +30,7 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		nx = 1;
 	else
 		nx = -1;
-	if (state == GOOMBA_STATE_REVERSE_DIE) {
+	if (this->GetState() == GOOMBA_STATE_REVERSE_DIE) {
 		if (y > 500)
 			vy = 0;
 		else if (y < 280)
@@ -46,7 +46,7 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		}*/
 		isReverse = true;
 	}
-	if (state == GOOMBA_STATE_DIE) {
+	if (this->GetState() == GOOMBA_STATE_DIE) {
 		vy = 0.1f;
 		if (y > 500)
 			vy = 0;
@@ -71,7 +71,7 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 void CGoomba::Render()
 {
 	int ani = GOOMBA_ANI_WALKING;
-	if (state == GOOMBA_STATE_DIE) {
+	if (this->GetState() == GOOMBA_STATE_DIE) {
 		ani = GOOMBA_ANI_DIE;
 	}
 	animation_set->at(ani)->Render(x,y,255,isReverse);

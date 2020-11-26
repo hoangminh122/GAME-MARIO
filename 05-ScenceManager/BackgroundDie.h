@@ -1,11 +1,10 @@
 #pragma once
-#pragma once
 #include "GameObject.h"
 
-#define BRICK_BBOX_WIDTH  16
-#define BRICK_BBOX_HEIGHT 2
+#define BRICK_BBOX_WIDTH  5
+#define BRICK_BBOX_HEIGHT 16
 
-class CBrickTop : public CGameObject
+class CBackgroundDie : public CGameObject
 {
 public:
 	virtual void Render();

@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <fstream>
 
 #include "PlayScence.h"
@@ -10,6 +10,9 @@
 #include "Plant.h"
 #include "Bullet.h"
 #include "BulletMario.h"
+#include "BackgroundDie.h"
+#include "Camera.h"
+//#include "TileMap.h"
 
 using namespace std;
 
@@ -30,6 +33,8 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define SCENE_SECTION_ANIMATIONS 4
 #define SCENE_SECTION_ANIMATION_SETS	5
 #define SCENE_SECTION_OBJECTS	6
+#define SCENE_SECTION_MAP	7
+
 
 #define OBJECT_TYPE_MARIO	0
 #define OBJECT_TYPE_BRICK	1
@@ -42,6 +47,8 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define OBJECT_TYPE_PLANT	10
 #define OBJECT_TYPE_BULLET	11
 #define OBJECT_TYPE_BULLET_MARIO	12
+#define OBJECT_TYPE_BACKGROUND_DIE	13
+
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -86,6 +93,20 @@ void CPlayScene::_ParseSection_SPRITES(string line)
 	CSprites::GetInstance()->Add(ID, l, t, r, b, tex);
 }
 
+void CPlayScene::_ParseSection_MAP(string line)
+{
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 2) return;         // truong hop bo trong
+
+	int idTex = atoi(tokens[1].c_str());  //atoi co nhiem vu chuyen thanh so ngueyn
+	float mapWidth = atoi(tokens[2].c_str());
+	float mapHeight = atoi(tokens[3].c_str());
+	map = new CTileMap(idTex, tokens[0]);
+	CCamera::GetInstance()->SetMapSize(mapWidth, mapHeight);
+	
+}
+
 void CPlayScene::_ParseSection_ANIMATIONS(string line)
 {
 	vector<string> tokens = split(line);
@@ -100,7 +121,7 @@ void CPlayScene::_ParseSection_ANIMATIONS(string line)
 	for (int i = 1; i < tokens.size(); i += 2)	// why i+=2 ?  sprite_id | frame_time  
 	{
 		int sprite_id = atoi(tokens[i].c_str());
-		int frame_time = atoi(tokens[i+1].c_str());
+		int frame_time = atoi(tokens[i + 1].c_str());
 		ani->Add(sprite_id, frame_time);
 	}
 
@@ -173,6 +194,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_PLANT: obj = new CPlant(); break;
 	case OBJECT_TYPE_BULLET: obj = new CBullet(); break;
 	case OBJECT_TYPE_BULLET_MARIO: obj = new CBulletMario(); break;
+	case OBJECT_TYPE_BACKGROUND_DIE: obj = new CBackgroundDie(); break;
+
+
 	case OBJECT_TYPE_PORTAL:
 		{	
 			float r = atof(tokens[4].c_str());
@@ -221,6 +245,9 @@ void CPlayScene::Load()
 			section = SCENE_SECTION_ANIMATION_SETS; continue; }
 		if (line == "[OBJECTS]") { 
 			section = SCENE_SECTION_OBJECTS; continue; }
+		if (line == "[MAP]") {
+			section = SCENE_SECTION_MAP; continue;
+		}
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }	
 
 		//
@@ -233,6 +260,7 @@ void CPlayScene::Load()
 			case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
 			case SCENE_SECTION_ANIMATION_SETS: _ParseSection_ANIMATION_SETS(line); break;
 			case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
+			case SCENE_SECTION_MAP: _ParseSection_MAP(line); break;
 		}
 	}
 
@@ -266,11 +294,22 @@ void CPlayScene::Update(DWORD dt)
 	float cx, cy;
 	player->GetPosition(cx, cy);
 
-	CGame *game = CGame::GetInstance();
+	CGame* game = CGame::GetInstance();
+	cx -= game->GetScreenWidth() / 2;
+	cy -= game->GetScreenHeight() / 2;
+
+	CGame::GetInstance()->SetCamPos(cx, cy);
+	CCamera::GetInstance()->Update(player);
+
+
+
+
+	/*CGame *game = CGame::GetInstance();
+	cy -= game->GetScreenHeight()/1.1;
 	if (cx <= game->GetScreenWidth() / 2)
 	{
 		cx = 0.0f;
-		//cy = 136.0f;
+		cy = 236.0f;
 	}
 		
 	else if (CMario::isRotatory)
@@ -283,13 +322,18 @@ void CPlayScene::Update(DWORD dt)
 	if (cy <=136)
 		cy -= game->GetScreenHeight() / 2;
 	else
-		cy = 136.0f;
+		cy = 236.0f;
+*/
 
-	CGame::GetInstance()->SetCamPos(cx,cy);
+
 }
 
 void CPlayScene::Render()
 {
+	if (map != NULL)
+	{
+		map->Render(player);				//load map len
+	}
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
 }
@@ -315,8 +359,11 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	CMario *mario = ((CPlayScene*)scence)->GetPlayer();
 	switch (KeyCode)
 	{
-	case DIK_SPACE:
-		mario->SetState(MARIO_STATE_JUMP);
+	case DIK_S:
+		timeJumpStart = GetTickCount();
+		DebugOut(L"minh%d\n",timeJumpStart);
+		/*if(mario->checkMarioColision == true)
+			mario->vy = -0.15f;*/
 		break;
 	case DIK_X:
 		mario->SetState(MARIO_STATE_ROTATORY_IDLE);
@@ -325,42 +372,74 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		mario->SetState(MARIO_STATE_BULLET_IDLE);
 		break;
 
-	case DIK_S: 
+	case DIK_T: 
 		mario->Reset();
 		break;
+	case DIK_D:
+		if (mario->level > 3)
+			mario->level = 0;
+		else
+			mario->level ++;
+		break;
+	//case DIK_N:											//cam rua
+	//	mario->SetState(MARIO_STATE_IDLE);
+	//	mario->isHoldTurtle = false;
+	//	break;
+	case DIK_B:
+		mario->kick = true;
+		mario->SetState(MARIO_STATE_KICK);
+		//turle->SetState(TURLE_STATE_RUN_DIE);
+
 	}
 }
 
 void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 {
-	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
-
 	CMario *mario = ((CPlayScene*)scence)->GetPlayer();
 	switch (KeyCode)
 	{
 	case DIK_DOWN:
 		mario->SetPosition(mario->x, mario->y - 17);
 		break;
+	case DIK_D:
+		mario->SetPosition(mario->x, mario->y - 120);
+		break;
 	case DIK_A:
 		CBulletMario::isStart = false;
+		break;
+	case DIK_S:
+		mario->jumpHigher = false;
+		break;
+	case DIK_N:											//cam rua
+		if (mario->isHoldTurtle)
+		{
+			mario->isHoldTurtle = false;
+			mario->isDropTurle = true;
+			mario->SetState(MARIO_STATE_IDLE);
+		}
+
 		break;
 	case DIK_V:
 	{
 		//if (mario->levelBefore == MARIO_LEVEL_SMALL)
 		//{
-			DebugOut(L"shgdshg");
-			mario->SetPosition(mario->x, mario->y - 60);
-			break;
+		mario->SetPosition(mario->x, mario->y - 60);
+		break;
 
 		//}
 	}
-	case DIK_C:
-	{
-		if(CMario::energyFly < 0)
-			CMario::energyFly = 20;
-	}
+	case DIK_B:											//da rua
+		mario->SetState(MARIO_STATE_IDLE);
+		mario->kick = false;
 		break;
-	
+
+	case DIK_C:
+		if (mario->level == MARIO_LEVEL_TAIL_BIG)
+		{
+			if (CMario::energyFly < 0)
+				CMario::energyFly = 20;
+		}
+		break;
 	}
 
 }
@@ -372,90 +451,163 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 
 	// disable control key when Mario die 
 	if (mario->GetState() == MARIO_STATE_DIE) return;
-	if (mario->GetState() == MARIO_STATE_KICK)
-		mario->SetState(MARIO_STATE_KICK);
-	else if (game->IsKeyDown(DIK_SPACE))
+	/*if (mario->GetState() == MARIO_STATE_KICK)
+		mario->SetState(MARIO_STATE_KICK);*/
+	else if (game->IsKeyDown(DIK_S))
 	{
-		//DebugOut(L"okaaaa");
-		mario->SetState(MARIO_STATE_JUMP);
-	
+		mario->jumpHigher = true;         //dang o trang thai nhan giu phim S
+		mario->SetState(MARIO_STATE_JUMP_NORMAL);
+		DebugOut(L"ssssss%d ss%dsdsd%d\n", GetTickCount(),timeJumpStart, GetTickCount() - timeJumpStart);
+		if (GetTickCount() - timeJumpStart > 150 && GetTickCount() - timeJumpStart < 200 && timeJumpStart != 0)
+		{
+			mario->vy -= MARIO_JUMP_SPEED_HIGHER_Y;
+		}
 	}
-	else if (game->IsKeyDown(DIK_C))
-	{
-		CMario::energyFly--;
-		//DebugOut(L"okaaaa");
-		if(CMario::energyFly > 0)
-			mario->SetState(MARIO_STATE_FLY);
+	//else if (game->IsKeyDown(DIK_C))
+	//{
+	//	DebugOut(L"STATE     %d\n", mario->GetState());
+	//	if (mario->level == MARIO_LEVEL_TAIL_BIG)
+	//	{
+	//		CMario::energyFly--;
+	//		if (CMario::energyFly > 0)
+	//			mario->SetState(MARIO_STATE_FLY);
+	//	}
 
+	//}
+	//
+	//else if (game->IsKeyDown(DIK_X))
+	//{
+	//	mario->SetState(MARIO_STATE_ROTATORY_IDLE);
 
-	}
-	
-	else if (game->IsKeyDown(DIK_X))
-	{
-		//DebugOut(L"okaaaa");
-		mario->SetState(MARIO_STATE_ROTATORY_IDLE);
+	//}
+	//else if (game->IsKeyDown(DIK_N))
+	//{
+	//	if (mario->isHoldTurtle == false)
+	//	{
+	//		if (mario->nx == 1)
+	//			mario->vx = 0.01f;
+	//		else
+	//			mario->vx = -0.01f;
+	//		mario->SetState(MARIO_STATE_HOLD_TURTLE);
+	//		if(mario->nx == 1)
+	//			mario->xx = mario->x;
+	//		else 
+	//			mario->xx = mario->x-15;
+	//		mario->yy = mario->y;
+	//	}
+	//	else if (game->IsKeyDown(DIK_RIGHT)) {
+	//		/*if (game->IsKeyDown(DIK_A))
+	//		{
+	//			CMario::isBullet = true;
+	//		}*/
+	//		if (game->IsKeyDown(DIK_Z))
+	//		{
+	//			if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG)
+	//			{
+	//				if (CMario::energyFly < 200)
+	//					CMario::energyFly += 5;
+	//			}
+	//			mario->SetState(MARIO_STATE_RUN_RIGHT);
+	//		}
+	//		else
+	//		{
+	//			mario->SetState(MARIO_STATE_WALKING);
+	//			mario->vx = MARIO_WALKING_SPEED;											//cai nay fix tam. chua xu ly kip
+	//		}
+	//	}
+	//	else if (game->IsKeyDown(DIK_LEFT)) {
+	//		/*if (game->IsKeyDown(DIK_A))
+	//		{
+	//			CMario::isBullet = true;
+	//		}*/
+	//		if (game->IsKeyDown(DIK_Z))
+	//		{
+	//			if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG)
+	//			{
+	//				if (CMario::energyFly < 200)
+	//					CMario::energyFly += 5;
+	//			}
+	//			mario->SetState(MARIO_STATE_RUN_LEFT);
+	//		}
+	//		else
+	//		{
+	//			mario->SetState(MARIO_STATE_WALKING);
+	//			mario->vx = -MARIO_WALKING_SPEED;
+	//		}
+	//	}
+	//}
+	//else if (game->IsKeyDown(DIK_DOWN))
+	//{
+	//	mario->SetState(MARIO_STATE_DOWN);
 
-	}
-	else if (game->IsKeyDown(DIK_DOWN))
-	{
-		//DebugOut(L"okaaaa");
-		mario->SetState(MARIO_STATE_DOWN);
-
-	}
+	//}
 	else if (game->IsKeyDown(DIK_RIGHT)) {
-		/*if (game->IsKeyDown(DIK_A)) 
+		mario->nx = 1;
+		if (mario->vx < MARIO_WALKING_SPEED)
+			mario->vx += MARIO_WALKING_ADD_SPEED;
+		if (mario->vx < 0)
 		{
-			DebugOut(L"SHSGSHDGshdgshfahsgfahsgfjhagfhagfhagfhagf\n");
-			CMario::isBullet = true;
-		}*/
-		if (game->IsKeyDown(DIK_Z))
+			DebugOut(L"SHGDHSGF\n");
+			mario->SetState(MARIO_STATE_BRAKE);
+		}
+		else
+			mario->SetState(MARIO_STATE_WALKING);
+		if (game->IsKeyDown(DIK_A))
 		{
+			if (mario->vx < MARIO_RUN_NORMAL_SPEED)
+				mario->vx += 0.01f;
 			mario->SetState(MARIO_STATE_RUN_RIGHT);
 		}
-		else
-			mario->SetState(MARIO_STATE_WALKING_RIGHT);
 	}
 	else if (game->IsKeyDown(DIK_LEFT)) {
-		/*if (game->IsKeyDown(DIK_A))
+		mario->nx = -1;
+		if (mario->vx > -MARIO_WALKING_SPEED)
+			mario->vx -= MARIO_WALKING_ADD_SPEED;
+		if (mario->vx > 0 )
+			mario->SetState(MARIO_STATE_BRAKE);
+		else
+			mario->SetState(MARIO_STATE_WALKING);
+
+		if (game->IsKeyDown(DIK_A))
 		{
-			CMario::isBullet = true;
-		}*/
-		if (game->IsKeyDown(DIK_Z))
-		{
-			if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG)
-			{
-				if(CMario::energyFly <200)
-					CMario::energyFly += 5;
-				DebugOut(L"SSSSSSSSSS%d\n", CMario::energyFly);
-			}
+			if (mario->vx > -MARIO_RUN_NORMAL_SPEED)
+				mario->vx -= 0.01f;
 			mario->SetState(MARIO_STATE_RUN_LEFT);
 		}
-		else
-		{
-			mario->SetState(MARIO_STATE_WALKING_LEFT);
-		}
 	}
-	else if (game->IsKeyDown(DIK_A)) {
-		DebugOut(L"000000000000000000000000000000000000000000000000000000000000000000000000\n");
-
+	/*else if (game->IsKeyDown(DIK_A)) {
 		mario->SetState(MARIO_STATE_BULLET_IDLE);
 	}
-	
+	*/
 	else
 	{
-		if (game->IsKeyDown(DIK_V))
+		mario->SetState(MARIO_STATE_IDLE);
+		//chỉnh tốc dộ mario giảm dần -> 0 khi ở trên nên đất
+		if (mario->vx > 0 && mario ->checkMarioColision == true)
 		{
-			//DebugOut(L"okaaaa");
-			/*mario->levelBefore = mario->GetLevel();
-			DebugOut(L"okaaaa%d\n",mario->levelBefore);*/
+			DebugOut(L"sadasdphai%f\n", mario->vx);
+			mario->vx -= MARIO_WALKING_ADD_SPEED;
+			if (mario->vx < 0)
+				mario->vx = 0.0f;
+		}
+		if(mario->vx < 0 && mario->checkMarioColision == true)
+		{
+			DebugOut(L"sadasd%f\n",mario->vx);
+			mario->vx += MARIO_WALKING_ADD_SPEED;
+			if (mario->vx > 0)
+				mario->vx = 0.0f;
+		}
 
-			mario->SetLevel(MARIO_LEVEL_FIRE_BIG);
-			mario->isFire = true;
-		}
-		else
-		{
-			mario->SetState(MARIO_STATE_IDLE);
-		}
+		//if (game->IsKeyDown(DIK_V))
+		//{
+		//	/*mario->levelBefore = mario->GetLevel();
+		//	DebugOut(L"okaaaa%d\n",mario->levelBefore);*/
+
+		//	mario->SetLevel(MARIO_LEVEL_FIRE_BIG);
+		//	mario->isFire = true;
+		//}
+		//else
+		//{
 
 	}
 }

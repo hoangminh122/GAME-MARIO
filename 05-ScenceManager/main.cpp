@@ -37,10 +37,10 @@
 #define MAX_FRAME_RATE 120
 #define BACKGROUND_TEXTURE_PATH L"textures/map/man1/tiles.png"
 
-CGameObject *background ; 
+//CGameObject *background ; 
 CGame *game;
 
-LPDIRECT3DTEXTURE9 texBackground = NULL;
+//LPDIRECT3DTEXTURE9 texBackground = NULL;
 
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -67,7 +67,7 @@ void Update(DWORD dt)
 /*
 	Render a frame 
 */
-void Render(GameMap minh, LPDIRECT3DTEXTURE9 texBackground)
+void Render()
 {
 	////load background
 	//GameMap minh;
@@ -96,7 +96,7 @@ void Render(GameMap minh, LPDIRECT3DTEXTURE9 texBackground)
 		/*CBackground* brick = new CBackground(100, 5, texBackground);
 		brick->SetPosition(100, 100);
 		brick->Render();*/
-		minh.DrawMap(texBackground);
+		//minh.DrawMap(texBackground);
 
 		/*CSprite* minh = new CSprite(1,0,0,64,64,texBackground);
 		minh->Draw(10,10,255);*/
@@ -181,12 +181,12 @@ int Run()
 	//DebugOut(L"background -- background", minh.c_str());
 
 
-	CGame * game = CGame::GetInstance();
-	texBackground = game->LoadTexture(BACKGROUND_TEXTURE_PATH);
+	//CGame * game = CGame::GetInstance();
+	//texBackground = game->LoadTexture(BACKGROUND_TEXTURE_PATH);
 
 	//load background
-	GameMap minh;
-	minh.LoadMap("textures/map/map01.txt", texBackground);
+	/*GameMap minh;
+	minh.LoadMap("textures/map/map01.txt", texBackground);*/
 	//	minh.LoadTiles();
 
 	while (!done)
@@ -212,7 +212,8 @@ int Run()
 			game->ProcessKeyboard();
 			
 			Update(dt);
-			Render(minh,texBackground);
+			Render();
+			//Render(minh,texBackground);
 		}
 		else
 			Sleep(tickPerFrame - dt);	

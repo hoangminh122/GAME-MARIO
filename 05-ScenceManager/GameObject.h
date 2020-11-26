@@ -46,8 +46,10 @@ struct CCollisionEvent
 
 class CGameObject
 {
-public:
+private:
+	int state;
 
+public:
 	float x; 
 	float y;
 
@@ -59,7 +61,6 @@ public:
 
 	int nx;	 
 
-	int state;
 
 	DWORD dt; 
 

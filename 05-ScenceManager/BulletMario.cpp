@@ -6,6 +6,8 @@
 #include "Goomba.h"
 #include "Game.h"
 #include "Mario.h"
+#include "BackgroundDie.h"
+#include "Turle.h"
 
 
 //CBullet::CBullet() {
@@ -24,7 +26,7 @@ CBulletMario * CBulletMario::__instance = NULL;
 CBulletMario::CBulletMario() : CGameObject()
 {
 	isStart = false;
-	state = -1;
+	this->SetState(-1);
 	heightAfter = 0;
 	isDie = true;
 	isBullet = false;
@@ -51,11 +53,15 @@ void CBulletMario::GetBoundingBox(float &l, float &t, float &r, float &b)
 void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	CGameObject::Update(dt);
-	/*DebugOut(L"IS sTART%d \n", this->isStart);*/
 
+	if (nextStart - timeStart > 5000)
+	{
+		isDie = true;
+		isBullet = false;
+		nextStart = timeStart = 0;
+	}
 	if (isStart)
 	{
-		DebugOut(L"IS sTART%d \n", this->isStart);
 		if (((rand() % 2) + 1) == 1)
 		{
 			isBullet = true;
@@ -65,7 +71,8 @@ void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	if (isDie && isBullet)
 	{
-		//timeStart = GetTickCount();                        //time bat dau ban dan
+		timeStart = GetTickCount();                        //time bat dau ban dan
+		nextStart = GetTickCount();
 		if (nxBullet == 1)
 			this->x = x0 + 10;
 		else
@@ -94,11 +101,12 @@ void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	else if (isBullet)															//check xem dan co dang con song khong
 	{
+		nextStart = GetTickCount();
 		CGame *game = CGame::GetInstance();
 		if (nxBullet == 1 && x > CMario::xRealTime + game->GetScreenWidth() / 2
-			|| nxBullet == -1 && x < CMario::xRealTime - game->GetScreenWidth() / 2)
+			|| nxBullet == -1 && x < CMario::xRealTime - game->GetScreenWidth() / 2
+			|| CMario::xx <0)
 		{
-			DebugOut(L"SHFGSHDFSDFGSHDF");
 			isDie = true;
 			isBullet = false;
 		}
@@ -112,7 +120,7 @@ void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	coEvents.clear();
 
 	// turn off collision when die 
-	if (state != BULLET_MARIO_STATE_DIE)
+	if (this->GetState() != BULLET_MARIO_STATE_DIE)
 		CalcPotentialCollisions(coObjects, coEvents);
 
 
@@ -124,7 +132,13 @@ void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			vy = -vy-0.01f;
 			heightAfter = y;
 		}
-			
+		
+		else if (vx == 0.0f)
+		{
+			isDie = true;
+			isBullet = false;
+		}
+
 		x += dx;
 		y += dy;
 
@@ -145,7 +159,6 @@ void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			
 			if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is brickTop
 			{
-				DebugOut(L" dan trung brick top");
 				//vx = 0;
 				vy = -vy;
 				/*if (e->ny > 0)
@@ -165,19 +178,31 @@ void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			} // if Goomba
 			else if (dynamic_cast<CBrickTop *>(e->obj)) // if e->obj is brickTop
 			{
-				DebugOut(L" dan trung brick top");
 				//vx = 0;
 				vy = -vy;
 				/*if (e->ny > 0)
 					this->y = y - 0.5;*/
 
 			} // if brickTop
+			else if (dynamic_cast<CTurle *>(e->obj)) // if e->obj is brickTop
+			{
+				CTurle *turle = dynamic_cast<CTurle *>(e->obj);
+				turle->SetState(TURLE_STATE_DIE_OVER);
+			} // if brickTop
+			else if (dynamic_cast<CBackgroundDie *>(e->obj)) // if e->obj is brickTop
+			{
+				isDie = true;
+				isStart = false;
+				isBullet = false;
+
+			} // if background die
 			else
 			{
 				if (e->ny != 0)
 					vy = -vy;
 				else if (e->nx != 0)
 					vx = -vx;
+				
 			}
 
 		}
