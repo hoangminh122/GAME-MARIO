@@ -2,7 +2,7 @@
 #include "GameObject.h"
 //#include "game_map.h"
 
-// so ani mario hien tai:88
+// so ani mario hien tai:90
 #define MARIO_WALKING_SPEED		0.1f 
 #define MARIO_WALKING_ADD_SPEED	0.005f 
 #define MARIO_RUN_NORMAL_SPEED	0.15f 
@@ -132,6 +132,8 @@
 #define MARIO_ANI_BIG_TAIL_KICK_TURLE_LEFT	62
 #define MARIO_ANI_BIG_TAIL_BRAKE_RIGHT	65
 #define MARIO_ANI_BIG_TAIL_BRAKE_LEFT	66
+#define MARIO_ANI_BIG_TAIL_ATTACK_ROTATORY_RIGHT	89	
+#define MARIO_ANI_BIG_TAIL_ATTACK_ROTATORY_LEFT		90
 
 
 
