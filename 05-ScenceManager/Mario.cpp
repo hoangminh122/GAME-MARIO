@@ -728,7 +728,10 @@ void CMario::Render()
 	if (vx == 0)
 	{
 		if (nx > 0) {
-			if (this->GetState() == MARIO_STATE_JUMP_NORMAL) {
+			if (this->GetState() == MARIO_STATE_KICK) {
+				ani = MARIO_ANI_BIG_TAIL_KICK_TURLE_RIGHT;
+			}
+			else if (this->GetState() == MARIO_STATE_JUMP_NORMAL) {
 				ani = MARIO_ANI_BIG_TAIL_JUMP_RIGHT;
 			}
 			else if (this->GetState() == MARIO_STATE_FLY)
@@ -740,8 +743,8 @@ void CMario::Render()
 			}
 			else if (this->GetState() == MARIO_STATE_ROTATORY_IDLE)
 			{
-				isRotatory = true;
-				this->x = positionXIdle;
+				//isRotatory = true;
+				//this->x = positionXIdle;
 				ani = MARIO_ANI_BIG_TAIL_ATTACK_ROTATORY_RIGHT;
 				//this->x -= 6;
 			}
@@ -755,15 +758,15 @@ void CMario::Render()
 					ani = MARIO_ANI_BIG_TAIL_FLY_FALLING_RIGHT;
 				else
 				{
-					this->isStateFly == false;
+					//this->isStateFly == false;
 					positionXIdle = x;
 					ani = MARIO_ANI_BIG_TAIL_IDLE_RIGHT;
-					if (isRotatory)
+					/*if (isRotatory)
 					{
 						this->x = positionXIdle;
 						isRotatory = false;
 
-					}
+					}*/
 				}
 				
 			}
@@ -771,7 +774,10 @@ void CMario::Render()
 		}
 		else
 		{
-			if (this->GetState() == MARIO_STATE_JUMP_NORMAL) {
+			if (this->GetState() == MARIO_STATE_KICK) {
+				ani = MARIO_ANI_BIG_TAIL_KICK_TURLE_LEFT;
+			}
+			else if (this->GetState() == MARIO_STATE_JUMP_NORMAL) {
 				ani = MARIO_ANI_BIG_TAIL_JUMP_LEFT;
 			}
 			else if (this->GetState() == MARIO_STATE_KICK && kick == true) {
@@ -787,28 +793,33 @@ void CMario::Render()
 			}
 			else if (this->GetState() == MARIO_STATE_ROTATORY_IDLE)
 			{
-				isRotatory = true;
-				this->x = positionXIdle;
+				/*isRotatory = true;
+				this->x = positionXIdle;*/
 				ani = MARIO_ANI_BIG_TAIL_ATTACK_ROTATORY_LEFT;
 				//this->x -= 6;
 			}
 			else
 			{
-				positionXIdle = x;
+				//positionXIdle = x;
 				ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
-				if (isRotatory)
+				/*if (isRotatory)
 				{
 					this->x = positionXIdle;
 					isRotatory = false;
 
-				}
+				}*/
 			}
 		}
 	}
 	else if (vx > 0)
 	{
+		
 		if (this->GetState() == MARIO_STATE_JUMP_NORMAL && checkMarioColision == false)                    //ANI JUMP RIGHT
 			ani = MARIO_ANI_BIG_TAIL_JUMP_RIGHT;
+		else if (this->GetState() == MARIO_STATE_ROTATORY_IDLE && this->GetLevel() == MARIO_LEVEL_TAIL_BIG)
+		{
+			ani = MARIO_ANI_BIG_TAIL_ATTACK_ROTATORY_RIGHT;
+		}
 		else if (this->GetState() == MARIO_STATE_RUN)
 		{
 			positionXIdle = x;
@@ -819,13 +830,7 @@ void CMario::Render()
 		}
 		else if (this->GetState() == MARIO_STATE_BRAKE)
 			ani = MARIO_ANI_BIG_TAIL_BRAKE_RIGHT;
-		else if (this->GetState() == MARIO_STATE_ROTATORY_IDLE)
-		{
-			isRotatory = true;
-			this->x = positionXIdle + 2;
-			ani = MARIO_ANI_BIG_TAIL_ATTACK_ROTATORY_RIGHT;
-			//this->x -= 6;
-		}
+		
 		else if (this->GetState() == MARIO_STATE_FLY && checkMarioColision == false)
 		{
 			if (this->energyFly > 20)
@@ -835,19 +840,15 @@ void CMario::Render()
 		}
 		else
 		{
-			positionXIdle = x;
 			ani = MARIO_ANI_BIG_TAIL_WALKING_RIGHT;
-			if (isRotatory)
-			{
-				this->x = positionXIdle - 2;
-				isRotatory = false;
-
-			}
-
 		}
 	}
 	else
 	{
+		if (this->GetState() == MARIO_STATE_ROTATORY_IDLE)
+		{
+			ani = MARIO_ANI_BIG_TAIL_ATTACK_ROTATORY_RIGHT;
+		}
 		if (this->GetState() == MARIO_STATE_JUMP_NORMAL && checkMarioColision == false)				   //ANI JUMP LEFT
 			ani = MARIO_ANI_BIG_TAIL_JUMP_LEFT;
 		else if (this->GetState() == MARIO_STATE_RUN)
@@ -860,13 +861,6 @@ void CMario::Render()
 		else if (this->GetState() == MARIO_STATE_KICK && kick == true) {
 			ani = MARIO_ANI_BIG_TAIL_KICK_TURLE_LEFT;
 		}
-		else if (this->GetState() == MARIO_STATE_ROTATORY_IDLE)
-		{
-			isRotatory = true;
-			this->x = positionXIdle - 2;
-			ani = MARIO_ANI_BIG_TAIL_ATTACK_ROTATORY_RIGHT;
-			//this->x -= 6;
-		}
 		else if (this->GetState() == MARIO_STATE_FLY && checkMarioColision == false)
 		{
 
@@ -877,14 +871,7 @@ void CMario::Render()
 		}
 		else
 		{
-			positionXIdle = x;
 			ani = MARIO_ANI_BIG_TAIL_WALKING_LEFT;
-			if (isRotatory)
-			{
-				this->x = positionXIdle + 2;
-				isRotatory = false;
-
-			}
 		}
 	}
 

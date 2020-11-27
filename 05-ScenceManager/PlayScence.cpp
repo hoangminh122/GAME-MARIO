@@ -401,6 +401,31 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	CMario *mario = ((CPlayScene*)scence)->GetPlayer();
 	switch (KeyCode)
 	{
+	case DIK_1:
+		mario->SetLevel(MARIO_LEVEL_SMALL);
+		mario->SetPosition(mario->x, mario->y+ MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT);
+		break;
+	case DIK_2:
+		if (mario->GetLevel() == MARIO_LEVEL_SMALL)
+			mario->SetPosition(mario->x, mario->y - (MARIO_BIG_BBOX_HEIGHT + MARIO_SMALL_BBOX_HEIGHT));
+		else
+			mario->SetPosition(mario->x, mario->y);
+		mario->SetLevel(MARIO_LEVEL_BIG);
+		break;
+	case DIK_3:
+		if (mario->GetLevel() == MARIO_LEVEL_SMALL)
+			mario->SetPosition(mario->x, mario->y - (MARIO_BIG_BBOX_HEIGHT + MARIO_SMALL_BBOX_HEIGHT));
+		else
+			mario->SetPosition(mario->x, mario->y-1);
+		mario->SetLevel(MARIO_LEVEL_TAIL_BIG);
+		break;
+	case DIK_4:
+		if (mario->GetLevel() == MARIO_LEVEL_SMALL)
+			mario->SetPosition(mario->x, mario->y - (MARIO_BIG_BBOX_HEIGHT + MARIO_SMALL_BBOX_HEIGHT));
+		else
+			mario->SetPosition(mario->x, mario->y-1);
+		mario->SetLevel(MARIO_LEVEL_FIRE_BIG);
+		break;
 	case DIK_DOWN:
 		mario->SetPosition(mario->x, mario->y -1- (MARIO_BIG_BBOX_HEIGHT+MARIO_BIG_DOWN_BBOX_HEIGHT));
 		break;
@@ -581,6 +606,10 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 				{
 					mario->SetState(MARIO_STATE_RUN_HOLD_TURTLE);
 				}
+				else if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG && !mario->isRotatory180)    //check xem mario da san sang quay chua
+				{
+					mario->SetState(MARIO_STATE_ROTATORY_IDLE);
+				}
 				else 
 					mario->SetState(MARIO_STATE_RUN);
 			}
@@ -623,7 +652,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 					mario->SetState(MARIO_STATE_RUN_HOLD_TURTLE);
 				}
 				//xoay duoi tan cong cua mario
-				else if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG)
+				else if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG && !mario->isRotatory180)    //check xem mario da san sang quay chua
 				{
 					mario->SetState(MARIO_STATE_ROTATORY_IDLE);
 				}

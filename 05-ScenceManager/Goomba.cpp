@@ -37,10 +37,10 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			vy = 0;
 			vx = 0;
 		}
-		else if (y < mario->y -50)
+		else if (y < mario->y - GOOMBA_BBOX_HEIGHT*3)
 		{
-			vy = (mario->nx)*0.1f;
-			vx = 0.05f;
+			vy += 0.05f;
+			vx = (mario->nx)*0.08f;
 		}
 		/*else if(ny == 1)
 		{
@@ -88,7 +88,7 @@ void CGoomba::SetState(int state)
 	switch (state)
 	{
 		case GOOMBA_STATE_REVERSE_DIE:
-			vx = 0.05f;
+			vx = (mario->nx)*0.05f;
 			vy = -0.1f;
 			break;
 		case GOOMBA_STATE_DIE:
