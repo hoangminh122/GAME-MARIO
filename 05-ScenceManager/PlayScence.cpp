@@ -373,6 +373,8 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		//mario->SetState(MARIO_STATE_BULLET_IDLE);
 		mario->pressA = true;
 		//mario->isHold = true;   //cam rua
+		mario->timeRotatoryStart = GetTickCount();        //time quay duoi dung yen mario
+		mario->timeWaitingAttackNext = GetTickCount();			//set time cho dot tan cong sau
 		break;
 
 	case DIK_T: 
@@ -442,7 +444,9 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		}
 		mario->isHold = false;      //khong cam rua
 		mario->pressA = false;
-		mario->timeRotatoryStart = GetTickCount();        //time quay duoi dung yen mario
+		mario->timeWaitingAttackNext = 0;			//xoa trang thai waiting -> bat dau lai
+		mario->isAttackNext = true;								//duoc tan cong
+
 		break;
 	case DIK_S:
 		mario->jumpHigher = false;
@@ -495,8 +499,13 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		}
 		else if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG && !mario->isHold)    //set truong hop ko cam rua
 		{
-			mario->SetState(MARIO_STATE_ROTATORY_IDLE);
-			mario->isRotatory180 = true;
+			if (!mario->isRotatory180 && mario->isAttackNext)       //xet xem mario co dang quay ko ->san sang
+			{
+				//mario->timeWaitingAttackNext = GetTickCount();
+				mario->SetState(MARIO_STATE_ROTATORY_IDLE);
+				mario->isRotatory180 = true;
+			}
+			
 		}
 	}
 	if (mario->GetState() == MARIO_STATE_KICK)

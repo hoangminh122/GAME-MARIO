@@ -66,6 +66,8 @@ CMario::CMario(float x, float y) : CGameObject()
 	isMarioDropTurle = false;
 	timeRotatoryStart = 0;
 	isRotatory180 = false;
+	timeWaitingAttackNext = 0;
+	isAttackNext = true;
 }
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -106,6 +108,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		vy += -0.1f;
 
 	}*/
+	if (GetTickCount() - timeWaitingAttackNext > 500 && timeWaitingAttackNext != 0)
+	{
+		isAttackNext = false;  //mario ko duoc phep tan cong next
+		SetState(MARIO_STATE_IDLE);
+		isRotatory180 = false;
+	}
 	if (GetTickCount() - timeKickStart > MARIO_KICK_TIME && timeKickStart!=0)
 	{
 		SetState(MARIO_STATE_IDLE);

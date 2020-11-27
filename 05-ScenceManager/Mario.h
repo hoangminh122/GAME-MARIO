@@ -176,6 +176,8 @@ class CMario : public CGameObject
 	//GameMap* test;
 	int ani;
 public: 
+	bool isAttackNext;					//duoc phep tan cong
+	DWORD timeWaitingAttackNext;		//time cho dot tan cong tiep theo
 	bool isRotatory180;			//trang thai mario dang quay 180
 	bool isMarioDropTurle;		//mario roi rua
 	static CMario * GetInstance(float x, float y);
