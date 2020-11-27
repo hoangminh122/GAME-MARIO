@@ -194,7 +194,7 @@ tile-map1-1.txt	80	2816	432
 #co chan dao chieu trai
 10051	175	283	190	310	0
 # die 
-10099	215	120	231	135	0
+10099	375	209	391	225	0
 # SMALL MARIO
 # idle small right
 10021	216	89	229	104	0
@@ -226,8 +226,7 @@ tile-map1-1.txt	80	2816	432
 10044	135	129	151	144	0
 #mario cam rua walking,run phai trai
 10045	376	169	391	184	0
-10046	15	169	29	184	0	
-
+10046	15	169	29	184	0
 
 
 #BRICK
