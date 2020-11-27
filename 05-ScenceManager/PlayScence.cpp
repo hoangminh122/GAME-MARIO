@@ -488,6 +488,17 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 
 	// disable control key when Mario die 
 	if (mario->GetState() == MARIO_STATE_DIE) return;
+	if (game->IsKeyDown(DIK_A)) {
+		if (mario->isHold)
+		{
+			mario->SetState(MARIO_STATE_HOLD_TURTLE);
+		}
+		else if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG && !mario->isHold)    //set truong hop ko cam rua
+		{
+			mario->SetState(MARIO_STATE_ROTATORY_IDLE);
+			mario->isRotatory180 = true;
+		}
+	}
 	if (mario->GetState() == MARIO_STATE_KICK)
 		mario->SetState(MARIO_STATE_KICK);
 	else if (game->IsKeyDown(DIK_S))
@@ -582,7 +593,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		if (game->IsKeyDown(DIK_A))
 		{
 			//cam rua
-			DebugOut(L"nhan phm A\n");
 			if (mario->vx < MARIO_RUN_NORMAL_SPEED)
 				mario->vx += 0.008f;
 		}
@@ -637,7 +647,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 			mario->vx -= MARIO_WALKING_ADD_SPEED;
 
 		//phanh
-		if (mario->vx > 0 )
+		if (mario->vx > 0)
 			mario->SetState(MARIO_STATE_BRAKE);
 		else
 		{
@@ -672,13 +682,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 
 		
 	}
-	else if (game->IsKeyDown(DIK_A)) {
-		if(mario->GetLevel() == MARIO_LEVEL_TAIL_BIG)
-		{
-			mario->SetState(MARIO_STATE_ROTATORY_IDLE);
-			mario->isRotatory180 = true;
-		}
-	}
+	
 	
 	/*else if (game->IsKeyDown(DIK_A)) {
 		mario->SetState(MARIO_STATE_BULLET_IDLE);
@@ -687,9 +691,12 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	else
 	{
 		if (mario->pressA && mario->isHold)						//nhan giu A ma dang cam rua  trang thai mario cam rua
-			{
+		{
+			if(mario->vx != 0.0f)
+				mario->SetState(MARIO_STATE_RUN_HOLD_TURTLE);
+			else
 				mario->SetState(MARIO_STATE_HOLD_TURTLE);
-			}
+		}
 		else if(!mario->isRotatory180)
 			mario->SetState(MARIO_STATE_IDLE);
 		//chỉnh tốc dộ mario giảm dần -> 0 khi ở trên nên đất
