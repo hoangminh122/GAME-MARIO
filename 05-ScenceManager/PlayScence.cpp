@@ -401,26 +401,23 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	CMario *mario = ((CPlayScene*)scence)->GetPlayer();
 	switch (KeyCode)
 	{
-	/*case DIK_DOWN:
-		mario->SetPosition(mario->x, mario->y - 17);
-		break;*/
+	case DIK_DOWN:
+		mario->SetPosition(mario->x, mario->y -1- (MARIO_BIG_BBOX_HEIGHT+MARIO_BIG_DOWN_BBOX_HEIGHT));
+		break;
 	case DIK_D:
 		mario->SetPosition(mario->x, mario->y - 120);
 		break;
 	case DIK_A:
 		//CBulletMario::isStart = false;
-		DebugOut(L"2222222222222222%d\n",mario->isHold);
 		if (mario->isHold)
 		{
-			DebugOut(L"2222222222222222222222\n");
 			mario->isMarioDropTurle = true;
 			mario->timeKickStart = GetTickCount();
 			mario->isHold = false;      //khong cam rua
-
 		}
 		mario->isHold = false;      //khong cam rua
 		mario->pressA = false;
-		
+		mario->timeRotatoryStart = GetTickCount();        //time quay duoi dung yen mario
 		break;
 	case DIK_S:
 		mario->jumpHigher = false;
@@ -646,6 +643,14 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 
 		
 	}
+	else if (game->IsKeyDown(DIK_A)) {
+		if(mario->GetLevel() == MARIO_LEVEL_TAIL_BIG)
+		{
+			mario->SetState(MARIO_STATE_ROTATORY_IDLE);
+			mario->isRotatory180 = true;
+		}
+	}
+	
 	/*else if (game->IsKeyDown(DIK_A)) {
 		mario->SetState(MARIO_STATE_BULLET_IDLE);
 	}
@@ -656,7 +661,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 			{
 				mario->SetState(MARIO_STATE_HOLD_TURTLE);
 			}
-		else
+		else if(!mario->isRotatory180)
 			mario->SetState(MARIO_STATE_IDLE);
 		//chỉnh tốc dộ mario giảm dần -> 0 khi ở trên nên đất
 		if (mario->vx > 0 && mario ->checkMarioColision == true)

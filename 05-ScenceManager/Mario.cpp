@@ -43,7 +43,6 @@ CMario *CMario::GetInstance(float x, float y)
 CMario::CMario(float x, float y) : CGameObject()
 {
 	levelBefore = 1;
-	//this->CheckToMap(test->game_map_);
 	//level = MARIO_LEVEL_SMALL;
 //	level = MARIO_LEVEL_BIG;
 	level = MARIO_LEVEL_TAIL_BIG;
@@ -65,6 +64,8 @@ CMario::CMario(float x, float y) : CGameObject()
 	timeKickStart = 0;
 	isHold = false;
 	isMarioDropTurle = false;
+	timeRotatoryStart = 0;
+	isRotatory180 = false;
 }
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -75,7 +76,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	//truong hop mario tha rua ko cam nua -> da luon
 	if (isMarioDropTurle )
 	{
-		DebugOut(L"shsgdhsgdf\n");
 		//timeKickStart = GetTickCount();   //TIME DA CUA MARIO
 		SetState(MARIO_STATE_KICK);
 	}
@@ -111,6 +111,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		SetState(MARIO_STATE_IDLE);
 		isMarioDropTurle = false;  //mario da rua xong hoan tat
 		timeKickStart = 0;
+	}
+	if (GetTickCount() - timeRotatoryStart > MARIO_ROTATORY_TIME && timeRotatoryStart != 0)
+	{
+		SetState(MARIO_STATE_IDLE);
+		isRotatory180 = false;
+		timeRotatoryStart = 0;
 	}
 
 	if (this->isStateFly == true && checkMarioColision == false && this->energyFly < 20)
@@ -735,8 +741,8 @@ void CMario::Render()
 			else if (this->GetState() == MARIO_STATE_ROTATORY_IDLE)
 			{
 				isRotatory = true;
-				this->x = positionXIdle + 6;
-				ani = MARIO_ANI_BIG_TAIL_ATTACK_ROTATORY_LEFT;
+				this->x = positionXIdle;
+				ani = MARIO_ANI_BIG_TAIL_ATTACK_ROTATORY_RIGHT;
 				//this->x -= 6;
 			}
 			else if (this->GetState() == MARIO_STATE_DOWN)
@@ -754,7 +760,7 @@ void CMario::Render()
 					ani = MARIO_ANI_BIG_TAIL_IDLE_RIGHT;
 					if (isRotatory)
 					{
-						this->x = positionXIdle - 6;
+						this->x = positionXIdle;
 						isRotatory = false;
 
 					}
@@ -782,8 +788,8 @@ void CMario::Render()
 			else if (this->GetState() == MARIO_STATE_ROTATORY_IDLE)
 			{
 				isRotatory = true;
-				this->x = positionXIdle - 6;
-				ani = MARIO_ANI_BIG_TAIL_ATTACK_ROTATORY_RIGHT;
+				this->x = positionXIdle;
+				ani = MARIO_ANI_BIG_TAIL_ATTACK_ROTATORY_LEFT;
 				//this->x -= 6;
 			}
 			else
@@ -792,7 +798,7 @@ void CMario::Render()
 				ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
 				if (isRotatory)
 				{
-					this->x = positionXIdle + 6;
+					this->x = positionXIdle;
 					isRotatory = false;
 
 				}
@@ -816,7 +822,7 @@ void CMario::Render()
 		else if (this->GetState() == MARIO_STATE_ROTATORY_IDLE)
 		{
 			isRotatory = true;
-			this->x = positionXIdle + 6;
+			this->x = positionXIdle + 2;
 			ani = MARIO_ANI_BIG_TAIL_ATTACK_ROTATORY_RIGHT;
 			//this->x -= 6;
 		}
@@ -833,7 +839,7 @@ void CMario::Render()
 			ani = MARIO_ANI_BIG_TAIL_WALKING_RIGHT;
 			if (isRotatory)
 			{
-				this->x = positionXIdle - 6;
+				this->x = positionXIdle - 2;
 				isRotatory = false;
 
 			}
@@ -857,7 +863,7 @@ void CMario::Render()
 		else if (this->GetState() == MARIO_STATE_ROTATORY_IDLE)
 		{
 			isRotatory = true;
-			this->x = positionXIdle - 6;
+			this->x = positionXIdle - 2;
 			ani = MARIO_ANI_BIG_TAIL_ATTACK_ROTATORY_RIGHT;
 			//this->x -= 6;
 		}
@@ -875,7 +881,7 @@ void CMario::Render()
 			ani = MARIO_ANI_BIG_TAIL_WALKING_LEFT;
 			if (isRotatory)
 			{
-				this->x = positionXIdle + 6;
+				this->x = positionXIdle + 2;
 				isRotatory = false;
 
 			}
@@ -1055,7 +1061,7 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 			bottom = y + MARIO_TAIL_BIG_DOWN_BBOX_HEIGHT;
 		else if (this->GetState() == MARIO_STATE_ROTATORY_IDLE)
 		{
-			right = x + MARIO_TAIL_FLY_BIG_BBOX_WIDTH;
+			right = x + MARIO_TAIL_BIG_ATTACK_BBOX_HEIGHT;
 		}
 		else
 			bottom = y + MARIO_TAIL_BIG_BBOX_HEIGHT;
@@ -1074,7 +1080,7 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 void CMario::Reset()
 {
 	SetState(MARIO_STATE_IDLE);
-	SetLevel(MARIO_LEVEL_BIG);
+	SetLevel(MARIO_LEVEL_TAIL_BIG);
 	SetPosition(start_x, start_y);
 	SetSpeed(0, 0);
 }

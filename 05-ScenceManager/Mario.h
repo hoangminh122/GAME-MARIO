@@ -155,6 +155,7 @@
 #define MARIO_TAIL_BIG_DOWN_BBOX_HEIGHT 18
 #define MARIO_TAIL_FLY_BIG_BBOX_WIDTH   18       //23
 #define MARIO_TAIL_FLY_BIG_BBOX_HEIGHT 29
+#define MARIO_TAIL_BIG_ATTACK_BBOX_HEIGHT 32
 
 #define MARIO_SMALL_BBOX_WIDTH  13  //12
 #define MARIO_SMALL_BBOX_HEIGHT 15   //24
@@ -162,6 +163,7 @@
 #define MARIO_JUMP_HIGHER_TIME 7000
 #define MARIO_UNTOUCHABLE_TIME 5000
 #define MARIO_KICK_TIME 500
+#define MARIO_ROTATORY_TIME 350						//can cho dung time
 
 
 class CMario : public CGameObject
@@ -174,10 +176,12 @@ class CMario : public CGameObject
 	//GameMap* test;
 	int ani;
 public: 
+	bool isRotatory180;			//trang thai mario dang quay 180
 	bool isMarioDropTurle;		//mario roi rua
 	static CMario * GetInstance(float x, float y);
 	bool isHold;					//mario cam rua khi nhan A
 	DWORD timeKickStart;			//time da rua
+	DWORD timeRotatoryStart;			//time danh duoi mario max
 	bool pressA;				//giu phim A
 	DWORD timeJumpStart;
 	bool jumpHigher;			//mario jump cao hơn khi giữ S

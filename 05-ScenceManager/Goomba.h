@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "Mario.h"
 
 #define GOOMBA_WALKING_SPEED 0.05f;
 
@@ -22,6 +23,7 @@ class CGoomba : public CGameObject
 	virtual void Render();
 
 public: 	
+	CMario*  mario;
 	bool isReverse;						//xoay 180
 	CGoomba();
 	virtual void SetState(int state);
