@@ -577,16 +577,28 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		}
 		else
 		{
-			if (mario->pressA && mario->isHold)						//nhan giu A ma dang cam rua  trang thai mario cam rua
+			//if (mario->pressA && mario->isHold)						//nhan giu A ma dang cam rua  trang thai mario cam rua
+			//{
+			//	mario->SetState(MARIO_STATE_HOLD_TURTLE);
+			//}
+			if (mario->pressA)						//nhan giu A trang thai mario chay
 			{
-				mario->SetState(MARIO_STATE_HOLD_TURTLE);
-			}
-			else if (mario->pressA)						//nhan giu A trang thai mario chay
-			{
-				mario->SetState(MARIO_STATE_RUN);
+				if (mario->isHold)						//nhan giu A ma dang cam rua  trang thai mario cam rua
+				{
+					mario->SetState(MARIO_STATE_RUN_HOLD_TURTLE);
+				}
+				else 
+					mario->SetState(MARIO_STATE_RUN);
 			}
 			else
-				mario->SetState(MARIO_STATE_WALKING);
+			{
+				if (mario->isHold)						//nhan giu A ma dang cam rua  trang thai mario cam rua
+				{
+					mario->SetState(MARIO_STATE_WALKING_HOLD_TURTLE);
+				}
+				else 
+					mario->SetState(MARIO_STATE_WALKING);
+			}
 		}
 		
 	}
@@ -606,16 +618,28 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 			mario->SetState(MARIO_STATE_BRAKE);
 		else
 		{
-			if (mario->pressA && mario->isHold)						//nhan giu A ma dang cam rua  trang thai mario cam rua
+			//if (mario->pressA && mario->isHold)						//nhan giu A ma dang cam rua  trang thai mario cam rua
+			//{
+			//	mario->SetState(MARIO_STATE_HOLD_TURTLE);
+			//}
+			if (mario->pressA)
 			{
-				mario->SetState(MARIO_STATE_HOLD_TURTLE);
-			}
-			else if (mario->pressA)
-			{
+				if (mario->isHold)						//nhan giu A ma dang cam rua  trang thai mario cam rua
+				{
+					mario->SetState(MARIO_STATE_RUN_HOLD_TURTLE);
+				}
+				else
 				mario->SetState(MARIO_STATE_RUN);
 			}
 			else
-				mario->SetState(MARIO_STATE_WALKING);
+			{
+				if (mario->isHold)						//nhan giu A ma dang cam rua  trang thai mario cam rua
+				{
+					mario->SetState(MARIO_STATE_WALKING_HOLD_TURTLE);
+				}
+				else
+					mario->SetState(MARIO_STATE_WALKING);
+			}
 		}
 
 		
@@ -626,7 +650,12 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	*/
 	else
 	{
-		mario->SetState(MARIO_STATE_IDLE);
+		if (mario->pressA && mario->isHold)						//nhan giu A ma dang cam rua  trang thai mario cam rua
+			{
+				mario->SetState(MARIO_STATE_HOLD_TURTLE);
+			}
+		else
+			mario->SetState(MARIO_STATE_IDLE);
 		//chỉnh tốc dộ mario giảm dần -> 0 khi ở trên nên đất
 		if (mario->vx > 0 && mario ->checkMarioColision == true)
 		{
