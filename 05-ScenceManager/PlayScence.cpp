@@ -373,8 +373,8 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		//mario->SetState(MARIO_STATE_BULLET_IDLE);
 		mario->pressA = true;
 		//mario->isHold = true;   //cam rua
-		mario->timeRotatoryStart = GetTickCount();        //time quay duoi dung yen mario
 		mario->timeWaitingAttackNext = GetTickCount();			//set time cho dot tan cong sau
+		mario ->timeRotatoryStart = GetTickCount();
 		break;
 
 	case DIK_T: 
@@ -445,7 +445,8 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		mario->isHold = false;      //khong cam rua
 		mario->pressA = false;
 		mario->timeWaitingAttackNext = 0;			//xoa trang thai waiting -> bat dau lai
-		mario->isAttackNext = true;								//duoc tan cong
+		//mario->isAttackNext = true;								//duoc tan cong
+		mario->isRotatory180 = true;
 
 		break;
 	case DIK_S:
@@ -489,25 +490,30 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 {
 	CGame *game = CGame::GetInstance();
 	CMario *mario = ((CPlayScene*)scence)->GetPlayer();
-
-	// disable control key when Mario die 
-	if (mario->GetState() == MARIO_STATE_DIE) return;
 	if (game->IsKeyDown(DIK_A)) {
 		if (mario->isHold)
 		{
 			mario->SetState(MARIO_STATE_HOLD_TURTLE);
 		}
-		else if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG && !mario->isHold)    //set truong hop ko cam rua
+		else if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG )    //set truong hop ko cam rua
 		{
-			if (!mario->isRotatory180 && mario->isAttackNext)       //xet xem mario co dang quay ko ->san sang
+			if (!mario->isRotatory180)       //xet xem mario co dang quay ko ->san sang
 			{
+				//mario->timeRotatoryStart = GetTickCount();        //time quay duoi dung yen mario
 				//mario->timeWaitingAttackNext = GetTickCount();
-				mario->SetState(MARIO_STATE_ROTATORY_IDLE);
 				mario->isRotatory180 = true;
+				//mario->SetState(MARIO_STATE_ROTATORY_IDLE);
+
 			}
 			
+
+
 		}
+
 	}
+	// disable control key when Mario die 
+	if (mario->GetState() == MARIO_STATE_DIE) return;
+	
 	if (mario->GetState() == MARIO_STATE_KICK)
 		mario->SetState(MARIO_STATE_KICK);
 	else if (game->IsKeyDown(DIK_S))
@@ -625,10 +631,10 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 				{
 					mario->SetState(MARIO_STATE_RUN_HOLD_TURTLE);
 				}
-				else if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG && !mario->isRotatory180)    //check xem mario da san sang quay chua
-				{
-					mario->SetState(MARIO_STATE_ROTATORY_IDLE);
-				}
+				//else if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG && !mario->isRotatory180)    //check xem mario da san sang quay chua
+				//{
+				//	mario->SetState(MARIO_STATE_ROTATORY_IDLE);
+				//}
 				else 
 					mario->SetState(MARIO_STATE_RUN);
 			}
@@ -671,12 +677,13 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 					mario->SetState(MARIO_STATE_RUN_HOLD_TURTLE);
 				}
 				//xoay duoi tan cong cua mario
-				else if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG && !mario->isRotatory180)    //check xem mario da san sang quay chua
-				{
-					mario->SetState(MARIO_STATE_ROTATORY_IDLE);
-				}
+				//else if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG && !mario->isRotatory180)    //check xem mario da san sang quay chua
+				//{
+
+				//	mario->SetState(MARIO_STATE_ROTATORY_IDLE);
+				//}
 				else
-				mario->SetState(MARIO_STATE_RUN);
+					mario->SetState(MARIO_STATE_RUN);
 			}
 			else
 			{
@@ -697,7 +704,8 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		mario->SetState(MARIO_STATE_BULLET_IDLE);
 	}
 	*/
-	else
+
+	else if(mario->checkMarioColision)
 	{
 		if (mario->pressA && mario->isHold)						//nhan giu A ma dang cam rua  trang thai mario cam rua
 		{
@@ -722,16 +730,17 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 				mario->vx = 0.0f;
 		}
 
-		//if (game->IsKeyDown(DIK_V))
-		//{
-		//	/*mario->levelBefore = mario->GetLevel();
-		//	DebugOut(L"okaaaa%d\n",mario->levelBefore);*/
+	//	//if (game->IsKeyDown(DIK_V))
+	//	//{
+	//	//	/*mario->levelBefore = mario->GetLevel();
+	//	//	DebugOut(L"okaaaa%d\n",mario->levelBefore);*/
 
-		//	mario->SetLevel(MARIO_LEVEL_FIRE_BIG);
-		//	mario->isFire = true;
-		//}
-		//else
-		//{
-
+	//	//	mario->SetLevel(MARIO_LEVEL_FIRE_BIG);
+	//	//	mario->isFire = true;
+	//	//}
+	//	//else
+	//	//{
+	//	
+	//	
 	}
 }

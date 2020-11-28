@@ -108,23 +108,28 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		vy += -0.1f;
 
 	}*/
-	if (GetTickCount() - timeWaitingAttackNext > 500 && timeWaitingAttackNext != 0)
-	{
-		isAttackNext = false;  //mario ko duoc phep tan cong next
-		SetState(MARIO_STATE_IDLE);
-		isRotatory180 = false;
-	}
+	//if (GetTickCount() - timeWaitingAttackNext > 500 && timeWaitingAttackNext != 0 && GetLevel() == MARIO_LEVEL_TAIL_BIG)
+	//{
+	//	//isAttackNext = false;  //mario ko duoc phep tan cong next
+	//	//if(GetState() != MARIO_STATE_RUN)
+	//	//isRotatory180 = true;
+	//}
 	if (GetTickCount() - timeKickStart > MARIO_KICK_TIME && timeKickStart!=0)
 	{
 		SetState(MARIO_STATE_IDLE);
 		isMarioDropTurle = false;  //mario da rua xong hoan tat
 		timeKickStart = 0;
 	}
-	if (GetTickCount() - timeRotatoryStart > MARIO_ROTATORY_TIME && timeRotatoryStart != 0)
+	if (GetTickCount() - timeRotatoryStart < 220 && timeRotatoryStart != 0)
 	{
-		SetState(MARIO_STATE_IDLE);
-		isRotatory180 = false;
-		timeRotatoryStart = 0;
+		SetState(MARIO_STATE_ROTATORY_IDLE);
+	}
+	else
+	{
+		if(GetState() == MARIO_STATE_RUN)
+			isRotatory180 = true;
+		else
+			isRotatory180 = false;
 	}
 
 	if (this->isStateFly == true && checkMarioColision == false && this->energyFly < 20)
