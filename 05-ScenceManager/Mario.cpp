@@ -124,15 +124,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		SetState(MARIO_STATE_ROTATORY_IDLE);
 	}
-	else
+	else if (GetLevel() == MARIO_LEVEL_TAIL_BIG)
 	{
 		if(GetState() == MARIO_STATE_RUN)
 			isRotatory180 = true;
 		else
 		{
-			SetState(MARIO_STATE_IDLE);
-			//isRotatory180 = false;
-
+			isRotatory180 = false;
+			//SetState(MARIO_STATE_IDLE);
 		}
 	}
 
@@ -289,7 +288,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 				else if (e->nx != 0)
 				{
-					if (this->GetState() == MARIO_STATE_ROTATORY_IDLE && goomba->nx != this->nxx )
+					if (this->GetState() == MARIO_STATE_ROTATORY_IDLE && GetLevel() == MARIO_LEVEL_TAIL_BIG)
 					{
 						if (goomba->GetState() != GOOMBA_STATE_DIE)
 						{
