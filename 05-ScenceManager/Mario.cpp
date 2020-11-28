@@ -129,7 +129,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if(GetState() == MARIO_STATE_RUN)
 			isRotatory180 = true;
 		else
-			isRotatory180 = false;
+		{
+			SetState(MARIO_STATE_IDLE);
+			//isRotatory180 = false;
+
+		}
 	}
 
 	if (this->isStateFly == true && checkMarioColision == false && this->energyFly < 20)
