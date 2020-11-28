@@ -1,10 +1,11 @@
 #pragma once
 #include "GameObject.h"
+#include "Mario.h"
 
 #define GOOMBA_WALKING_SPEED 0.05f;
 
 #define GOOMBA_BBOX_WIDTH 16
-#define GOOMBA_BBOX_HEIGHT 15
+#define GOOMBA_BBOX_HEIGHT 14
 #define GOOMBA_BBOX_HEIGHT_DIE 9
 
 #define GOOMBA_STATE_WALKING 100
@@ -22,6 +23,7 @@ class CGoomba : public CGameObject
 	virtual void Render();
 
 public: 	
+	CMario*  mario;
 	bool isReverse;						//xoay 180
 	CGoomba();
 	virtual void SetState(int state);

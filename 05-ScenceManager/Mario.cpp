@@ -43,10 +43,9 @@ CMario *CMario::GetInstance(float x, float y)
 CMario::CMario(float x, float y) : CGameObject()
 {
 	levelBefore = 1;
-	//this->CheckToMap(test->game_map_);
-	level = MARIO_LEVEL_SMALL;
+	//level = MARIO_LEVEL_SMALL;
 //	level = MARIO_LEVEL_BIG;
-	//level = MARIO_LEVEL_TAIL_BIG;
+	level = MARIO_LEVEL_BIG;
 	untouchable = 0;
 	SetState(MARIO_STATE_IDLE);
 
@@ -65,6 +64,10 @@ CMario::CMario(float x, float y) : CGameObject()
 	timeKickStart = 0;
 	isHold = false;
 	isMarioDropTurle = false;
+	timeRotatoryStart = 0;
+	isRotatory180 = false;
+	timeWaitingAttackNext = 0;
+	isAttackNext = true;
 }
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -75,7 +78,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	//truong hop mario tha rua ko cam nua -> da luon
 	if (isMarioDropTurle )
 	{
-		DebugOut(L"shsgdhsgdf\n");
 		//timeKickStart = GetTickCount();   //TIME DA CUA MARIO
 		SetState(MARIO_STATE_KICK);
 	}
@@ -106,11 +108,32 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		vy += -0.1f;
 
 	}*/
+	//if (GetTickCount() - timeWaitingAttackNext > 500 && timeWaitingAttackNext != 0 && GetLevel() == MARIO_LEVEL_TAIL_BIG)
+	//{
+	//	//isAttackNext = false;  //mario ko duoc phep tan cong next
+	//	//if(GetState() != MARIO_STATE_RUN)
+	//	//isRotatory180 = true;
+	//}
 	if (GetTickCount() - timeKickStart > MARIO_KICK_TIME && timeKickStart!=0)
 	{
 		SetState(MARIO_STATE_IDLE);
 		isMarioDropTurle = false;  //mario da rua xong hoan tat
 		timeKickStart = 0;
+	}
+	if (GetTickCount() - timeRotatoryStart < 220 && timeRotatoryStart != 0)
+	{
+		SetState(MARIO_STATE_ROTATORY_IDLE);
+	}
+	else
+	{
+		if(GetState() == MARIO_STATE_RUN)
+			isRotatory180 = true;
+		else
+		{
+			SetState(MARIO_STATE_IDLE);
+			//isRotatory180 = false;
+
+		}
 	}
 
 	if (this->isStateFly == true && checkMarioColision == false && this->energyFly < 20)
@@ -234,18 +257,20 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			//	}
 			//	
 			//} // if mushroom
-			////else if (dynamic_cast<CPlant *>(e->obj)) // if e->obj is plant
-			////{
-			////	if (level > MARIO_LEVEL_SMALL)
-			////	{
-			////		level = MARIO_LEVEL_SMALL;
-			////	}
-			////	else 
-			////		SetState(MARIO_STATE_DIE);
+			else if (dynamic_cast<CPlant *>(e->obj)) // if e->obj is plant
+			{
+				if (GetLevel() < 1)
+				{
+					SetState(MARIO_STATE_DIE);
+				}
+				else
+				{
+					SetLevel(GetLevel() - 1);
+				}
 
-			//	
-			//} // if plant
-			//
+				
+			} // if plant
+			
 			else if (dynamic_cast<CGoomba *>(e->obj)) // if e->obj is Goomba 
 			{
 				
@@ -377,7 +402,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 						//mario nhay len 1 doan nho
 						vy += -0.35f;
-
+						vx += this->nx*0.15f;
+						turle->timeDieTurle = GetTickCount();       //bat dau tinh time chet rua
 						turle->SetState(TURLE_STATE_DIE);
 					}
 					else if (turle->GetState() == TURLE_STATE_DIE || turle->GetState() == TURLE_STATE_DIE_OVER)
@@ -397,8 +423,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					if (GetLevel() < 1)
 					{
 						SetState(MARIO_STATE_DIE);
-						//set cho mario mat va cham
-						//vy = +0.001f;
 					}
 					else
 					{
@@ -569,9 +593,9 @@ void CMario::Render()
 			{
 				ani = MARIO_ANI_BIG_BRAKE_RIGHT;
 			}
-			else if (this->GetState() == MARIO_STATE_HOLD_TURTLE)		//TRANG THAI CAM RUA PHAI O TREN TRANG THAI CHAY -> MUC DO UU TIEN
+			else if (this->GetState() == MARIO_STATE_RUN_HOLD_TURTLE)		//TRANG THAI CAM RUA PHAI O TREN TRANG THAI CHAY -> MUC DO UU TIEN
 			{
-				ani = MARIO_ANI_BIG_HOLD_TURTLE_RIGHT;
+				ani = MARIO_ANI_BIG_RUN_HOLD_TURTLE_RIGHT;
 			}
 			else if (this->GetState() == MARIO_STATE_RUN)
 			{
@@ -592,8 +616,9 @@ void CMario::Render()
 			{
 				ani = MARIO_ANI_BIG_BRAKE_LEFT;
 			}
-			else if (this->GetState() == MARIO_STATE_HOLD_TURTLE) {
-				ani = MARIO_ANI_BIG_HOLD_TURTLE_LEFT;
+			else if (this->GetState() == MARIO_STATE_RUN_HOLD_TURTLE)		//TRANG THAI CAM RUA PHAI O TREN TRANG THAI CHAY -> MUC DO UU TIEN
+			{
+				ani = MARIO_ANI_BIG_RUN_HOLD_TURTLE_LEFT;
 			}
 			else if (this->GetState() == MARIO_STATE_RUN)
 			{
@@ -717,7 +742,10 @@ void CMario::Render()
 	if (vx == 0)
 	{
 		if (nx > 0) {
-			if (this->GetState() == MARIO_STATE_JUMP_NORMAL) {
+			if (this->GetState() == MARIO_STATE_KICK) {
+				ani = MARIO_ANI_BIG_TAIL_KICK_TURLE_RIGHT;
+			}
+			else if (this->GetState() == MARIO_STATE_JUMP_NORMAL) {
 				ani = MARIO_ANI_BIG_TAIL_JUMP_RIGHT;
 			}
 			else if (this->GetState() == MARIO_STATE_FLY)
@@ -729,10 +757,13 @@ void CMario::Render()
 			}
 			else if (this->GetState() == MARIO_STATE_ROTATORY_IDLE)
 			{
-				isRotatory = true;
-				this->x = positionXIdle + 6;
-				ani = MARIO_ANI_BIG_TAIL_ROTATORY_LEFT;
+				//isRotatory = true;
+				//this->x = positionXIdle;
+				ani = MARIO_ANI_BIG_TAIL_ATTACK_ROTATORY_RIGHT;
 				//this->x -= 6;
+			}
+			else if (this->GetState() == MARIO_STATE_HOLD_TURTLE) {
+				ani = MARIO_ANI_BIG_TAIL_HOLD_TURTLE_RIGHT;
 			}
 			else if (this->GetState() == MARIO_STATE_DOWN)
 			{
@@ -744,15 +775,15 @@ void CMario::Render()
 					ani = MARIO_ANI_BIG_TAIL_FLY_FALLING_RIGHT;
 				else
 				{
-					this->isStateFly == false;
+					//this->isStateFly == false;
 					positionXIdle = x;
 					ani = MARIO_ANI_BIG_TAIL_IDLE_RIGHT;
-					if (isRotatory)
+					/*if (isRotatory)
 					{
-						this->x = positionXIdle - 6;
+						this->x = positionXIdle;
 						isRotatory = false;
 
-					}
+					}*/
 				}
 				
 			}
@@ -760,7 +791,10 @@ void CMario::Render()
 		}
 		else
 		{
-			if (this->GetState() == MARIO_STATE_JUMP_NORMAL) {
+			if (this->GetState() == MARIO_STATE_KICK) {
+				ani = MARIO_ANI_BIG_TAIL_KICK_TURLE_LEFT;
+			}
+			else if (this->GetState() == MARIO_STATE_JUMP_NORMAL) {
 				ani = MARIO_ANI_BIG_TAIL_JUMP_LEFT;
 			}
 			else if (this->GetState() == MARIO_STATE_KICK && kick == true) {
@@ -776,28 +810,36 @@ void CMario::Render()
 			}
 			else if (this->GetState() == MARIO_STATE_ROTATORY_IDLE)
 			{
-				isRotatory = true;
-				this->x = positionXIdle - 6;
-				ani = MARIO_ANI_BIG_TAIL_ROTATORY_RIGHT;
+				/*isRotatory = true;
+				this->x = positionXIdle;*/
+				ani = MARIO_ANI_BIG_TAIL_ATTACK_ROTATORY_LEFT;
 				//this->x -= 6;
+			}
+			else if (this->GetState() == MARIO_STATE_HOLD_TURTLE) {
+				ani = MARIO_ANI_BIG_TAIL_HOLD_TURTLE_LEFT;
 			}
 			else
 			{
-				positionXIdle = x;
+				//positionXIdle = x;
 				ani = MARIO_ANI_BIG_TAIL_IDLE_LEFT;
-				if (isRotatory)
+				/*if (isRotatory)
 				{
-					this->x = positionXIdle + 6;
+					this->x = positionXIdle;
 					isRotatory = false;
 
-				}
+				}*/
 			}
 		}
 	}
 	else if (vx > 0)
 	{
+		
 		if (this->GetState() == MARIO_STATE_JUMP_NORMAL && checkMarioColision == false)                    //ANI JUMP RIGHT
 			ani = MARIO_ANI_BIG_TAIL_JUMP_RIGHT;
+		else if (this->GetState() == MARIO_STATE_ROTATORY_IDLE && this->GetLevel() == MARIO_LEVEL_TAIL_BIG)
+		{
+			ani = MARIO_ANI_BIG_TAIL_ATTACK_ROTATORY_RIGHT;
+		}
 		else if (this->GetState() == MARIO_STATE_RUN)
 		{
 			positionXIdle = x;
@@ -808,13 +850,7 @@ void CMario::Render()
 		}
 		else if (this->GetState() == MARIO_STATE_BRAKE)
 			ani = MARIO_ANI_BIG_TAIL_BRAKE_RIGHT;
-		else if (this->GetState() == MARIO_STATE_ROTATORY_IDLE)
-		{
-			isRotatory = true;
-			this->x = positionXIdle + 6;
-			ani = MARIO_ANI_BIG_TAIL_ROTATORY_RIGHT;
-			//this->x -= 6;
-		}
+		
 		else if (this->GetState() == MARIO_STATE_FLY && checkMarioColision == false)
 		{
 			if (this->energyFly > 20)
@@ -822,21 +858,21 @@ void CMario::Render()
 			else
 				ani = MARIO_ANI_BIG_TAIL_FLY_LIMIT_RIGHT;
 		}
+		else if (this->GetState() == MARIO_STATE_RUN_HOLD_TURTLE)		//TRANG THAI CAM RUA PHAI O TREN TRANG THAI CHAY -> MUC DO UU TIEN
+		{
+			ani = MARIO_ANI_BIG_TAIL_RUN_HOLD_TURTLE_RIGHT;
+		}
 		else
 		{
-			positionXIdle = x;
 			ani = MARIO_ANI_BIG_TAIL_WALKING_RIGHT;
-			if (isRotatory)
-			{
-				this->x = positionXIdle - 6;
-				isRotatory = false;
-
-			}
-
 		}
 	}
 	else
 	{
+		if (this->GetState() == MARIO_STATE_ROTATORY_IDLE)
+		{
+			ani = MARIO_ANI_BIG_TAIL_ATTACK_ROTATORY_RIGHT;
+		}
 		if (this->GetState() == MARIO_STATE_JUMP_NORMAL && checkMarioColision == false)				   //ANI JUMP LEFT
 			ani = MARIO_ANI_BIG_TAIL_JUMP_LEFT;
 		else if (this->GetState() == MARIO_STATE_RUN)
@@ -849,13 +885,6 @@ void CMario::Render()
 		else if (this->GetState() == MARIO_STATE_KICK && kick == true) {
 			ani = MARIO_ANI_BIG_TAIL_KICK_TURLE_LEFT;
 		}
-		else if (this->GetState() == MARIO_STATE_ROTATORY_IDLE)
-		{
-			isRotatory = true;
-			this->x = positionXIdle - 6;
-			ani = MARIO_ANI_BIG_TAIL_ROTATORY_RIGHT;
-			//this->x -= 6;
-		}
 		else if (this->GetState() == MARIO_STATE_FLY && checkMarioColision == false)
 		{
 
@@ -864,16 +893,13 @@ void CMario::Render()
 			else
 				ani = MARIO_ANI_BIG_TAIL_FLY_LIMIT_LEFT;
 		}
+		else if (this->GetState() == MARIO_STATE_RUN_HOLD_TURTLE)		//TRANG THAI CAM RUA PHAI O TREN TRANG THAI CHAY -> MUC DO UU TIEN
+		{
+			ani = MARIO_ANI_BIG_TAIL_RUN_HOLD_TURTLE_LEFT;
+		}
 		else
 		{
-			positionXIdle = x;
 			ani = MARIO_ANI_BIG_TAIL_WALKING_LEFT;
-			if (isRotatory)
-			{
-				this->x = positionXIdle + 6;
-				isRotatory = false;
-
-			}
 		}
 	}
 
@@ -903,7 +929,7 @@ void CMario::Render()
 					ani = MARIO_ANI_SMALL_JUMP_LEFT;
 				}
 				else if (this->GetState() == MARIO_STATE_KICK) {
-					ani = MARIO_ANI_SMALL_KICK_RIGHT;
+					ani = MARIO_ANI_SMALL_KICK_LEFT;
 				}
 				else if (this->GetState() == MARIO_STATE_HOLD_TURTLE)
 				{
@@ -920,9 +946,9 @@ void CMario::Render()
 				ani = MARIO_ANI_SMALL_JUMP_RIGHT;
 			else if(this->GetState() == MARIO_STATE_BRAKE)
 				ani = MARIO_ANI_SMALL_BRAKE_RIGHT;
-			else if (this->GetState() == MARIO_STATE_HOLD_TURTLE)
+			else if (this->GetState() == MARIO_STATE_RUN_HOLD_TURTLE)
 			{
-				ani = MARIO_ANI_SMALL_HOLD_TURLE_RIGHT;
+				ani = MARIO_ANI_SMALL_RUN_HOLD_TURTLE_RIGHT;
 			}
 			else if (this->GetState() == MARIO_STATE_RUN)
 			{
@@ -936,15 +962,11 @@ void CMario::Render()
 		{
 			if (this->GetState() == MARIO_STATE_JUMP_NORMAL && checkMarioColision == false)				   //ANI JUMP LEFT
 				ani = MARIO_ANI_SMALL_JUMP_LEFT;
-			else if (this->GetState() == MARIO_STATE_HOLD_TURTLE)
-			{
-				ani = MARIO_ANI_SMALL_HOLD_TURLE_LEFT;
-			}
 			else if (this->GetState() == MARIO_STATE_BRAKE)
 				ani = MARIO_ANI_SMALL_BRAKE_LEFT;
-			else if (this->GetState() == MARIO_STATE_HOLD_TURTLE)
+			else if (this->GetState() == MARIO_STATE_RUN_HOLD_TURTLE)
 			{
-				ani = MARIO_ANI_SMALL_HOLD_TURLE_LEFT;
+				ani = MARIO_ANI_SMALL_RUN_HOLD_TURTLE_LEFT;
 			}
 			else if (this->GetState() == MARIO_STATE_RUN)
 			{
@@ -996,6 +1018,7 @@ void CMario::SetState(int state)
 		break;
 	case MARIO_STATE_HOLD_TURTLE:
 		//vx = 0.01;
+		//vx = 0;
 		break;
 	case MARIO_STATE_FLY:
 	{
@@ -1046,7 +1069,7 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 			bottom = y + MARIO_TAIL_BIG_DOWN_BBOX_HEIGHT;
 		else if (this->GetState() == MARIO_STATE_ROTATORY_IDLE)
 		{
-			right = x + MARIO_TAIL_FLY_BIG_BBOX_WIDTH;
+			right = x + MARIO_TAIL_BIG_ATTACK_BBOX_HEIGHT;
 		}
 		else
 			bottom = y + MARIO_TAIL_BIG_BBOX_HEIGHT;
@@ -1065,7 +1088,7 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 void CMario::Reset()
 {
 	SetState(MARIO_STATE_IDLE);
-	SetLevel(MARIO_LEVEL_BIG);
+	SetLevel(MARIO_LEVEL_TAIL_BIG);
 	SetPosition(start_x, start_y);
 	SetSpeed(0, 0);
 }

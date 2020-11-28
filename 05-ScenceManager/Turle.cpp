@@ -18,10 +18,11 @@ CTurle::CTurle()
 	isStop = 0;
 	//ani = TURLE_STATE_RUN_DIE;
 	ani = TURLE_ANI_WALKING_LEFT;
-	//SetState(TURLE_STATE_WALKING);
-	SetState(TURLE_STATE_DIE);
+	SetState(TURLE_STATE_WALKING);
+	//SetState(TURLE_STATE_DIE);
 	isNoCollision = false;
 	timeRunTurle = 0;
+	timeDieTurle = 0;
 	//tao instance mario dung chung-> chi tao 1 lan vi dungf nhieu
 	 mario = CMario::GetInstance(0,0);
 }
@@ -43,6 +44,17 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
+
+
+	if (GetTickCount() - timeDieTurle > TURLE_TIME_DIE && timeDieTurle != 0)
+	{
+		SetState(TURLE_STATE_WALKING);
+		y = y - (TURLE_BBOX_HEIGHT - TURLE_BBOX_HEIGHT_DIE);
+		vx = 0.1f;
+		isHold = false;
+		mario->isHold = false;
+		timeDieTurle = 0;
+	}
 
 	// Simple fall down
 	//vy += MARIO_GRAVITY * dt;
@@ -74,7 +86,6 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		SetState(TURLE_STATE_DIE_OVER);
 		timeRunTurle = 0;
 	}
-	DebugOut(L"SHDSGHSFGSHDGFSHDGSHDGF%d\n",mario->isHold);
 	//mario khong cam rua nua tha ra
 	if (!mario->isHold  && mario->isMarioDropTurle)
 	{
