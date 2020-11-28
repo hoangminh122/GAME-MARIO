@@ -380,21 +380,14 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_T: 
 		mario->Reset();
 		break;
-	case DIK_D:
-		if (mario->level > 3)
-			mario->level = 0;
-		else
-			mario->level ++;
-		break;
 	//case DIK_N:											//cam rua
 	//	mario->SetState(MARIO_STATE_IDLE);
 	//	mario->isHoldTurtle = false;
 	//	break;
-	case DIK_B:
-		mario->kick = true;
-		mario->SetState(MARIO_STATE_KICK);
-		//turle->SetState(TURLE_STATE_RUN_DIE);
-
+	//case DIK_B:
+	//	mario->kick = true;
+	//	mario->SetState(MARIO_STATE_KICK);
+	//	//turle->SetState(TURLE_STATE_RUN_DIE);
 	}
 }
 
@@ -435,7 +428,6 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		mario->SetPosition(mario->x, mario->y - 120);
 		break;
 	case DIK_A:
-		//CBulletMario::isStart = false;
 		if (mario->isHold)
 		{
 			mario->isMarioDropTurle = true;
@@ -448,40 +440,23 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		//mario->isAttackNext = true;								//duoc tan cong
 		mario->isRotatory180 = true;
 
+
 		break;
 	case DIK_S:
 		mario->jumpHigher = false;
 		break;
-	case DIK_N:											//cam rua
-		if (mario->isHoldTurtle)
-		{
-			mario->isHoldTurtle = false;
-			mario->isDropTurle = true;
-			mario->SetState(MARIO_STATE_IDLE);
-		}
+	//case DIK_B:											//da rua
+	//	mario->SetState(MARIO_STATE_IDLE);
+	//	mario->kick = false;
+	//	break;
 
-		break;
-	case DIK_V:
-	{
-		//if (mario->levelBefore == MARIO_LEVEL_SMALL)
-		//{
-		mario->SetPosition(mario->x, mario->y - 60);
-		break;
-
-		//}
-	}
-	case DIK_B:											//da rua
-		mario->SetState(MARIO_STATE_IDLE);
-		mario->kick = false;
-		break;
-
-	case DIK_C:
-		if (mario->level == MARIO_LEVEL_TAIL_BIG)
-		{
-			if (CMario::energyFly < 0)
-				CMario::energyFly = 20;
-		}
-		break;
+	//case DIK_C:
+	//	if (mario->level == MARIO_LEVEL_TAIL_BIG)
+	//	{
+	//		if (CMario::energyFly < 0)
+	//			CMario::energyFly = 20;
+	//	}
+	//	break;
 	}
 
 }
@@ -506,8 +481,10 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 
 			}
 			
-
-
+		}
+		else if (mario->GetLevel() == MARIO_LEVEL_FIRE_BIG)
+		{
+			mario->SetState(MARIO_STATE_BULLET_IDLE);
 		}
 
 	}
