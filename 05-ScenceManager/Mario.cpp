@@ -353,51 +353,51 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 			//} // if bullet dan bay
 			//
-			else if (dynamic_cast<CQuestion *>(e->obj)) // if e->obj is Question 
-			{
-				if (e->ny > 0)
-				{
-					CQuestion *question = dynamic_cast<CQuestion *>(e->obj);
+			//else if (dynamic_cast<CQuestion *>(e->obj)) // if e->obj is Question 
+			//{
+			//	if (e->ny > 0)
+			//	{
+			//		CQuestion *question = dynamic_cast<CQuestion *>(e->obj);
 
-					question->isQuestion = false;
-					//xet position mushrooom
-					CMushroom::xBox = question->x;
-					CMushroom::yBox = question->y;
-					if (question->x == 220)
-					{
-						CMushroom* mushroom = CMushroom::GetInstance();
-						CMushroom::isStart = true;
-						CMushroom::isRun = true;
-						//mushroom->SetState(MUSHROOM_STATE);
+			//		question->isQuestion = false;
+			//		//xet position mushrooom
+			//		CMushroom::xBox = question->x;
+			//		CMushroom::yBox = question->y;
+			//		if (question->x == 220)
+			//		{
+			//			CMushroom* mushroom = CMushroom::GetInstance();
+			//			CMushroom::isStart = true;
+			//			CMushroom::isRun = true;
+			//			//mushroom->SetState(MUSHROOM_STATE);
 
 
-					}
-					else
-					{
-						CMushroom::isMoney = true;
-					}
+			//		}
+			//		else
+			//		{
+			//			CMushroom::isMoney = true;
+			//		}
 
-				}
+			//	}
 
-				//question->isQuestion = false;
-				//if (question -> x == 220)
-				//	question -> ani = 2;
-				//if (question -> ani == 2) {
-				//	if (!question -> mushroomRun) 
-				//	{
-				//		question -> mushroomRun = true ;
-				//	}
-				//	else
-				//	{
-				//		//DebugOut(L" ccccc xuat hienc cccccccc :\n") ;
-				//		question->delMushroom = true ;
-				//		this->level = MARIO_LEVEL_BIG ;
-				//		
-				//		//delete question;
-				//	}
-				//}
-				
-			} // if box question
+			//	//question->isQuestion = false;
+			//	//if (question -> x == 220)
+			//	//	question -> ani = 2;
+			//	//if (question -> ani == 2) {
+			//	//	if (!question -> mushroomRun) 
+			//	//	{
+			//	//		question -> mushroomRun = true ;
+			//	//	}
+			//	//	else
+			//	//	{
+			//	//		//DebugOut(L" ccccc xuat hienc cccccccc :\n") ;
+			//	//		question->delMushroom = true ;
+			//	//		this->level = MARIO_LEVEL_BIG ;
+			//	//		
+			//	//		//delete question;
+			//	//	}
+			//	//}
+			//	
+			//} // if box question
 			else if (dynamic_cast<CBrickTop *>(e->obj)) // if e->obj is brickTop
 			{
 				if (e->ny > 0)
@@ -409,6 +409,29 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					//vx +=dx;
 
 			} // if brickTop
+			else if (dynamic_cast<CMushroom *>(e->obj)) // if e->obj is mushroom
+			{
+
+			CMushroom* mushroom = dynamic_cast<CMushroom *>(e->obj);
+				if (!mushroom->noMushroom)								//mario tang level
+				{
+					mushroom->SetState(MUSHROOM_STATE_DIE_OVER);
+					mushroom->noMushroom = true;
+					if (GetLevel() == MARIO_LEVEL_SMALL)
+						SetPosition(x, y - (MARIO_BIG_BBOX_HEIGHT + MARIO_SMALL_BBOX_HEIGHT));
+					else
+						SetPosition(x,y-2);
+					SetLevel(GetLevel() + 1);
+
+				}
+				else if (e->ny > 0)										//mario va cham huong len
+				{
+						mushroom->isMove = true;
+						//mushroom->noMushroom = false;
+				}
+				
+
+			} // if mushroom
 			//va cham gach nen phai nam sau va cham brick top
 			/*else if (dynamic_cast<CBrick *>(e->obj))
 			{
