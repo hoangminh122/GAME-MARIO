@@ -8,6 +8,7 @@
 #include "BrickQuestion.h"
 #include "Goomba.h"
 #include "BackgroundDie.h"
+#include "Leaf.h"
 
 bool CTurle::isTreeStart = false;
 CTurle::CTurle()
@@ -210,6 +211,18 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					y += dy;
 				//state run -> vx khong doi
 			}
+			else if (dynamic_cast<CLeaf *>(e->obj)) // if e->obj is question box
+			{
+				CLeaf* leaf = dynamic_cast<CLeaf *>(e->obj);
+				if (e->nx != 0)
+				{
+					vx = -vx;
+					x += dx;
+					leaf->isMove = true;
+				}
+
+
+			} // if question box
 			else if (dynamic_cast<CBrickTop *>(e->obj)) // if e->obj is brickTop
 			{
 				x += dx;

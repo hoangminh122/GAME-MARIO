@@ -18,6 +18,7 @@
 #include "WallTurle.h"
 #include "BrickQuestion.h"
 #include "MoneyIcon.h"
+#include "Leaf.h"
 
 
 int CMario::level = 1;
@@ -295,7 +296,18 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 
 			} // if question box
-			
+			else if (dynamic_cast<CLeaf *>(e->obj)) // if e->obj is question box
+			{
+				CLeaf* leaf = dynamic_cast<CLeaf *>(e->obj);
+					leaf->SetState(LEAF_STATE_DIE_OVER);
+					if (GetLevel() == MARIO_LEVEL_SMALL)
+						SetPosition(x, y - (MARIO_BIG_BBOX_HEIGHT + MARIO_SMALL_BBOX_HEIGHT));
+					else
+						SetPosition(x, y - 2);
+					SetLevel(GetLevel() + 1);
+
+
+			} // if question box
 			else if (dynamic_cast<CGoomba *>(e->obj)) // if e->obj is Goomba 
 			{
 				
@@ -427,7 +439,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				else if (e->ny > 0)										//mario va cham huong len
 				{
 						mushroom->isMove = true;
-						//mushroom->noMushroom = false;
 				}
 				
 

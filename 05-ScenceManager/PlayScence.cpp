@@ -15,6 +15,7 @@
 #include "WallTurle.h"
 #include "BrickQuestion.h"
 #include "MoneyIcon.h"
+#include "Leaf.h"
 //#include "TileMap.h"
 
 using namespace std;
@@ -54,6 +55,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define OBJECT_TYPE_WALL_TURLE	13
 #define OBJECT_TYPE_BRICK_QUESTION	14
 #define OBJECT_TYPE_MONEY_ICON	16
+#define OBJECT_TYPE_LEAF	17
 
 
 
@@ -205,6 +207,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BACKGROUND_DIE: obj = new CBackgroundDie(); break;
 	case OBJECT_TYPE_BRICK_QUESTION: obj = new CBrickQuestion(); break;
 	case OBJECT_TYPE_MONEY_ICON: obj = new CMoneyIcon(); break;
+	case OBJECT_TYPE_LEAF: obj = new CLeaf(); break;
 
 
 	case OBJECT_TYPE_PORTAL:
