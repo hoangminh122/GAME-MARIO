@@ -1,7 +1,7 @@
 #include "BrickQuestion.h"
 
 CBrickQuestion::CBrickQuestion():CGameObject() {
-	isInitPos = true;						//trang thai chua khoi tao gia tri
+	isInitPos = false;						//trang thai chua khoi tao gia tri
 	isMove = false;
 	yStatic = y;						//ban dau chua gan gia tri y cho question -> chu y de nham lan
 	mario = CMario::GetInstance(0, 0);
@@ -28,10 +28,10 @@ CBrickQuestion::~CBrickQuestion(){
 void CBrickQuestion::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	CGameObject::Update(dt, coObjects);
-	if (y != 0 && isInitPos)
+	if (y != 0 && !isInitPos)
 	{
 		yStatic = y;
-		isInitPos = false;
+		isInitPos = true;
 	}
 	else if (isMove && mario->isHasColBoxQues)
 	{

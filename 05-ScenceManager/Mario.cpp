@@ -17,6 +17,7 @@
 #include "Brick.h"
 #include "WallTurle.h"
 #include "BrickQuestion.h"
+#include "MoneyIcon.h"
 
 
 int CMario::level = 1;
@@ -280,7 +281,16 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				if (e->ny > 0)
 				{
 					brickQuestion->SetMove(true);
+				}
 
+
+			} // if question box
+			else if (dynamic_cast<CMoneyIcon *>(e->obj)) // if e->obj is question box
+			{
+				CMoneyIcon* moneyIcon = dynamic_cast<CMoneyIcon *>(e->obj);
+				if (e->ny > 0)
+				{
+					moneyIcon->SetMove(true);
 				}
 
 
