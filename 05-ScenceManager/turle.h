@@ -1,8 +1,10 @@
 #pragma once
 
 #include "GameObject.h"
+#include "Mario.h"
 
-#define TURLE_WALKING_SPEED 0.35f;
+#define TURLE_WALKING_SPEED 0.03f;
+#define TURLE_RUN_SPEED 0.2f;
 
 #define TURLE_BBOX_WIDTH 16
 #define TURLE_BBOX_HEIGHT 26
@@ -18,6 +20,9 @@
 #define TURLE_ANI_DIE 2
 #define TURLE_ANI_RUN_DIE 3
 
+#define MAX_TURLE_TIME_RUN	3000
+#define TURLE_TIME_DIE	10000
+
 class CTurle : public CGameObject
 {
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
@@ -25,6 +30,11 @@ class CTurle : public CGameObject
 	virtual void Render();
 
 public:
+	DWORD timeDieTurle;			//time gian mario song lai tu die->walking
+	bool checkCollision;		//kiem tra va cham cua rua voi mat dat, ..
+	CMario* mario;				//tao instance mario
+	DWORD timeRunTurle;						//max time gian chay cuar rua
+	bool isNoCollision;								// bo qua su va cham neu can
 	bool isHold;										//TRANG thai cam rua cho tung con phan biet
 	float vxx;											//van toc rua 
 	int ani;

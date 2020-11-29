@@ -2,6 +2,7 @@
 #include "GameObject.h"
 //#include "game_map.h"
 
+// so ani mario hien tai:90
 #define MARIO_WALKING_SPEED		0.1f 
 #define MARIO_WALKING_ADD_SPEED	0.005f 
 #define MARIO_RUN_NORMAL_SPEED	0.15f 
@@ -17,8 +18,8 @@
 #define MARIO_STATE_JUMP_HIGH	100
 #define MARIO_STATE_JUMP_NORMAL	300
 #define MARIO_STATE_DIE				400
-#define MARIO_STATE_RUN_RIGHT		500
-#define MARIO_STATE_RUN_LEFT		600
+//#define MARIO_STATE_RUN_RIGHT		500
+#define MARIO_STATE_RUN		600
 #define MARIO_STATE_KICK		900
 #define MARIO_STATE_DOWN		910
 #define MARIO_STATE_HOLD_TURTLE	930
@@ -28,6 +29,8 @@
 #define MARIO_STATE_FLY		920
 #define MARIO_STATE_FIRE	940
 #define MARIO_STATE_ROTATORY_IDLE		700
+#define MARIO_STATE_WALKING_HOLD_TURTLE		710
+#define MARIO_STATE_RUN_HOLD_TURTLE		720
 
 
 
@@ -45,6 +48,10 @@
 #define MARIO_ANI_SMALL_HOLD_TURLE_LEFT		74
 #define MARIO_ANI_SMALL_KICK_RIGHT	75
 #define MARIO_ANI_SMALL_KICK_LEFT	76
+#define MARIO_ANI_SMALL_WALKING_HOLD_TURTLE_RIGHT		81
+#define MARIO_ANI_SMALL_WALKING_HOLD_TURTLE_LEFT		82
+#define MARIO_ANI_SMALL_RUN_HOLD_TURTLE_RIGHT		83
+#define MARIO_ANI_SMALL_RUN_HOLD_TURTLE_LEFT		84
 
 
 #define MARIO_ANI_BIG_IDLE_RIGHT		0
@@ -64,6 +71,11 @@
 #define MARIO_ANI_BIG_KICK_RIGHT		19
 #define MARIO_ANI_BIG_HOLD_TURTLE_RIGHT		39
 #define MARIO_ANI_BIG_HOLD_TURTLE_LEFT		40
+#define MARIO_ANI_BIG_WALKING_HOLD_TURTLE_RIGHT		77
+#define MARIO_ANI_BIG_WALKING_HOLD_TURTLE_LEFT		78
+#define MARIO_ANI_BIG_RUN_HOLD_TURTLE_RIGHT		79
+#define MARIO_ANI_BIG_RUN_HOLD_TURTLE_LEFT		80
+
 
 #define MARIO_ANI_BIG_FIRE_RIGHT	41
 #define MARIO_ANI_BIG_FIRE_LEFT	42
@@ -81,6 +93,10 @@
 #define MARIO_ANI_BIG_FIRE_KICK_LEFT	70
 #define MARIO_ANI_BIG_FIRE_HOLD_TURLE_RIGHT	71
 #define MARIO_ANI_BIG_FIRE_HOLD_TURLE_LEFT	72
+#define MARIO_ANI_BIG_FIRE_HOLD_TURLE_LEFT	85
+#define MARIO_ANI_BIG_FIRE_HOLD_TURLE_LEFT	86
+#define MARIO_ANI_BIG_FIRE_HOLD_TURLE_LEFT	87
+#define MARIO_ANI_BIG_FIRE_HOLD_TURLE_LEFT	88
 
 
 
@@ -104,10 +120,10 @@
 #define MARIO_ANI_BIG_TAIL_FLY_LEFT		38
 #define MARIO_ANI_BIG_TAIL_HOLD_TURTLE_RIGHT	51
 #define MARIO_ANI_BIG_TAIL_HOLD_TURTLE_LEFT	52
-//#define MARIO_ANI_BIG_TAIL_WALKING_HOLD_TURTLE_LEFT	53
-//#define MARIO_ANI_BIG_TAIL_WALKING_HOLD_TURTLE_LEFT	54
-//#define MARIO_ANI_BIG_TAIL_RUN_HOLD_TURTLE_LEFT	55
-//#define MARIO_ANI_BIG_TAIL_RUN_HOLD_TURTLE_LEFT	56
+#define MARIO_ANI_BIG_TAIL_WALKING_HOLD_TURTLE_LEFT	53
+#define MARIO_ANI_BIG_TAIL_WALKING_HOLD_TURTLE_LEFT	54
+#define MARIO_ANI_BIG_TAIL_RUN_HOLD_TURTLE_RIGHT	55
+#define MARIO_ANI_BIG_TAIL_RUN_HOLD_TURTLE_LEFT	56
 #define MARIO_ANI_BIG_TAIL_FLY_LIMIT_RIGHT	57
 #define MARIO_ANI_BIG_TAIL_FLY_LIMIT_LEFT	58
 #define MARIO_ANI_BIG_TAIL_FLY_FALLING_RIGHT	59
@@ -116,6 +132,9 @@
 #define MARIO_ANI_BIG_TAIL_KICK_TURLE_LEFT	62
 #define MARIO_ANI_BIG_TAIL_BRAKE_RIGHT	65
 #define MARIO_ANI_BIG_TAIL_BRAKE_LEFT	66
+#define MARIO_ANI_BIG_TAIL_ATTACK_ROTATORY_RIGHT	89	
+#define MARIO_ANI_BIG_TAIL_ATTACK_ROTATORY_LEFT		90
+
 
 
 #define MARIO_ANI_DIE				8
@@ -136,16 +155,20 @@
 #define MARIO_TAIL_BIG_DOWN_BBOX_HEIGHT 18
 #define MARIO_TAIL_FLY_BIG_BBOX_WIDTH   18       //23
 #define MARIO_TAIL_FLY_BIG_BBOX_HEIGHT 29
+#define MARIO_TAIL_BIG_ATTACK_BBOX_HEIGHT 32
 
 #define MARIO_SMALL_BBOX_WIDTH  13  //12
 #define MARIO_SMALL_BBOX_HEIGHT 15   //24
 
 #define MARIO_JUMP_HIGHER_TIME 7000
 #define MARIO_UNTOUCHABLE_TIME 5000
+#define MARIO_KICK_TIME 500
+#define MARIO_ROTATORY_TIME 350						//can cho dung time
 
 
 class CMario : public CGameObject
 {
+	static CMario * __instance;
 	int untouchable;
 	DWORD untouchable_start;
 	float start_x;			// initial position of Mario at scene
@@ -153,6 +176,15 @@ class CMario : public CGameObject
 	//GameMap* test;
 	int ani;
 public: 
+	bool isAttackNext;					//duoc phep tan cong
+	DWORD timeWaitingAttackNext;		//time cho dot tan cong tiep theo
+	bool isRotatory180;			//trang thai mario dang quay 180
+	bool isMarioDropTurle;		//mario roi rua
+	static CMario * GetInstance(float x, float y);
+	bool isHold;					//mario cam rua khi nhan A
+	DWORD timeKickStart;			//time da rua
+	DWORD timeRotatoryStart;			//time danh duoi mario max
+	bool pressA;				//giu phim A
 	DWORD timeJumpStart;
 	bool jumpHigher;			//mario jump cao hơn khi giữ S
 	int static level;

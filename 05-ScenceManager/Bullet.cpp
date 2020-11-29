@@ -46,8 +46,8 @@ void CBullet::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (plant->start == true)
 	{
 		isStart = true;
-		x = 350;
-		y = 248;
+		x = 357;
+		y = 342;
 		vx = 0;
 	}
 	x += dx;

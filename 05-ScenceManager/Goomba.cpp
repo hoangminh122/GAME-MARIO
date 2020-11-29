@@ -6,6 +6,7 @@ CGoomba::CGoomba()
 	SetState(GOOMBA_STATE_WALKING);
 	isReverse = false;
 	//nx = -1;
+	mario = CMario::GetInstance(0,0);
 }
 
 void CGoomba::GetBoundingBox(float &left, float &top, float &right, float &bottom)
@@ -31,12 +32,15 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	else
 		nx = -1;
 	if (this->GetState() == GOOMBA_STATE_REVERSE_DIE) {
-		if (y > 500)
-			vy = 0;
-		else if (y < 280)
+		if (y > mario->y + 200)
 		{
-			vy = 0.1f;
-			vx = 0.05f;
+			vy = 0;
+			vx = 0;
+		}
+		else if (y < mario->y - GOOMBA_BBOX_HEIGHT*3)
+		{
+			vy += 0.05f;
+			vx = (mario->nx)*0.08f;
 		}
 		/*else if(ny == 1)
 		{
@@ -84,7 +88,7 @@ void CGoomba::SetState(int state)
 	switch (state)
 	{
 		case GOOMBA_STATE_REVERSE_DIE:
-			vx = 0.05f;
+			vx = (mario->nx)*0.05f;
 			vy = -0.1f;
 			break;
 		case GOOMBA_STATE_DIE:
