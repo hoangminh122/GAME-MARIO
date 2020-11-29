@@ -176,6 +176,7 @@ class CMario : public CGameObject
 	//GameMap* test;
 	int ani;
 public: 
+	bool isHasColBoxQues;				// xet truong hop mario va cham lien tiep vao box question <1.5s
 	bool isAttackNext;					//duoc phep tan cong
 	DWORD timeWaitingAttackNext;		//time cho dot tan cong tiep theo
 	bool isRotatory180;			//trang thai mario dang quay 180

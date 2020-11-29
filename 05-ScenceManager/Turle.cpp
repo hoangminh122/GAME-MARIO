@@ -50,7 +50,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		SetState(TURLE_STATE_WALKING);
 		y = y - (TURLE_BBOX_HEIGHT - TURLE_BBOX_HEIGHT_DIE);
-		vx = 0.1f;
+		vx = TURLE_WALKING_SPEED;
 		isHold = false;
 		mario->isHold = false;
 		timeDieTurle = 0;
