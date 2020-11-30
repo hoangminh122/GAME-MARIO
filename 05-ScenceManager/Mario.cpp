@@ -16,6 +16,8 @@
 #include "BulletMario.h"
 #include "Brick.h"
 #include "WallTurle.h"
+#include "BrickQuestion.h"
+
 
 int CMario::level = 1;
 bool CMario::isDropTurle = false;
@@ -68,6 +70,7 @@ CMario::CMario(float x, float y) : CGameObject()
 	isRotatory180 = false;
 	timeWaitingAttackNext = 0;
 	isAttackNext = true;
+	isHasColBoxQues = true;
 }
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -124,15 +127,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		SetState(MARIO_STATE_ROTATORY_IDLE);
 	}
-	else
+	else if (GetLevel() == MARIO_LEVEL_TAIL_BIG)
 	{
 		if(GetState() == MARIO_STATE_RUN)
 			isRotatory180 = true;
 		else
 		{
-			SetState(MARIO_STATE_IDLE);
-			//isRotatory180 = false;
-
+			isRotatory180 = false;
+			if(vx == 0.0f)									//chi co trang thai dung yen khi giu phim A ko xoay duoi dc
+				SetState(MARIO_STATE_IDLE);
 		}
 	}
 
@@ -202,6 +205,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			checkMarioColision = true;
 			jumpHigher = true;
+			isHasColBoxQues = true;   //cham dat
 		}
 		
 
@@ -270,6 +274,17 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 				
 			} // if plant
+			else if (dynamic_cast<CBrickQuestion *>(e->obj)) // if e->obj is question box
+			{
+				CBrickQuestion* brickQuestion = dynamic_cast<CBrickQuestion *>(e->obj);
+				if (e->ny > 0)
+				{
+					brickQuestion->SetMove(true);
+
+				}
+
+
+			} // if question box
 			
 			else if (dynamic_cast<CGoomba *>(e->obj)) // if e->obj is Goomba 
 			{
@@ -289,7 +304,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 				else if (e->nx != 0)
 				{
-					if (this->GetState() == MARIO_STATE_ROTATORY_IDLE && goomba->nx != this->nxx )
+					if (this->GetState() == MARIO_STATE_ROTATORY_IDLE && GetLevel() == MARIO_LEVEL_TAIL_BIG)
 					{
 						if (goomba->GetState() != GOOMBA_STATE_DIE)
 						{
