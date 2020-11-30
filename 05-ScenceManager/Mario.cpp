@@ -494,7 +494,18 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 				else if (e->nx != 0)
 				{
-					if (GetLevel() < 1)
+					if (this->GetState() == MARIO_STATE_ROTATORY_IDLE && GetLevel() == MARIO_LEVEL_TAIL_BIG)
+					{
+						if (turle->GetState() != TURLE_STATE_REVERSE_DIE)
+						{
+							turle->SetState(TURLE_STATE_REVERSE_DIE);
+							vy = -TURLE_JUMP_DEFLECT_SPEED;
+							untouchable = -1;
+
+						}
+
+					}
+					else if (GetLevel() < 1)
 					{
 						SetState(MARIO_STATE_DIE);
 					}
@@ -933,7 +944,10 @@ void CMario::Render()
 		}
 		else if (this->GetState() == MARIO_STATE_BRAKE)
 			ani = MARIO_ANI_BIG_TAIL_BRAKE_RIGHT;
-		
+		else if (this->GetState() == MARIO_STATE_PREPARE_FLY)
+		{
+			ani = MARIO_ANI_BIG_TAIL_PREPARE_FLY_RIGHT;
+		}
 		else if (this->GetState() == MARIO_STATE_FLY && checkMarioColision == false)
 		{
 			if (this->energyFly > 20)
@@ -965,6 +979,10 @@ void CMario::Render()
 		}
 		else if (this->GetState() == MARIO_STATE_BRAKE)
 			ani = MARIO_ANI_BIG_TAIL_BRAKE_LEFT;
+		else if (this->GetState() == MARIO_STATE_PREPARE_FLY)
+		{
+			ani = MARIO_ANI_BIG_TAIL_PREPARE_FLY_LEFT;
+		}
 		else if (this->GetState() == MARIO_STATE_KICK && kick == true) {
 			ani = MARIO_ANI_BIG_TAIL_KICK_TURLE_LEFT;
 		}

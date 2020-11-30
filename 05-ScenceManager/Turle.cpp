@@ -19,13 +19,14 @@ CTurle::CTurle()
 	isStop = 0;
 	//ani = TURLE_STATE_RUN_DIE;
 	ani = TURLE_ANI_WALKING_LEFT;
-	SetState(TURLE_STATE_WALKING);
-	//SetState(TURLE_STATE_DIE);
+	//SetState(TURLE_STATE_WALKING);
+	SetState(TURLE_STATE_DIE);
 	isNoCollision = false;
 	timeRunTurle = 0;
 	timeDieTurle = 0;
 	//tao instance mario dung chung-> chi tao 1 lan vi dungf nhieu
 	 mario = CMario::GetInstance(0,0);
+	 isReverse = true;
 }
 
 void CTurle::GetBoundingBox(float &left, float &top, float &right, float &bottom)
@@ -46,7 +47,25 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
 
+	if (this->GetState() == TURLE_STATE_REVERSE_DIE) {								//TRANG THAI REVERSE KHI BI MARIO QUAT DUOI
+		if (y > mario->y + 200)
+		{
+			vy = 0;
+			vx = 0;
+		}
+		else if (y < mario->y - TURLE_BBOX_HEIGHT * 3)
+		{
+			vy += 0.05f;
+			vx = (mario->nx)*0.08f;
+		}
+		/*else if(ny == 1)
+		{
+			vy = -0.1f;
+			vx = 0.05f;
 
+		}*/
+		isReverse = true;
+	}
 	if (GetTickCount() - timeDieTurle > TURLE_TIME_DIE && timeDieTurle != 0)
 	{
 		SetState(TURLE_STATE_WALKING);
@@ -329,7 +348,7 @@ void CTurle::Render()
 	else if (vx > 0) ani = TURLE_ANI_WALKING_RIGHT;
 	else if (vx <= 0) ani = TURLE_ANI_WALKING_LEFT;
 
-	animation_set->at(ani)->Render(x, y);
+	animation_set->at(ani)->Render(x, y,255,isReverse);
 
 	RenderBoundingBox(); 
 }
