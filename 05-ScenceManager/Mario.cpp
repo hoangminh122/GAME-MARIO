@@ -73,6 +73,9 @@ CMario::CMario(float x, float y) : CGameObject()
 	timeWaitingAttackNext = 0;
 	isAttackNext = true;
 	isHasColBoxQues = true;
+	timePrepareFly = 0;
+	energyFull = false;
+	timePrepareRunFast = 0;
 }
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -119,6 +122,18 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	//	//if(GetState() != MARIO_STATE_RUN)
 	//	//isRotatory180 = true;
 	//}
+	if (GetTickCount() - timePrepareRunFast > MARIO_RUN_FAST_TIME && timePrepareRunFast != 0)
+	{
+		SetState(MARIO_STATE_PREPARE_FLY);
+		timePrepareRunFast = 0;
+	}
+	if (GetTickCount() - timePrepareFly > MARIO_RUN_FAST_TIME && timePrepareFly != 0)
+	{
+		energyFull = true;
+		//SetState(MARIO_STATE_FLY);
+		timePrepareFly = 0;
+	}
+
 	if (GetTickCount() - timeKickStart > MARIO_KICK_TIME && timeKickStart!=0)
 	{
 		SetState(MARIO_STATE_IDLE);
@@ -652,6 +667,7 @@ void CMario::Render()
 			{
 				ani = MARIO_ANI_BIG_BRAKE_RIGHT;
 			}
+			
 			else if (this->GetState() == MARIO_STATE_RUN_HOLD_TURTLE)		//TRANG THAI CAM RUA PHAI O TREN TRANG THAI CHAY -> MUC DO UU TIEN
 			{
 				ani = MARIO_ANI_BIG_RUN_HOLD_TURTLE_RIGHT;
@@ -659,6 +675,10 @@ void CMario::Render()
 			else if (this->GetState() == MARIO_STATE_RUN)
 			{
 				ani = MARIO_ANI_BIG_RUN_RIGHT;
+			}
+			else if (this->GetState() == MARIO_STATE_PREPARE_FLY)
+			{
+				ani = MARIO_ANI_BIG_PREPARE_FLY_RIGHT;
 			}
 			else
 			{
@@ -674,6 +694,10 @@ void CMario::Render()
 			else if (this->GetState() == MARIO_STATE_BRAKE)
 			{
 				ani = MARIO_ANI_BIG_BRAKE_LEFT;
+			}
+			else if (this->GetState() == MARIO_STATE_PREPARE_FLY)
+			{
+				ani = MARIO_ANI_BIG_PREPARE_FLY_LEFT;
 			}
 			else if (this->GetState() == MARIO_STATE_RUN_HOLD_TURTLE)		//TRANG THAI CAM RUA PHAI O TREN TRANG THAI CHAY -> MUC DO UU TIEN
 			{
