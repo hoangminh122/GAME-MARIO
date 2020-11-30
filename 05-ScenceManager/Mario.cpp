@@ -19,6 +19,8 @@
 #include "BrickQuestion.h"
 #include "MoneyIcon.h"
 #include "Leaf.h"
+#include "BackgroundDie.h"
+#include "Brick.h"
 
 
 int CMario::level = 1;
@@ -218,7 +220,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		}*/
 
 		
-		if (ny < 0 && vy >= 0)
+		if (ny < 0 && vy >= 0 )
 		{
 			checkMarioColision = true;
 			jumpHigher = true;
@@ -436,7 +438,21 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					//vx +=dx;
 
 			} // if brickTop
-			else if (dynamic_cast<CMushroom *>(e->obj)) // if e->obj is mushroom
+			//else if (dynamic_cast<CBackgroundDie *>(e->obj)) // if e->obj is Backgroud die
+			//{
+			//	x += dx;
+			//	//if(!checkMarioColision)
+			//	if(e->ny!=0)
+			//		y += dy;
+			//} // if brickTop
+			//else if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is Backgroud die
+			//{
+			//	
+			////x += dx;
+			////if(!checkMarioColision)
+			//y += dy;
+			//} // if brickTop
+			else if (dynamic_cast<CMushroom *>(e->obj)) // if e->obj is Backgroud die
 			{
 
 			CMushroom* mushroom = dynamic_cast<CMushroom *>(e->obj);

@@ -151,11 +151,7 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 
 			} // if question box
-			else if (dynamic_cast<CBackgroundDie *>(e->obj)) // if e->obj is background die
-			{
-				
-
-			} // if background die
+			
 			else if (dynamic_cast<CBrickQuestion *>(e->obj)) // if e->obj is question box
 			{
 				CBrickQuestion* brickQuestion = dynamic_cast<CBrickQuestion *>(e->obj);

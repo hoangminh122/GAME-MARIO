@@ -26,7 +26,7 @@ CTurle::CTurle()
 	timeDieTurle = 0;
 	//tao instance mario dung chung-> chi tao 1 lan vi dungf nhieu
 	 mario = CMario::GetInstance(0,0);
-	 isReverse = true;
+	 isReverse = false;
 }
 
 void CTurle::GetBoundingBox(float &left, float &top, float &right, float &bottom)

@@ -1,5 +1,6 @@
 #include "Goomba.h"
 #include "Utils.h"
+#include "Mario.h"
 
 CGoomba::CGoomba()
 {
@@ -55,10 +56,70 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (y > 500)
 			vy = 0;
 	}
-	x += dx;
-	y += dy;
+	/*x += dx;
+	y += dy;*/
 
-	if ((vx < 0 && x < 0) 
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
+
+	coEvents.clear();
+
+	if (this->GetState() != GOOMBA_STATE_DIE)
+		CalcPotentialCollisions(coObjects, coEvents);
+
+	if (coEvents.size() == 0)
+	{
+		//check luc cam rua ko di chuyen
+		x += dx;
+		y += dy;
+
+	}
+
+	else
+	{
+		float min_tx, min_ty, nx = 0, ny;
+		float rdx = 0;
+		float rdy = 0;
+
+		// TODO: This is a very ugly designed function!!!!
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+
+		//if (nx != 0) vx = 0;
+		//if (ny != 0) vy = 0;
+
+
+
+		// Collision logic with other objects
+		//
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+
+			if (ny < 0 && e->obj != NULL)
+			{
+				vy = 0;
+			}
+			if (e->nx != 0 && e->obj != NULL
+				&& !dynamic_cast<CMario *>(e->obj)
+				)
+			{
+				vx = -vx;
+			}
+			//else if (e->ny < 0 && dynamic_cast<CBackgroundDie *>(e->obj))	//va cham voi background Die
+			//{
+			//	vx = -vx;
+			//}
+
+
+
+		}
+
+	}
+
+	// clean up collision events
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
+	/*if ((vx < 0 && x < 0) 
 		|| (vx < 0 && x < 400 && x > 320)
 		|| (vx < 0 && x < 670 && x > 610) ) {
 		 vx = -vx;
@@ -68,7 +129,7 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		|| (vx > 0 && x > 580 && x < 610)
 		|| (vx > 0 && x > 800)) {
 		vx = -vx;
-	}
+	}*/
 
 }
 
