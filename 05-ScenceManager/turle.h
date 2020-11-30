@@ -19,9 +19,12 @@
 #define TURLE_ANI_WALKING_RIGHT 1
 #define TURLE_ANI_DIE 2
 #define TURLE_ANI_RUN_DIE 3
+#define TURLE_STATE_REVERSE_DIE	4
 
 #define MAX_TURLE_TIME_RUN	3000
 #define TURLE_TIME_DIE	10000
+
+#define TURLE_JUMP_DEFLECT_SPEED 0.2f
 
 class CTurle : public CGameObject
 {
@@ -30,6 +33,7 @@ class CTurle : public CGameObject
 	virtual void Render();
 
 public:
+	bool isReverse;				//Trang thai reverse
 	DWORD timeDieTurle;			//time gian mario song lai tu die->walking
 	bool checkCollision;		//kiem tra va cham cua rua voi mat dat, ..
 	CMario* mario;				//tao instance mario

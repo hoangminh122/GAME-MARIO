@@ -2,31 +2,31 @@
 #include "GameObject.h"
 //#include "game_map.h"
 
-// so ani mario hien tai:90
+// so ani mario hien tai:94
 #define MARIO_WALKING_SPEED		0.1f 
 #define MARIO_WALKING_ADD_SPEED	0.005f 
-#define MARIO_RUN_NORMAL_SPEED	0.15f 
+#define MARIO_RUN_NORMAL_SPEED	0.2f
+#define MARIO_PREPARE_FLY_SPEED	0.25f 
 #define MARIO_JUMP_SPEED_Y		0.45f
 #define MARIO_JUMP_SPEED_HIGHER_Y		0.1f
 #define MARIO_JUMP_DEFLECT_SPEED 0.2f
 #define MARIO_GRAVITY			0.002f
 #define MARIO_DIE_DEFLECT_SPEED	 0.5f
 #define MARIO_STATE_IDLE			0
-//#define MARIO_STATE_WALKING_RIGHT	100
-//#define MARIO_STATE_WALKING_LEFT	200
 #define MARIO_STATE_WALKING		200
 #define MARIO_STATE_JUMP_HIGH	100
 #define MARIO_STATE_JUMP_NORMAL	300
 #define MARIO_STATE_DIE				400
-//#define MARIO_STATE_RUN_RIGHT		500
 #define MARIO_STATE_RUN		600
+#define MARIO_STATE_RUN_FAST	610
+#define MARIO_STATE_PREPARE_FLY		620
+#define MARIO_STATE_FLY		920
 #define MARIO_STATE_KICK		900
 #define MARIO_STATE_DOWN		910
 #define MARIO_STATE_HOLD_TURTLE	930
 #define MARIO_STATE_BULLET_IDLE	950
 //#define MARIO_STATE_BULLET_RUN	950
 #define MARIO_STATE_BRAKE	960
-#define MARIO_STATE_FLY		920
 #define MARIO_STATE_FIRE	940
 #define MARIO_STATE_ROTATORY_IDLE		700
 #define MARIO_STATE_WALKING_HOLD_TURTLE		710
@@ -66,6 +66,8 @@
 #define MARIO_ANI_BIG_RUN_LEFT		18
 #define MARIO_ANI_BIG_DOWN_RIGHT		31
 #define MARIO_ANI_BIG_DOWN_LEFT		32
+#define MARIO_ANI_BIG_PREPARE_FLY_RIGHT		91
+#define MARIO_ANI_BIG_PREPARE_FLY_LEFT		92
 
 #define MARIO_ANI_BIG_KICK_LEFT		20
 #define MARIO_ANI_BIG_KICK_RIGHT		19
@@ -134,7 +136,8 @@
 #define MARIO_ANI_BIG_TAIL_BRAKE_LEFT	66
 #define MARIO_ANI_BIG_TAIL_ATTACK_ROTATORY_RIGHT	89	
 #define MARIO_ANI_BIG_TAIL_ATTACK_ROTATORY_LEFT		90
-
+#define MARIO_ANI_BIG_TAIL_PREPARE_FLY_RIGHT	93
+#define MARIO_ANI_BIG_TAIL_PREPARE_FLY_LEFT		94
 
 
 #define MARIO_ANI_DIE				8
@@ -164,6 +167,7 @@
 #define MARIO_UNTOUCHABLE_TIME 5000
 #define MARIO_KICK_TIME 500
 #define MARIO_ROTATORY_TIME 350						//can cho dung time
+#define MARIO_RUN_FAST_TIME 1000
 
 
 class CMario : public CGameObject
@@ -176,6 +180,9 @@ class CMario : public CGameObject
 	//GameMap* test;
 	int ani;
 public: 
+	bool energyFull;
+	DWORD timePrepareRunFast;					//time chay nhanh binh thuong cua mario
+	DWORD timePrepareFly;					//time chay nhanh tay nam ngang cua mario
 	bool isHasColBoxQues;				// xet truong hop mario va cham lien tiep vao box question <1.5s
 	bool isAttackNext;					//duoc phep tan cong
 	DWORD timeWaitingAttackNext;		//time cho dot tan cong tiep theo

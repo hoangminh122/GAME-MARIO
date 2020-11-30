@@ -14,6 +14,8 @@
 #include "Camera.h"
 #include "WallTurle.h"
 #include "BrickQuestion.h"
+#include "MoneyIcon.h"
+#include "Leaf.h"
 //#include "TileMap.h"
 
 using namespace std;
@@ -52,6 +54,10 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define OBJECT_TYPE_BACKGROUND_DIE	15
 #define OBJECT_TYPE_WALL_TURLE	13
 #define OBJECT_TYPE_BRICK_QUESTION	14
+#define OBJECT_TYPE_MONEY_ICON	16
+#define OBJECT_TYPE_LEAF	17
+
+
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -200,6 +206,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BULLET_MARIO: obj = new CBulletMario(); break;
 	case OBJECT_TYPE_BACKGROUND_DIE: obj = new CBackgroundDie(); break;
 	case OBJECT_TYPE_BRICK_QUESTION: obj = new CBrickQuestion(); break;
+	case OBJECT_TYPE_MONEY_ICON: obj = new CMoneyIcon(); break;
+	case OBJECT_TYPE_LEAF: obj = new CLeaf(); break;
 
 
 	case OBJECT_TYPE_PORTAL:
@@ -584,8 +592,12 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		mario->nx = 1;
 		if (game->IsKeyDown(DIK_A))
 		{
+			if (mario->GetState() == MARIO_STATE_WALKING)
+			{
+				mario->timePrepareRunFast = GetTickCount();
+			}
 			//cam rua
-			if (mario->vx < MARIO_RUN_NORMAL_SPEED)
+			if (mario->vx <= MARIO_RUN_NORMAL_SPEED)
 				mario->vx += 0.008f;
 		}
 		else if (mario->vx < MARIO_WALKING_SPEED)
@@ -612,7 +624,15 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 				//{
 				//	mario->SetState(MARIO_STATE_ROTATORY_IDLE);
 				//}
-				else 
+				else if (mario->GetState() == MARIO_STATE_RUN)					//vx > 0.15 ->state PREPARE_FLY
+				{
+					if (mario->vx >= MARIO_RUN_NORMAL_SPEED-0.01f)
+					{
+						/*mario->timePrepareFly = GetTickCount();
+						mario->SetState(MARIO_STATE_PREPARE_FLY);*/
+					}
+				}
+				else if(mario->vx > 0 && mario->vx < MARIO_RUN_NORMAL_SPEED)											//check truong hop khi van toc >0 va <0.15-> state run 
 					mario->SetState(MARIO_STATE_RUN);
 			}
 			else
@@ -621,8 +641,9 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 				{
 					mario->SetState(MARIO_STATE_WALKING_HOLD_TURTLE);
 				}
-				else 
+				else {
 					mario->SetState(MARIO_STATE_WALKING);
+				}
 			}
 		}
 		
@@ -632,7 +653,11 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 
 		if (game->IsKeyDown(DIK_A))
 		{
-			if (mario->vx > -MARIO_RUN_NORMAL_SPEED)
+			if (mario->GetState() == MARIO_STATE_WALKING)
+			{
+				mario->timePrepareRunFast = GetTickCount();
+			}
+			if (mario->vx >= -MARIO_RUN_NORMAL_SPEED)
 				mario->vx -= 0.008f;
 		}
 		else if (mario->vx > -MARIO_WALKING_SPEED)
@@ -653,13 +678,21 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 				{
 					mario->SetState(MARIO_STATE_RUN_HOLD_TURTLE);
 				}
+				else if (mario->GetState() == MARIO_STATE_RUN)					//vx > 0.15 ->state PREPARE_FLY
+				{
+					if (mario->vx <= -MARIO_RUN_NORMAL_SPEED + 0.01f)
+					{
+						/*mario->timePrepareFly = GetTickCount();
+						mario->SetState(MARIO_STATE_PREPARE_FLY);*/
+					}
+				}
 				//xoay duoi tan cong cua mario
 				//else if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG && !mario->isRotatory180)    //check xem mario da san sang quay chua
 				//{
 
 				//	mario->SetState(MARIO_STATE_ROTATORY_IDLE);
 				//}
-				else
+				else if (mario->vx < 0 && mario->vx > -MARIO_RUN_NORMAL_SPEED)
 					mario->SetState(MARIO_STATE_RUN);
 			}
 			else
