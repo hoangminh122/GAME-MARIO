@@ -1,6 +1,7 @@
 #include "Goomba.h"
 #include "Utils.h"
 #include "Mario.h"
+#include "CMushroom.h"
 
 CGoomba::CGoomba()
 {
@@ -101,13 +102,14 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			}
 			if (e->nx != 0 && e->obj != NULL
 				&& !dynamic_cast<CMario *>(e->obj)
+				&&	!dynamic_cast<CMushroom *>(e->obj)
 				)
 			{
 				vx = -vx;
 			}
-			//else if (e->ny < 0 && dynamic_cast<CBackgroundDie *>(e->obj))	//va cham voi background Die
+			//else if (e->ny < 0 && dynamic_cast<CMushroom *>(e->obj))	//va cham voi background Die
 			//{
-			//	vx = -vx;
+			//	x += dx;
 			//}
 
 

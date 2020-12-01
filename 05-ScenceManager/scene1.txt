@@ -8,6 +8,7 @@
 50	textures\enemie\enemies.png	255	255	255
 60	textures\enemie\enemies-2.png	255	255	255
 70	textures\enemie\enemies-3.png	255	255	255
+81	textures\enemie\enemies-5.png	255	255	255
 80	textures\map\man1\tile-map1-1.png	255	255	255
 
 
@@ -284,6 +285,17 @@ tile-map1-1.txt	80	2816	432
 30002	25	14	41	29	10
 #die
 30003	45	21	61	29	10
+#goomba re co canh
+30004	66	35	86	59	81
+30005	90	35	109	59	81
+#co canh thap
+30006	116	40	136	59	81
+30007	140	40	160	59	81
+# ko canh
+30008	104	70	120	86	81
+30009	125	70	140	86	81
+#die red
+30010	145	77	161	86	81
 
 #brick with question mark animation
 40001	300	117	316	133	20
@@ -543,6 +555,15 @@ tile-map1-1.txt	80	2816	432
 701	30001	100	30002	100
 # die
 702	30003	100
+# goomba red co canh
+703	30004	100	30005	100
+#co canh thap
+704	30006	100	30007	100
+#ko canh
+705	30008	100	30009	100
+#red die
+706	300010	100
+
 
 # Mushroom,leaf
 801	50001	100
@@ -592,7 +613,7 @@ tile-map1-1.txt	80	2816	432
 # QUESTION MARK BRICK 
 22	602	618	619
 # GOOMBA
-3	701	702
+3	701	702	703	704	705	706
 # Mushroom
 8	801
 #LEAF 
@@ -763,8 +784,8 @@ tile-map1-1.txt	80	2816	432
 
 #ong khoi
 15	352	368	34
-1	352	400	34
-1	352	384	35
+15	352	400	34
+15	352	384	35
 1	368	384	36
 15	368	400	37
 1	368	368	37
@@ -774,6 +795,7 @@ tile-map1-1.txt	80	2816	432
 #15	345	390	34
 #15	385	390	34
 #15	618	390	23
+15	0	400	34
 
 
 #money

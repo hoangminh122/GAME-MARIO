@@ -455,7 +455,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			else if (dynamic_cast<CMushroom *>(e->obj)) // if e->obj is Backgroud die
 			{
 
-			CMushroom* mushroom = dynamic_cast<CMushroom *>(e->obj);
+				CMushroom* mushroom = dynamic_cast<CMushroom *>(e->obj);
 				if (!mushroom->noMushroom)								//mario tang level
 				{
 					mushroom->SetState(MUSHROOM_STATE_DIE_OVER);
