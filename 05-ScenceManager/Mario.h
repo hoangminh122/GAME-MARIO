@@ -168,6 +168,7 @@
 #define MARIO_KICK_TIME 500
 #define MARIO_ROTATORY_TIME 350						//can cho dung time
 #define MARIO_RUN_FAST_TIME 1000
+#define MARIO_TIME_FLY 1000
 
 
 class CMario : public CGameObject
@@ -180,6 +181,7 @@ class CMario : public CGameObject
 	//GameMap* test;
 	int ani;
 public: 
+	DWORD timeFly;							//time fly
 	bool energyFull;
 	DWORD timePrepareRunFast;					//time chay nhanh binh thuong cua mario
 	DWORD timePrepareFly;					//time chay nhanh tay nam ngang cua mario

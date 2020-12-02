@@ -392,10 +392,14 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	//	mario->SetState(MARIO_STATE_IDLE);
 	//	mario->isHoldTurtle = false;
 	//	break;
-	//case DIK_B:
-	//	mario->kick = true;
-	//	mario->SetState(MARIO_STATE_KICK);
-	//	//turle->SetState(TURLE_STATE_RUN_DIE);
+	case DIK_X:
+		/*if (mario->energyFull = true)
+		{
+			mario->SetState(MARIO_STATE_FLY);
+		}*/
+		//mario->SetState(MARIO_STATE_KICK);
+		//turle->SetState(TURLE_STATE_RUN_DIE);
+		break;
 	}
 }
 
@@ -458,13 +462,13 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	//	mario->kick = false;
 	//	break;
 
-	//case DIK_C:
-	//	if (mario->level == MARIO_LEVEL_TAIL_BIG)
-	//	{
-	//		if (CMario::energyFly < 0)
-	//			CMario::energyFly = 20;
-	//	}
-	//	break;
+	case DIK_C:
+		if (mario->level == MARIO_LEVEL_TAIL_BIG)
+		{
+			if (CMario::energyFly < 0)
+				CMario::energyFly = 20;
+		}
+		break;
 	}
 
 }
@@ -496,6 +500,31 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		}
 
 	}
+	if (game->IsKeyDown(DIK_X))
+	{
+		//DebugOut(L"STATE     %d\n", mario->GetState());
+		if (mario->level == MARIO_LEVEL_TAIL_BIG)
+		{
+			if (mario->GetState() != MARIO_STATE_FLY)
+			{
+				mario->timeFly = GetTickCount();
+				DebugOut(L"SHADGHAGSDHDA222222222222%f\n", mario->timeFly);
+
+			}
+			/*CMario::energyFly--;
+			if (CMario::energyFly > 0)*/
+			if (mario->energyFull == true)
+			{
+				mario->SetState(MARIO_STATE_FLY);
+			}
+			else if(mario->checkMarioColision){
+				mario->SetState(MARIO_STATE_IDLE);
+			}
+			
+		}
+		//DebugOut(L"STATE ASDADASD    %d\n", mario->GetState());
+
+	}
 	// disable control key when Mario die 
 	if (mario->GetState() == MARIO_STATE_DIE) return;
 	
@@ -510,17 +539,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 			mario->vy -= MARIO_JUMP_SPEED_HIGHER_Y;
 		}
 	}
-	//else if (game->IsKeyDown(DIK_C))
-	//{
-	//	DebugOut(L"STATE     %d\n", mario->GetState());
-	//	if (mario->level == MARIO_LEVEL_TAIL_BIG)
-	//	{
-	//		CMario::energyFly--;
-	//		if (CMario::energyFly > 0)
-	//			mario->SetState(MARIO_STATE_FLY);
-	//	}
-
-	//}
+	
 	//
 	//else if (game->IsKeyDown(DIK_X))
 	//{
@@ -592,6 +611,11 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		mario->nx = 1;
 		if (game->IsKeyDown(DIK_A))
 		{
+			/*if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG)
+			{
+				if (CMario::energyFly < 200)
+					CMario::energyFly += 5;
+			}*/
 			if (mario->GetState() == MARIO_STATE_WALKING)
 			{
 				mario->timePrepareRunFast = GetTickCount();
@@ -715,42 +739,43 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	}
 	*/
 
-	else if(mario->checkMarioColision)
+	else if (mario->checkMarioColision)
 	{
 		if (mario->pressA && mario->isHold)						//nhan giu A ma dang cam rua  trang thai mario cam rua
 		{
-			if(mario->vx != 0.0f)
+			if (mario->vx != 0.0f)
 				mario->SetState(MARIO_STATE_RUN_HOLD_TURTLE);
 			else
 				mario->SetState(MARIO_STATE_HOLD_TURTLE);
 		}
-		else if(!mario->isRotatory180)
+		else if (!mario->isRotatory180)
 			mario->SetState(MARIO_STATE_IDLE);
 		//chỉnh tốc dộ mario giảm dần -> 0 khi ở trên nên đất
-		if (mario->vx > 0 && mario ->checkMarioColision == true)
+		if (mario->vx > 0 && mario->checkMarioColision == true)
 		{
 			mario->vx -= MARIO_WALKING_ADD_SPEED;
 			if (mario->vx < 0)
 				mario->vx = 0.0f;
 		}
-		if(mario->vx < 0 && mario->checkMarioColision == true)
+		if (mario->vx < 0 && mario->checkMarioColision == true)
 		{
 			mario->vx += MARIO_WALKING_ADD_SPEED;
 			if (mario->vx > 0)
 				mario->vx = 0.0f;
 		}
 
-	//	//if (game->IsKeyDown(DIK_V))
-	//	//{
-	//	//	/*mario->levelBefore = mario->GetLevel();
-	//	//	DebugOut(L"okaaaa%d\n",mario->levelBefore);*/
+		////	//if (game->IsKeyDown(DIK_V))
+		////	//{
+		////	//	/*mario->levelBefore = mario->GetLevel();
+		////	//	DebugOut(L"okaaaa%d\n",mario->levelBefore);*/
 
-	//	//	mario->SetLevel(MARIO_LEVEL_FIRE_BIG);
-	//	//	mario->isFire = true;
-	//	//}
-	//	//else
-	//	//{
-	//	
-	//	
+		////	//	mario->SetLevel(MARIO_LEVEL_FIRE_BIG);
+		////	//	mario->isFire = true;
+		////	//}
+		////	//else
+		////	//{
+		////	
+		////	
+
 	}
 }
