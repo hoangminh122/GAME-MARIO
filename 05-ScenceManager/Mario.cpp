@@ -333,12 +333,19 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				// jump on top >> kill Goomba and deflect a bit 
 				if (e->ny < 0)
 				{
-					
-
 					if (goomba->GetState()!= GOOMBA_STATE_DIE)
 					{
-						goomba->SetState(GOOMBA_STATE_DIE);
-						vy = -MARIO_JUMP_DEFLECT_SPEED;
+
+						if (goomba->GetLevel() > 1)
+						{
+							goomba -> SetLevel(goomba->GetLevel() - 1);
+							vy = -0.2f;
+						}
+						else
+						{
+							vy = -MARIO_JUMP_DEFLECT_SPEED;
+							goomba->SetState(GOOMBA_STATE_DIE);
+						}
 					}
 				}
 				else if (e->nx != 0)
@@ -370,17 +377,22 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					}
 				}
 			} // if Goomba
-			//else if (dynamic_cast<CBullet *>(e->obj)) // if e->obj is Bullet
-			//{
-			//	if (level > MARIO_LEVEL_SMALL)
-			//	{
-			//		level = MARIO_LEVEL_SMALL;
-			//		//StartUntouchable();
-			//	}
-			//	else
-			//		SetState(MARIO_STATE_DIE);
+			else if (dynamic_cast<CBullet *>(e->obj)) // if e->obj is Bullet
+			{
+				CBullet *bullet = dynamic_cast<CBullet *>(e->obj);
+				if (bullet->GetState() != GOOMBA_STATE_DIE)
+				{
+					if (GetLevel() > 1)
+					{
+						vy = -0.001f;
+						SetLevel(GetLevel() - 1);
 
-			//} // if bullet dan bay
+					}
+					else
+						SetState(MARIO_STATE_DIE);
+				}
+
+			} // if bullet dan bay
 			//
 			//else if (dynamic_cast<CQuestion *>(e->obj)) // if e->obj is Question 
 			//{

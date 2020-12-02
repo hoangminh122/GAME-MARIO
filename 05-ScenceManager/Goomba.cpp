@@ -2,6 +2,7 @@
 #include "Utils.h"
 #include "Mario.h"
 #include "CMushroom.h"
+#include "Brick.h"
 
 CGoomba::CGoomba()
 {
@@ -9,6 +10,12 @@ CGoomba::CGoomba()
 	isReverse = false;
 	//nx = -1;
 	mario = CMario::GetInstance(0,0);
+	//ani = 0;
+	//SetLevel(GOOMBA_LEVEL_RED_HIGH);
+	//level = 1;
+	footstep = 0;
+	isInitPos = false;
+	isFly = true;
 }
 
 void CGoomba::GetBoundingBox(float &left, float &top, float &right, float &bottom)
@@ -16,11 +23,30 @@ void CGoomba::GetBoundingBox(float &left, float &top, float &right, float &botto
 	left = x;
 	top = y;
 	right = x + GOOMBA_BBOX_WIDTH;
-
-	if (this->GetState() == GOOMBA_STATE_DIE)
-		bottom = y + GOOMBA_BBOX_HEIGHT_DIE;
-	else 	
-		bottom = y + GOOMBA_BBOX_HEIGHT;
+	if(level > 1)
+		right = x + GOOMBA_RED_HIGH_BBOX_WIDTH;
+	if (level == GOOMBA_LEVEL_NOMAL)
+	{
+		if (this->GetState() == GOOMBA_STATE_DIE)
+			bottom = y + GOOMBA_BBOX_HEIGHT_DIE;
+		else
+			bottom = y + GOOMBA_BBOX_HEIGHT;
+	}
+	else if (level == GOOMBA_LEVEL_RED_HIGH)
+	{
+		if (this->GetState() == GOOMBA_STATE_DIE)
+			bottom = y + GOOMBA_BBOX_HEIGHT_DIE;
+		else
+			bottom = y + GOOMBA_RED_HIGH_BBOX_HEIGHT;
+	}
+	else if (level == GOOMBA_LEVEL_RED)
+	{
+		if (this->GetState() == GOOMBA_STATE_DIE)
+			bottom = y + GOOMBA_BBOX_HEIGHT_DIE;
+		else
+			bottom = y + GOOMBA_RED_BBOX_HEIGHT;
+	}
+	
 }
 
 void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -29,11 +55,66 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	//
 	// TO-DO: make sure Goomba can interact with the world and to each of them too!
 	// 
-	if (vx > 0)
-		nx = 1;
+
+	if (y != 0 && !isInitPos)					//ban dau  x=0, y=0 -> loai truong hop nay
+	{
+		if (x > 830.0f)
+		{
+			level = GOOMBA_LEVEL_RED_HIGH;
+			DebugOut(L"ASDGHASGD%f\n", x);
+		}
+		else
+		{
+			level = 1;
+			DebugOut(L"ASDGHAS2222222222GD%f\n", x);
+
+		}
+		yStatic = y;
+		xStatic = x;
+		isInitPos = true;
+		
+	}
+	//goomba bay
+
+	if (GetTickCount() - timePrepareFly > 1500 && timePrepareFly != 0)
+	{
+		timePrepareFly = 0;
+		isFly = true;
+	}
+
+	if (level == GOOMBA_LEVEL_RED_HIGH)
+	{
+
+		if (isFly)
+		{
+			DebugOut(L"sh111111ssssssssss%d sdds%f\n", footstep, x);
+			vy += -0.7f;
+			timePrepareFly = GetTickCount();
+			isFly = false;
+		}
+		else
+		{
+			vy += 0.05f;
+
+		}
+		/*if (x < xStatic + nx * 30)
+		{
+			vy = 0.09f;
+			footstep += 1;
+			xStatic = x;
+		}
+		if (footstep > 2)
+		{
+			vy = -0.5f;
+			DebugOut(L"shsgdhsgd%d sdds%f\n", footstep,vy);
+			xStatic = x;
+			footstep = 0;
+
+		}*/
+	}
 	else
-		nx = -1;
-	if (this->GetState() == GOOMBA_STATE_REVERSE_DIE) {
+	{
+		if (this->GetState() == GOOMBA_STATE_REVERSE_DIE) {
 		if (y > mario->y + 200)
 		{
 			vy = 0;
@@ -51,14 +132,23 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			
 		}*/
 		isReverse = true;
+		}
+		if (this->GetState() == GOOMBA_STATE_DIE) {
+			vy = 0.1f;
+			if (y > 500)
+				vy = 0;
+		}
 	}
-	if (this->GetState() == GOOMBA_STATE_DIE) {
-		vy = 0.1f;
-		if (y > 500)
-			vy = 0;
-	}
+
+	if (vx > 0)
+		nx = 1;
+	else
+		nx = -1;
+	
 	/*x += dx;
 	y += dy;*/
+
+
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -71,6 +161,8 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (coEvents.size() == 0)
 	{
 		//check luc cam rua ko di chuyen
+		vy += GOOMBA_GRAVITY * dt;
+
 		x += dx;
 		y += dy;
 
@@ -96,21 +188,23 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
-			if (ny < 0 && e->obj != NULL)
+			if (ny < 0 && e->obj != NULL && !isReverse)
 			{
 				vy = 0;
 			}
 			if (e->nx != 0 && e->obj != NULL
 				&& !dynamic_cast<CMario *>(e->obj)
 				&&	!dynamic_cast<CMushroom *>(e->obj)
+				&& !dynamic_cast<CBrick *>(e->obj)
 				)
 			{
 				vx = -vx;
 			}
-			//else if (e->ny < 0 && dynamic_cast<CMushroom *>(e->obj))	//va cham voi background Die
-			//{
-			//	x += dx;
-			//}
+			else if (dynamic_cast<CBrick *>(e->obj))	//va cham voi background Die
+			{
+				if(isReverse)
+					y += dy;
+			}
 
 
 
@@ -137,10 +231,29 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 void CGoomba::Render()
 {
-	int ani = GOOMBA_ANI_WALKING;
-	if (this->GetState() == GOOMBA_STATE_DIE) {
-		ani = GOOMBA_ANI_DIE;
+	if (level == GOOMBA_LEVEL_NOMAL)
+	{
+		ani = GOOMBA_ANI_WALKING;
+		if (this->GetState() == GOOMBA_STATE_DIE) {
+			ani = GOOMBA_ANI_DIE;
+		}
 	}
+	else if (level == GOOMBA_LEVEL_RED_HIGH)
+	{
+
+		ani = GOOMBA_ANI_RED_HIGH_WALKING;
+		if (this->GetState() == GOOMBA_STATE_DIE) {
+			ani = GOOMBA_ANI_RED_DIE;
+		}
+	}
+	else if (level == GOOMBA_LEVEL_RED)
+	{
+		ani = GOOMBA_ANI_RED_WALKING;
+		if (this->GetState() == GOOMBA_STATE_DIE) {
+			ani = GOOMBA_ANI_RED_DIE;
+		}
+	}
+	
 	animation_set->at(ani)->Render(x,y,255,isReverse);
 	RenderBoundingBox();
 }

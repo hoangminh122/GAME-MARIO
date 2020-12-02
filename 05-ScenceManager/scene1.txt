@@ -8,7 +8,7 @@
 50	textures\enemie\enemies.png	255	255	255
 60	textures\enemie\enemies-2.png	255	255	255
 70	textures\enemie\enemies-3.png	255	255	255
-81	textures\enemie\enemies-5.png	255	255	255
+81	textures\enemie\enemies-5.png	25	25	255
 80	textures\map\man1\tile-map1-1.png	255	255	255
 
 
@@ -288,6 +288,9 @@ tile-map1-1.txt	80	2816	432
 #goomba re co canh
 30004	66	35	86	59	81
 30005	90	35	109	59	81
+#co canh thap nhay
+30011	116	35	136	59	81
+30012	140	35	160	59	81
 #co canh thap
 30006	116	40	136	59	81
 30007	140	40	160	59	81
@@ -556,7 +559,7 @@ tile-map1-1.txt	80	2816	432
 # die
 702	30003	100
 # goomba red co canh
-703	30004	100	30005	100
+703	30011	100	30004	100	30012	100	30005	100
 #co canh thap
 704	30006	100	30007	100
 #ko canh
@@ -642,7 +645,7 @@ tile-map1-1.txt	80	2816	432
 #plant
 10	357	400	10
 # GOOMBA
-2	160	400	3
+2	160	390	3
 #2	200	400	3
 #2	290	400	3
 #2	10	400	3
@@ -832,7 +835,7 @@ tile-map1-1.txt	80	2816	432
 13	506	368	22
 13	608	368	22
 #BACK GROUND DIE mushroom
-13	656	374	34
+#13	656	374	34
 13	1056	374	23
 
 
