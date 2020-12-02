@@ -6,6 +6,9 @@
 #include "BrickQuestion.h"
 #include "BackgroundDie.h"
 #include "Plant.h"
+#include "Goomba.h"
+#include "BackgroundDie.h"
+#include "Mario.h"
 
 CMushroom::CMushroom() : CGameObject()
 {
@@ -130,6 +133,7 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				&& !dynamic_cast<CBrickTop *>(e->obj)
 				&& !dynamic_cast<CBrick *>(e->obj)
 				&& !dynamic_cast<CPlant *>(e->obj)
+				&& !dynamic_cast<CGoomba *>(e->obj)
 				)
 			{
 				vx = -vx;
@@ -139,7 +143,21 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				vx = -vx;
 			}
 
+			//if (dynamic_cast<CMario *>(e->obj)) // if e->obj is question box
+			//{
+			//	if (e->nx != 0)
+			//	{
+			//		vx = -0.1f;
 
+			//	}
+			//} // if question box
+			if (dynamic_cast<CGoomba *>(e->obj)) // if e->obj is question box
+			{
+				if (e->nx != 0)
+				{
+					x += dx;
+				}
+			} // if question box
 			if (dynamic_cast<CBrickTop *>(e->obj)) // if e->obj is question box
 			{
 				CBrickTop* brickTop = dynamic_cast<CBrickTop *>(e->obj);
@@ -151,11 +169,18 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 
 			} // if question box
-			else if (dynamic_cast<CBackgroundDie *>(e->obj)) // if e->obj is background die
+			else if (dynamic_cast<CBackgroundDie *>(e->obj)) // if e->obj is question box
 			{
+				if (e->nx > 0)
+				{
+					SetState(MUSHROOM_STATE_DIE_OVER);
+					noMushroom = true;
+
+				}
 				
 
-			} // if background die
+			} // if question box
+			
 			else if (dynamic_cast<CBrickQuestion *>(e->obj)) // if e->obj is question box
 			{
 				CBrickQuestion* brickQuestion = dynamic_cast<CBrickQuestion *>(e->obj);

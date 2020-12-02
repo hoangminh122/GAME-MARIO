@@ -19,6 +19,8 @@
 #include "BrickQuestion.h"
 #include "MoneyIcon.h"
 #include "Leaf.h"
+#include "BackgroundDie.h"
+#include "Brick.h"
 
 
 int CMario::level = 1;
@@ -218,7 +220,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		}*/
 
 		
-		if (ny < 0 && vy >= 0)
+		if (ny < 0 && vy >= 0 )
 		{
 			checkMarioColision = true;
 			jumpHigher = true;
@@ -331,12 +333,19 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				// jump on top >> kill Goomba and deflect a bit 
 				if (e->ny < 0)
 				{
-					
-
 					if (goomba->GetState()!= GOOMBA_STATE_DIE)
 					{
-						goomba->SetState(GOOMBA_STATE_DIE);
-						vy = -MARIO_JUMP_DEFLECT_SPEED;
+
+						if (goomba->GetLevel() > 1)
+						{
+							goomba -> SetLevel(goomba->GetLevel() - 1);
+							vy = -0.2f;
+						}
+						else
+						{
+							vy = -MARIO_JUMP_DEFLECT_SPEED;
+							goomba->SetState(GOOMBA_STATE_DIE);
+						}
 					}
 				}
 				else if (e->nx != 0)
@@ -368,17 +377,22 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					}
 				}
 			} // if Goomba
-			//else if (dynamic_cast<CBullet *>(e->obj)) // if e->obj is Bullet
-			//{
-			//	if (level > MARIO_LEVEL_SMALL)
-			//	{
-			//		level = MARIO_LEVEL_SMALL;
-			//		//StartUntouchable();
-			//	}
-			//	else
-			//		SetState(MARIO_STATE_DIE);
+			else if (dynamic_cast<CBullet *>(e->obj)) // if e->obj is Bullet
+			{
+				CBullet *bullet = dynamic_cast<CBullet *>(e->obj);
+				if (bullet->GetState() != GOOMBA_STATE_DIE)
+				{
+					if (GetLevel() > 1)
+					{
+						vy = -0.001f;
+						SetLevel(GetLevel() - 1);
 
-			//} // if bullet dan bay
+					}
+					else
+						SetState(MARIO_STATE_DIE);
+				}
+
+			} // if bullet dan bay
 			//
 			//else if (dynamic_cast<CQuestion *>(e->obj)) // if e->obj is Question 
 			//{
@@ -436,10 +450,24 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					//vx +=dx;
 
 			} // if brickTop
-			else if (dynamic_cast<CMushroom *>(e->obj)) // if e->obj is mushroom
+			//else if (dynamic_cast<CBackgroundDie *>(e->obj)) // if e->obj is Backgroud die
+			//{
+			//	x += dx;
+			//	//if(!checkMarioColision)
+			//	if(e->ny!=0)
+			//		y += dy;
+			//} // if brickTop
+			//else if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is Backgroud die
+			//{
+			//	
+			////x += dx;
+			////if(!checkMarioColision)
+			//y += dy;
+			//} // if brickTop
+			else if (dynamic_cast<CMushroom *>(e->obj)) // if e->obj is Backgroud die
 			{
 
-			CMushroom* mushroom = dynamic_cast<CMushroom *>(e->obj);
+				CMushroom* mushroom = dynamic_cast<CMushroom *>(e->obj);
 				if (!mushroom->noMushroom)								//mario tang level
 				{
 					mushroom->SetState(MUSHROOM_STATE_DIE_OVER);
