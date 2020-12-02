@@ -129,7 +129,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (GetTickCount() - timeFly > MARIO_TIME_FLY && timeFly != 0)
 	{
 		energyFull = false;
-		//SetState(MARIO_STATE_IDLE);
+		SetState(MARIO_STATE_IDLE);
 		timeFly = 0;
 	}
 	if (GetTickCount() - timePrepareRunFast > MARIO_RUN_FAST_TIME && timePrepareRunFast != 0)
@@ -141,7 +141,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (GetTickCount() - timePrepareFly > MARIO_RUN_FAST_TIME && timePrepareFly != 0)
 	{
 		energyFull = true;
-		//SetState(MARIO_STATE_FLY);
+		vy = -0.05f;										//tao luc day ban dau
+		SetState(MARIO_STATE_FLY);
+		timeFly = GetTickCount();
 		timePrepareFly = 0;
 	}
 
@@ -459,13 +461,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					//vx +=dx;
 
 			} // if brickTop
-			//else if (dynamic_cast<CBackgroundDie *>(e->obj)) // if e->obj is Backgroud die
-			//{
-			//	x += dx;
-			//	//if(!checkMarioColision)
-			//	if(e->ny!=0)
-			//		y += dy;
-			//} // if brickTop
+			else if (dynamic_cast<CBackgroundDie *>(e->obj)) // if e->obj is Backgroud die
+			{
+				//x += dx;
+				//if(!checkMarioColision)
+				if (e->nx != 0)
+					vx = 0;
+			} // if brickTop
 			//else if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is Backgroud die
 			//{
 			//	
@@ -1161,8 +1163,8 @@ void CMario::SetState(int state)
 		//vx = 0;
 		break;
 	case MARIO_STATE_FLY:
-		vy = -0.1f;
-		vx = nx * 0.4f;
+		//vy = -0.05f;
+		vx = nx * 0.2f;
 		break;
 	case MARIO_STATE_DIE:
 		vy = -MARIO_DIE_DEFLECT_SPEED;

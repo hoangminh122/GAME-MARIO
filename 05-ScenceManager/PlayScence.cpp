@@ -410,7 +410,7 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	{
 	case DIK_1:
 		mario->SetLevel(MARIO_LEVEL_SMALL);
-		mario->SetPosition(mario->x, mario->y+ MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT);
+		mario->SetPosition(mario->x, mario->y + MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT);
 		break;
 	case DIK_2:
 		if (mario->GetLevel() == MARIO_LEVEL_SMALL)
@@ -423,18 +423,18 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		if (mario->GetLevel() == MARIO_LEVEL_SMALL)
 			mario->SetPosition(mario->x, mario->y - (MARIO_BIG_BBOX_HEIGHT + MARIO_SMALL_BBOX_HEIGHT));
 		else
-			mario->SetPosition(mario->x, mario->y-1);
+			mario->SetPosition(mario->x, mario->y - 1);
 		mario->SetLevel(MARIO_LEVEL_TAIL_BIG);
 		break;
 	case DIK_4:
 		if (mario->GetLevel() == MARIO_LEVEL_SMALL)
 			mario->SetPosition(mario->x, mario->y - (MARIO_BIG_BBOX_HEIGHT + MARIO_SMALL_BBOX_HEIGHT));
 		else
-			mario->SetPosition(mario->x, mario->y-1);
+			mario->SetPosition(mario->x, mario->y - 1);
 		mario->SetLevel(MARIO_LEVEL_FIRE_BIG);
 		break;
 	case DIK_DOWN:
-		mario->SetPosition(mario->x, mario->y -1- (MARIO_BIG_BBOX_HEIGHT+MARIO_BIG_DOWN_BBOX_HEIGHT));
+		mario->SetPosition(mario->x, mario->y - 1 - (MARIO_BIG_BBOX_HEIGHT + MARIO_BIG_DOWN_BBOX_HEIGHT));
 		break;
 	case DIK_D:
 		mario->SetPosition(mario->x, mario->y - 120);
@@ -457,18 +457,24 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_S:
 		mario->jumpHigher = false;
 		break;
-	//case DIK_B:											//da rua
-	//	mario->SetState(MARIO_STATE_IDLE);
-	//	mario->kick = false;
-	//	break;
+		//case DIK_B:											//da rua
+		//	mario->SetState(MARIO_STATE_IDLE);
+		//	mario->kick = false;
+		//	break;
 
-	case DIK_C:
+	case DIK_X:
 		if (mario->level == MARIO_LEVEL_TAIL_BIG)
 		{
-			if (CMario::energyFly < 0)
-				CMario::energyFly = 20;
+			mario->energyFull = false;
 		}
 		break;
+		/*case DIK_X:
+			if (mario->level == MARIO_LEVEL_TAIL_BIG)
+			{
+					mario->energyFull = false;
+			}
+			break;
+		}*/
 	}
 
 }
@@ -505,21 +511,22 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		//DebugOut(L"STATE     %d\n", mario->GetState());
 		if (mario->level == MARIO_LEVEL_TAIL_BIG)
 		{
-			if (mario->GetState() != MARIO_STATE_FLY)
+			/*if (mario->GetState() != MARIO_STATE_FLY)
 			{
 				mario->timeFly = GetTickCount();
 				DebugOut(L"SHADGHAGSDHDA222222222222%f\n", mario->timeFly);
 
-			}
+			}*/
 			/*CMario::energyFly--;
 			if (CMario::energyFly > 0)*/
 			if (mario->energyFull == true)
 			{
+				mario->vy = -0.2f;
 				mario->SetState(MARIO_STATE_FLY);
 			}
-			else if(mario->checkMarioColision){
+			/*else if(mario->checkMarioColision){
 				mario->SetState(MARIO_STATE_IDLE);
-			}
+			}*/
 			
 		}
 		//DebugOut(L"STATE ASDADASD    %d\n", mario->GetState());
@@ -624,7 +631,21 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 			if (mario->vx <= MARIO_RUN_NORMAL_SPEED)
 				mario->vx += 0.008f;
 		}
-		else if (mario->vx < MARIO_WALKING_SPEED)
+
+		else if (game->IsKeyDown(DIK_X))
+		{
+			/*if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG)
+			{
+				if (CMario::energyFly < 200)
+					CMario::energyFly += 5;
+			}*/
+			/*if (mario->GetState() == MARIO_STATE_FLY)
+			{
+				mario->timePrepareRunFast = GetTickCount();
+			}*/
+			
+		}
+		else if (mario->vx < MARIO_WALKING_SPEED )
 			mario->vx += MARIO_WALKING_ADD_SPEED;
 
 		//phanh
@@ -656,6 +677,10 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 						mario->SetState(MARIO_STATE_PREPARE_FLY);*/
 					}
 				}
+				else if (mario->GetState() == MARIO_STATE_FLY)
+				{
+					mario->SetState(MARIO_STATE_FLY);
+				}
 				else if(mario->vx > 0 && mario->vx < MARIO_RUN_NORMAL_SPEED)											//check truong hop khi van toc >0 va <0.15-> state run 
 					mario->SetState(MARIO_STATE_RUN);
 			}
@@ -664,6 +689,10 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 				if (mario->isHold)						//nhan giu A ma dang cam rua  trang thai mario cam rua
 				{
 					mario->SetState(MARIO_STATE_WALKING_HOLD_TURTLE);
+				}
+				else if (mario->GetState() == MARIO_STATE_FLY)
+				{
+					mario->SetState(MARIO_STATE_FLY);
 				}
 				else {
 					mario->SetState(MARIO_STATE_WALKING);
