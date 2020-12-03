@@ -137,6 +137,8 @@
     <ClCompile Include="game_map.cpp" />
     <ClCompile Include="game_map.h" />
     <ClCompile Include="Koopas.cpp" />
+    <ClCompile Include="Leaf.cpp" />
+    <ClCompile Include="MoneyIcon.cpp" />
     <ClCompile Include="Plant.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="QuestionBox.cpp" />
@@ -165,8 +167,10 @@
     <ClInclude Include="BulletMario.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CMushroom.h" />
+    <ClInclude Include="Leaf.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Koopas.h" />
+    <ClInclude Include="MoneyIcon.h" />
     <ClInclude Include="Plant.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="QuestionBox.h" />

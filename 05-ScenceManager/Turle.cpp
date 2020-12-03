@@ -8,6 +8,7 @@
 #include "BrickQuestion.h"
 #include "Goomba.h"
 #include "BackgroundDie.h"
+#include "Leaf.h"
 
 bool CTurle::isTreeStart = false;
 CTurle::CTurle()
@@ -18,13 +19,14 @@ CTurle::CTurle()
 	isStop = 0;
 	//ani = TURLE_STATE_RUN_DIE;
 	ani = TURLE_ANI_WALKING_LEFT;
-	SetState(TURLE_STATE_WALKING);
-	//SetState(TURLE_STATE_DIE);
+	//SetState(TURLE_STATE_WALKING);
+	SetState(TURLE_STATE_DIE);
 	isNoCollision = false;
 	timeRunTurle = 0;
 	timeDieTurle = 0;
 	//tao instance mario dung chung-> chi tao 1 lan vi dungf nhieu
 	 mario = CMario::GetInstance(0,0);
+	 isReverse = false;
 }
 
 void CTurle::GetBoundingBox(float &left, float &top, float &right, float &bottom)
@@ -45,7 +47,25 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
 
+	if (this->GetState() == TURLE_STATE_REVERSE_DIE) {								//TRANG THAI REVERSE KHI BI MARIO QUAT DUOI
+		if (y > mario->y + 200)
+		{
+			vy = 0;
+			vx = 0;
+		}
+		else if (y < mario->y - TURLE_BBOX_HEIGHT * 3)
+		{
+			vy += 0.05f;
+			vx = (mario->nx)*0.08f;
+		}
+		/*else if(ny == 1)
+		{
+			vy = -0.1f;
+			vx = 0.05f;
 
+		}*/
+		isReverse = true;
+	}
 	if (GetTickCount() - timeDieTurle > TURLE_TIME_DIE && timeDieTurle != 0)
 	{
 		SetState(TURLE_STATE_WALKING);
@@ -210,6 +230,18 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					y += dy;
 				//state run -> vx khong doi
 			}
+			else if (dynamic_cast<CLeaf *>(e->obj)) // if e->obj is question box
+			{
+				CLeaf* leaf = dynamic_cast<CLeaf *>(e->obj);
+				if (e->nx != 0)
+				{
+					vx = -vx;
+					x += dx;
+					leaf->isMove = true;
+				}
+
+
+			} // if question box
 			else if (dynamic_cast<CBrickTop *>(e->obj)) // if e->obj is brickTop
 			{
 				x += dx;
@@ -316,7 +348,7 @@ void CTurle::Render()
 	else if (vx > 0) ani = TURLE_ANI_WALKING_RIGHT;
 	else if (vx <= 0) ani = TURLE_ANI_WALKING_LEFT;
 
-	animation_set->at(ani)->Render(x, y);
+	animation_set->at(ani)->Render(x, y,255,isReverse);
 
 	RenderBoundingBox(); 
 }
