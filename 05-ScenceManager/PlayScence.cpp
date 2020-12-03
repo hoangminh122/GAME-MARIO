@@ -639,10 +639,10 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 				if (CMario::energyFly < 200)
 					CMario::energyFly += 5;
 			}*/
-			/*if (mario->GetState() == MARIO_STATE_FLY)
+			if (mario->GetState() == MARIO_STATE_FLY)
 			{
-				mario->timePrepareRunFast = GetTickCount();
-			}*/
+				//mario->SetState(MARIO_STATE_FLY);
+			}
 			
 		}
 		else if (mario->vx < MARIO_WALKING_SPEED )
@@ -665,6 +665,10 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 				{
 					mario->SetState(MARIO_STATE_RUN_HOLD_TURTLE);
 				}
+				else if (mario->GetState() == MARIO_STATE_FLY)
+				{
+					mario->SetState(MARIO_STATE_FLY);
+				}
 				//else if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG && !mario->isRotatory180)    //check xem mario da san sang quay chua
 				//{
 				//	mario->SetState(MARIO_STATE_ROTATORY_IDLE);
@@ -677,10 +681,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 						mario->SetState(MARIO_STATE_PREPARE_FLY);*/
 					}
 				}
-				else if (mario->GetState() == MARIO_STATE_FLY)
-				{
-					mario->SetState(MARIO_STATE_FLY);
-				}
+				
 				else if(mario->vx > 0 && mario->vx < MARIO_RUN_NORMAL_SPEED)											//check truong hop khi van toc >0 va <0.15-> state run 
 					mario->SetState(MARIO_STATE_RUN);
 			}

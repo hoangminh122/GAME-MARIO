@@ -452,9 +452,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			//} // if box question
 			else if (dynamic_cast<CBrickTop *>(e->obj)) // if e->obj is brickTop
 			{
+				CBrickTop* brickTop = dynamic_cast<CBrickTop *>(e->obj);
 				if (e->ny > 0)
 				{
-					y += dy;
+					y = brickTop->y;
+					vy = 0;
+					//y += dy;
+
 				}
 				if (e -> nx != 0)
 					x += dx;
@@ -878,7 +882,7 @@ void CMario::Render()
 			if (this->GetState() == MARIO_STATE_KICK) {
 				ani = MARIO_ANI_BIG_TAIL_KICK_TURLE_RIGHT;
 			}
-			else if (this->GetState() == MARIO_STATE_JUMP_NORMAL) {
+			else if (this->GetState() == MARIO_STATE_JUMP_NORMAL && checkMarioColision == false) {
 				ani = MARIO_ANI_BIG_TAIL_JUMP_RIGHT;
 			}
 			else if (this->GetState() == MARIO_STATE_FLY)
@@ -928,7 +932,7 @@ void CMario::Render()
 			if (this->GetState() == MARIO_STATE_KICK) {
 				ani = MARIO_ANI_BIG_TAIL_KICK_TURLE_LEFT;
 			}
-			else if (this->GetState() == MARIO_STATE_JUMP_NORMAL) {
+			else if (this->GetState() == MARIO_STATE_JUMP_NORMAL && checkMarioColision == false) {
 				ani = MARIO_ANI_BIG_TAIL_JUMP_LEFT;
 			}
 			else if (this->GetState() == MARIO_STATE_KICK && kick == true) {
