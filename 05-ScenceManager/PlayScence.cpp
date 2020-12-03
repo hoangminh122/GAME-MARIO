@@ -465,7 +465,8 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_X:
 		if (mario->level == MARIO_LEVEL_TAIL_BIG)
 		{
-			mario->energyFull = false;
+			//mario->energyFull = false;
+			mario->SetState(MARIO_STATE_IDLE);
 		}
 		break;
 		/*case DIK_X:

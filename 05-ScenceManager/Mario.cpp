@@ -129,7 +129,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (GetTickCount() - timeFly > MARIO_TIME_FLY && timeFly != 0)
 	{
 		energyFull = false;
-		SetState(MARIO_STATE_IDLE);
+		//SetState(MARIO_STATE_IDLE);
 		timeFly = 0;
 	}
 	if (GetTickCount() - timePrepareRunFast > MARIO_RUN_FAST_TIME && timePrepareRunFast != 0)
@@ -1000,8 +1000,10 @@ void CMario::Render()
 			//DebugOut(L"sdjfhsdjfhdsjhfjsdh\n");
 			if (this->energyFull)
 				ani = MARIO_ANI_BIG_TAIL_FLY_RIGHT;
-			else if(!checkMarioColision)
+			else if (!checkMarioColision)
+			{
 				ani = MARIO_ANI_BIG_TAIL_FLY_LIMIT_RIGHT;
+			}
 		}
 		else if (this->GetState() == MARIO_STATE_RUN_HOLD_TURTLE)		//TRANG THAI CAM RUA PHAI O TREN TRANG THAI CHAY -> MUC DO UU TIEN
 		{
