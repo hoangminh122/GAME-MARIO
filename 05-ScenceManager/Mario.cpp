@@ -160,14 +160,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	else if (GetLevel() == MARIO_LEVEL_TAIL_BIG)
 	{
-		//if(GetState() == MARIO_STATE_RUN)
-		//	isRotatory180 = true;
-		//else
-		//{
-		//	isRotatory180 = false;
-		//	if(vx == 0.0f)									//chi co trang thai dung yen khi giu phim A ko xoay duoi dc
-		//		SetState(MARIO_STATE_IDLE);
-		//}
+		if(GetState() == MARIO_STATE_RUN)
+			isRotatory180 = true;
+		else
+		{
+			isRotatory180 = false;
+			if(vx == 0.0f)									//chi co trang thai dung yen khi giu phim A ko xoay duoi dc
+				SetState(MARIO_STATE_IDLE);
+		}
 	}
 
 	//if (this->isStateFly == true && checkMarioColision == false && this->energyFly < 20)
@@ -523,25 +523,35 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				CTurle *turle = dynamic_cast<CTurle *>(e->obj);
 				if (e->ny < 0)
 				{
-					if (turle->GetState() == TURLE_STATE_WALKING)
+					if (turle->GetState() >= TURLE_STATE_WALKING)
 					{
 						turle->x = this->x;
 						turle->y = this->y;
-
+						turle->level = turle->level - 1;
 						//mario nhay len 1 doan nho
 						vy += -0.35f;
 						vx += this->nx*0.15f;
-						turle->timeDieTurle = GetTickCount();       //bat dau tinh time chet rua
-						turle->SetState(TURLE_STATE_DIE);
+						if (turle->level == TURLE_LEVEL_SMALL)
+						{
+							turle->timeDieTurle = GetTickCount();       //bat dau tinh time chet rua
+							turle->SetState(TURLE_STATE_DIE);
+						}
 					}
 					else if (turle->GetState() == TURLE_STATE_DIE || turle->GetState() == TURLE_STATE_DIE_OVER)
 					{
+						//rua chay theo chieu nguoc mario tranh va cham voi mario, chu y nx o day la trong ham va cham
+						vy += -0.35f;
+						vx += 0.15f;
+
+
+						turle->vx = - TURLE_RUN_SPEED;
+						turle->SetState(TURLE_STATE_RUN_DIE);
 						//giam level mario
-						SetLevel(GetLevel() - 1);
+						/*SetLevel(GetLevel() - 1);
 						if (GetLevel() < 1)
 						{
 							SetState(MARIO_STATE_DIE);
-						}
+						}*/
 					}
 
 

@@ -73,10 +73,22 @@ void CTileMap::Render(CMario* player)
 	int yBotRightCam = cy + game->GetScreenHeight() / 2;
 
 	//chia cho width,height cua moi tile nho => vi
-	int xTopLeft = xTopLeftCam / 16;
+	/*int xTopLeft = xTopLeftCam / 16 ;
 	int yTopLeft = yTopLeftCam / 16;
 	int xBotRight = xBotRightCam / 16;
-	int yBotRight = yBotRightCam / 16;
+	int yBotRight = yBotRightCam / 16;*/
+
+	// tính vị trí topleft và botright của cell
+	int xTopLeftCell = xTopLeftCam / CELL_SIZE;
+	int yTopLeftCell = yTopLeftCam / CELL_SIZE;
+	int xBotRightCell = xBotRightCam / CELL_SIZE;
+	int yBotRightCell = yBotRightCam / CELL_SIZE;
+
+	// tính vị trí topleft và botright của tile
+	int xTopLeft = xTopLeftCell * CELL_SIZE / 16;				//chua
+	int yTopLeft = yTopLeftCell * CELL_SIZE / 16;
+	int xBotRight = ((xBotRightCell * CELL_SIZE) + CELL_SIZE) / 16;
+	int yBotRight = ((yBotRightCell * CELL_SIZE) + CELL_SIZE) / 16;
 
 	if (xBotRight >= numXTiles - 1)
 		xBotRight = numXTiles - 1;

@@ -317,6 +317,8 @@ void CPlayScene::Update(DWORD dt)
 
 
 
+
+
 	/*CGame *game = CGame::GetInstance();
 	cy -= game->GetScreenHeight()/1.1;
 	if (cx <= game->GetScreenWidth() / 2)

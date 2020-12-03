@@ -10,9 +10,12 @@
 #include "BackgroundDie.h"
 #include "Leaf.h"
 
+
+//DWORD CTurle::timeStart = 1;
 bool CTurle::isTreeStart = false;
 CTurle::CTurle()
 {
+	color = 1;
 	checkCollision = false;
 	isHold = false;
 	vxx = TURLE_WALKING_SPEED;
@@ -20,13 +23,17 @@ CTurle::CTurle()
 	//ani = TURLE_STATE_RUN_DIE;
 	ani = TURLE_ANI_WALKING_LEFT;
 	//SetState(TURLE_STATE_WALKING);
-	SetState(TURLE_STATE_DIE);
+	//SetState(TURLE_STATE_DIE);
+	//SetState(TURLE_STATE_FLY);
 	isNoCollision = false;
 	timeRunTurle = 0;
 	timeDieTurle = 0;
 	//tao instance mario dung chung-> chi tao 1 lan vi dungf nhieu
 	 mario = CMario::GetInstance(0,0);
 	 isReverse = false;
+	 //level = TURLE_LEVEL_NO_FLY;
+	 isInitPos = false;
+	 timeStart = 0;
 }
 
 void CTurle::GetBoundingBox(float &left, float &top, float &right, float &bottom)
@@ -46,6 +53,38 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
+
+	//KHOI TAO OBJECT
+	if (y != 0 && !isInitPos)
+	{
+		if (x > 1327.0f && y >590)						//tao do tren map
+		{
+			//SetState(TURLE_STATE_FLY);
+			level = TURLE_LEVEL_FLY;
+			constTimeStart = x;
+			DebugOut(L"SDHFGSDHFGHDwwwSGF%d\n", constTimeStart);
+			x = 1419.0f;
+			y = 280.0f;
+			DebugOut(L"SDHFGSDHFGHDSGF%d\n", constTimeStart);
+			timeStart = GetTickCount();
+
+		}
+		else
+		{
+			SetState(TURLE_STATE_WALKING);
+			level = TURLE_LEVEL_NO_FLY;
+		}
+			
+		isInitPos = true;
+	}
+
+	if (GetTickCount() - timeStart > constTimeStart && timeStart != 0 && level == TURLE_LEVEL_FLY)
+	{
+		DebugOut(L"SDHFGSDHFGHDSGaaaaaaF%d\n", constTimeStart);
+		//timeStart = GetTickCount();
+		SetState(TURLE_STATE_FLY);
+		timeStart = 0;
+	}
 
 	if (this->GetState() == TURLE_STATE_REVERSE_DIE) {								//TRANG THAI REVERSE KHI BI MARIO QUAT DUOI
 		if (y > mario->y + 200)
@@ -116,7 +155,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	
 
-	vy += MARIO_GRAVITY * dt;
+	vy += TURLE_GRAVITY * dt;
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -216,7 +255,12 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			
-			if (ny < 0 && e->obj != NULL)
+			if (ny < 0 && e->obj != NULL && GetState() == TURLE_STATE_FLY)
+			{
+				vy = -0.1f;
+				vx = -0.06f;
+			}
+			else if (ny < 0 && e->obj != NULL)
 			{
 				vy = 0;
 			}
@@ -342,15 +386,31 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 void CTurle::Render()
 {
+	if(level == TURLE_LEVEL_NO_FLY && color == 1)
+	{
+		if (vx > 0) ani = TURLE_ANI_WALKING_RIGHT;
+		else if (vx <= 0) ani = TURLE_ANI_WALKING_LEFT;
+	}
+	else if (level == TURLE_LEVEL_SMALL && color == 1)
+	{
+		if (this->GetState() == TURLE_STATE_DIE)
+		{
+			ani = TURLE_ANI_DIE;
+		}
+		else if (this->GetState() == TURLE_STATE_RUN_DIE) {
+			ani = TURLE_ANI_RUN_DIE;
+		}
+	}
+	else if (level == TURLE_LEVEL_FLY && color == 1)
+	{
+		if (this->GetState() == TURLE_STATE_FLY)
+		{
+			ani = TURLE_ANI_FLY;
+		}
+
+	}
+
 	
-	if (this->GetState() == TURLE_STATE_DIE) {
-		ani = TURLE_ANI_DIE;
-	}
-	else if (this->GetState() == TURLE_STATE_RUN_DIE) {
-		ani = TURLE_ANI_RUN_DIE;
-	}
-	else if (vx > 0) ani = TURLE_ANI_WALKING_RIGHT;
-	else if (vx <= 0) ani = TURLE_ANI_WALKING_LEFT;
 
 	animation_set->at(ani)->Render(x, y,255,isReverse);
 
@@ -376,6 +436,11 @@ void CTurle::SetState(int state)
 	case TURLE_STATE_DIE_OVER:
 		//vx = 0;
 		//vy = 0;
+		break;
+	case TURLE_STATE_FLY:
+		//if(checkCollision)
+			//vy = -0.1f;
+		//vx = -0.06f;
 		break;
 	}
 
