@@ -327,12 +327,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			else if (dynamic_cast<CLeaf *>(e->obj)) // if e->obj is question box
 			{
 				CLeaf* leaf = dynamic_cast<CLeaf *>(e->obj);
+				if (leaf->isLive)
+				{
 					leaf->SetState(LEAF_STATE_DIE_OVER);
 					if (GetLevel() == MARIO_LEVEL_SMALL)
 						SetPosition(x, y - (MARIO_BIG_BBOX_HEIGHT + MARIO_SMALL_BBOX_HEIGHT));
 					else
 						SetPosition(x, y - 2);
 					SetLevel(GetLevel() + 1);
+				}
 
 
 			} // if question box
@@ -914,7 +917,7 @@ void CMario::Render()
 				else
 				{
 					//this->isStateFly == false;
-					positionXIdle = x;
+					//positionXIdle = x;
 					ani = MARIO_ANI_BIG_TAIL_IDLE_RIGHT;
 					/*if (isRotatory)
 					{
@@ -980,7 +983,7 @@ void CMario::Render()
 		}
 		else if (this->GetState() == MARIO_STATE_RUN)
 		{
-			positionXIdle = x;
+			//positionXIdle = x;
 			ani = MARIO_ANI_BIG_TAIL_RUN_RIGHT;
 		}
 		else if (this->GetState() == MARIO_STATE_KICK && kick == true) {
@@ -1019,7 +1022,7 @@ void CMario::Render()
 			ani = MARIO_ANI_BIG_TAIL_JUMP_LEFT;
 		else if (this->GetState() == MARIO_STATE_RUN)
 		{
-			positionXIdle = x;
+			//positionXIdle = x;
 			ani = MARIO_ANI_BIG_TAIL_RUN_LEFT;
 		}
 		else if (this->GetState() == MARIO_STATE_BRAKE)
