@@ -523,7 +523,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 			if (CMario::energyFly > 0)*/
 			if (mario->energyFull == true)
 			{
-				mario->vy = -0.2f;
+				mario->vy = -0.15f;
 				mario->SetState(MARIO_STATE_FLY);
 			}
 			else
@@ -702,7 +702,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 				{
 					mario->SetState(MARIO_STATE_FLY);
 				}
-				else {
+				else if(mario->checkMarioColision) {			//va cham gach moi co trang thai di bo
 					mario->SetState(MARIO_STATE_WALKING);
 				}
 			}
@@ -762,7 +762,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 				{
 					mario->SetState(MARIO_STATE_WALKING_HOLD_TURTLE);
 				}
-				else
+				else if(mario->checkMarioColision)				//va cham gach moi co trang thai di bo
 					mario->SetState(MARIO_STATE_WALKING);
 			}
 		}
