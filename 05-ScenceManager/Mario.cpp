@@ -80,6 +80,7 @@ CMario::CMario(float x, float y) : CGameObject()
 	timePrepareRunFast = 0;
 	timeFly = 0;
 	//SetState(MARIO_STATE_FLY);
+	gravityFly = false;
 }
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -173,7 +174,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	//	//vy += 0.0009f*dt;
 	//	vy += 0.01f;
 	//else
+	if (this->gravityFly == true && checkMarioColision == false)
+	{
+		vy = 0.002 * dt;
+	}
+	else
+	{
 		vy += MARIO_GRAVITY * dt;
+	}
 	/*else if (checkMarioColision == true)
 	{
 
@@ -888,6 +896,11 @@ void CMario::Render()
 			else if (this->GetState() == MARIO_STATE_JUMP_NORMAL && checkMarioColision == false) {
 				ani = MARIO_ANI_BIG_TAIL_JUMP_RIGHT;
 			}
+			else if (this->GetState() == MARIO_STATE_FLY_SHORT)
+			{
+				//DebugOut(L"SDHGSDHGFHSD\n");
+				ani = MARIO_ANI_BIG_TAIL_FLY_LIMIT_RIGHT;
+			}
 			else if (this->GetState() == MARIO_STATE_FLY)
 			{
 				//DebugOut(L"SDHGSDHGFHSD\n");
@@ -940,6 +953,10 @@ void CMario::Render()
 			}
 			else if (this->GetState() == MARIO_STATE_KICK && kick == true) {
 				ani = MARIO_ANI_BIG_TAIL_KICK_TURLE_LEFT;
+			}
+			else if (this->GetState() == MARIO_STATE_FLY_SHORT)
+			{
+				ani = MARIO_ANI_BIG_TAIL_FLY_LIMIT_LEFT;
 			}
 			else if (this->GetState() == MARIO_STATE_FLY)
 			{
@@ -995,6 +1012,10 @@ void CMario::Render()
 		{
 			ani = MARIO_ANI_BIG_TAIL_PREPARE_FLY_RIGHT;
 		}
+		else if (this->GetState() == MARIO_STATE_FLY_SHORT)
+		{
+			ani = MARIO_ANI_BIG_TAIL_FLY_LIMIT_RIGHT;
+		}
 		else if (this->GetState() == MARIO_STATE_FLY)
 		{
 			//DebugOut(L"sdjfhsdjfhdsjhfjsdh\n");
@@ -1035,6 +1056,10 @@ void CMario::Render()
 		}
 		else if (this->GetState() == MARIO_STATE_KICK && kick == true) {
 			ani = MARIO_ANI_BIG_TAIL_KICK_TURLE_LEFT;
+		}
+		else if (this->GetState() == MARIO_STATE_FLY_SHORT)
+		{
+			ani = MARIO_ANI_BIG_TAIL_FLY_LIMIT_LEFT;
 		}
 		else if (this->GetState() == MARIO_STATE_FLY && checkMarioColision == false)
 		{
@@ -1174,6 +1199,11 @@ void CMario::SetState(int state)
 	case MARIO_STATE_FLY:
 		//vy = -0.05f;
 		vx = nx * 0.2f;
+		break;
+	case MARIO_STATE_FLY_SHORT:
+		if (checkMarioColision == true)
+			vy = -0.9;
+		vx = nx * 0.1f;
 		break;
 	case MARIO_STATE_DIE:
 		vy = -MARIO_DIE_DEFLECT_SPEED;

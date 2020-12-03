@@ -467,6 +467,7 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		{
 			//mario->energyFull = false;
 			mario->SetState(MARIO_STATE_IDLE);
+			mario->gravityFly = false;
 		}
 		break;
 		/*case DIK_X:
@@ -524,6 +525,11 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 			{
 				mario->vy = -0.2f;
 				mario->SetState(MARIO_STATE_FLY);
+			}
+			else
+			{
+				mario->gravityFly = true;
+				mario->SetState(MARIO_STATE_FLY_SHORT);
 			}
 			/*else if(mario->checkMarioColision){
 				mario->SetState(MARIO_STATE_IDLE);
