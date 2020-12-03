@@ -235,9 +235,13 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				CLeaf* leaf = dynamic_cast<CLeaf *>(e->obj);
 				if (e->nx != 0)
 				{
+					leaf->y = y - 40;
+					//if(leaf ->y > y -30)			//la roi muot hon
+					//	leaf->vy = -0.02f;
+					leaf->isMove = true;
+					DebugOut(L"ashag rua va chamdhag\n");
 					vx = -vx;
 					x += dx;
-					leaf->isMove = true;
 				}
 
 

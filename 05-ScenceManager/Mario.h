@@ -21,6 +21,7 @@
 #define MARIO_STATE_RUN_FAST	610
 #define MARIO_STATE_PREPARE_FLY		620
 #define MARIO_STATE_FLY		920
+#define MARIO_STATE_FLY_SHORT		970
 #define MARIO_STATE_KICK		900
 #define MARIO_STATE_DOWN		910
 #define MARIO_STATE_HOLD_TURTLE	930
@@ -168,6 +169,7 @@
 #define MARIO_KICK_TIME 500
 #define MARIO_ROTATORY_TIME 350						//can cho dung time
 #define MARIO_RUN_FAST_TIME 1000
+#define MARIO_TIME_FLY 1000
 
 
 class CMario : public CGameObject
@@ -180,6 +182,8 @@ class CMario : public CGameObject
 	//GameMap* test;
 	int ani;
 public: 
+	bool gravityFly;                      //quat duoi roi cham hon
+	DWORD timeFly;							//time fly
 	bool energyFull;
 	DWORD timePrepareRunFast;					//time chay nhanh binh thuong cua mario
 	DWORD timePrepareFly;					//time chay nhanh tay nam ngang cua mario
