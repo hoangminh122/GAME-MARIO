@@ -479,6 +479,9 @@ void CTurle::SetState(int state)
 			//vy = -0.1f;
 		//vx = -0.06f;
 		break;
+	case TURLE_STATE_REVERSE_DIE:
+		isReverse = true;
+		break;
 	}
 
 }
