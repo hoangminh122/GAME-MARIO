@@ -433,27 +433,28 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		break;
 	case DIK_2:
 		if (mario->GetLevel() == MARIO_LEVEL_SMALL)
-			mario->SetPosition(mario->x, mario->y - (MARIO_BIG_BBOX_HEIGHT + MARIO_SMALL_BBOX_HEIGHT));
+			mario->SetPosition(mario->x, mario->y - (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT));
 		else
 			mario->SetPosition(mario->x, mario->y);
 		mario->SetLevel(MARIO_LEVEL_BIG);
 		break;
 	case DIK_3:
 		if (mario->GetLevel() == MARIO_LEVEL_SMALL)
-			mario->SetPosition(mario->x, mario->y - (MARIO_BIG_BBOX_HEIGHT + MARIO_SMALL_BBOX_HEIGHT));
+			mario->SetPosition(mario->x, mario->y -1- (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT));
 		else
 			mario->SetPosition(mario->x, mario->y - 1);
 		mario->SetLevel(MARIO_LEVEL_TAIL_BIG);
 		break;
 	case DIK_4:
 		if (mario->GetLevel() == MARIO_LEVEL_SMALL)
-			mario->SetPosition(mario->x, mario->y - (MARIO_BIG_BBOX_HEIGHT + MARIO_SMALL_BBOX_HEIGHT));
+			mario->SetPosition(mario->x, mario->y - (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT));
 		else
 			mario->SetPosition(mario->x, mario->y - 1);
 		mario->SetLevel(MARIO_LEVEL_FIRE_BIG);
 		break;
 	case DIK_DOWN:
-		mario->SetPosition(mario->x, mario->y - 1 - (MARIO_BIG_BBOX_HEIGHT + MARIO_BIG_DOWN_BBOX_HEIGHT));
+		mario->SetPosition(mario->x, mario->y - (MARIO_BIG_BBOX_HEIGHT - MARIO_BIG_DOWN_BBOX_HEIGHT));
+		mario->SetState(MARIO_STATE_IDLE);
 		break;
 	case DIK_D:
 		mario->SetPosition(mario->x, mario->y - 120);
@@ -638,7 +639,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	else if (game->IsKeyDown(DIK_DOWN))
 	{
 		mario->SetState(MARIO_STATE_DOWN);
-
 	}
 	else if (game->IsKeyDown(DIK_RIGHT)) {
 		mario->nx = 1;
