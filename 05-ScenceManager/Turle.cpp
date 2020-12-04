@@ -162,7 +162,13 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	
 	if (this->GetState() != TURLE_STATE_DIE_OVER)
-		vy += TURLE_GRAVITY * dt;
+	{
+		if (level == TURLE_LEVEL_FLY)
+			vy += TURLE_GRAVITY_SLOW * dt;
+		else
+			vy += TURLE_GRAVITY * dt;
+	}
+	
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;

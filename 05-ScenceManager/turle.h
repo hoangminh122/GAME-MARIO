@@ -37,7 +37,8 @@
 #define TURLE_COLOR_RED 2
 
 #define TURLE_JUMP_DEFLECT_SPEED 0.2f
-#define TURLE_GRAVITY 0.0003f
+#define TURLE_GRAVITY 0.002f
+#define TURLE_GRAVITY_SLOW 0.0003f
 
 class CTurle : public CGameObject
 {

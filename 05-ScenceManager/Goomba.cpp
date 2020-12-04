@@ -196,14 +196,21 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				&& !dynamic_cast<CMario *>(e->obj)
 				&&	!dynamic_cast<CMushroom *>(e->obj)
 				&& !dynamic_cast<CBrick *>(e->obj)
+				&& !dynamic_cast<CGoomba *>(e->obj)
 				)
 			{
 				vx = -vx;
 			}
-			else if (dynamic_cast<CBrick *>(e->obj))	//va cham voi background Die
+
+			if (dynamic_cast<CBrick *>(e->obj))	//va cham voi background Die
 			{
 				if(isReverse)
 					y += dy;
+			}
+			else if (dynamic_cast<CGoomba *>(e->obj))	//va cham voi background Die
+			{
+					x += dx;
+					//y += dy;
 			}
 
 
