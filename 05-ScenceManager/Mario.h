@@ -21,6 +21,7 @@
 #define MARIO_STATE_RUN_FAST	610
 #define MARIO_STATE_PREPARE_FLY		620
 #define MARIO_STATE_FLY		920
+#define MARIO_STATE_FLY_SHORT		970
 #define MARIO_STATE_KICK		900
 #define MARIO_STATE_DOWN		910
 #define MARIO_STATE_HOLD_TURTLE	930
@@ -122,8 +123,8 @@
 #define MARIO_ANI_BIG_TAIL_FLY_LEFT		38
 #define MARIO_ANI_BIG_TAIL_HOLD_TURTLE_RIGHT	51
 #define MARIO_ANI_BIG_TAIL_HOLD_TURTLE_LEFT	52
-#define MARIO_ANI_BIG_TAIL_WALKING_HOLD_TURTLE_LEFT	53
-#define MARIO_ANI_BIG_TAIL_WALKING_HOLD_TURTLE_LEFT	54
+#define MARIO_ANI_BIG_TAIL_WALKING_HOLD_TURTLE_RIGHT	55			//53
+#define MARIO_ANI_BIG_TAIL_WALKING_HOLD_TURTLE_LEFT	56			//54
 #define MARIO_ANI_BIG_TAIL_RUN_HOLD_TURTLE_RIGHT	55
 #define MARIO_ANI_BIG_TAIL_RUN_HOLD_TURTLE_LEFT	56
 #define MARIO_ANI_BIG_TAIL_FLY_LIMIT_RIGHT	57
@@ -159,6 +160,7 @@
 #define MARIO_TAIL_FLY_BIG_BBOX_WIDTH   18       //23
 #define MARIO_TAIL_FLY_BIG_BBOX_HEIGHT 29
 #define MARIO_TAIL_BIG_ATTACK_BBOX_HEIGHT 32
+#define MARIO_TAIL_BIG_ATTACK_BBOX_WIDTH 25
 
 #define MARIO_SMALL_BBOX_WIDTH  13  //12
 #define MARIO_SMALL_BBOX_HEIGHT 15   //24
@@ -168,6 +170,7 @@
 #define MARIO_KICK_TIME 500
 #define MARIO_ROTATORY_TIME 350						//can cho dung time
 #define MARIO_RUN_FAST_TIME 1000
+#define MARIO_TIME_FLY 1600
 
 
 class CMario : public CGameObject
@@ -180,6 +183,8 @@ class CMario : public CGameObject
 	//GameMap* test;
 	int ani;
 public: 
+	bool gravityFly;                      //quat duoi roi cham hon
+	DWORD timeFly;							//time fly
 	bool energyFull;
 	DWORD timePrepareRunFast;					//time chay nhanh binh thuong cua mario
 	DWORD timePrepareFly;					//time chay nhanh tay nam ngang cua mario

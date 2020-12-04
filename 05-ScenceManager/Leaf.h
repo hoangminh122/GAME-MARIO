@@ -5,17 +5,24 @@
 #define LEAF_BBOX_HEIGHT 12
 
 #define LEAF_STATE_LIVE 100
-#define LEAF_STATE_DIE_OVER 300
+#define LEAF_STATE_DIE_OVER	110
 
 #define LEAF_ANI 0
 
 #define LEAF_STATE_DIE 200
 #define LEAF_GRAVITY 0.005f
 
+#define TIME_LEFT_TOGGLE 1000
+
 class CLeaf : public CGameObject
 {
 
 public:
+	int ani;
+	float vxToggle;
+	bool isStartTime;					//bat dau dem h la roi
+	DWORD timeToggleVx;
+	bool isLive;
 	bool noMushroom;		//mushroom  chi cos duy nhat 1 con
 	CLeaf();
 	~CLeaf();

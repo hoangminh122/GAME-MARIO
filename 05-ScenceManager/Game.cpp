@@ -73,13 +73,13 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture)
 }
 
 
-void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha,bool yReverse)
+void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom,int xC,int yC ,int alpha,bool yReverse)
 {
 	
 
 	//D3DXVECTOR3 p(floor(x-cam_x), floor(y-cam_y), 0);
-	float xNew = floor(x  - CCamera::GetInstance()->GetPosition().x + GetScreenWidth() / 2);
-	float yNew = floor(y  - CCamera::GetInstance()->GetPosition().y + GetScreenHeight() / 2);
+	float xNew = floor(x  -xC- CCamera::GetInstance()->GetPosition().x + GetScreenWidth() / 2);
+	float yNew = floor(y  -yC- CCamera::GetInstance()->GetPosition().y + GetScreenHeight() / 2);
 	D3DXVECTOR3 p(xNew, yNew, 0);
 
 	RECT r; 

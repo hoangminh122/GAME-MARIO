@@ -14,17 +14,30 @@
 #define TURLE_STATE_DIE 200
 #define TURLE_STATE_RUN_DIE 300
 #define TURLE_STATE_DIE_OVER 400
+#define TURLE_STATE_REVERSE_DIE	500
+#define TURLE_STATE_FLY	600
+
 
 #define TURLE_ANI_WALKING_LEFT 0
 #define TURLE_ANI_WALKING_RIGHT 1
 #define TURLE_ANI_DIE 2
 #define TURLE_ANI_RUN_DIE 3
-#define TURLE_STATE_REVERSE_DIE	4
+#define TURLE_ANI_FLY 4
+
+
 
 #define MAX_TURLE_TIME_RUN	3000
 #define TURLE_TIME_DIE	10000
 
+#define TURLE_LEVEL_SMALL 1
+#define TURLE_LEVEL_NO_FLY 2
+#define TURLE_LEVEL_FLY 3
+
+#define TURLE_COLOR_GREEN 1
+#define TURLE_COLOR_RED 2
+
 #define TURLE_JUMP_DEFLECT_SPEED 0.2f
+#define TURLE_GRAVITY 0.0003f
 
 class CTurle : public CGameObject
 {
@@ -33,6 +46,11 @@ class CTurle : public CGameObject
 	virtual void Render();
 
 public:
+	 DWORD timeStart;			//rua bat dau nhay cach nhau 1s
+	 int constTimeStart;
+	int color;
+	bool isInitPos;
+	int level;
 	bool isReverse;				//Trang thai reverse
 	DWORD timeDieTurle;			//time gian mario song lai tu die->walking
 	bool checkCollision;		//kiem tra va cham cua rua voi mat dat, ..
