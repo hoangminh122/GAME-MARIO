@@ -160,14 +160,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	else if (GetLevel() == MARIO_LEVEL_TAIL_BIG)
 	{
-		//if(GetState() == MARIO_STATE_RUN)
-		//	isRotatory180 = true;
-		//else
-		//{
-		//	isRotatory180 = false;
-		//	if(vx == 0.0f && GetState() != MARIO_STATE_KICK && GetState() != MARIO_STATE_HOLD_TURTLE)									//chi co trang thai dung yen khi giu phim A ko xoay duoi dc
-		//		SetState(MARIO_STATE_IDLE);
-		//}
+		if(GetState() == MARIO_STATE_RUN)
+			isRotatory180 = true;
+		else
+		{
+			isRotatory180 = false;
+			if(vx == 0.0f && GetState() != MARIO_STATE_KICK && GetState() != MARIO_STATE_HOLD_TURTLE)									//chi co trang thai dung yen khi giu phim A ko xoay duoi dc
+				SetState(MARIO_STATE_IDLE);
+		}
 	}
 
 	//if (this->isStateFly == true && checkMarioColision == false && this->energyFly < 20)
@@ -176,7 +176,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	//else
 	if (this->gravityFly == true && checkMarioColision == false)
 	{
-		vy = 0.002 * dt;
+		vy = 0.002f * dt;
 	}
 	else
 	{
@@ -743,7 +743,7 @@ void CMario::Render()
 				ani = MARIO_ANI_BIG_BRAKE_RIGHT;
 			}
 			else if (this->GetState() == MARIO_STATE_HOLD_TURTLE) {
-				ani = MARIO_ANI_BIG_HOLD_TURTLE_RIGHT;
+				ani = MARIO_ANI_BIG_WALKING_HOLD_TURTLE_RIGHT;
 			}
 			else if (this->GetState() == MARIO_STATE_RUN_HOLD_TURTLE)		//TRANG THAI CAM RUA PHAI O TREN TRANG THAI CHAY -> MUC DO UU TIEN
 			{
@@ -777,7 +777,7 @@ void CMario::Render()
 				ani = MARIO_ANI_BIG_PREPARE_FLY_LEFT;
 			}
 			else if (this->GetState() == MARIO_STATE_HOLD_TURTLE) {
-				ani = MARIO_ANI_BIG_HOLD_TURTLE_LEFT;
+				ani = MARIO_ANI_BIG_WALKING_HOLD_TURTLE_LEFT;
 			}
 			else if (this->GetState() == MARIO_STATE_RUN_HOLD_TURTLE)		//TRANG THAI CAM RUA PHAI O TREN TRANG THAI CHAY -> MUC DO UU TIEN
 			{
@@ -1042,6 +1042,9 @@ void CMario::Render()
 				ani = MARIO_ANI_BIG_TAIL_FLY_LIMIT_RIGHT;
 			}
 		}
+		else if (this->GetState() == MARIO_STATE_HOLD_TURTLE) {
+			ani = MARIO_ANI_BIG_TAIL_WALKING_HOLD_TURTLE_RIGHT;
+		}
 		else if (this->GetState() == MARIO_STATE_RUN_HOLD_TURTLE)		//TRANG THAI CAM RUA PHAI O TREN TRANG THAI CHAY -> MUC DO UU TIEN
 		{
 			ani = MARIO_ANI_BIG_TAIL_RUN_HOLD_TURTLE_RIGHT;
@@ -1084,6 +1087,9 @@ void CMario::Render()
 				ani = MARIO_ANI_BIG_TAIL_FLY_LEFT;
 			else
 				ani = MARIO_ANI_BIG_TAIL_FLY_LIMIT_LEFT;
+		}
+		else if (this->GetState() == MARIO_STATE_HOLD_TURTLE) {
+			ani = MARIO_ANI_BIG_TAIL_WALKING_HOLD_TURTLE_LEFT;
 		}
 		else if (this->GetState() == MARIO_STATE_RUN_HOLD_TURTLE)		//TRANG THAI CAM RUA PHAI O TREN TRANG THAI CHAY -> MUC DO UU TIEN
 		{

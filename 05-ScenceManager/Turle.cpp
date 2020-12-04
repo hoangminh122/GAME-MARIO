@@ -214,7 +214,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		}
 		else
 		{
-			if (mario->nx == 1)				//mario di chuyen qua phai -> set vi tri rua cho hop ly
+			if (mario->vx > 0)				//mario di chuyen qua phai -> set vi tri rua cho hop ly    nen dung vx thay cho nx vi co giai doan phanh
 			{
 				if (mario->GetLevel() == 1)
 				{
@@ -233,7 +233,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				else
 					x = mario->x + MARIO_BIG_BBOX_WIDTH;*/
 			}
-			else
+			else if (mario->vx < 0)
 			{
 				if (mario->GetLevel() == 1)
 				{
