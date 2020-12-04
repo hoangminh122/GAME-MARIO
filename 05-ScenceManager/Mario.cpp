@@ -165,7 +165,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		else
 		{
 			isRotatory180 = false;
-			if(vx == 0.0f && GetState() != MARIO_STATE_KICK && GetState() != MARIO_STATE_HOLD_TURTLE)									//chi co trang thai dung yen khi giu phim A ko xoay duoi dc
+			if(vx == 0.0f && GetState() != MARIO_STATE_KICK && GetState() != MARIO_STATE_HOLD_TURTLE && GetState() != MARIO_STATE_JUMP_NORMAL && GetState() != MARIO_STATE_DOWN)									//chi co trang thai dung yen khi giu phim A ko xoay duoi dc
 				SetState(MARIO_STATE_IDLE);
 		}
 	}
@@ -536,8 +536,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						turle->level = turle->level - 1;
 
 						//mario nhay len 1 doan nho
-						vy += -0.35f;
-						vx += this->nx*0.15f;
+						vy += -0.25f;
+						vx += this->nx*0.10f;
 						
 					}
 					else if (turle->GetState() == TURLE_STATE_DIE || turle->GetState() == TURLE_STATE_DIE_OVER)
@@ -694,7 +694,7 @@ void CMario::Render()
 				{
 					ani = MARIO_ANI_BIG_DOWN_RIGHT;
 				}
-				else if (this->GetState() == MARIO_STATE_JUMP_NORMAL) {
+				else if (this->GetState() == MARIO_STATE_JUMP_NORMAL && checkMarioColision == false) {
 					ani = MARIO_ANI_BIG_JUMP_RIGHT;
 				}
 				else if (this->GetState() == MARIO_STATE_HOLD_TURTLE) {
@@ -723,7 +723,7 @@ void CMario::Render()
 				{
 					ani = MARIO_ANI_BIG_DOWN_LEFT;
 				}
-				else if (this->GetState() == MARIO_STATE_JUMP_NORMAL) {
+				else if (this->GetState() == MARIO_STATE_JUMP_NORMAL && checkMarioColision == false) {
 					ani = MARIO_ANI_BIG_JUMP_LEFT;
 				}
 				else if (this->GetState() == MARIO_STATE_HOLD_TURTLE) {
@@ -907,9 +907,15 @@ void CMario::Render()
 	{
 	if (vx == 0)
 	{
+		DebugOut(L"sjdhadgahg%d\n", this->GetState());
+
 		if (nx > 0) {
 			if (this->GetState() == MARIO_STATE_KICK) {
 				ani = MARIO_ANI_BIG_TAIL_KICK_TURLE_RIGHT;
+			}
+			else if (this->GetState() == MARIO_STATE_DOWN)
+			{
+				ani = MARIO_ANI_BIG_TAIL_DOWN_RIGHT;
 			}
 			else if (this->GetState() == MARIO_STATE_JUMP_NORMAL && checkMarioColision == false) {
 				ani = MARIO_ANI_BIG_TAIL_JUMP_RIGHT;
@@ -937,10 +943,6 @@ void CMario::Render()
 			else if (this->GetState() == MARIO_STATE_HOLD_TURTLE) {
 				ani = MARIO_ANI_BIG_TAIL_HOLD_TURTLE_RIGHT;
 			}
-			else if (this->GetState() == MARIO_STATE_DOWN)
-			{
-				ani = MARIO_ANI_BIG_TAIL_DOWN_RIGHT;
-			}
 			else {
 				
 				if(this->isStateFly == true && checkMarioColision == false)
@@ -966,6 +968,10 @@ void CMario::Render()
 			if (this->GetState() == MARIO_STATE_KICK) {
 				ani = MARIO_ANI_BIG_TAIL_KICK_TURLE_LEFT;
 			}
+			else if (this->GetState() == MARIO_STATE_DOWN)
+			{
+				ani = MARIO_ANI_BIG_TAIL_DOWN_LEFT;
+			}
 			else if (this->GetState() == MARIO_STATE_JUMP_NORMAL && checkMarioColision == false) {
 				ani = MARIO_ANI_BIG_TAIL_JUMP_LEFT;
 			}
@@ -979,10 +985,6 @@ void CMario::Render()
 			else if (this->GetState() == MARIO_STATE_FLY)
 			{
 				ani = MARIO_ANI_BIG_TAIL_FLY_LEFT;
-			}
-			else if (this->GetState() == MARIO_STATE_DOWN)
-			{
-				ani = MARIO_ANI_BIG_TAIL_DOWN_LEFT;
 			}
 			else if (this->GetState() == MARIO_STATE_ROTATORY_IDLE)
 			{
@@ -1010,13 +1012,13 @@ void CMario::Render()
 	}
 	else if (vx > 0)
 	{
-		
-		if (this->GetState() == MARIO_STATE_JUMP_NORMAL && checkMarioColision == false)                    //ANI JUMP RIGHT
-			ani = MARIO_ANI_BIG_TAIL_JUMP_RIGHT;
-		else if (this->GetState() == MARIO_STATE_ROTATORY_IDLE && this->GetLevel() == MARIO_LEVEL_TAIL_BIG)
+		if (this->GetState() == MARIO_STATE_ROTATORY_IDLE && this->GetLevel() == MARIO_LEVEL_TAIL_BIG)
 		{
 			ani = MARIO_ANI_BIG_TAIL_ATTACK_ROTATORY_RIGHT;
 		}
+		if (this->GetState() == MARIO_STATE_JUMP_NORMAL && checkMarioColision == false)                    //ANI JUMP RIGHT
+			ani = MARIO_ANI_BIG_TAIL_JUMP_RIGHT;
+		
 		else if (this->GetState() == MARIO_STATE_RUN)
 		{
 			//positionXIdle = x;
@@ -1111,7 +1113,7 @@ void CMario::Render()
 		if (vx == 0)
 		{
 			if (nx > 0) {
-				if (this->GetState() == MARIO_STATE_JUMP_NORMAL) {
+				if (this->GetState() == MARIO_STATE_JUMP_NORMAL && checkMarioColision == false) {
 					ani = MARIO_ANI_SMALL_JUMP_RIGHT;
 				}
 				else if (this->GetState() == MARIO_STATE_KICK) {
@@ -1267,7 +1269,14 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	}
 	else if(level == MARIO_LEVEL_TAIL_BIG)
 	{
-		if (GetState() == MARIO_STATE_ROTATORY_IDLE)
+		bottom = top + MARIO_BIG_BBOX_HEIGHT;
+		if (this->GetState() == MARIO_STATE_DOWN)
+		{
+			right = x + MARIO_TAIL_BIG_ATTACK_BBOX_WIDTH-3;
+			bottom = y + MARIO_TAIL_BIG_DOWN_BBOX_HEIGHT;
+
+		}
+		else if (GetState() == MARIO_STATE_ROTATORY_IDLE)
 		{
 			if (nx > 0)
 			{
@@ -1286,7 +1295,6 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 			left = x;
 			right = left + MARIO_BIG_BBOX_WIDTH;
 		}
-		bottom = top + MARIO_BIG_BBOX_HEIGHT;
 		/*right = x + MARIO_BIG_BBOX_WIDTH;
 		bottom = y + MARIO_BIG_BBOX_HEIGHT;*/
 
@@ -1307,7 +1315,7 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 		bottom = y + MARIO_SMALL_BBOX_HEIGHT;
 
 	}
-	CGameObject::GetBoundingBox(left, top, right, bottom);
+	//CGameObject::GetBoundingBox(left, top, right, bottom);
 }
 
 /*

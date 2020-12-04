@@ -55,6 +55,14 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	CGameObject::Update(dt);
 
 	//KHOI TAO OBJECT
+	if (y > 650)
+	{
+		SetState(TURLE_STATE_DIE_OVER);
+		x = 1419.0f;
+		y = 280.0f;
+		vx = 0; vy = 0;
+	}
+
 	if (y != 0 && !isInitPos)
 	{
 		if (x > 1327.0f && y >590)						//tao do tren map
@@ -153,8 +161,8 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		SetState(TURLE_STATE_RUN_DIE);
 	}
 	
-
-	vy += TURLE_GRAVITY * dt;
+	if (this->GetState() != TURLE_STATE_DIE_OVER)
+		vy += TURLE_GRAVITY * dt;
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
