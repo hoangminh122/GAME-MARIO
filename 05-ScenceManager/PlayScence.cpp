@@ -660,7 +660,12 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		//phanh
 		if (mario->vx < 0)
 		{
-			mario->SetState(MARIO_STATE_BRAKE);
+			//if (!mario->isHold)						//nhan giu A ma dang cam rua  trang thai mario cam rua
+			//{
+			//}
+			//else 
+				mario->SetState(MARIO_STATE_BRAKE);
+
 		}
 		else
 		{
@@ -727,8 +732,14 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 			mario->vx -= MARIO_WALKING_ADD_SPEED;
 
 		//phanh
-		if (mario->vx > 0)
-			mario->SetState(MARIO_STATE_BRAKE);
+		if (mario->vx > 0) {
+			//if (!mario->isHold)						//nhan giu A ma dang cam rua  trang thai mario cam rua
+			//{
+
+			//}
+			//else
+				mario->SetState(MARIO_STATE_BRAKE);
+		}
 		else
 		{
 			//if (mario->pressA && mario->isHold)						//nhan giu A ma dang cam rua  trang thai mario cam rua

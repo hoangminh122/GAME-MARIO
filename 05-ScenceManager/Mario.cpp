@@ -165,7 +165,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		else
 		{
 			isRotatory180 = false;
-			if(vx == 0.0f)									//chi co trang thai dung yen khi giu phim A ko xoay duoi dc
+			if(vx == 0.0f && GetState() != MARIO_STATE_KICK && GetState() != MARIO_STATE_HOLD_TURTLE)									//chi co trang thai dung yen khi giu phim A ko xoay duoi dc
 				SetState(MARIO_STATE_IDLE);
 		}
 	}
@@ -742,7 +742,9 @@ void CMario::Render()
 			{
 				ani = MARIO_ANI_BIG_BRAKE_RIGHT;
 			}
-			
+			else if (this->GetState() == MARIO_STATE_HOLD_TURTLE) {
+				ani = MARIO_ANI_BIG_HOLD_TURTLE_RIGHT;
+			}
 			else if (this->GetState() == MARIO_STATE_RUN_HOLD_TURTLE)		//TRANG THAI CAM RUA PHAI O TREN TRANG THAI CHAY -> MUC DO UU TIEN
 			{
 				ani = MARIO_ANI_BIG_RUN_HOLD_TURTLE_RIGHT;
@@ -773,6 +775,9 @@ void CMario::Render()
 			else if (this->GetState() == MARIO_STATE_PREPARE_FLY)
 			{
 				ani = MARIO_ANI_BIG_PREPARE_FLY_LEFT;
+			}
+			else if (this->GetState() == MARIO_STATE_HOLD_TURTLE) {
+				ani = MARIO_ANI_BIG_HOLD_TURTLE_LEFT;
 			}
 			else if (this->GetState() == MARIO_STATE_RUN_HOLD_TURTLE)		//TRANG THAI CAM RUA PHAI O TREN TRANG THAI CHAY -> MUC DO UU TIEN
 			{
@@ -1132,6 +1137,9 @@ void CMario::Render()
 				ani = MARIO_ANI_SMALL_JUMP_RIGHT;
 			else if(this->GetState() == MARIO_STATE_BRAKE)
 				ani = MARIO_ANI_SMALL_BRAKE_RIGHT;
+			else if (this->GetState() == MARIO_STATE_HOLD_TURTLE) {
+				ani = MARIO_ANI_SMALL_HOLD_TURLE_RIGHT;
+			}
 			else if (this->GetState() == MARIO_STATE_RUN_HOLD_TURTLE)
 			{
 				ani = MARIO_ANI_SMALL_RUN_HOLD_TURTLE_RIGHT;
@@ -1150,6 +1158,9 @@ void CMario::Render()
 				ani = MARIO_ANI_SMALL_JUMP_LEFT;
 			else if (this->GetState() == MARIO_STATE_BRAKE)
 				ani = MARIO_ANI_SMALL_BRAKE_LEFT;
+			else if (this->GetState() == MARIO_STATE_HOLD_TURTLE) {
+				ani = MARIO_ANI_SMALL_HOLD_TURLE_LEFT;
+			}
 			else if (this->GetState() == MARIO_STATE_RUN_HOLD_TURTLE)
 			{
 				ani = MARIO_ANI_SMALL_RUN_HOLD_TURTLE_LEFT;

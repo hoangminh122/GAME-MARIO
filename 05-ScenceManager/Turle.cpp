@@ -71,8 +71,8 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		}
 		else
 		{
-			SetState(TURLE_STATE_WALKING);
-			level = TURLE_LEVEL_NO_FLY;
+			SetState(TURLE_STATE_DIE);
+			level = TURLE_LEVEL_SMALL;
 		}
 			
 		isInitPos = true;
@@ -107,6 +107,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	if (GetTickCount() - timeDieTurle > TURLE_TIME_DIE && timeDieTurle != 0)
 	{
+		level = 2;
 		SetState(TURLE_STATE_WALKING);
 		y = y - (TURLE_BBOX_HEIGHT - TURLE_BBOX_HEIGHT_DIE);
 		vx = TURLE_WALKING_SPEED;
@@ -215,21 +216,45 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			if (mario->nx == 1)				//mario di chuyen qua phai -> set vi tri rua cho hop ly
 			{
-				if(mario ->GetLevel() > 1)
+				if (mario->GetLevel() == 1)
+				{
+					x = mario->x + MARIO_SMALL_BBOX_WIDTH - MARIO_BIG_BBOX_WIDTH / 4;
+				}
+				else if (mario->GetLevel() == 3)
+				{
+					x = mario->x + MARIO_TAIL_BIG_BBOX_WIDTH -MARIO_BIG_BBOX_WIDTH/3.5;
+				}
+				else
+				{
+					x = mario->x + MARIO_BIG_BBOX_WIDTH - MARIO_BIG_BBOX_WIDTH / 4;
+				}
+				/*if(mario ->GetLevel() >1)
 					x = mario->x + MARIO_BIG_BBOX_WIDTH- MARIO_BIG_BBOX_WIDTH/4;
 				else
-					x = mario->x + MARIO_BIG_BBOX_WIDTH;
+					x = mario->x + MARIO_BIG_BBOX_WIDTH;*/
 			}
 			else
 			{
-				if (mario->GetLevel() > 1)
+				if (mario->GetLevel() == 1)
+				{
+					x = mario->x - TURLE_BBOX_WIDTH + MARIO_BIG_BBOX_WIDTH / 3.5;
+				}
+				else if (mario->GetLevel() == 3)
+				{
+					x = mario->x - TURLE_BBOX_WIDTH + MARIO_BIG_BBOX_WIDTH / 3.5;
+				}
+				else
+				{
+					x = mario->x - TURLE_BBOX_WIDTH + MARIO_BIG_BBOX_WIDTH / 4;
+				}
+				/*if (mario->GetLevel() > 1)
 					x = mario->x - TURLE_BBOX_WIDTH+ MARIO_BIG_BBOX_WIDTH /4;
 				else
-				x = mario->x - TURLE_BBOX_WIDTH;
+				x = mario->x - TURLE_BBOX_WIDTH;*/
 			}
 
 			if (mario->GetLevel() > 1)
-				y = mario->y + MARIO_BIG_BBOX_WIDTH/4;
+				y = mario->y + MARIO_BIG_BBOX_WIDTH/3.5;
 			else
 				y = mario->y;
 		}
