@@ -575,7 +575,7 @@ tile-map1-1.txt	80	2816	432
 #ko canh
 705	30008	100	30009	100
 #red die
-706	300010	100
+706	30010	100
 
 
 # Mushroom,leaf
