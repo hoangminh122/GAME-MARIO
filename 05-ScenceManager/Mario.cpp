@@ -133,7 +133,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		//SetState(MARIO_STATE_IDLE);
 		timeFly = 0;
 	}
-	if (GetTickCount() - timePrepareRunFast > MARIO_RUN_FAST_TIME && timePrepareRunFast != 0)
+	if (GetTickCount() - timePrepareRunFast > MARIO_RUN_FAST_TIME && timePrepareRunFast != 0)			//dao chieu left right -> reset timePrepareRunFast
 	{
 		SetState(MARIO_STATE_PREPARE_FLY);
 		timePrepareFly = GetTickCount();			//bat dau dem chuan bi bay len -> nap full nang luong
@@ -523,19 +523,22 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				CTurle *turle = dynamic_cast<CTurle *>(e->obj);
 				if (e->ny < 0)
 				{
-					if (turle->GetState() >= TURLE_STATE_WALKING)
+					if (turle->level >= TURLE_LEVEL_NO_FLY)
 					{
 						turle->x = this->x;
 						turle->y = this->y;
-						turle->level = turle->level - 1;
-						//mario nhay len 1 doan nho
-						vy += -0.35f;
-						vx += this->nx*0.15f;
-						if (turle->level == TURLE_LEVEL_SMALL)
+
+						if (turle->level == TURLE_LEVEL_NO_FLY)
 						{
 							turle->timeDieTurle = GetTickCount();       //bat dau tinh time chet rua
 							turle->SetState(TURLE_STATE_DIE);
 						}
+						turle->level = turle->level - 1;
+
+						//mario nhay len 1 doan nho
+						vy += -0.35f;
+						vx += this->nx*0.15f;
+						
 					}
 					else if (turle->GetState() == TURLE_STATE_DIE || turle->GetState() == TURLE_STATE_DIE_OVER)
 					{
@@ -1145,7 +1148,7 @@ void CMario::Render()
 			else if(this->GetState() == MARIO_STATE_BRAKE)
 				ani = MARIO_ANI_SMALL_BRAKE_RIGHT;
 			else if (this->GetState() == MARIO_STATE_HOLD_TURTLE) {
-				ani = MARIO_ANI_SMALL_HOLD_TURLE_RIGHT;
+				ani = MARIO_ANI_SMALL_WALKING_HOLD_TURTLE_RIGHT;
 			}
 			else if (this->GetState() == MARIO_STATE_RUN_HOLD_TURTLE)
 			{
@@ -1166,7 +1169,7 @@ void CMario::Render()
 			else if (this->GetState() == MARIO_STATE_BRAKE)
 				ani = MARIO_ANI_SMALL_BRAKE_LEFT;
 			else if (this->GetState() == MARIO_STATE_HOLD_TURTLE) {
-				ani = MARIO_ANI_SMALL_HOLD_TURLE_LEFT;
+				ani = MARIO_ANI_SMALL_WALKING_HOLD_TURTLE_LEFT;
 			}
 			else if (this->GetState() == MARIO_STATE_RUN_HOLD_TURTLE)
 			{
@@ -1241,6 +1244,7 @@ void CMario::SetState(int state)
 
 void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
+
 	left = x;
 	top = y; 
 	/*right = x + MARIO_BIG_BBOX_WIDTH;
@@ -1265,8 +1269,17 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	{
 		if (GetState() == MARIO_STATE_ROTATORY_IDLE)
 		{
-			left = x+8;
-			right = left + MARIO_BIG_BBOX_WIDTH;
+			if (nx > 0)
+			{
+				left = x;
+				right = left + MARIO_TAIL_BIG_ATTACK_BBOX_WIDTH+8;
+			}
+			else
+			{
+				left = x - 7;
+				right = x + MARIO_TAIL_BIG_ATTACK_BBOX_WIDTH-3;
+			}
+
 		}
 		else
 		{

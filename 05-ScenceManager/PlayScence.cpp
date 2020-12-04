@@ -91,6 +91,14 @@ void CPlayScene::_ParseSection_SPRITES(string line)
 	int r = atoi(tokens[3].c_str());
 	int b = atoi(tokens[4].c_str());
 	int texID = atoi(tokens[5].c_str());
+	
+	int xC = 0;
+	int yC = 0;
+	if (tokens.size() > 7) 
+	{
+		xC = atoi(tokens[6].c_str());
+		yC = atoi(tokens[7].c_str());
+	}
 
 	LPDIRECT3DTEXTURE9 tex = CTextures::GetInstance()->Get(texID);
 	if (tex == NULL)
@@ -99,7 +107,7 @@ void CPlayScene::_ParseSection_SPRITES(string line)
 		return; 
 	}
 
-	CSprites::GetInstance()->Add(ID, l, t, r, b, tex);
+	CSprites::GetInstance()->Add(ID, l, t, r, b,xC,yC,tex);
 }
 
 void CPlayScene::_ParseSection_MAP(string line)
@@ -376,9 +384,18 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	{
 	case DIK_S:
 		timeJumpStart = GetTickCount();
+
 		/*if(mario->checkMarioColision == true)
 			mario->vy = -0.15f;*/
 		break;
+	//case DIK_LEFT:
+	//	mario->timePrepareFly = GetTickCount();										//tinh lai time gian het
+	//	mario->timePrepareRunFast = GetTickCount();									//doi chieu -> tinh lai time gian chuan bo bay
+	//	break;
+	//case DIK_RIGHT:
+	//	mario->timePrepareFly = GetTickCount();
+	//	mario->timePrepareRunFast = GetTickCount();									//doi chieu -> tinh lai time gian chuan bo bay
+	//	break;
 	case DIK_A:
 		//mario->SetState(MARIO_STATE_BULLET_IDLE);
 		mario->pressA = true;
@@ -634,7 +651,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 			}*/
 			if (mario->GetState() == MARIO_STATE_WALKING)
 			{
-				mario->timePrepareRunFast = GetTickCount();
+				mario->timePrepareRunFast = GetTickCount();							//bat dau dem time chay nhanh
 			}
 			//cam rua
 			if (mario->vx <= MARIO_RUN_NORMAL_SPEED)
@@ -703,7 +720,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 				{
 					mario->SetState(MARIO_STATE_FLY);
 				}
-				else if(mario->checkMarioColision) {			//va cham gach moi co trang thai di bo
+				else if(mario->checkMarioColision ) {			//va cham gach moi co trang thai di bo
 					mario->SetState(MARIO_STATE_WALKING);
 				}
 			}
@@ -787,8 +804,13 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 			else
 				mario->SetState(MARIO_STATE_HOLD_TURTLE);
 		}
-		else if (!mario->isRotatory180 )
+		else if (!mario->isRotatory180)
+		{
+			//mario->timePrepareFly = GetTickCount();										//tinh lai time gian het
+			//mario->timePrepareRunFast = GetTickCount();									//doi chieu -> tinh lai time gian chuan bo bay
 			mario->SetState(MARIO_STATE_IDLE);
+
+		}
 		//chỉnh tốc dộ mario giảm dần -> 0 khi ở trên nên đất
 		if (mario->vx > 0 && mario->checkMarioColision == true)
 		{

@@ -59,20 +59,18 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		if (x > 1327.0f && y >590)						//tao do tren map
 		{
-			//SetState(TURLE_STATE_FLY);
 			level = TURLE_LEVEL_FLY;
 			constTimeStart = x;
-			DebugOut(L"SDHFGSDHFGHDwwwSGF%d\n", constTimeStart);
 			x = 1419.0f;
 			y = 280.0f;
-			DebugOut(L"SDHFGSDHFGHDSGF%d\n", constTimeStart);
 			timeStart = GetTickCount();
 
 		}
 		else
 		{
-			SetState(TURLE_STATE_DIE);
-			level = TURLE_LEVEL_SMALL;
+			SetState(TURLE_STATE_WALKING);
+			level = TURLE_LEVEL_NO_FLY;
+			//level = TURLE_LEVEL_SMALL;
 		}
 			
 		isInitPos = true;
@@ -411,12 +409,12 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 void CTurle::Render()
 {
-	if(level == TURLE_LEVEL_NO_FLY && color == 1)
+	if(level == TURLE_LEVEL_NO_FLY && color == 1)								//rua chay xanh
 	{
 		if (vx > 0) ani = TURLE_ANI_WALKING_RIGHT;
 		else if (vx <= 0) ani = TURLE_ANI_WALKING_LEFT;
 	}
-	else if (level == TURLE_LEVEL_SMALL && color == 1)
+	else if (level == TURLE_LEVEL_SMALL && color == 1)							//mai rua xanh
 	{
 		if (this->GetState() == TURLE_STATE_DIE)
 		{
@@ -426,7 +424,7 @@ void CTurle::Render()
 			ani = TURLE_ANI_RUN_DIE;
 		}
 	}
-	else if (level == TURLE_LEVEL_FLY && color == 1)
+	else if (level == TURLE_LEVEL_FLY && color == 1)							//rua xanh co canh
 	{
 		if (this->GetState() == TURLE_STATE_FLY)
 		{

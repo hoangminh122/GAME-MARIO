@@ -19,7 +19,7 @@ tile-map1-1.txt	80	2816	432
 
 
 
-# id	left	top	right	bottom	texture_id
+# id	left	top	right	bottom	texture_id	x	y
 [SPRITES]
 # BIG MARIO 
 # idle right
@@ -87,10 +87,10 @@ tile-map1-1.txt	80	2816	432
 #duoi ngang
 10100	160	364	192	392	0
 #mat truoc
-10101	25	483	50	511	0
-10102	208	364	230	392	0
+10101	25	483	50	511	0	7	0
+10102	208	364	230	392	0	7	0
 #MAT SAU
-10103	05	404	31	432	0
+10103	05	404	31	432	0	7	0
 
 
 

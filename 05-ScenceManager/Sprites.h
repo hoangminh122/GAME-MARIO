@@ -13,10 +13,11 @@ class CSprite
 	int top;
 	int right;
 	int bottom;
+	int xC, yC;
 
 	LPDIRECT3DTEXTURE9 texture;
 public: 
-	CSprite(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex);
+	CSprite(int id, int left, int top, int right, int bottom,int xC,int yC, LPDIRECT3DTEXTURE9 tex);
 
 	void Draw(float x, float y, int alpha = 255,bool yReverse=false);
 };
@@ -33,7 +34,7 @@ class CSprites
 	unordered_map<int, LPSPRITE> sprites;
 
 public:
-	void Add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex);
+	void Add(int id, int left, int top, int right, int bottom,int xC,int xD,LPDIRECT3DTEXTURE9 tex);
 	LPSPRITE Get(int id);
 	void CSprites::Clear();
 

@@ -49,7 +49,7 @@ CTileMap::CTileMap(int idTex, string txtMapPath)
 			top = yIndex * 16;
 
 			//push sprite vao vector
-			sprite = new CSprite(i,left,top,left+16,top+16,texture);
+			sprite = new CSprite(i,left,top,left+16,top+16,0,0,texture);
 			listSprites.push_back(sprite);
 		
 		}
