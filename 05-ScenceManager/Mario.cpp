@@ -375,7 +375,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					if (goomba->GetState() != GOOMBA_STATE_DIE)
 					{
 
-						if (goomba->GetLevel() > 1)
+						if (goomba->GetLevel() > 2)
 						{
 							goomba->SetLevel(goomba->GetLevel() - 1);
 							vy = -0.2f;

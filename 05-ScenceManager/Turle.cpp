@@ -15,6 +15,7 @@
 bool CTurle::isTreeStart = false;
 CTurle::CTurle()
 {
+	untouchable = 0;
 	color = 1;
 	checkCollision = false;
 	isHold = false;
@@ -336,9 +337,18 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			}
 			else if (dynamic_cast<CGoomba *>(e->obj)) // if e->obj is brickTop
 			{
-				x += dx;
+				//x += dx;
 				//if (e->nx != 0)
 					//isNoCollision = true;
+				CGoomba *goomba = dynamic_cast<CGoomba *>(e->obj);
+				if (e->nx != 0)
+				{
+					
+					if (goomba->GetState() != GOOMBA_STATE_DIE)
+					{
+						goomba->SetState(GOOMBA_STATE_REVERSE_DIE);
+					}
+				}
 				
 
 			}

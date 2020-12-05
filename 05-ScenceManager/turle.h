@@ -47,6 +47,7 @@ class CTurle : public CGameObject
 	virtual void Render();
 
 public:
+	int untouchable;
 	 DWORD timeStart;			//rua bat dau nhay cach nhau 1s
 	 int constTimeStart;
 	int color;
