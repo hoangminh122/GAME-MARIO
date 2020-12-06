@@ -24,6 +24,8 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	CScene(id, filePath)
 {
 	key_handler = new CPlayScenceKeyHandler(this);
+	scores = new CScores();
+
 }
 
 /*
@@ -311,6 +313,10 @@ void CPlayScene::Update(DWORD dt)
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return; 
 
+	// update Scores bar
+	if (player != NULL)
+		scores->Update(dt);
+
 	// Update camera to follow mario
 	float cx, cy;
 	player->GetPosition(cx, cy);
@@ -359,6 +365,8 @@ void CPlayScene::Render()
 	}
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
+
+	scores->Render();
 }
 
 /*

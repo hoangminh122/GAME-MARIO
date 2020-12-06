@@ -42,8 +42,9 @@ void CTurle::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	left = x;
 	top = y;
 	right = x + TURLE_BBOX_WIDTH;
+	bottom = y + TURLE_BBOX_HEIGHT;
 
-	if (this->GetState() == TURLE_STATE_DIE || this->GetState() == TURLE_STATE_RUN_DIE)
+	if (this->GetState() == TURLE_STATE_DIE || this->GetState() == TURLE_STATE_RUN_DIE )
 		bottom = y + TURLE_BBOX_HEIGHT_DIE;
 	
 	else
@@ -456,8 +457,6 @@ void CTurle::Render()
 		}
 
 	}
-
-	
 
 	animation_set->at(ani)->Render(x, y,255,isReverse);
 

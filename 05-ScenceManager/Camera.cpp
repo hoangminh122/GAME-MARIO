@@ -7,7 +7,7 @@ CCamera::CCamera() {
 	position = D3DXVECTOR3(0, 0, 0);
 
 	width = CGame::GetInstance() -> GetScreenWidth();     //lay chieu dai man hinh game
-	height = CGame::GetInstance()-> GetScreenHeight();
+	height = CGame::GetInstance()-> GetScreenHeight() -50;
 
 }
 
