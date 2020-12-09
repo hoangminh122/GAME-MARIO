@@ -23,6 +23,10 @@
 #define TURLE_ANI_DIE 2
 #define TURLE_ANI_RUN_DIE 3
 #define TURLE_ANI_FLY 4
+#define TURLE_ANI_RED_WALKING_LEFT 5
+#define TURLE_ANI_RED_WALKING_RIGHT 8
+#define TURLE_ANI_RED_DIE 7
+#define TURLE_ANI_RED_RUN_DIE 6
 
 
 
@@ -37,7 +41,8 @@
 #define TURLE_COLOR_RED 2
 
 #define TURLE_JUMP_DEFLECT_SPEED 0.2f
-#define TURLE_GRAVITY 0.0003f
+#define TURLE_GRAVITY 0.002f
+#define TURLE_GRAVITY_SLOW 0.0003f
 
 class CTurle : public CGameObject
 {
@@ -46,6 +51,7 @@ class CTurle : public CGameObject
 	virtual void Render();
 
 public:
+	int untouchable;
 	 DWORD timeStart;			//rua bat dau nhay cach nhau 1s
 	 int constTimeStart;
 	int color;

@@ -112,33 +112,32 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 		}*/
 	}
-	else
-	{
-		if (this->GetState() == GOOMBA_STATE_REVERSE_DIE) {
-		if (y > mario->y + 200)
+	
+		if (this->GetState() == GOOMBA_STATE_REVERSE_DIE) 
 		{
-			vy = 0;
-			vx = 0;
-		}
-		else if (y < mario->y - GOOMBA_BBOX_HEIGHT*3)
-		{
-			vy += 0.05f;
-			vx = (mario->nx)*0.08f;
-		}
-		/*else if(ny == 1)
-		{
-			vy = -0.1f;
-			vx = 0.05f;
+			if (y > mario->y + 200)
+			{
+				vy = 0;
+				vx = 0;
+			}
+			else if (y < mario->y - GOOMBA_BBOX_HEIGHT*3)
+				vy += 0.05f;
+				vx = (mario->nx)*0.08f;
+			{
+			}
+			/*else if(ny == 1)
+			{
+				vy = -0.1f;
+				vx = 0.05f;
 			
-		}*/
-		isReverse = true;
+			}*/
+			isReverse = true;
 		}
 		if (this->GetState() == GOOMBA_STATE_DIE) {
 			vy = 0.1f;
 			if (y > 500)
 				vy = 0;
 		}
-	}
 
 	if (vx > 0)
 		nx = 1;
@@ -196,14 +195,21 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				&& !dynamic_cast<CMario *>(e->obj)
 				&&	!dynamic_cast<CMushroom *>(e->obj)
 				&& !dynamic_cast<CBrick *>(e->obj)
+				&& !dynamic_cast<CGoomba *>(e->obj)
 				)
 			{
 				vx = -vx;
 			}
-			else if (dynamic_cast<CBrick *>(e->obj))	//va cham voi background Die
+
+			if (dynamic_cast<CBrick *>(e->obj))	//va cham voi background Die
 			{
 				if(isReverse)
 					y += dy;
+			}
+			else if (dynamic_cast<CGoomba *>(e->obj))	//va cham voi background Die
+			{
+					x += dx;
+					//y += dy;
 			}
 
 

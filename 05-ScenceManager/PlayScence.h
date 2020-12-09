@@ -11,6 +11,7 @@
 #include "Turle.h"
 #include "BrickTop.h"
 #include "TileMap.h"
+#include "Scores.h"
 
 
 class CPlayScene: public CScene
@@ -18,6 +19,7 @@ class CPlayScene: public CScene
 protected: 
 	CMario *player;					// A play scene has to have player, right? 
 
+	CScores * scores;
 	CTileMap* map;
 	vector<LPGAMEOBJECT> objects;
 
