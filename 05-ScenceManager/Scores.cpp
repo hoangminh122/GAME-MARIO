@@ -23,9 +23,9 @@ CScores::CScores()
 
 }
 
-void CScores::Update(DWORD dt)
+void CScores::Update(int _score, DWORD dt)
 {
-
+	this->scores = _score;
 }
 
 void CScores::Draw(RECT rect, string text)
@@ -69,7 +69,12 @@ void CScores::Render()
 
 		//so diem
 		SetRect(&rectScores, 90, CCamera::GetInstance()->GetHeight() + 55, 150, CCamera::GetInstance()->GetHeight() + 150);
-		string strScores = "0002100";
+		string strScores = "0000000";
+		if (this->scores != NULL)
+		{
+			strScores = to_string(this->scores);
+			CheckLength(strScores, 6);
+		}
 		Draw(rectScores, strScores);
 
 		//coin 
@@ -84,6 +89,18 @@ void CScores::Render()
 
 
 
+	}
+}
+
+void CScores::CheckLength(string &text, int max)
+{
+	string zero = "0";
+	if (text.length() < max)
+	{
+		do
+		{
+			text = zero + text;
+		} while (text.length() < max);
 	}
 }
 

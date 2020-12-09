@@ -318,7 +318,7 @@ void CPlayScene::Update(DWORD dt)
 
 	// update Scores bar
 	if (player != NULL)
-		scores->Update(dt);
+		scores->Update(player->GetScores(),dt);
 
 	// Update camera to follow mario
 	float cx, cy;

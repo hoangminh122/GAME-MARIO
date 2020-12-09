@@ -182,6 +182,7 @@ class CMario : public CGameObject
 	float start_y; 
 	//GameMap* test;
 	int ani;
+	int score;
 public: 
 	bool gravityFly;                      //quat duoi roi cham hon
 	DWORD timeFly;							//time fly
@@ -229,7 +230,9 @@ public:
 	void SetLevel(int l) { level = l; }
 	int GetLevel() { return level; }
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
-
+	int GetScores() { return this->score; }
+	void SetScores(int _scores) { this->score = _scores; }
+	void AddScores(int _scores) { this->score += _scores; }
 	void Reset();
 
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);

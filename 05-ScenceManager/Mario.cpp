@@ -82,6 +82,7 @@ CMario::CMario(float x, float y) : CGameObject()
 	timeFly = 0;
 	//SetState(MARIO_STATE_FLY);
 	gravityFly = false;
+	score = 100;
 }
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -476,12 +477,16 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				CBrickQuestion* brickQuestion = dynamic_cast<CBrickQuestion *>(e->obj);
 				if (e->ny > 0)
 				{
-					brickQuestion->SetMove(true);
-					//SET COINT MOVE
-					CCOIN::xStartMove = brickQuestion->x;
-					CCOIN::yStartMove = brickQuestion->y;
-					CCOIN::isInitPosNew = true;
-					CCOIN::isMove = true;
+					if (!brickQuestion->isDie)				//chua va cham lan nao
+					{
+						brickQuestion->SetMove(true);
+						//SET COINT MOVE
+						CCOIN::xStartMove = brickQuestion->x;
+						CCOIN::yStartMove = brickQuestion->y;
+						CCOIN::isInitPosNew = true;
+						CCOIN::isMove = true;
+					}
+					
 				}
 
 

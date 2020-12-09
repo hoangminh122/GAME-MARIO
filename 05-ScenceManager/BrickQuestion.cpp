@@ -1,10 +1,13 @@
 #include "BrickQuestion.h"
+#include "Utils.h"
 
 CBrickQuestion::CBrickQuestion():CGameObject() {
 	isInitPos = false;						//trang thai chua khoi tao gia tri
 	isMove = false;
 	yStatic = y;						//ban dau chua gan gia tri y cho question -> chu y de nham lan
 	mario = CMario::GetInstance(0, 0);
+	isDie = false;
+	ani = 0;
 }
 
 void CBrickQuestion::SetMove(bool isMove) {
@@ -15,11 +18,7 @@ bool CBrickQuestion::GetMove() {
 	return this -> isMove;
 }
 
-void CBrickQuestion::Render()
-{
-	animation_set->at(0)->Render(x, y);
-	RenderBoundingBox();
-}
+
 
 CBrickQuestion::~CBrickQuestion(){
 	
@@ -33,12 +32,16 @@ void CBrickQuestion::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		yStatic = y;
 		isInitPos = true;
 	}
-	else if (isMove && mario->isHasColBoxQues)
+	else if (isMove && mario->isHasColBoxQues && !isDie)
 	{
 		mario->isHasColBoxQues = false;			//khong the va cham cho den khi cham dat
 		vy -= 0.15f;
 		if (y < yStatic - 0.15f)
+		{
 			isMove = false;
+			isDie = true;
+		}
+
 	}
 	else
 	{
@@ -59,6 +62,16 @@ void CBrickQuestion::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	y += dy;
 }
 
+void CBrickQuestion::Render()
+{
+	DebugOut(L"SAJDGAHSGD isDie%d\n", isDie);
+	if (isDie)
+		ani = 1;
+	DebugOut(L"SAJDGAHSGD11 isDie%d\n", isDie);
+	animation_set->at(ani)->Render(x, y);
+	RenderBoundingBox();
+}
+
 void CBrickQuestion::GetBoundingBox(float &l, float &t, float &r, float &b)
 {
 	l = x;
@@ -66,3 +79,4 @@ void CBrickQuestion::GetBoundingBox(float &l, float &t, float &r, float &b)
 	r = x + BRICK_BBOX_WIDTH;
 	b = y + BRICK_BBOX_HEIGHT;
 }
+

@@ -35,7 +35,8 @@ class CScores
 public:
 	CScores();
 	~CScores();
-	void Update(DWORD dt);
+	void CheckLength(string &text, int max);
+	void Update(int _score,DWORD dt);
 	void Render();
 	void Draw(RECT rect, string text);
 
