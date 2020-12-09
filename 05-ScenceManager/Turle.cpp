@@ -107,7 +107,6 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	if (GetTickCount() - timeStart > constTimeStart && timeStart != 0 && level == TURLE_LEVEL_FLY)
 	{
-		DebugOut(L"SDHFGSDHFGHDSGaaaaaaF%d\n", constTimeStart);
 		//timeStart = GetTickCount();
 		SetState(TURLE_STATE_FLY);
 		timeStart = 0;
@@ -341,7 +340,6 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					//if(leaf ->y > y -30)			//la roi muot hon
 					//	leaf->vy = -0.02f;
 					leaf->isMove = true;
-					DebugOut(L"ashag rua va chamdhag\n");
 					vx = -vx;
 					x += dx;
 				}

@@ -21,6 +21,7 @@
 #include "Leaf.h"
 #include "BackgroundDie.h"
 #include "Brick.h"
+#include "Coin.h"
 
 
 int CMario::level = 1;
@@ -476,6 +477,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				if (e->ny > 0)
 				{
 					brickQuestion->SetMove(true);
+					//SET COINT MOVE
+					CCOIN::xStartMove = brickQuestion->x;
+					CCOIN::yStartMove = brickQuestion->y;
+					CCOIN::isInitPosNew = true;
+					CCOIN::isMove = true;
 				}
 
 
@@ -923,8 +929,6 @@ void CMario::Render()
 	{
 	if (vx == 0)
 	{
-		DebugOut(L"sjdhadgahg%d\n", this->GetState());
-
 		if (nx > 0) {
 			if (this->GetState() == MARIO_STATE_KICK) {
 				ani = MARIO_ANI_BIG_TAIL_KICK_TURLE_RIGHT;

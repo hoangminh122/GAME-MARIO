@@ -61,12 +61,10 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (x > 830.0f)
 		{
 			level = GOOMBA_LEVEL_RED_HIGH;
-			DebugOut(L"ASDGHASGD%f\n", x);
 		}
 		else
 		{
 			level = 1;
-			DebugOut(L"ASDGHAS2222222222GD%f\n", x);
 
 		}
 		yStatic = y;
@@ -87,7 +85,6 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 		if (isFly)
 		{
-			DebugOut(L"sh111111ssssssssss%d sdds%f\n", footstep, x);
 			vy += -0.7f;
 			timePrepareFly = GetTickCount();
 			isFly = false;
