@@ -16,7 +16,7 @@ bool CTurle::isTreeStart = false;
 CTurle::CTurle()
 {
 	untouchable = 0;
-	color = 1;
+	//color = 1;
 	checkCollision = false;
 	isHold = false;
 	vxx = TURLE_WALKING_SPEED;
@@ -44,11 +44,22 @@ void CTurle::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	right = x + TURLE_BBOX_WIDTH;
 	bottom = y + TURLE_BBOX_HEIGHT;
 
-	if (this->GetState() == TURLE_STATE_DIE || this->GetState() == TURLE_STATE_RUN_DIE )
-		bottom = y + TURLE_BBOX_HEIGHT_DIE;
+	if (level == TURLE_LEVEL_NO_FLY)								//rua chay xanh
+	{
+		;
+	}
+	else if (level == TURLE_LEVEL_SMALL)							//mai rua xanh
+	{
+		if (this->GetState() == TURLE_STATE_DIE || this->GetState() == TURLE_STATE_RUN_DIE)
+			bottom = y + TURLE_BBOX_HEIGHT_DIE;
+
+	}
+	else if (level == TURLE_LEVEL_FLY)							//rua xanh co canh
+	{
+		;
+	}
+
 	
-	else
-		bottom = y + TURLE_BBOX_HEIGHT;
 }
 
 void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -74,12 +85,20 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			x = 1419.0f;
 			y = 280.0f;
 			timeStart = GetTickCount();
+			color = 1;
 
+		}
+		else if (x > 1327.0f)
+		{
+			SetState(TURLE_STATE_WALKING);
+			level = TURLE_LEVEL_NO_FLY;
+			color = 2;
 		}
 		else
 		{
 			SetState(TURLE_STATE_WALKING);
 			level = TURLE_LEVEL_NO_FLY;
+			color = 1;
 			//level = TURLE_LEVEL_SMALL;
 		}
 			
@@ -434,27 +453,54 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 void CTurle::Render()
 {
-	if(level == TURLE_LEVEL_NO_FLY && color == 1)								//rua chay xanh
+	if(level == TURLE_LEVEL_NO_FLY)								//rua chay xanh
 	{
-		if (vx > 0) ani = TURLE_ANI_WALKING_RIGHT;
-		else if (vx <= 0) ani = TURLE_ANI_WALKING_LEFT;
-	}
-	else if (level == TURLE_LEVEL_SMALL && color == 1)							//mai rua xanh
-	{
-		if (this->GetState() == TURLE_STATE_DIE)
+		if (color == 1)
 		{
-			ani = TURLE_ANI_DIE;
+			if (vx > 0) ani = TURLE_ANI_WALKING_RIGHT;
+			else if (vx <= 0) ani = TURLE_ANI_WALKING_LEFT;
 		}
-		else if (this->GetState() == TURLE_STATE_RUN_DIE) {
-			ani = TURLE_ANI_RUN_DIE;
-		}
-	}
-	else if (level == TURLE_LEVEL_FLY && color == 1)							//rua xanh co canh
-	{
-		if (this->GetState() == TURLE_STATE_FLY)
+		else
 		{
-			ani = TURLE_ANI_FLY;
+			if (vx > 0) ani = TURLE_ANI_RED_WALKING_RIGHT;
+			else if (vx <= 0) ani = TURLE_ANI_RED_WALKING_LEFT;
 		}
+		
+	}
+	else if (level == TURLE_LEVEL_SMALL)							//mai rua xanh
+	{
+		if (color == 1)
+		{
+			if (this->GetState() == TURLE_STATE_DIE)
+			{
+				ani = TURLE_ANI_DIE;
+			}
+			else if (this->GetState() == TURLE_STATE_RUN_DIE) {
+				ani = TURLE_ANI_RUN_DIE;
+			}
+		}
+		else
+		{
+			if (this->GetState() == TURLE_STATE_DIE)
+			{
+				ani = TURLE_ANI_RED_DIE;
+			}
+			else if (this->GetState() == TURLE_STATE_RUN_DIE) {
+				ani = TURLE_ANI_RED_RUN_DIE;
+			}
+		}
+		
+	}
+	else if (level == TURLE_LEVEL_FLY)							//rua xanh co canh
+	{
+		if (color == 1)
+		{
+			if (this->GetState() == TURLE_STATE_FLY)
+			{
+				ani = TURLE_ANI_FLY;
+			}
+		}
+		
 
 	}
 
