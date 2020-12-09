@@ -54,7 +54,7 @@ void CMoneyIcon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		else
 		{
 			vy = 0;
-			//y = yStatic;
+			y = yStatic;
 		}
 	}
 
