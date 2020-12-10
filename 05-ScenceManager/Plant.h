@@ -1,12 +1,40 @@
 #pragma once
 #include "GameObject.h"
+#include "Mario.h"
 
 #define PLANT_BBOX_WIDTH  15
 #define PLANT_BBOX_HEIGHT 23
 
+#define PLANT_STATE_UP 1001
+#define PLANT_STATE_DOWN 1002
+
+#define PLANT_LEVEL_HIGH 0
+#define PLANT_LEVEL_MIDDLE 1
+#define PLANT_LEVEL_SMALL 2
+
+#define PLANT_ANI_PLANT_HIGH_LEFT_UP	2
+#define PLANT_ANI_PLANT_HIGH_LEFT_DOWN	0
+#define PLANT_ANI_PLANT_HIGH_RIGHT_UP	3
+#define PLANT_ANI_PLANT_HIGH_RIGHT_DOWN	1
+
+
+#define PLANT_ANI_PLANT_MIDDLE_LEFT_UP	4
+#define PLANT_ANI_PLANT_MIDDLE_LEFT_DOWN	5
+#define PLANT_ANI_PLANT_MIDDLE_RIGHT_UP	6
+#define PLANT_ANI_PLANT_MIDDLE_RIGHT_DOWN	7
+
+#define PLANT_ANI_PLANT_SMALL_LEFT_UP	8
+#define PLANT_ANI_PLANT_SMALL_LEFT_DOWN	9
+#define PLANT_ANI_PLANT_SMALL_RIGHT_UP	10
+#define PLANT_ANI_PLANT_SMALL_RIGHT_DOWN	11
+
+
 class CPlant : public CGameObject
 {
 public:
+	int level;
+	int ani;
+	CMario* mario;
 	static bool start;
 	CPlant();
 	virtual void Render();

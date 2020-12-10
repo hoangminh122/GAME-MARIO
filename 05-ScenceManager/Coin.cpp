@@ -62,7 +62,6 @@ void CCOIN::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	if (isInitPosNew)
 	{
-		DebugOut(L"11111111sahdsghdg00000000\n");
 		yStatic = yStartMove;
 		y = yStartMove;
 		x = xStartMove;
@@ -70,7 +69,6 @@ void CCOIN::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	else if (isMove)
 	{
-		DebugOut(L"0000000sahdsghdg00000000\n");
 		vy -= 0.55f;
 		if (y < yStatic - 0.15f)
 		{
@@ -80,10 +78,10 @@ void CCOIN::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				mario->AddScores(level);
 				isMove = false;
 			}
-			if (status == 1)
+			if(status == 1)
 			{
 				mario->AddCoins(1);
-				status = 0;
+				status =0;
 			}
 			
 		}

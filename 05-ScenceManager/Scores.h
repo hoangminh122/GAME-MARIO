@@ -36,6 +36,8 @@ class CScores
 public:
 	CScores();
 	~CScores();
+	int timeOut;									//time choi man 1-1 dem nguoc
+	DWORD timeOutStart;
 	void CheckLength(string &text, int max);
 	void Update(int _score,int _coins,DWORD dt);
 	void Render();

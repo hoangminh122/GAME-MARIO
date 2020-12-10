@@ -267,7 +267,7 @@ void CGoomba::SetState(int state)
 	switch (state)
 	{
 		case GOOMBA_STATE_REVERSE_DIE:
-			vx = (mario->nx)*0.05f;
+			vx = (mario->nx)*0.05f +0.0001f;
 			vy = -0.1f;
 			break;
 		case GOOMBA_STATE_DIE:

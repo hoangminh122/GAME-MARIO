@@ -1,6 +1,7 @@
 #include "Scores.h"
 #include "Camera.h"
 #include "Mario.h"
+#include "Utils.h"
 
 CScores::CScores()
 {
@@ -20,11 +21,20 @@ CScores::CScores()
 		L"Arial",
 		&font
 	);
-
+	timeOut = 300;
+	timeOutStart = GetTickCount();
 }
 
 void CScores::Update(int _score,int _coins, DWORD dt)
 {
+
+	if (GetTickCount() - timeOutStart > 1000)
+	{
+		DebugOut(L"assssssssssssssssssss %d\n", timeOut);
+		timeOut -= 1;
+		timeOutStart = GetTickCount();
+	}
+
 	this->scores = _score;
 	this->coins = _coins;
 }
@@ -81,7 +91,7 @@ void CScores::Render()
 		//coin 
 		SetRect(&rectCoin, 165, CCamera::GetInstance()->GetHeight() + 45, 300, CCamera::GetInstance()->GetHeight() + 100);
 		string strCoin = "0";
-		if (this->scores != NULL)
+		if (this->coins != NULL)
 		{
 			strCoin = to_string(this->coins);
 		}
@@ -90,6 +100,13 @@ void CScores::Render()
 		//time
 		SetRect(&rectTime, 160, CCamera::GetInstance()->GetHeight() + 55, 300, CCamera::GetInstance()->GetHeight() + 100);
 		string strTime = "000";
+		if (this->timeOut != NULL)
+		{
+			strTime = to_string(this->timeOut);
+			DebugOut(L"asssssssssssssss222222222sssss %d\n", strTime);
+
+			//CheckLength(strTime, 3);
+		}
 		Draw(rectTime, strTime);
 
 

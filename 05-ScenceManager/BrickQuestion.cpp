@@ -64,10 +64,8 @@ void CBrickQuestion::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 void CBrickQuestion::Render()
 {
-	DebugOut(L"SAJDGAHSGD isDie%d\n", isDie);
 	if (isDie)
 		ani = 1;
-	DebugOut(L"SAJDGAHSGD11 isDie%d\n", isDie);
 	animation_set->at(ani)->Render(x, y);
 	RenderBoundingBox();
 }
