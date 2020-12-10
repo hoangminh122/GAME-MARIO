@@ -19,14 +19,13 @@
 
 
 #define PLANT_ANI_PLANT_MIDDLE_LEFT_UP	4
-#define PLANT_ANI_PLANT_MIDDLE_LEFT_DOWN	5
-#define PLANT_ANI_PLANT_MIDDLE_RIGHT_UP	6
+#define PLANT_ANI_PLANT_MIDDLE_LEFT_DOWN	6
+#define PLANT_ANI_PLANT_MIDDLE_RIGHT_UP	5
 #define PLANT_ANI_PLANT_MIDDLE_RIGHT_DOWN	7
 
-#define PLANT_ANI_PLANT_SMALL_LEFT_UP	8
-#define PLANT_ANI_PLANT_SMALL_LEFT_DOWN	9
-#define PLANT_ANI_PLANT_SMALL_RIGHT_UP	10
-#define PLANT_ANI_PLANT_SMALL_RIGHT_DOWN	11
+#define PLANT_ANI_PLANT_SMALL_UP	8
+#define PLANT_ANI_PLANT_SMALL_DOWN	9
+
 
 
 class CPlant : public CGameObject
@@ -34,6 +33,7 @@ class CPlant : public CGameObject
 public:
 	int level;
 	int ani;
+	bool isInitPos;
 	CMario* mario;
 	static bool start;
 	CPlant();
