@@ -31,12 +31,13 @@ class CScores
 
 	// coin
 	RECT rectCoin;
+	int coins;
 
 public:
 	CScores();
 	~CScores();
 	void CheckLength(string &text, int max);
-	void Update(int _score,DWORD dt);
+	void Update(int _score,int _coins,DWORD dt);
 	void Render();
 	void Draw(RECT rect, string text);
 

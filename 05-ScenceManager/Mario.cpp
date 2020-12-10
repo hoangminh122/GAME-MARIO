@@ -376,6 +376,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				{
 					if (goomba->GetState() != GOOMBA_STATE_DIE)
 					{
+						
+							//SET SCORE MOVE
+							CCOIN::xStartMove = goomba->x;
+							CCOIN::yStartMove = goomba->y;
+							CCOIN::isInitPosNew = true;
+							CCOIN::isMove = true;
+							CCOIN::level = 100;
 
 						if (goomba->GetLevel() > 2)
 						{
@@ -480,12 +487,18 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					if (!brickQuestion->isDie)				//chua va cham lan nao
 					{
 						brickQuestion->SetMove(true);
-						//SET COINT MOVE
+						//SET SCORES MOVE
 						CCOIN::xStartMove = brickQuestion->x;
 						CCOIN::yStartMove = brickQuestion->y;
 						CCOIN::isInitPosNew = true;
 						CCOIN::isMove = true;
+						CCOIN::level = 100;
+
+						//SET COINS MOVE
+						CCOIN::status = 1;
+
 					}
+
 					
 				}
 
@@ -522,6 +535,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				CMushroom* mushroom = dynamic_cast<CMushroom *>(e->obj);
 				if (!mushroom->noMushroom)								//mario tang level
 				{
+					//SET SCONES MOVE
+					CCOIN::xStartMove = mushroom->x;
+					CCOIN::yStartMove = mushroom->y;
+					CCOIN::isInitPosNew = true;
+					CCOIN::isMove = true;
+					CCOIN::level = 1000;
+
+
 					mushroom->SetState(MUSHROOM_STATE_DIE_OVER);
 					mushroom->noMushroom = true;
 					if (GetLevel() == MARIO_LEVEL_SMALL)

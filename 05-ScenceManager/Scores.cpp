@@ -23,9 +23,10 @@ CScores::CScores()
 
 }
 
-void CScores::Update(int _score, DWORD dt)
+void CScores::Update(int _score,int _coins, DWORD dt)
 {
 	this->scores = _score;
+	this->coins = _coins;
 }
 
 void CScores::Draw(RECT rect, string text)
@@ -80,6 +81,10 @@ void CScores::Render()
 		//coin 
 		SetRect(&rectCoin, 165, CCamera::GetInstance()->GetHeight() + 45, 300, CCamera::GetInstance()->GetHeight() + 100);
 		string strCoin = "0";
+		if (this->scores != NULL)
+		{
+			strCoin = to_string(this->coins);
+		}
 		Draw(rectCoin, strCoin);
 
 		//time

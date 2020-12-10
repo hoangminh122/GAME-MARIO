@@ -182,7 +182,8 @@ class CMario : public CGameObject
 	float start_y; 
 	//GameMap* test;
 	int ani;
-	int score;
+	int score;					//so diem
+	int coins;					//coin
 public: 
 	bool gravityFly;                      //quat duoi roi cham hon
 	DWORD timeFly;							//time fly
@@ -230,9 +231,15 @@ public:
 	void SetLevel(int l) { level = l; }
 	int GetLevel() { return level; }
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
+	//so diem
 	int GetScores() { return this->score; }
 	void SetScores(int _scores) { this->score = _scores; }
 	void AddScores(int _scores) { this->score += _scores; }
+	//coin
+	int GetCoins() { return this->coins; }
+	void SetCoins(int _coins) { this->coins = _coins; }
+	void AddCoins(int _coins) { this->coins += _coins; }
+
 	void Reset();
 
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);

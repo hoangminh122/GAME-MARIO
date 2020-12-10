@@ -6,7 +6,7 @@ bool CCOIN::isInitPosNew = false;
 float CCOIN::xStartMove = 0;
 float CCOIN::yStartMove = 0;
 int CCOIN::level = 0;
-
+int CCOIN::status = 0;
 
 CCOIN::CCOIN()
 {
@@ -21,30 +21,30 @@ void CCOIN::Render()
 {
 	switch (level)
 	{
-		case 0:
+		case 100:
 			ani = COIN_ANI_100;
 			break;
-		case 1:
+		case 200:
 			ani = COIN_ANI_200;
 			break;
-		case 2:
+		case 400:
 			ani = COIN_ANI_400;
 			break;
-		case 3:
+		case 800:
 			ani = COIN_ANI_800;
 			break;
-		case 4:
+		case 1000:
 			ani = COIN_ANI_1000;
 			break;
-		case 5:
+		case 2000:
 			ani = COIN_ANI_2000;
-		case 6:
+		case 4000:
 			ani = COIN_ANI_4000;
 			break;
-		case 7:
+		case 8000:
 			ani = COIN_ANI_8000;
 			break;
-		case 8:
+		case 10000:
 			ani = COIN_ANI_1VP;
 			break;
 		default:
@@ -57,6 +57,8 @@ void CCOIN::Render()
 void CCOIN::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	CGameObject::Update(dt, coObjects);
+
+	
 
 	if (isInitPosNew)
 	{
@@ -73,8 +75,17 @@ void CCOIN::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (y < yStatic - 0.15f)
 		{
 			//tang coin tren HUD
-			mario->AddScores(100);
-			isMove = false;
+			if (status == 0)
+			{
+				mario->AddScores(level);
+				isMove = false;
+			}
+			if (status == 1)
+			{
+				mario->AddCoins(1);
+				status = 0;
+			}
+			
 		}
 
 	}

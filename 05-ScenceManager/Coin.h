@@ -25,6 +25,7 @@ public:
 
 	int ani;
 	CMario*  mario;
+	static int status;									//trang thai tang diem hay tang coin hay time/.....
 	static float xStartMove;					//set lai vi tri ban dau cho coin
 	static float yStartMove;
 	static bool isMove;
