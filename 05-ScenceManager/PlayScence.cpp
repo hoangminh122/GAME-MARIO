@@ -395,9 +395,6 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	{
 	case DIK_S:
 		timeJumpStart = GetTickCount();
-
-		/*if(mario->checkMarioColision == true)
-			mario->vy = -0.15f;*/
 		break;
 	//case DIK_LEFT:
 	//	mario->timePrepareFly = GetTickCount();										//tinh lai time gian het
@@ -418,10 +415,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_T: 
 		mario->Reset();
 		break;
-	//case DIK_N:											//cam rua
-	//	mario->SetState(MARIO_STATE_IDLE);
-	//	mario->isHoldTurtle = false;
-	//	break;
+	
 	case DIK_X:
 		/*if (mario->energyFull = true)
 		{
@@ -488,10 +482,6 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_S:
 		mario->jumpHigher = false;
 		break;
-		//case DIK_B:											//da rua
-		//	mario->SetState(MARIO_STATE_IDLE);
-		//	mario->kick = false;
-		//	break;
 
 	case DIK_X:
 		if (mario->level == MARIO_LEVEL_TAIL_BIG)
@@ -541,17 +531,8 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	}
 	if (game->IsKeyDown(DIK_X))
 	{
-		//DebugOut(L"STATE     %d\n", mario->GetState());
 		if (mario->level == MARIO_LEVEL_TAIL_BIG)
 		{
-			/*if (mario->GetState() != MARIO_STATE_FLY)
-			{
-				mario->timeFly = GetTickCount();
-				DebugOut(L"SHADGHAGSDHDA222222222222%f\n", mario->timeFly);
-
-			}*/
-			/*CMario::energyFly--;
-			if (CMario::energyFly > 0)*/
 			if (mario->energyFull == true)
 			{
 				mario->vy = -0.15f;
@@ -567,8 +548,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 			}*/
 			
 		}
-		//DebugOut(L"STATE ASDADASD    %d\n", mario->GetState());
-
 	}
 	// disable control key when Mario die 
 	if (mario->GetState() == MARIO_STATE_DIE) return;
@@ -585,68 +564,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		}
 	}
 	
-	//
-	//else if (game->IsKeyDown(DIK_X))
-	//{
-	//	mario->SetState(MARIO_STATE_ROTATORY_IDLE);
-
-	//}
-	//else if (game->IsKeyDown(DIK_N))
-	//{
-	//	if (mario->isHoldTurtle == false)
-	//	{
-	//		if (mario->nx == 1)
-	//			mario->vx = 0.01f;
-	//		else
-	//			mario->vx = -0.01f;
-	//		mario->SetState(MARIO_STATE_HOLD_TURTLE);
-	//		if(mario->nx == 1)
-	//			mario->xx = mario->x;
-	//		else 
-	//			mario->xx = mario->x-15;
-	//		mario->yy = mario->y;
-	//	}
-	//	else if (game->IsKeyDown(DIK_RIGHT)) {
-	//		/*if (game->IsKeyDown(DIK_A))
-	//		{
-	//			CMario::isBullet = true;
-	//		}*/
-	//		if (game->IsKeyDown(DIK_Z))
-	//		{
-	//			if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG)
-	//			{
-	//				if (CMario::energyFly < 200)
-	//					CMario::energyFly += 5;
-	//			}
-	//			mario->SetState(MARIO_STATE_RUN_RIGHT);
-	//		}
-	//		else
-	//		{
-	//			mario->SetState(MARIO_STATE_WALKING);
-	//			mario->vx = MARIO_WALKING_SPEED;											//cai nay fix tam. chua xu ly kip
-	//		}
-	//	}
-	//	else if (game->IsKeyDown(DIK_LEFT)) {
-	//		/*if (game->IsKeyDown(DIK_A))
-	//		{
-	//			CMario::isBullet = true;
-	//		}*/
-	//		if (game->IsKeyDown(DIK_Z))
-	//		{
-	//			if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG)
-	//			{
-	//				if (CMario::energyFly < 200)
-	//					CMario::energyFly += 5;
-	//			}
-	//			mario->SetState(MARIO_STATE_RUN_LEFT);
-	//		}
-	//		else
-	//		{
-	//			mario->SetState(MARIO_STATE_WALKING);
-	//			mario->vx = -MARIO_WALKING_SPEED;
-	//		}
-	//	}
-	//}
 	else if (game->IsKeyDown(DIK_DOWN))
 	{
 		mario->SetState(MARIO_STATE_DOWN);
@@ -797,12 +714,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 
 		
 	}
-	
-	
-	/*else if (game->IsKeyDown(DIK_A)) {
-		mario->SetState(MARIO_STATE_BULLET_IDLE);
-	}
-	*/
 
 	else if (mario->checkMarioColision)
 	{
@@ -835,19 +746,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 			if (mario->vx > 0)
 				mario->vx = 0.0f;
 		}
-
-		////	//if (game->IsKeyDown(DIK_V))
-		////	//{
-		////	//	/*mario->levelBefore = mario->GetLevel();
-		////	//	DebugOut(L"okaaaa%d\n",mario->levelBefore);*/
-
-		////	//	mario->SetLevel(MARIO_LEVEL_FIRE_BIG);
-		////	//	mario->isFire = true;
-		////	//}
-		////	//else
-		////	//{
-		////	
-		////	
-
+	
 	}
 }

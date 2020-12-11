@@ -103,8 +103,6 @@ void CScores::Render()
 		if (this->timeOut != NULL)
 		{
 			strTime = to_string(this->timeOut);
-			DebugOut(L"asssssssssssssss222222222sssss %d\n", strTime);
-
 			//CheckLength(strTime, 3);
 		}
 		Draw(rectTime, strTime);

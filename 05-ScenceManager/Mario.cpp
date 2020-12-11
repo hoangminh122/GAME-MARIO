@@ -126,7 +126,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	if (GetTickCount() - timeRotatoryStart < 220 && timeRotatoryStart != 0)
 	{
-		DebugOut(L"sahgsdhgfhsdghdsgf\n");
 		SetState(MARIO_STATE_ROTATORY_IDLE);
 	}
 	else if (GetLevel() == MARIO_LEVEL_TAIL_BIG)
@@ -260,8 +259,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						turle->level = turle->level - 1;
 
 						//mario nhay len 1 doan nho
-						vy += -0.25f;
-						vx += this->nx*0.10f;
+						vy += -0.20f;
+						vx += this->nx*0.08f;
 
 					}
 					else if (turle->GetState() == TURLE_STATE_DIE || turle->GetState() == TURLE_STATE_DIE_OVER)
@@ -942,12 +941,10 @@ void CMario::Render()
 			}
 			else if (this->GetState() == MARIO_STATE_FLY_SHORT)
 			{
-				//DebugOut(L"SDHGSDHGFHSD\n");
 				ani = MARIO_ANI_BIG_TAIL_FLY_LIMIT_RIGHT;
 			}
 			else if (this->GetState() == MARIO_STATE_FLY)
 			{
-				//DebugOut(L"SDHGSDHGFHSD\n");
 				ani = MARIO_ANI_BIG_TAIL_FLY_RIGHT;
 			}
 			else if (this->GetState() == MARIO_STATE_KICK && kick == true) {
@@ -1059,7 +1056,6 @@ void CMario::Render()
 		}
 		else if (this->GetState() == MARIO_STATE_FLY)
 		{
-			//DebugOut(L"sdjfhsdjfhdsjhfjsdh\n");
 			if (this->energyFull)
 				ani = MARIO_ANI_BIG_TAIL_FLY_RIGHT;
 			else if (!checkMarioColision)
@@ -1324,19 +1320,7 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 			}
 			
 		}
-		/*right = x + MARIO_BIG_BBOX_WIDTH;
-		bottom = y + MARIO_BIG_BBOX_HEIGHT;*/
-
-		/*right = x + MARIO_TAIL_BIG_BBOX_WIDTH;
-		bottom = y + MARIO_TAIL_BIG_BBOX_HEIGHT;*/
-		/*if (this->GetState() == MARIO_STATE_DOWN)
-			bottom = y + MARIO_TAIL_BIG_DOWN_BBOX_HEIGHT;
-		else if (this->GetState() == MARIO_STATE_ROTATORY_IDLE)
-		{
-			right = x + MARIO_TAIL_BIG_ATTACK_BBOX_HEIGHT;
-		}
-		else
-			bottom = y + MARIO_TAIL_BIG_BBOX_HEIGHT;*/
+		
 	}
 	else
 	{

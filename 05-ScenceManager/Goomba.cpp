@@ -103,7 +103,8 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (footstep > 2)
 		{
 			vy = -0.5f;
-			DebugOut(L"shsgdhsgd%d sdds%f\n", footstep,vy);
+			
+			(L"shsgdhsgd%d sdds%f\n", footstep,vy);
 			xStatic = x;
 			footstep = 0;
 
@@ -112,12 +113,12 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	
 		if (this->GetState() == GOOMBA_STATE_REVERSE_DIE) 
 		{
-			if (y > mario->y + 200)
+			if (y > 400 + 200)					//if (y > mario->y + 200)
 			{
 				vy = 0;
 				vx = 0;
 			}
-			else if (y < mario->y - GOOMBA_BBOX_HEIGHT*3)
+			else if (y < 400 - GOOMBA_BBOX_HEIGHT*3)		//else if (y < mario->y - GOOMBA_BBOX_HEIGHT*3)
 				vy += 0.05f;
 				vx = (mario->nx)*0.08f;
 			{

@@ -72,7 +72,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		SetState(TURLE_STATE_DIE_OVER);
 		x = 1419.0f;
-		y = 280.0f;
+		y = 680.0f;				// 280.0f;
 		vx = 0; vy = 0;
 	}
 
@@ -141,31 +141,6 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		mario->isHold = false;
 		timeDieTurle = 0;
 	}
-
-	// Simple fall down
-	//vy += MARIO_GRAVITY * dt;
-	//if (CMario::isDropTurle == true && isHold == true)
-	//{
-	//	if (CMario::nxx == 1)
-	//	{
-	//		if (CMario::level == MARIO_LEVEL_BIG || CMario::level == MARIO_LEVEL_FIRE_BIG)
-	//			this->x = this->x + MARIO_BIG_BBOX_WIDTH/2 +3.2f;
-	//		else if (CMario::level == MARIO_LEVEL_TAIL_BIG)
-	//			this->x = this->x + MARIO_TAIL_BIG_BBOX_WIDTH/2+3;
-	//		//this->x = this->x + 10;
-	//		
-	//	}
-	//	else 
-	//	{
-	//		if(CMario::level == MARIO_LEVEL_BIG || CMario::level == MARIO_LEVEL_FIRE_BIG)
-	//			this->x = this->x-MARIO_BIG_BBOX_WIDTH/2-4.3f;
-	//		else if(CMario::level == MARIO_LEVEL_TAIL_BIG)
-	//			this->x = this->x - MARIO_TAIL_BIG_BBOX_WIDTH/2-3;
-	//	}
-	//	CMario::isDropTurle = false;
-	//	isHold = false;
-	//}
-	//
 
 	if (GetTickCount() - timeRunTurle > MAX_TURLE_TIME_RUN && timeRunTurle != 0)			//fix time gian chay cho rua -> fix tam do chua lam den
 	{
