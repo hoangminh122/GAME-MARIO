@@ -158,6 +158,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	if (GetTickCount() - timeRotatoryStart < 220 && timeRotatoryStart != 0)
 	{
+		DebugOut(L"sahgsdhgfhsdghdsgf\n");
 		SetState(MARIO_STATE_ROTATORY_IDLE);
 	}
 	else if (GetLevel() == MARIO_LEVEL_TAIL_BIG)
@@ -167,8 +168,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		else
 		{
 			isRotatory180 = false;
-			if(vx == 0.0f && GetState() != MARIO_STATE_KICK && GetState() != MARIO_STATE_HOLD_TURTLE && GetState() != MARIO_STATE_JUMP_NORMAL && GetState() != MARIO_STATE_DOWN)									//chi co trang thai dung yen khi giu phim A ko xoay duoi dc
+			if (vx == 0.0f && GetState() != MARIO_STATE_KICK && GetState() != MARIO_STATE_HOLD_TURTLE && GetState() != MARIO_STATE_JUMP_NORMAL && GetState() != MARIO_STATE_DOWN)
+			{
+				//chi co trang thai dung yen khi giu phim A ko xoay duoi dc
 				SetState(MARIO_STATE_IDLE);
+				timeRotatoryStart = 0;
+			}
 		}
 	}
 
@@ -498,6 +503,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						CCOIN::status = 1;
 
 					}
+					vy = 0;
 
 					
 				}

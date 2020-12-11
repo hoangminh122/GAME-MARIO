@@ -365,7 +365,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					if (goomba->GetState() != GOOMBA_STATE_DIE)
 					{
 						goomba->SetState(GOOMBA_STATE_REVERSE_DIE);
-
+						//goomba->y = -0.001f;
 					}
 				}
 				
