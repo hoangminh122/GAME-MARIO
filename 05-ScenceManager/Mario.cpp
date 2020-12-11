@@ -97,38 +97,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		SetState(MARIO_STATE_KICK);
 	}
 
-	//if(isHoldTurtle)						//xu ly vi tri mario cam rua chay 
-	//{
-	//	if (this->GetState() == MARIO_STATE_IDLE)
-	//	{
-	//		if (vx > 0)
-	//		{
-	//			xx = this->x;
-	//			yy = this->y;
-	//		}
-	//		
-	//	}
-
-	//}
-	//DebugOut(L"SHDGFDSGsssssssssssssss%f\n", vy);
-	// Simple fall down
-	/*if (vy >= -0.001f && vy <= 0)
-		vy -= vy;*/
-
-	/*if (vy >= -0.02f && vy <= 0 && checkMarioColision == false  && vy <0)
-	{*/
-		
-
-	/*	DebugOut(L"SHDGFDSGssssssssssssssssssF\n");
-		vy += -0.1f;
-
-	}*/
-	//if (GetTickCount() - timeWaitingAttackNext > 500 && timeWaitingAttackNext != 0 && GetLevel() == MARIO_LEVEL_TAIL_BIG)
-	//{
-	//	//isAttackNext = false;  //mario ko duoc phep tan cong next
-	//	//if(GetState() != MARIO_STATE_RUN)
-	//	//isRotatory180 = true;
-	//}
 	if (GetTickCount() - timeFly > MARIO_TIME_FLY && timeFly != 0)
 	{
 		energyFull = false;

@@ -474,8 +474,7 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		if (mario->isHold)
 		{
 			mario->isMarioDropTurle = true;
-			if(mario->GetState() == MARIO_STATE_KICK)			//xu ly loi trung lap hanh dong voi quat duoi
-				mario->timeKickStart = GetTickCount();
+			mario->timeKickStart = GetTickCount();
 			mario->isHold = false;      //khong cam rua
 		}
 		mario->isHold = false;      //khong cam rua
