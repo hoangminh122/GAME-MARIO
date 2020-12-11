@@ -11,6 +11,7 @@ CBullet::CBullet() : CGameObject()
 {
 	isStart = false;
 	//vx = 0.8;
+	mario = CMario::GetInstance(0, 0);
 }
 CBullet *CBullet::GetInstance()
 {
@@ -38,12 +39,15 @@ void CBullet::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (isStart)
 	{
 		x -= vx;
-		vx = -0.08f;
+		if(357.0f - mario->x > 0)
+			vx = -0.08f;
+		else
+			vx = 0.08f;
 		vy = +0.05f;
 		
 	}
 	CPlant* plant = new CPlant();
-	if (plant->start == true)
+	if (plant->start1 == true)
 	{
 		isStart = true;
 		x = 357;

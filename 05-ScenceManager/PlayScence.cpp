@@ -318,7 +318,7 @@ void CPlayScene::Update(DWORD dt)
 
 	// update Scores bar
 	if (player != NULL)
-		scores->Update(dt);
+		scores->Update(player->GetScores(), player->GetCoins(),dt);
 
 	// Update camera to follow mario
 	float cx, cy;
@@ -481,8 +481,8 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		mario->pressA = false;
 		mario->timeWaitingAttackNext = 0;			//xoa trang thai waiting -> bat dau lai
 		//mario->isAttackNext = true;								//duoc tan cong
-		mario->isRotatory180 = true;
-
+		mario->isRotatory180 = false;
+		mario->timeRotatoryStart = 0;
 
 		break;
 	case DIK_S:
@@ -523,14 +523,14 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		}
 		else if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG )    //set truong hop ko cam rua
 		{
-			if (!mario->isRotatory180)       //xet xem mario co dang quay ko ->san sang
-			{
+			//if (!mario->isRotatory180)       //xet xem mario co dang quay ko ->san sang
+			//{
 				//mario->timeRotatoryStart = GetTickCount();        //time quay duoi dung yen mario
 				//mario->timeWaitingAttackNext = GetTickCount();
 				mario->isRotatory180 = true;
 				//mario->SetState(MARIO_STATE_ROTATORY_IDLE);
 
-			}
+			//}
 			
 		}
 		else if (mario->GetLevel() == MARIO_LEVEL_FIRE_BIG)
