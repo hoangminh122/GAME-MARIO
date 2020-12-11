@@ -35,7 +35,9 @@ public:
 	int ani;
 	bool isInitPos;
 	CMario* mario;
-	static bool start;
+	static bool start;					//dung int de thay cho nx luon
+	static bool start1;
+	static bool start2;
 	CPlant();
 	virtual void Render();
 	virtual void GetBoundingBox(float &l, float &t, float &r, float &b);

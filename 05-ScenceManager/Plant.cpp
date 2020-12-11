@@ -3,6 +3,8 @@
 #include "Utils.h"
 
 bool CPlant::start = false;
+bool CPlant::start1 = false;
+bool CPlant::start2 = false;
 CPlant::CPlant() : CGameObject()
 {
 	vy = 0.1;
@@ -33,7 +35,7 @@ void CPlant::Render()
 	}
 	else if (level == PLANT_LEVEL_MIDDLE)
 	{
-		if (y - mario->y > 0)
+		if (y - mario->y < 0)
 		{
 			if (x - mario->x > 0)
 				ani = PLANT_ANI_PLANT_MIDDLE_LEFT_UP;
@@ -107,9 +109,9 @@ void CPlant::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (vy > 0 && y > 400) {
 			y = 400; vy = -vy;
 		}
-		start = false;
+		start1 = false;
 		if (vy < 0 && y < 336) {
-			start = true;
+			start1 = true;
 			y = 336; vy = -vy;
 		}
 	}
