@@ -33,13 +33,16 @@ class CScores
 	RECT rectCoin;
 	int coins;
 
+	// energyCount
+	int energyCount;
+
 public:
 	CScores();
 	~CScores();
 	int timeOut;									//time choi man 1-1 dem nguoc
 	DWORD timeOutStart;
 	void CheckLength(string &text, int max);
-	void Update(int _score,int _coins,DWORD dt);
+	void Update(int _score,int _coins,int _energy,DWORD dt);
 	void Render();
 	void Draw(RECT rect, string text);
 

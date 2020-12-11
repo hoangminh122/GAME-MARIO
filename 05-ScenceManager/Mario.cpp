@@ -105,11 +105,19 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	if (GetTickCount() - timePrepareRunFast > MARIO_RUN_FAST_TIME && timePrepareRunFast != 0)			//dao chieu left right -> reset timePrepareRunFast
 	{
+		//DebugOut(L"ASHDGASHDG%d\n",(GetTickCount() - timePrepareRunFast) / 100);
 		SetState(MARIO_STATE_PREPARE_FLY);
 		timePrepareFly = GetTickCount();			//bat dau dem chuan bi bay len -> nap full nang luong
 		timePrepareRunFast = 0;
 	}
-	if (GetTickCount() - timePrepareFly > MARIO_RUN_FAST_TIME && timePrepareFly != 0)
+	else if(timePrepareRunFast != 0)
+	{
+		int count = (GetTickCount() - timePrepareRunFast) / 250;
+		if(this->energyCount <6)
+			this->energyCount = count;
+		
+	}
+	if (GetTickCount() - timePrepareFly > 400 && timePrepareFly != 0)
 	{
 		energyFull = true;
 		vy = -0.05f;										//tao luc day ban dau

@@ -36,6 +36,8 @@ tile-map1-1.txt	80	2816	432
 91008	175	88	192	97	41
 91009	195	88	192	210	41
 
+#nang luong
+91010	92	162	99	168	41
 
 # BIG MARIO 
 # idle right
@@ -658,6 +660,8 @@ tile-map1-1.txt	80	2816	432
 1907	91007	100
 1908	91008	100
 1909	91009	100
+#nang luong
+1910	91010	100
 
 #
 # id	ani1	ani2	ani3
@@ -706,7 +710,7 @@ tile-map1-1.txt	80	2816	432
 #bulet
 11	1101
 #coin
-14	1901	1902	1903	1904	1905	1906	1907	1908	1909
+14	1901	1902	1903	1904	1905	1906	1907	1908	1909	1910
 
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type

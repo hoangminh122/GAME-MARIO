@@ -23,20 +23,21 @@ CScores::CScores()
 	);
 	timeOut = 300;
 	timeOutStart = GetTickCount();
+	energyCount = 0;
 }
 
-void CScores::Update(int _score,int _coins, DWORD dt)
+void CScores::Update(int _score,int _coins,int _energyCount, DWORD dt)
 {
 
 	if (GetTickCount() - timeOutStart > 1000)
 	{
-		DebugOut(L"assssssssssssssssssss %d\n", timeOut);
 		timeOut -= 1;
 		timeOutStart = GetTickCount();
 	}
 
 	this->scores = _score;
 	this->coins = _coins;
+	this->energyCount = _energyCount;
 }
 
 void CScores::Draw(RECT rect, string text)
@@ -47,8 +48,10 @@ void CScores::Draw(RECT rect, string text)
 		-1,
 		&rect,
 		DT_LEFT,
-		D3DCOLOR_ARGB(255, 0, 0, 0)
+		D3DCOLOR_ARGB(255, 0,0, 10)
 	);
+
+
 	
 }
 
@@ -60,10 +63,18 @@ void CScores::Render()
 
 	CMario* mario = CMario::GetInstance(0, 0);
 
-
+	DebugOut(L"1111111111111111111111sdsds%d\n", energyCount);
 	// draw scores bar
 	spriteScores = CSprites::GetInstance()->Get(11101);
 	spriteScores->Draw(camX+30, camY+5);
+
+	//draw energy fly
+	for (int i = 0; i < 6-energyCount; i++)
+	{
+		spriteScores = CSprites::GetInstance()->Get(91010);
+		spriteScores->Draw(camX + 116 -i*8, camY + 12);
+	}
+	
 
 	//ve so diem
 	if (font)

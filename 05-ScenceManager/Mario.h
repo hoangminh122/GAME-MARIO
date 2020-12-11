@@ -169,7 +169,7 @@
 #define MARIO_UNTOUCHABLE_TIME 5000
 #define MARIO_KICK_TIME 500
 #define MARIO_ROTATORY_TIME 350						//can cho dung time
-#define MARIO_RUN_FAST_TIME 1000
+#define MARIO_RUN_FAST_TIME 1500
 #define MARIO_TIME_FLY 1800
 
 
@@ -184,6 +184,7 @@ class CMario : public CGameObject
 	int ani;
 	int score;					//so diem
 	int coins;					//coin
+	int energyCount;			//muc nang luong
 public: 
 	bool gravityFly;                      //quat duoi roi cham hon
 	DWORD timeFly;							//time fly
@@ -239,6 +240,10 @@ public:
 	int GetCoins() { return this->coins; }
 	void SetCoins(int _coins) { this->coins = _coins; }
 	void AddCoins(int _coins) { this->coins += _coins; }
+	//energy count 
+	int GetEnergyCount() { return this->energyCount; }
+	void SetEnergyCount(int _energyCount) { this->energyCount = _energyCount; }
+	void AddEnergyCount(int _energyCount) { this->coins += _energyCount; }
 
 	void Reset();
 
