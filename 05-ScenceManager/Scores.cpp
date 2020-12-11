@@ -63,7 +63,6 @@ void CScores::Render()
 
 	CMario* mario = CMario::GetInstance(0, 0);
 
-	DebugOut(L"1111111111111111111111sdsds%d\n", energyCount);
 	// draw scores bar
 	spriteScores = CSprites::GetInstance()->Get(11101);
 	spriteScores->Draw(camX+30, camY+5);

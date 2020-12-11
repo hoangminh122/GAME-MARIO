@@ -103,6 +103,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		//SetState(MARIO_STATE_IDLE);
 		timeFly = 0;
 	}
+	else if(timeFly != 0)
+	{
+		DebugOut(L"ASHDGASHDG%d\n",(GetTickCount() - timeFly) / 300);
+		int count = 5 - (GetTickCount() - timeFly) / 300;
+		if (this->energyCount >= 0)
+			this->energyCount = count;
+	}
 	if (GetTickCount() - timePrepareRunFast > MARIO_RUN_FAST_TIME && timePrepareRunFast != 0)			//dao chieu left right -> reset timePrepareRunFast
 	{
 		//DebugOut(L"ASHDGASHDG%d\n",(GetTickCount() - timePrepareRunFast) / 100);
@@ -112,7 +119,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	else if(timePrepareRunFast != 0)
 	{
-		int count = (GetTickCount() - timePrepareRunFast) / 250;
+		DebugOut(L"11111111111sd%d\n", (GetTickCount() - timePrepareRunFast) / 250);		int count = (GetTickCount() - timePrepareRunFast) / 250;
 		if(this->energyCount <6)
 			this->energyCount = count;
 		
