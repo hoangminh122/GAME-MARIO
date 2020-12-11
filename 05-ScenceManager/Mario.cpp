@@ -105,7 +105,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	else if(timeFly != 0)
 	{
-		DebugOut(L"ASHDGASHDG%d\n",(GetTickCount() - timeFly) / 300);
 		int count = 5 - (GetTickCount() - timeFly) / 300;
 		if (this->energyCount >= 0)
 			this->energyCount = count;
@@ -119,7 +118,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	else if(timePrepareRunFast != 0)
 	{
-		DebugOut(L"11111111111sd%d\n", (GetTickCount() - timePrepareRunFast) / 250);		int count = (GetTickCount() - timePrepareRunFast) / 250;
+		int count = (GetTickCount() - timePrepareRunFast) / 250;
 		if(this->energyCount <6)
 			this->energyCount = count;
 		

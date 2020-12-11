@@ -123,26 +123,26 @@ void CPlant::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (vy > 0 && y > 400) {
 			y = 400; vy = -vy;
 		}
-		start = false;
+		start2 = false;
 		if (vy < 0 && y < 345) {
-			start = true;
+			start2 = true;
 			y = 345; vy = -vy;
 		}
 	}
-	else if (level == PLANT_LEVEL_SMALL)
-	{
-		//x += 0.1;
-		y += 4 * vy;
+	//else if (level == PLANT_LEVEL_SMALL)
+	//{
+	//	//x += 0.1;
+	//	y += 4 * vy;
 
-		if (vy > 0 && y > 400) {
-			y = 400; vy = -vy;
-		}
-		start = false;
-		if (vy < 0 && y < 360) {
-			start = true;
-			y = 360; vy = -vy;
-		}
-	}
+	//	if (vy > 0 && y > 400) {
+	//		y = 400; vy = -vy;
+	//	}
+	//	start = false;
+	//	if (vy < 0 && y < 360) {
+	//		start = true;
+	//		y = 360; vy = -vy;
+	//	}
+	//}
 
 
 
