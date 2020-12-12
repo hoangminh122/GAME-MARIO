@@ -525,6 +525,15 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		}
 		else if (mario->GetLevel() == MARIO_LEVEL_FIRE_BIG)
 		{
+			//set position dan mario
+			if(mario->nx<0)
+				CBulletMario::nxBullet = -1;
+			else
+				CBulletMario::nxBullet = 1;
+			CBulletMario::isStart = true;
+			CBulletMario::isSetPosition = true;
+			mario->GetPosition(CBulletMario::x0, CBulletMario::y0);
+
 			mario->SetState(MARIO_STATE_BULLET_IDLE);
 		}
 

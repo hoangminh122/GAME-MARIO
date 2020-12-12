@@ -847,11 +847,11 @@ void CMario::Render()
 				}
 				else if (this->GetState() == MARIO_STATE_BULLET_IDLE)	//isBullet ==false :kiem tra truong hop mario khong state run,jump
 				{
-					//set position dan mario
-					CBulletMario::nxBullet = 1;
-					CBulletMario::isStart = true;
-					CBulletMario::isSetPosition = true;
-					this->GetPosition(CBulletMario::x0, CBulletMario :: y0);
+					////set position dan mario
+					//CBulletMario::nxBullet = 1;
+					//CBulletMario::isStart = true;
+					//CBulletMario::isSetPosition = true;
+					//this->GetPosition(CBulletMario::x0, CBulletMario :: y0);
 					ani = MARIO_ANI_BIG_FIRE_BULLET_RIGHT;
 				}
 				
@@ -873,11 +873,12 @@ void CMario::Render()
 				}
 				else if (this->GetState() == MARIO_STATE_BULLET_IDLE)
 				{
-					//set position dan mario
-					CBulletMario::nxBullet = -1;
-					CBulletMario::isStart = true;
-					CBulletMario::isSetPosition = true;
-					this->GetPosition(CBulletMario::x0, CBulletMario::y0);
+
+					////set position dan mario
+					//CBulletMario::nxBullet = -1;
+					//CBulletMario::isStart = true;
+					//CBulletMario::isSetPosition = true;
+					//this->GetPosition(CBulletMario::x0, CBulletMario::y0);
 					ani = MARIO_ANI_BIG_FIRE_BULLET_LEFT;
 				}
 				else

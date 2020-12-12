@@ -54,7 +54,7 @@ void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	CGameObject::Update(dt);
 
-	if (nextStart - timeStart > 5000)
+	if (nextStart - timeStart > 1000 || vx == 0 || vy == 0)
 	{
 		isDie = true;
 		isBullet = false;
