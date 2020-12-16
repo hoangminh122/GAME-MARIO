@@ -30,14 +30,5 @@ public:
 	virtual void GetBoundingBox(float &l, float &t, float &r, float &b);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void SetState(int state);
-	/*static bool isStart;
-	static bool isRun;
-	static bool isMoney;
-	static float  xBox;
-	static float  yBox;
-	int ani;
-
-	bool isDie;
-	static CMushroom * __instance;
-	static CMushroom * GetInstance();*/
+	
 };
