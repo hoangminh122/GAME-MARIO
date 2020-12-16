@@ -8,9 +8,11 @@
 class CBullet : public CGameObject
 {
 public:
+	int label;									//phan biet cac vien dan voi nhau
 	bool isStart;
 	CBullet();
 	CMario* mario;
+	int isInitPos;
 	static CBullet * __instance;
 	static CBullet * GetInstance();
 public:
