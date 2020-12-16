@@ -3,7 +3,7 @@
 #include "GameObject.h"
 #include "Mario.h"
 
-#define TURLE_WALKING_SPEED 0.03f;
+#define TURLE_WALKING_SPEED 0.01f;
 #define TURLE_RUN_SPEED 0.2f;
 
 #define TURLE_BBOX_WIDTH 16
