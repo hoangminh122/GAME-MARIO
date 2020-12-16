@@ -186,8 +186,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	int object_type = atoi(tokens[0].c_str());
 	float x = atof(tokens[1].c_str());
 	float y = atof(tokens[2].c_str());
+	int typeAni = 0;
 
 	int ani_set_id = atoi(tokens[3].c_str());
+
+	if (tokens.size() > 4)
+	{
+		typeAni = atof(tokens[4].c_str());
+	}
 
 	CAnimationSets * animation_sets = CAnimationSets::GetInstance();
 
@@ -207,8 +213,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(); break;
-	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
-	case OBJECT_TYPE_BRICKTOP: obj = new CBrickTop(); break;
+
+	case OBJECT_TYPE_BRICK: 
+
+		obj = new CBrick(typeAni);
+		break;
+
+	case OBJECT_TYPE_BRICKTOP: obj = new CBrickTop(typeAni); break;
 	case OBJECT_TYPE_TURLE: obj = new CTurle(); break;
 	case OBJECT_TYPE_WALL_TURLE: obj = new CWallTurle(); break;
 	case OBJECT_TYPE_QUESTION_BOX: obj = new CQuestion; break;

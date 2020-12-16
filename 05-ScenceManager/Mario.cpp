@@ -424,34 +424,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				if (e->ny != 0)
 					y += dy;
 			}
-
-			//if (dynamic_cast<CMushroom *>(e->obj)) // if e->obj is mushroom
-			//{
-			//	CMushroom *mushroom = dynamic_cast<CMushroom *>(e->obj);
-			//	mushroom->isDie = true;
-			//	/*mushroom->x = -17;
-			//	mushroom->y = -17;*/
-			//	if (mushroom->ani == LEAF_GREEN_ANI)
-			//	{
-			//		if (level == MARIO_LEVEL_SMALL)
-			//		{
-			//			level = MARIO_LEVEL_BIG;
-			//		}
-			//		else if (level = MARIO_LEVEL_BIG)
-			//		{
-			//			level = MARIO_LEVEL_TAIL_BIG;
-			//		}
-			//		
-			//	}
-			//	else if (mushroom->ani == MUSHROOM_ANI)
-			//	{
-			//		this->y = 286;
-			//		this->level = MARIO_LEVEL_BIG;
-			//	}
-			//	
-			//} // if mushroom
-
-
+			
 			else if (dynamic_cast<CPlant *>(e->obj)) // if e->obj is plant
 			{
 				if (GetLevel() < 1)
@@ -563,52 +536,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 
 			} // if bullet dan bay
-			//
-			//else if (dynamic_cast<CQuestion *>(e->obj)) // if e->obj is Question 
-			//{
-			//	if (e->ny > 0)
-			//	{
-			//		CQuestion *question = dynamic_cast<CQuestion *>(e->obj);
-
-			//		question->isQuestion = false;
-			//		//xet position mushrooom
-			//		CMushroom::xBox = question->x;
-			//		CMushroom::yBox = question->y;
-			//		if (question->x == 220)
-			//		{
-			//			CMushroom* mushroom = CMushroom::GetInstance();
-			//			CMushroom::isStart = true;
-			//			CMushroom::isRun = true;
-			//			//mushroom->SetState(MUSHROOM_STATE);
-
-
-			//		}
-			//		else
-			//		{
-			//			CMushroom::isMoney = true;
-			//		}
-
-			//	}
-
-			//	//question->isQuestion = false;
-			//	//if (question -> x == 220)
-			//	//	question -> ani = 2;
-			//	//if (question -> ani == 2) {
-			//	//	if (!question -> mushroomRun) 
-			//	//	{
-			//	//		question -> mushroomRun = true ;
-			//	//	}
-			//	//	else
-			//	//	{
-			//	//		//DebugOut(L" ccccc xuat hienc cccccccc :\n") ;
-			//	//		question->delMushroom = true ;
-			//	//		this->level = MARIO_LEVEL_BIG ;
-			//	//		
-			//	//		//delete question;
-			//	//	}
-			//	//}
-			//	
-			//} // if box question
+		
 			else if (dynamic_cast<CBrickTop *>(e->obj)) // if e->obj is brickTop
 			{
 				CBrickTop* brickTop = dynamic_cast<CBrickTop *>(e->obj);
@@ -639,61 +567,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			//y += dy;
 			//} // if brickTop
 			
-			/*else if (dynamic_cast<CBrick *>(e->obj))
-			{
-			if (e->nx != 0)
-				x += dx;
-			}*/
-			
-
-			//	else if (e->nx != 0)
-			//	{
-			//		/*if (this->nx > 0)
-			//			vx = 0.01f;
-			//		else
-			//			vx = -0.01f;*/
-			//		if (turle->ani == TURLE_ANI_DIE)
-			//		{
-			//			//turle->SetState(TURLE_STATE_RUN_DIE);
-			//			if (kick == true)
-			//			{
-			//				this->vx = 0.015;
-			//				turle->SetState(TURLE_STATE_RUN_DIE);
-			//			}
-			//			else if (this->GetState() == MARIO_STATE_HOLD_TURTLE)
-			//			{
-			//				
-			//				isHoldTurtle = true;
-			//				turle->isHold = true;
-			//			}
-			//			//this->kick = true;
-			//			//this->SetState(MARIO_STATE_KICK);
-			//		}
-			//		else
-			//		{
-			//			if (untouchable == 0)
-			//			{
-			//				if (turle->GetState() != TURLE_STATE_DIE)
-			//				{
-			//					if (level > MARIO_LEVEL_SMALL)
-			//					{
-			//						level = MARIO_LEVEL_SMALL;
-			//						StartUntouchable();
-			//					}
-			//					else
-			//						SetState(MARIO_STATE_DIE);
-			//				}
-			//			}
-			//		}
-
-			//		
-			//	}
-
-
-			//} // if TURLE
-			//
-			//mario ko va cham voi CWallTurle
-			
+		
 			else if (dynamic_cast<CPortal *>(e->obj))
 			{
 				CPortal *p = dynamic_cast<CPortal *>(e->obj);
