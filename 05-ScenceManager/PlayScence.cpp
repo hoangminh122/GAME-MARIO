@@ -220,7 +220,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 
 	case OBJECT_TYPE_BRICKTOP: obj = new CBrickTop(typeAni); break;
-	case OBJECT_TYPE_TURLE: obj = new CTurle(); break;
+	case OBJECT_TYPE_TURLE: obj = new CTurle(typeAni); break;
 	case OBJECT_TYPE_WALL_TURLE: obj = new CWallTurle(); break;
 	case OBJECT_TYPE_QUESTION_BOX: obj = new CQuestion; break;
 	case OBJECT_TYPE_MUSHROOM: obj = new CMushroom(); break;

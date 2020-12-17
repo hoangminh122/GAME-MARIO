@@ -14,8 +14,12 @@
 class CBrickTop : public CGameObject
 {
 public:
+	bool isInitPos;
+	int xStatic;                  //bien luu vi tri x cho tung type brick
 	int type;
 	CBrickTop(int type_ani);
 	virtual void Render();
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void GetBoundingBox(float &l, float &t, float &r, float &b);
+	int GetBoundPosition(int type);						//lay toa do x,y brick theo type -> xu ly con rua thong minh
 };

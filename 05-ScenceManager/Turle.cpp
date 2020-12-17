@@ -13,8 +13,9 @@
 
 //DWORD CTurle::timeStart = 1;
 bool CTurle::isTreeStart = false;
-CTurle::CTurle()
+CTurle::CTurle(int type_ani)
 {
+	type = type_ani;
 	untouchable = 0;
 	//color = 1;
 	checkCollision = false;
@@ -78,7 +79,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	if (y != 0 && !isInitPos)
 	{
-		if (x > 1327.0f && y >590)						//tao do tren map
+		if (type == TURLE_COLOR_GREEN)						//tao do tren map
 		{
 			level = TURLE_LEVEL_FLY;
 			constTimeStart = x;
@@ -86,19 +87,18 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			y = 280.0f;
 			timeStart = GetTickCount();
 			color = 1;
-
 		}
-		else if (x > 1327.0f)
+		else if (type == TURLE_COLOR_GREEN_NO_FLY)						//tao do tren map
 		{
 			SetState(TURLE_STATE_WALKING);
 			level = TURLE_LEVEL_NO_FLY;
-			color = 2;
+			color = 1;
 		}
 		else
 		{
 			SetState(TURLE_STATE_WALKING);
 			level = TURLE_LEVEL_NO_FLY;
-			color = 1;
+			color = 2;
 			//level = TURLE_LEVEL_SMALL;
 		}
 			
@@ -276,6 +276,10 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		// TODO: This is a very ugly designed function!!!!
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 
+		// block every object first!
+		x += min_tx * dx + nx * 0.4f;
+		y += min_ty * dy + ny * 0.4f;
+
 		//if (nx != 0) vx = 0;
 		//if (ny != 0) vy = 0;
 
@@ -297,15 +301,6 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				vy = 0;
 			}
 
-			if (dynamic_cast<CWallTurle *>(e->obj)) // if e->obj is brickTop
-			{
-				if (GetState() == TURLE_STATE_WALKING)
-					vx = -vx;
-				//rua khong va cham voi CWallTurle chieu tu tren xuong
-				if (e->ny < 0)
-					y += dy;
-				//state run -> vx khong doi
-			}
 			else if (dynamic_cast<CLeaf *>(e->obj)) // if e->obj is question box
 			{
 				CLeaf* leaf = dynamic_cast<CLeaf *>(e->obj);
@@ -321,13 +316,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 
 			} // if question box
-			else if (dynamic_cast<CBrickTop *>(e->obj)) // if e->obj is brickTop
-			{
-				x += dx;
-				isNoCollision = true;
-				
-
-			}
+			
 			else if (dynamic_cast<CGoomba *>(e->obj)) // if e->obj is brickTop
 			{
 				//x += dx;
@@ -346,14 +335,23 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				
 
 			}
-			else if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is brickTop
+			if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is brickTop
 			{
 				CBrick *brick = dynamic_cast<CBrick *>(e->obj);			//LOI THUAT TOAN CU CHUA FIX !!!!!.
-				x += dx;												//va cham cho rua dao chieu bi loi chua fix .
-			}
-			else if (dynamic_cast<CBackgroundDie *>(e->obj)) // fix tam dao chieu
-			{
-				if (e->nx != 0)
+				if (GetState() == TURLE_STATE_WALKING)
+				{
+					if (x + 5 >= brick->xStatic + brick->GetBoundPosition(brick->type)
+						|| x+5 <= brick->xStatic
+						)
+					{
+						if (vx > 0)
+							x = x - 5;				//loai bo truong hop rua dao chieu tai cho gay ra loi
+						else
+							x = x + 5;
+						vx = -vx;
+					}
+				}
+				if (nx != 0)
 					vx = -vx;
 			}
 			if (dynamic_cast<CBrickQuestion *>(e->obj)) // if e->obj is brickTop
@@ -365,57 +363,35 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				/*if (e->nx != 0)
 					isNoCollision = false;*/
 			}
-			
-
-			//if (dynamic_cast<CBrickTop *>(e->obj)) // if e->obj is brickTop
-			//{
-			//	if (this->GetState() == TURLE_STATE_DIE)
-			//	{
-			//		vx = 0;
-			//		vy = 0;
-			//	}
-			//	else if(this->GetState() == TURLE_STATE_RUN_DIE)
-			//		vx = 0.2f;
-			//	else
-			//		vx = vxx;
-			//	if (this->GetState() == TURLE_STATE_WALKING)
-			//	{
-			//		if (vx < 0 && x < 530) {
-			//			//x = 0; 
-			//			vxx = -vxx;
-			//			vx = vxx;
-			//		}
-
-			//		else if (vx > 0 && x > 600) {
-			//			//x = 290; 
-			//			vxx = -vxx;
-			//			vx = vxx;
-			//		}
-			//	}
-			//	
-
-			//} // if brickTop
-			//else if (dynamic_cast<CQuestion *>(e->obj)) // if e->obj is CQuestion
-			//{
-			//	this->isTreeStart = true;
-			//}
-			//else if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is CQuestion
-			//{
-			//	if (this->GetState() == TURLE_STATE_DIE)
-			//	{
-			//		vx = 0;
-			//	}
-			//	vy = 0;
-			//}
-			//
-
-			/*if (e->nx != 0 && e->obj != NULL && !isNoCollision)
+			if (dynamic_cast<CBrickTop *>(e->obj)) // if e->obj is brickTop
 			{
-				vx = -vx;
-				x += dx;
-				isNoCollision = true;
-			}*/
-			
+				CBrickTop *brickTop = dynamic_cast<CBrickTop *>(e->obj);
+				if (GetState() == TURLE_STATE_WALKING)
+				{
+					if (x+10>= brickTop->xStatic + brickTop->GetBoundPosition(brickTop->type) 
+						|| x <= brickTop->xStatic
+						)
+					{
+						if(vx > 0)
+							x = x - 5;				//loai bo truong hop rua dao chieu tai cho gay ra loi
+						else
+							x = x + 5;
+						vx = -vx;
+					}
+					else
+					{
+						x += dx;
+						isNoCollision = true;
+					}
+				}
+				else
+				{
+					x += dx;
+					isNoCollision = true;
+				}
+				
+
+			}
 			
 		}
 

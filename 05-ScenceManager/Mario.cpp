@@ -275,6 +275,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						//mario nhay len 1 doan nho
 						vy += -0.20f;
 						vx += this->nx*0.08f;
+						//SET SCORES MOVE
+						CCOIN::xStartMove = turle->x;
+						CCOIN::yStartMove = turle->y;
+						CCOIN::isInitPosNew = true;
+						CCOIN::isMove = true;
+						CCOIN::level = 100;
+
+						//SET COINS MOVE
+						CCOIN::status = 1;
 
 					}
 					else if (turle->GetState() == TURLE_STATE_DIE || turle->GetState() == TURLE_STATE_DIE_OVER)
@@ -438,6 +447,16 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 				
 			} // if plant
+			else if (dynamic_cast<CMoneyIcon *>(e->obj)) // if e->obj is question box
+			{
+				CMoneyIcon* moneyIcon = dynamic_cast<CMoneyIcon *>(e->obj);
+				if (e->ny > 0)
+				{
+					moneyIcon->SetMove(true);
+				}
+				moneyIcon->SetState(MONEY_STATE_DIE_OVER);
+
+			} // if question box
 			else if (dynamic_cast<CBrickQuestion *>(e->obj)) // if e->obj is question box
 			{
 				CBrickQuestion* brickQuestion = dynamic_cast<CBrickQuestion *>(e->obj);
@@ -464,16 +483,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 
 			} // if question box
-			else if (dynamic_cast<CMoneyIcon *>(e->obj)) // if e->obj is question box
-			{
-				CMoneyIcon* moneyIcon = dynamic_cast<CMoneyIcon *>(e->obj);
-				if (e->ny > 0)
-				{
-					moneyIcon->SetMove(true);
-				}
-
-
-			} // if question box
+			
 			else if (dynamic_cast<CLeaf *>(e->obj)) // if e->obj is question box
 			{
 				CLeaf* leaf = dynamic_cast<CLeaf *>(e->obj);
