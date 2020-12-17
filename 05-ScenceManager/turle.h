@@ -39,6 +39,7 @@
 
 #define TURLE_COLOR_GREEN 1
 #define TURLE_COLOR_RED 2
+#define TURLE_COLOR_GREEN_NO_FLY 3
 
 #define TURLE_JUMP_DEFLECT_SPEED 0.2f
 #define TURLE_GRAVITY 0.002f
@@ -46,11 +47,14 @@
 
 class CTurle : public CGameObject
 {
+	
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void Render();
 
 public:
+	CTurle(int type_ani);
+	int type;
 	int untouchable;
 	 DWORD timeStart;			//rua bat dau nhay cach nhau 1s
 	 int constTimeStart;

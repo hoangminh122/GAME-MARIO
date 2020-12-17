@@ -13,8 +13,9 @@
 
 //DWORD CTurle::timeStart = 1;
 bool CTurle::isTreeStart = false;
-CTurle::CTurle()
+CTurle::CTurle(int type_ani)
 {
+	type = type_ani;
 	untouchable = 0;
 	//color = 1;
 	checkCollision = false;
@@ -78,7 +79,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	if (y != 0 && !isInitPos)
 	{
-		if (x > 1327.0f && y >590)						//tao do tren map
+		if (type == TURLE_COLOR_GREEN)						//tao do tren map
 		{
 			level = TURLE_LEVEL_FLY;
 			constTimeStart = x;
@@ -86,19 +87,18 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			y = 280.0f;
 			timeStart = GetTickCount();
 			color = 1;
-
 		}
-		else if (x > 1327.0f)
+		else if (type == TURLE_COLOR_GREEN_NO_FLY)						//tao do tren map
 		{
 			SetState(TURLE_STATE_WALKING);
 			level = TURLE_LEVEL_NO_FLY;
-			color = 2;
+			color = 1;
 		}
 		else
 		{
 			SetState(TURLE_STATE_WALKING);
 			level = TURLE_LEVEL_NO_FLY;
-			color = 1;
+			color = 2;
 			//level = TURLE_LEVEL_SMALL;
 		}
 			
@@ -335,9 +335,22 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				
 
 			}
-			else if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is brickTop
+			if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is brickTop
 			{
 				CBrick *brick = dynamic_cast<CBrick *>(e->obj);			//LOI THUAT TOAN CU CHUA FIX !!!!!.
+				if (GetState() == TURLE_STATE_WALKING)
+				{
+					if (x + 5 >= brick->xStatic + brick->GetBoundPosition(brick->type)
+						|| x+5 <= brick->xStatic
+						)
+					{
+						if (vx > 0)
+							x = x - 5;				//loai bo truong hop rua dao chieu tai cho gay ra loi
+						else
+							x = x + 5;
+						vx = -vx;
+					}
+				}
 				if (nx != 0)
 					vx = -vx;
 			}
@@ -355,10 +368,14 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				CBrickTop *brickTop = dynamic_cast<CBrickTop *>(e->obj);
 				if (GetState() == TURLE_STATE_WALKING)
 				{
-					if (x >= brickTop->xStatic + brickTop->GetBoundPosition(brickTop->type) - 10
+					if (x+10>= brickTop->xStatic + brickTop->GetBoundPosition(brickTop->type) 
 						|| x <= brickTop->xStatic
 						)
 					{
+						if(vx > 0)
+							x = x - 5;				//loai bo truong hop rua dao chieu tai cho gay ra loi
+						else
+							x = x + 5;
 						vx = -vx;
 					}
 					else
@@ -375,9 +392,6 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				
 
 			}
-			
-
-			
 			
 		}
 
