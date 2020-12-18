@@ -138,6 +138,7 @@
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="game_map.cpp" />
     <ClCompile Include="game_map.h" />
+    <ClCompile Include="Hat.cpp" />
     <ClCompile Include="Koopas.cpp" />
     <ClCompile Include="Leaf.cpp" />
     <ClCompile Include="MoneyIcon.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CMushroom.h" />
     <ClInclude Include="Coin.h" />
+    <ClInclude Include="Hat.h" />
     <ClInclude Include="Leaf.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Koopas.h" />

@@ -571,10 +571,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			} // if brickTop
 			//else if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is Backgroud die
 			//{
-			//	
-			////x += dx;
-			////if(!checkMarioColision)
-			//y += dy;
+			//	CBrick* brick = dynamic_cast<CBrick *>(e->obj);
+
+			//	if (brick->type == 10 && nx!= 0)
+			//		brick->y = 600;
+			//	//x += dx;
+			//	//if(!checkMarioColision)
+			//	//y += dy;		
 			//} // if brickTop
 			
 		
