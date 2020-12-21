@@ -17,6 +17,7 @@
 class CBrick : public CGameObject
 {
 public:
+	bool static moneyIcon;					//trang thai  brick chuyen thanh icon money
 	int type;
 	bool isInitPos;
 	int xStatic;                  //bien luu vi tri x cho tung type brick

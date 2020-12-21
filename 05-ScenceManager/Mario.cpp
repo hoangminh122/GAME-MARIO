@@ -22,6 +22,7 @@
 #include "BackgroundDie.h"
 #include "Brick.h"
 #include "Coin.h"
+#include "Hat.h"
 
 
 int CMario::level = 1;
@@ -182,9 +183,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	coEvents.clear();
 
 	// turn off collision when die 
+	
 	if (this->GetState() !=MARIO_STATE_DIE)
 		CalcPotentialCollisions(coObjects, coEvents);
-
+	if (this->GetState() == MARIO_STATE_DIE)
+	{
+		vx = 0; vy = 0;
+		y = 440;
+	}
 	// reset untouchable timer if untouchable time has passed
 	if ( GetTickCount() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
 	{
@@ -499,6 +505,27 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 
 			} // if question box
+			if (dynamic_cast<CHat *>(e->obj)) // if e->obj is brickTop
+			{
+				CHat* hat = dynamic_cast<CHat *>(e->obj);
+				if (e->ny > 0 && !hat->noColision)
+				{
+					//y = hat->y;
+					hat->y = hat->y - 16-10;
+					hat->isDie = false;				// HAT song lai
+					//y += dy;
+
+				}
+				else if (e->nx != 0 && !hat->noColision)
+				{
+					CBrick::moneyIcon = true;
+					hat->isDie = true;
+					hat->y = hat->y +6;
+					hat->noColision = true;
+				}
+				//vx +=dx;
+
+			} // if brickTop
 			if (dynamic_cast<CMushroom *>(e->obj)) // if e->obj is Backgroud die
 			{
 
@@ -562,6 +589,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					//vx +=dx;
 
 			} // if brickTop
+			
 			else if (dynamic_cast<CBackgroundDie *>(e->obj)) // if e->obj is Backgroud die
 			{
 				//x += dx;
@@ -569,16 +597,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				if (e->nx != 0)
 					vx = 0;
 			} // if brickTop
-			//else if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is Backgroud die
-			//{
-			//	CBrick* brick = dynamic_cast<CBrick *>(e->obj);
+			else if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is Backgroud die
+			{
+				CBrick* brick = dynamic_cast<CBrick *>(e->obj);
 
-			//	if (brick->type == 10 && nx!= 0)
-			//		brick->y = 600;
-			//	//x += dx;
-			//	//if(!checkMarioColision)
-			//	//y += dy;		
-			//} // if brickTop
+				if (brick->type == 10 && brick->moneyIcon)
+					brick->y = 600;
+						
+			} // if brickTop
 			
 		
 			else if (dynamic_cast<CPortal *>(e->obj))

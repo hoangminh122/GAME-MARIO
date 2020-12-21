@@ -3,11 +3,14 @@
 
 
 #define HAT_BBOX_HEIGHT 16
+#define HAT_BBOX_DIE_HEIGHT 5
 #define HAT_BBOX_WIDTH 16
 
 class CHat : public CGameObject
 {
 public:
+	bool noColision;		//ko va cham nua
+	bool isDie;			//trang thai chet
 	int type;
 	bool isInitPos;
 	int xStatic;                  //bien luu vi tri x cho tung type brick
