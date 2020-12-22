@@ -16,6 +16,7 @@
 #include "BrickQuestion.h"
 #include "MoneyIcon.h"
 #include "Leaf.h"
+#include "Coin.h"
 //#include "TileMap.h"
 
 using namespace std;
@@ -24,6 +25,8 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	CScene(id, filePath)
 {
 	key_handler = new CPlayScenceKeyHandler(this);
+	scores = new CScores();
+
 }
 
 /*
@@ -56,6 +59,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define OBJECT_TYPE_BRICK_QUESTION	14
 #define OBJECT_TYPE_MONEY_ICON	16
 #define OBJECT_TYPE_LEAF	17
+#define OBJECT_TYPE_COIN	18
 
 
 
@@ -182,8 +186,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	int object_type = atoi(tokens[0].c_str());
 	float x = atof(tokens[1].c_str());
 	float y = atof(tokens[2].c_str());
+	int typeAni = 0;
 
 	int ani_set_id = atoi(tokens[3].c_str());
+
+	if (tokens.size() > 4)
+	{
+		typeAni = atof(tokens[4].c_str());
+	}
 
 	CAnimationSets * animation_sets = CAnimationSets::GetInstance();
 
@@ -203,9 +213,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(); break;
-	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
-	case OBJECT_TYPE_BRICKTOP: obj = new CBrickTop(); break;
-	case OBJECT_TYPE_TURLE: obj = new CTurle(); break;
+
+	case OBJECT_TYPE_BRICK: 
+
+		obj = new CBrick(typeAni);
+		break;
+
+	case OBJECT_TYPE_BRICKTOP: obj = new CBrickTop(typeAni); break;
+	case OBJECT_TYPE_TURLE: obj = new CTurle(typeAni); break;
 	case OBJECT_TYPE_WALL_TURLE: obj = new CWallTurle(); break;
 	case OBJECT_TYPE_QUESTION_BOX: obj = new CQuestion; break;
 	case OBJECT_TYPE_MUSHROOM: obj = new CMushroom(); break;
@@ -216,6 +231,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BRICK_QUESTION: obj = new CBrickQuestion(); break;
 	case OBJECT_TYPE_MONEY_ICON: obj = new CMoneyIcon(); break;
 	case OBJECT_TYPE_LEAF: obj = new CLeaf(); break;
+	case OBJECT_TYPE_COIN: obj = new CCOIN(); break;
 
 
 	case OBJECT_TYPE_PORTAL:
@@ -311,6 +327,10 @@ void CPlayScene::Update(DWORD dt)
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return; 
 
+	// update Scores bar
+	if (player != NULL)
+		scores->Update(player->GetScores(), player->GetCoins(), player->GetEnergyCount(),dt);
+
 	// Update camera to follow mario
 	float cx, cy;
 	player->GetPosition(cx, cy);
@@ -359,6 +379,8 @@ void CPlayScene::Render()
 	}
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
+
+	scores->Render();
 }
 
 /*
@@ -384,9 +406,6 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	{
 	case DIK_S:
 		timeJumpStart = GetTickCount();
-
-		/*if(mario->checkMarioColision == true)
-			mario->vy = -0.15f;*/
 		break;
 	//case DIK_LEFT:
 	//	mario->timePrepareFly = GetTickCount();										//tinh lai time gian het
@@ -407,10 +426,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_T: 
 		mario->Reset();
 		break;
-	//case DIK_N:											//cam rua
-	//	mario->SetState(MARIO_STATE_IDLE);
-	//	mario->isHoldTurtle = false;
-	//	break;
+	
 	case DIK_X:
 		/*if (mario->energyFull = true)
 		{
@@ -470,17 +486,13 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		mario->pressA = false;
 		mario->timeWaitingAttackNext = 0;			//xoa trang thai waiting -> bat dau lai
 		//mario->isAttackNext = true;								//duoc tan cong
-		mario->isRotatory180 = true;
-
+		mario->isRotatory180 = false;
+		mario->timeRotatoryStart = 0;
 
 		break;
 	case DIK_S:
 		mario->jumpHigher = false;
 		break;
-		//case DIK_B:											//da rua
-		//	mario->SetState(MARIO_STATE_IDLE);
-		//	mario->kick = false;
-		//	break;
 
 	case DIK_X:
 		if (mario->level == MARIO_LEVEL_TAIL_BIG)
@@ -512,35 +524,35 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		}
 		else if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG )    //set truong hop ko cam rua
 		{
-			if (!mario->isRotatory180)       //xet xem mario co dang quay ko ->san sang
-			{
+			//if (!mario->isRotatory180)       //xet xem mario co dang quay ko ->san sang
+			//{
 				//mario->timeRotatoryStart = GetTickCount();        //time quay duoi dung yen mario
 				//mario->timeWaitingAttackNext = GetTickCount();
 				mario->isRotatory180 = true;
 				//mario->SetState(MARIO_STATE_ROTATORY_IDLE);
 
-			}
+			//}
 			
 		}
 		else if (mario->GetLevel() == MARIO_LEVEL_FIRE_BIG)
 		{
+			//set position dan mario
+			if(mario->nx<0)
+				CBulletMario::nxBullet = -1;
+			else
+				CBulletMario::nxBullet = 1;
+			CBulletMario::isStart = true;
+			CBulletMario::isSetPosition = true;
+			mario->GetPosition(CBulletMario::x0, CBulletMario::y0);
+
 			mario->SetState(MARIO_STATE_BULLET_IDLE);
 		}
 
 	}
 	if (game->IsKeyDown(DIK_X))
 	{
-		//DebugOut(L"STATE     %d\n", mario->GetState());
 		if (mario->level == MARIO_LEVEL_TAIL_BIG)
 		{
-			/*if (mario->GetState() != MARIO_STATE_FLY)
-			{
-				mario->timeFly = GetTickCount();
-				DebugOut(L"SHADGHAGSDHDA222222222222%f\n", mario->timeFly);
-
-			}*/
-			/*CMario::energyFly--;
-			if (CMario::energyFly > 0)*/
 			if (mario->energyFull == true)
 			{
 				mario->vy = -0.15f;
@@ -556,8 +568,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 			}*/
 			
 		}
-		//DebugOut(L"STATE ASDADASD    %d\n", mario->GetState());
-
 	}
 	// disable control key when Mario die 
 	if (mario->GetState() == MARIO_STATE_DIE) return;
@@ -574,68 +584,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		}
 	}
 	
-	//
-	//else if (game->IsKeyDown(DIK_X))
-	//{
-	//	mario->SetState(MARIO_STATE_ROTATORY_IDLE);
-
-	//}
-	//else if (game->IsKeyDown(DIK_N))
-	//{
-	//	if (mario->isHoldTurtle == false)
-	//	{
-	//		if (mario->nx == 1)
-	//			mario->vx = 0.01f;
-	//		else
-	//			mario->vx = -0.01f;
-	//		mario->SetState(MARIO_STATE_HOLD_TURTLE);
-	//		if(mario->nx == 1)
-	//			mario->xx = mario->x;
-	//		else 
-	//			mario->xx = mario->x-15;
-	//		mario->yy = mario->y;
-	//	}
-	//	else if (game->IsKeyDown(DIK_RIGHT)) {
-	//		/*if (game->IsKeyDown(DIK_A))
-	//		{
-	//			CMario::isBullet = true;
-	//		}*/
-	//		if (game->IsKeyDown(DIK_Z))
-	//		{
-	//			if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG)
-	//			{
-	//				if (CMario::energyFly < 200)
-	//					CMario::energyFly += 5;
-	//			}
-	//			mario->SetState(MARIO_STATE_RUN_RIGHT);
-	//		}
-	//		else
-	//		{
-	//			mario->SetState(MARIO_STATE_WALKING);
-	//			mario->vx = MARIO_WALKING_SPEED;											//cai nay fix tam. chua xu ly kip
-	//		}
-	//	}
-	//	else if (game->IsKeyDown(DIK_LEFT)) {
-	//		/*if (game->IsKeyDown(DIK_A))
-	//		{
-	//			CMario::isBullet = true;
-	//		}*/
-	//		if (game->IsKeyDown(DIK_Z))
-	//		{
-	//			if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG)
-	//			{
-	//				if (CMario::energyFly < 200)
-	//					CMario::energyFly += 5;
-	//			}
-	//			mario->SetState(MARIO_STATE_RUN_LEFT);
-	//		}
-	//		else
-	//		{
-	//			mario->SetState(MARIO_STATE_WALKING);
-	//			mario->vx = -MARIO_WALKING_SPEED;
-	//		}
-	//	}
-	//}
 	else if (game->IsKeyDown(DIK_DOWN))
 	{
 		mario->SetState(MARIO_STATE_DOWN);
@@ -786,12 +734,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 
 		
 	}
-	
-	
-	/*else if (game->IsKeyDown(DIK_A)) {
-		mario->SetState(MARIO_STATE_BULLET_IDLE);
-	}
-	*/
 
 	else if (mario->checkMarioColision)
 	{
@@ -824,19 +766,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 			if (mario->vx > 0)
 				mario->vx = 0.0f;
 		}
-
-		////	//if (game->IsKeyDown(DIK_V))
-		////	//{
-		////	//	/*mario->levelBefore = mario->GetLevel();
-		////	//	DebugOut(L"okaaaa%d\n",mario->levelBefore);*/
-
-		////	//	mario->SetLevel(MARIO_LEVEL_FIRE_BIG);
-		////	//	mario->isFire = true;
-		////	//}
-		////	//else
-		////	//{
-		////	
-		////	
-
+	
 	}
 }

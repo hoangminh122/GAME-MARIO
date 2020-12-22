@@ -13,10 +13,11 @@
 
 //DWORD CTurle::timeStart = 1;
 bool CTurle::isTreeStart = false;
-CTurle::CTurle()
+CTurle::CTurle(int type_ani)
 {
+	type = type_ani;
 	untouchable = 0;
-	color = 1;
+	//color = 1;
 	checkCollision = false;
 	isHold = false;
 	vxx = TURLE_WALKING_SPEED;
@@ -42,12 +43,24 @@ void CTurle::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	left = x;
 	top = y;
 	right = x + TURLE_BBOX_WIDTH;
+	bottom = y + TURLE_BBOX_HEIGHT;
 
-	if (this->GetState() == TURLE_STATE_DIE || this->GetState() == TURLE_STATE_RUN_DIE)
-		bottom = y + TURLE_BBOX_HEIGHT_DIE;
+	if (level == TURLE_LEVEL_NO_FLY)								//rua chay xanh
+	{
+		;
+	}
+	else if (level == TURLE_LEVEL_SMALL)							//mai rua xanh
+	{
+		if (this->GetState() == TURLE_STATE_DIE || this->GetState() == TURLE_STATE_RUN_DIE)
+			bottom = y + TURLE_BBOX_HEIGHT_DIE;
+
+	}
+	else if (level == TURLE_LEVEL_FLY)							//rua xanh co canh
+	{
+		;
+	}
+
 	
-	else
-		bottom = y + TURLE_BBOX_HEIGHT;
 }
 
 void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -60,25 +73,32 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		SetState(TURLE_STATE_DIE_OVER);
 		x = 1419.0f;
-		y = 280.0f;
+		y = 680.0f;				// 280.0f;
 		vx = 0; vy = 0;
 	}
 
 	if (y != 0 && !isInitPos)
 	{
-		if (x > 1327.0f && y >590)						//tao do tren map
+		if (type == TURLE_COLOR_GREEN)						//tao do tren map
 		{
 			level = TURLE_LEVEL_FLY;
 			constTimeStart = x;
 			x = 1419.0f;
 			y = 280.0f;
 			timeStart = GetTickCount();
-
+			color = 1;
+		}
+		else if (type == TURLE_COLOR_GREEN_NO_FLY)						//tao do tren map
+		{
+			SetState(TURLE_STATE_WALKING);
+			level = TURLE_LEVEL_NO_FLY;
+			color = 1;
 		}
 		else
 		{
 			SetState(TURLE_STATE_WALKING);
 			level = TURLE_LEVEL_NO_FLY;
+			color = 2;
 			//level = TURLE_LEVEL_SMALL;
 		}
 			
@@ -87,7 +107,6 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	if (GetTickCount() - timeStart > constTimeStart && timeStart != 0 && level == TURLE_LEVEL_FLY)
 	{
-		DebugOut(L"SDHFGSDHFGHDSGaaaaaaF%d\n", constTimeStart);
 		//timeStart = GetTickCount();
 		SetState(TURLE_STATE_FLY);
 		timeStart = 0;
@@ -122,31 +141,6 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		mario->isHold = false;
 		timeDieTurle = 0;
 	}
-
-	// Simple fall down
-	//vy += MARIO_GRAVITY * dt;
-	//if (CMario::isDropTurle == true && isHold == true)
-	//{
-	//	if (CMario::nxx == 1)
-	//	{
-	//		if (CMario::level == MARIO_LEVEL_BIG || CMario::level == MARIO_LEVEL_FIRE_BIG)
-	//			this->x = this->x + MARIO_BIG_BBOX_WIDTH/2 +3.2f;
-	//		else if (CMario::level == MARIO_LEVEL_TAIL_BIG)
-	//			this->x = this->x + MARIO_TAIL_BIG_BBOX_WIDTH/2+3;
-	//		//this->x = this->x + 10;
-	//		
-	//	}
-	//	else 
-	//	{
-	//		if(CMario::level == MARIO_LEVEL_BIG || CMario::level == MARIO_LEVEL_FIRE_BIG)
-	//			this->x = this->x-MARIO_BIG_BBOX_WIDTH/2-4.3f;
-	//		else if(CMario::level == MARIO_LEVEL_TAIL_BIG)
-	//			this->x = this->x - MARIO_TAIL_BIG_BBOX_WIDTH/2-3;
-	//	}
-	//	CMario::isDropTurle = false;
-	//	isHold = false;
-	//}
-	//
 
 	if (GetTickCount() - timeRunTurle > MAX_TURLE_TIME_RUN && timeRunTurle != 0)			//fix time gian chay cho rua -> fix tam do chua lam den
 	{
@@ -282,6 +276,10 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		// TODO: This is a very ugly designed function!!!!
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 
+		// block every object first!
+		x += min_tx * dx + nx * 0.4f;
+		y += min_ty * dy + ny * 0.4f;
+
 		//if (nx != 0) vx = 0;
 		//if (ny != 0) vy = 0;
 
@@ -303,15 +301,6 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				vy = 0;
 			}
 
-			if (dynamic_cast<CWallTurle *>(e->obj)) // if e->obj is brickTop
-			{
-				if (GetState() == TURLE_STATE_WALKING)
-					vx = -vx;
-				//rua khong va cham voi CWallTurle chieu tu tren xuong
-				if (e->ny < 0)
-					y += dy;
-				//state run -> vx khong doi
-			}
 			else if (dynamic_cast<CLeaf *>(e->obj)) // if e->obj is question box
 			{
 				CLeaf* leaf = dynamic_cast<CLeaf *>(e->obj);
@@ -321,20 +310,13 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					//if(leaf ->y > y -30)			//la roi muot hon
 					//	leaf->vy = -0.02f;
 					leaf->isMove = true;
-					DebugOut(L"ashag rua va chamdhag\n");
 					vx = -vx;
 					x += dx;
 				}
 
 
 			} // if question box
-			else if (dynamic_cast<CBrickTop *>(e->obj)) // if e->obj is brickTop
-			{
-				x += dx;
-				isNoCollision = true;
-				
-
-			}
+			
 			else if (dynamic_cast<CGoomba *>(e->obj)) // if e->obj is brickTop
 			{
 				//x += dx;
@@ -344,22 +326,32 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				if (e->nx != 0)
 				{
 					
-					if (goomba->GetState() != GOOMBA_STATE_DIE)
-					{
+					/*if (goomba->GetState() != GOOMBA_STATE_DIE)
+					{*/
 						goomba->SetState(GOOMBA_STATE_REVERSE_DIE);
-					}
+						goomba->y += -0.01f;
+					//}
 				}
 				
 
 			}
-			else if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is brickTop
+			if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is brickTop
 			{
 				CBrick *brick = dynamic_cast<CBrick *>(e->obj);			//LOI THUAT TOAN CU CHUA FIX !!!!!.
-				x += dx;												//va cham cho rua dao chieu bi loi chua fix .
-			}
-			else if (dynamic_cast<CBackgroundDie *>(e->obj)) // fix tam dao chieu
-			{
-				if (e->nx != 0)
+				if (GetState() == TURLE_STATE_WALKING)
+				{
+					if (x + 5 >= brick->xStatic + brick->GetBoundPosition(brick->type)
+						|| x+5 <= brick->xStatic
+						)
+					{
+						if (vx > 0)
+							x = x - 5;				//loai bo truong hop rua dao chieu tai cho gay ra loi
+						else
+							x = x + 5;
+						vx = -vx;
+					}
+				}
+				if (nx != 0)
 					vx = -vx;
 			}
 			if (dynamic_cast<CBrickQuestion *>(e->obj)) // if e->obj is brickTop
@@ -371,57 +363,35 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				/*if (e->nx != 0)
 					isNoCollision = false;*/
 			}
-			
-
-			//if (dynamic_cast<CBrickTop *>(e->obj)) // if e->obj is brickTop
-			//{
-			//	if (this->GetState() == TURLE_STATE_DIE)
-			//	{
-			//		vx = 0;
-			//		vy = 0;
-			//	}
-			//	else if(this->GetState() == TURLE_STATE_RUN_DIE)
-			//		vx = 0.2f;
-			//	else
-			//		vx = vxx;
-			//	if (this->GetState() == TURLE_STATE_WALKING)
-			//	{
-			//		if (vx < 0 && x < 530) {
-			//			//x = 0; 
-			//			vxx = -vxx;
-			//			vx = vxx;
-			//		}
-
-			//		else if (vx > 0 && x > 600) {
-			//			//x = 290; 
-			//			vxx = -vxx;
-			//			vx = vxx;
-			//		}
-			//	}
-			//	
-
-			//} // if brickTop
-			//else if (dynamic_cast<CQuestion *>(e->obj)) // if e->obj is CQuestion
-			//{
-			//	this->isTreeStart = true;
-			//}
-			//else if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is CQuestion
-			//{
-			//	if (this->GetState() == TURLE_STATE_DIE)
-			//	{
-			//		vx = 0;
-			//	}
-			//	vy = 0;
-			//}
-			//
-
-			/*if (e->nx != 0 && e->obj != NULL && !isNoCollision)
+			if (dynamic_cast<CBrickTop *>(e->obj)) // if e->obj is brickTop
 			{
-				vx = -vx;
-				x += dx;
-				isNoCollision = true;
-			}*/
-			
+				CBrickTop *brickTop = dynamic_cast<CBrickTop *>(e->obj);
+				if (GetState() == TURLE_STATE_WALKING)
+				{
+					if (x+10>= brickTop->xStatic + brickTop->GetBoundPosition(brickTop->type) 
+						|| x <= brickTop->xStatic
+						)
+					{
+						if(vx > 0)
+							x = x - 5;				//loai bo truong hop rua dao chieu tai cho gay ra loi
+						else
+							x = x + 5;
+						vx = -vx;
+					}
+					else
+					{
+						x += dx;
+						isNoCollision = true;
+					}
+				}
+				else
+				{
+					x += dx;
+					isNoCollision = true;
+				}
+				
+
+			}
 			
 		}
 
@@ -433,31 +403,56 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 void CTurle::Render()
 {
-	if(level == TURLE_LEVEL_NO_FLY && color == 1)								//rua chay xanh
+	if(level == TURLE_LEVEL_NO_FLY)								//rua chay xanh
 	{
-		if (vx > 0) ani = TURLE_ANI_WALKING_RIGHT;
-		else if (vx <= 0) ani = TURLE_ANI_WALKING_LEFT;
-	}
-	else if (level == TURLE_LEVEL_SMALL && color == 1)							//mai rua xanh
-	{
-		if (this->GetState() == TURLE_STATE_DIE)
+		if (color == 1)
 		{
-			ani = TURLE_ANI_DIE;
+			if (vx > 0) ani = TURLE_ANI_WALKING_RIGHT;
+			else if (vx <= 0) ani = TURLE_ANI_WALKING_LEFT;
 		}
-		else if (this->GetState() == TURLE_STATE_RUN_DIE) {
-			ani = TURLE_ANI_RUN_DIE;
-		}
-	}
-	else if (level == TURLE_LEVEL_FLY && color == 1)							//rua xanh co canh
-	{
-		if (this->GetState() == TURLE_STATE_FLY)
+		else
 		{
-			ani = TURLE_ANI_FLY;
+			if (vx > 0) ani = TURLE_ANI_RED_WALKING_RIGHT;
+			else if (vx <= 0) ani = TURLE_ANI_RED_WALKING_LEFT;
 		}
+		
+	}
+	else if (level == TURLE_LEVEL_SMALL)							//mai rua xanh
+	{
+		if (color == 1)
+		{
+			if (this->GetState() == TURLE_STATE_DIE)
+			{
+				ani = TURLE_ANI_DIE;
+			}
+			else if (this->GetState() == TURLE_STATE_RUN_DIE) {
+				ani = TURLE_ANI_RUN_DIE;
+			}
+		}
+		else
+		{
+			if (this->GetState() == TURLE_STATE_DIE)
+			{
+				ani = TURLE_ANI_RED_DIE;
+			}
+			else if (this->GetState() == TURLE_STATE_RUN_DIE) {
+				ani = TURLE_ANI_RED_RUN_DIE;
+			}
+		}
+		
+	}
+	else if (level == TURLE_LEVEL_FLY)							//rua xanh co canh
+	{
+		if (color == 1)
+		{
+			if (this->GetState() == TURLE_STATE_FLY)
+			{
+				ani = TURLE_ANI_FLY;
+			}
+		}
+		
 
 	}
-
-	
 
 	animation_set->at(ani)->Render(x, y,255,isReverse);
 

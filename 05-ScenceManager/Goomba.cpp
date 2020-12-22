@@ -61,12 +61,10 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (x > 830.0f)
 		{
 			level = GOOMBA_LEVEL_RED_HIGH;
-			DebugOut(L"ASDGHASGD%f\n", x);
 		}
 		else
 		{
 			level = 1;
-			DebugOut(L"ASDGHAS2222222222GD%f\n", x);
 
 		}
 		yStatic = y;
@@ -87,7 +85,6 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 		if (isFly)
 		{
-			DebugOut(L"sh111111ssssssssss%d sdds%f\n", footstep, x);
 			vy += -0.7f;
 			timePrepareFly = GetTickCount();
 			isFly = false;
@@ -106,7 +103,8 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (footstep > 2)
 		{
 			vy = -0.5f;
-			DebugOut(L"shsgdhsgd%d sdds%f\n", footstep,vy);
+			
+			(L"shsgdhsgd%d sdds%f\n", footstep,vy);
 			xStatic = x;
 			footstep = 0;
 
@@ -115,12 +113,12 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	
 		if (this->GetState() == GOOMBA_STATE_REVERSE_DIE) 
 		{
-			if (y > mario->y + 200)
+			if (y > 400 + 200)					//if (y > mario->y + 200)
 			{
 				vy = 0;
 				vx = 0;
 			}
-			else if (y < mario->y - GOOMBA_BBOX_HEIGHT*3)
+			else if (y < 400 - GOOMBA_BBOX_HEIGHT*3)		//else if (y < mario->y - GOOMBA_BBOX_HEIGHT*3)
 				vy += 0.05f;
 				vx = (mario->nx)*0.08f;
 			{
@@ -270,7 +268,7 @@ void CGoomba::SetState(int state)
 	switch (state)
 	{
 		case GOOMBA_STATE_REVERSE_DIE:
-			vx = (mario->nx)*0.05f;
+			vx = (mario->nx)*0.05f +0.0001f;
 			vy = -0.1f;
 			break;
 		case GOOMBA_STATE_DIE:

@@ -1,8 +1,8 @@
 #pragma once
 #include "GameObject.h"
 
-#define MUSHROOM_BBOX_WIDTH  17
-#define MUSHROOM_BBOX_HEIGHT 17
+#define MUSHROOM_BBOX_WIDTH  16
+#define MUSHROOM_BBOX_HEIGHT 16
 
 #define MUSHROOM_STATE_LIVE 100
 #define MUSHROOM_STATE_DIE_OVER 300
@@ -30,14 +30,5 @@ public:
 	virtual void GetBoundingBox(float &l, float &t, float &r, float &b);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void SetState(int state);
-	/*static bool isStart;
-	static bool isRun;
-	static bool isMoney;
-	static float  xBox;
-	static float  yBox;
-	int ani;
-
-	bool isDie;
-	static CMushroom * __instance;
-	static CMushroom * GetInstance();*/
+	
 };

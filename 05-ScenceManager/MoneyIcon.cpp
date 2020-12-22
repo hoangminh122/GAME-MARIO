@@ -29,11 +29,13 @@ CMoneyIcon::~CMoneyIcon() {
 void CMoneyIcon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	CGameObject::Update(dt, coObjects);
+	
 	if (y != 0 && !isInitPos)
 	{
 		yStatic = y;
 		isInitPos = true;
 	}
+	
 	else if (isMove && noMoney)				//vij tri money ==vi tri mario va cham
 	{
 		vy -= 0.55f;
@@ -54,7 +56,13 @@ void CMoneyIcon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		else
 		{
 			vy = 0;
-			//y = yStatic;
+			y = yStatic;
+			if (GetState() == MONEY_STATE_DIE_OVER)
+			{
+				vy = 0;
+				y = 600;
+				vx = 0;
+			}
 		}
 	}
 
