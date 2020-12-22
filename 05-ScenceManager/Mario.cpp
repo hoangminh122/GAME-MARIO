@@ -330,7 +330,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						}
 
 					}
-					else if (GetLevel() < 1)
+					else if (GetLevel() <= 1)
 					{
 						SetState(MARIO_STATE_DIE);
 					}
