@@ -392,6 +392,16 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				
 
 			}
+			if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is Backgroud die
+			{
+				CBrick* brick = dynamic_cast<CBrick *>(e->obj);
+
+				if (brick->type == 10 && nx != 0)
+					brick->y = 600;
+				//x += dx;
+				//if(!checkMarioColision)
+				//y += dy;		
+			} // if brickTop
 			
 		}
 

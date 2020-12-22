@@ -1,5 +1,6 @@
 #include "Brick.h"
 
+bool CBrick::moneyIcon = false;
 
 CBrick::CBrick(int type_ani) 
 {
@@ -18,7 +19,9 @@ void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 void CBrick::Render()
 {
-	if(type ==10)
+	if(type ==10 && moneyIcon)
+		animation_set->at(2)->Render(x, y);
+	else if(type == 10)
 		animation_set->at(1)->Render(x, y);
 	RenderBoundingBox();
 }
