@@ -1,5 +1,6 @@
 #include "BrickQuestion.h"
 #include "Utils.h"
+#include "Coin.h"
 
 CBrickQuestion::CBrickQuestion():CGameObject() {
 	isInitPos = false;						//trang thai chua khoi tao gia tri
@@ -40,6 +41,17 @@ void CBrickQuestion::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			isMove = false;
 			isDie = true;
+			//diem di chuyen 
+			//SET SCORES MOVE
+			CCOIN::xStartMove = x;
+			CCOIN::yStartMove = y;
+			CCOIN::isInitPosNew = true;
+			CCOIN::timeWait = GetTickCount();
+			//CCOIN::isMove = true;
+			CCOIN::level = 100;
+
+			//SET COINS MOVE
+			CCOIN::status = 1;
 		}
 
 	}

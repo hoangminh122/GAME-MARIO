@@ -456,7 +456,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			else if (dynamic_cast<CMoneyIcon *>(e->obj)) // if e->obj is question box
 			{
 				CMoneyIcon* moneyIcon = dynamic_cast<CMoneyIcon *>(e->obj);
-				if (e->ny > 0)
+				if (e->ny > 0 && moneyIcon ->type != 10 )
 				{
 					moneyIcon->SetMove(true);
 				}
@@ -471,15 +471,16 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					if (!brickQuestion->isDie)				//chua va cham lan nao
 					{
 						brickQuestion->SetMove(true);
-						//SET SCORES MOVE
-						CCOIN::xStartMove = brickQuestion->x;
-						CCOIN::yStartMove = brickQuestion->y;
-						CCOIN::isInitPosNew = true;
-						CCOIN::isMove = true;
-						CCOIN::level = 100;
+						////SET SCORES MOVE
+						//CCOIN::xStartMove = brickQuestion->x;
+						//CCOIN::yStartMove = brickQuestion->y;
+						//CCOIN::isInitPosNew = true;
+						////CCOIN::timeWait = GetTickCount();
+						//CCOIN::isMove = true;
+						//CCOIN::level = 100;
 
-						//SET COINS MOVE
-						CCOIN::status = 1;
+						////SET COINS MOVE
+						//CCOIN::status = 1;
 
 					}
 					vy = 0;

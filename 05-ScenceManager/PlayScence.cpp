@@ -231,7 +231,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BULLET_MARIO: obj = new CBulletMario(); break;
 	case OBJECT_TYPE_BACKGROUND_DIE: obj = new CBackgroundDie(); break;
 	case OBJECT_TYPE_BRICK_QUESTION: obj = new CBrickQuestion(); break;
-	case OBJECT_TYPE_MONEY_ICON: obj = new CMoneyIcon(); break;
+	case OBJECT_TYPE_MONEY_ICON: obj = new CMoneyIcon(typeAni); break;
 	case OBJECT_TYPE_LEAF: obj = new CLeaf(); break;
 	case OBJECT_TYPE_COIN: obj = new CCOIN(); break;
 	case OBJECT_TYPE_HAT: obj = new CHat(); break;
