@@ -417,7 +417,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					{
 						if (goomba->GetState() != GOOMBA_STATE_DIE)
 						{
+							if(goomba->vx > 0)
+								goomba->nxx = 1;	
+							else
+								goomba->nxx = -1;
 							goomba->SetState(GOOMBA_STATE_STOP);
+							goomba->x += nx * 16;
+							goomba->SetState(GOOMBA_STATE_WALKING);
 
 							if (GetLevel() > 1)
 							{

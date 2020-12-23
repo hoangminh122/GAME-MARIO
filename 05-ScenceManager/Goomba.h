@@ -46,6 +46,7 @@ private:
 	DWORD timePrepareFly;
 	bool isFly;
 public: 
+	int nxx;				//chieu di chuyen goomba
 	int ani;
 	int GetLevel() { return level; };
 	void SetLevel(int l) { level = l; }

@@ -7,6 +7,7 @@
 
 CGoomba::CGoomba()
 {
+	nxx = -1;
 	SetState(GOOMBA_STATE_WALKING);
 	isReverse = false;
 	//nx = -1;
@@ -287,7 +288,15 @@ void CGoomba::SetState(int state)
 			vx = 0;
 			vy = 0;
 			break;
-		case GOOMBA_STATE_WALKING: 
-			vx = -GOOMBA_WALKING_SPEED;
+		case GOOMBA_STATE_WALKING:
+		{
+			if (nxx > 0)
+			{
+				vx = GOOMBA_WALKING_SPEED;
+			}
+			else
+				vx = -GOOMBA_WALKING_SPEED;
+		}
+			
 	}
 }

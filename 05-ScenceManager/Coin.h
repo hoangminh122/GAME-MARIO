@@ -16,7 +16,7 @@
 #define COIN_ANI_1VP 8
 
 
-#define COIN_WAITING 700
+#define COIN_WAITING 300
 
 
 class CCOIN : public CGameObject
