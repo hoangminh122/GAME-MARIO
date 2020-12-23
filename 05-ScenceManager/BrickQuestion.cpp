@@ -2,7 +2,8 @@
 #include "Utils.h"
 #include "Coin.h"
 
-CBrickQuestion::CBrickQuestion():CGameObject() {
+CBrickQuestion::CBrickQuestion(int type_ani):CGameObject() {
+	type = type_ani;
 	isInitPos = false;						//trang thai chua khoi tao gia tri
 	isMove = false;
 	yStatic = y;						//ban dau chua gan gia tri y cho question -> chu y de nham lan
@@ -78,6 +79,8 @@ void CBrickQuestion::Render()
 {
 	if (isDie)
 		ani = 1;
+	else if (type == 1)
+		ani = 2;
 	animation_set->at(ani)->Render(x, y);
 	RenderBoundingBox();
 }
