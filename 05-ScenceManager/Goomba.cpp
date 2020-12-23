@@ -4,6 +4,7 @@
 #include "CMushroom.h"
 #include "Brick.h"
 
+
 CGoomba::CGoomba()
 {
 	SetState(GOOMBA_STATE_WALKING);
@@ -174,6 +175,8 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		// TODO: This is a very ugly designed function!!!!
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 
+		x += min_tx * dx + nx * 0.4f;
+		y += min_ty * dy + ny * 0.4f;
 		//if (nx != 0) vx = 0;
 		//if (ny != 0) vy = 0;
 
@@ -209,8 +212,12 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					x += dx;
 					//y += dy;
 			}
-
-
+			//if (dynamic_cast<CMario *>(e->obj))	//va cham voi background Die
+			//{
+			//	vx = 0;
+			//	SetState(GOOMBA_STATE_STOP);
+			//	//y += dy;
+			//}
 
 		}
 
@@ -273,6 +280,10 @@ void CGoomba::SetState(int state)
 			break;
 		case GOOMBA_STATE_DIE:
 			y += GOOMBA_BBOX_HEIGHT - GOOMBA_BBOX_HEIGHT_DIE + 1;
+			vx = 0;
+			vy = 0;
+			break;
+		case GOOMBA_STATE_STOP:
 			vx = 0;
 			vy = 0;
 			break;
