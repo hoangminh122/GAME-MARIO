@@ -531,7 +531,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					//y += dy;
 
 				}
-				else if (e->nx != 0 && !hat->noColision)
+				else if (!hat->noColision && !hat->isDie)
 				{
 					CBrick::moneyIcon = true;
 					hat->isDie = true;
@@ -610,12 +610,19 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				//x += dx;
 				//if(!checkMarioColision)
 				if (e->nx != 0)
-					vx = 0;
+					//vx = 0;
+					x += dx;
 			} // if brickTop
-			else if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is Backgroud die
+			if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is Backgroud die
 			{
 				CBrick* brick = dynamic_cast<CBrick *>(e->obj);
-
+				if (nx != 0)
+				{
+					if(vx < 0)
+						x += 0.003f;
+					else
+						x -= 0.003f;
+				}
 				if (brick->type == 10 && brick->moneyIcon)
 					brick->y = 600;
 						

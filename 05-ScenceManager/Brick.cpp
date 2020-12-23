@@ -21,7 +21,9 @@ void CBrick::Render()
 {
 	if(type ==10 && moneyIcon)
 		animation_set->at(2)->Render(x, y);
-	else if(type == 10)
+	else if (type == 11 && moneyIcon)
+		animation_set->at(3)->Render(x, y);
+	else if(type == 10 || type == 11)
 		animation_set->at(1)->Render(x, y);
 	RenderBoundingBox();
 }
