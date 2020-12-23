@@ -360,11 +360,17 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						}
 						//truong hop binh thuong -> bi chet
 						else
+						{
+							if (turle->vx > 0)
+								turle->nxx = 1;
+							else
+								turle->nxx = -1;
+							turle->SetState(TURLE_STATE_STOP);
+							turle->x += nx * 16;
+							turle->SetState(TURLE_STATE_WALKING);
 							SetLevel(GetLevel() - 1);
+						}
 					}
-
-
-
 				}
 			}
 			if (dynamic_cast<CGoomba *>(e->obj)) // if e->obj is Goomba 

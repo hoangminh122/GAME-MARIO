@@ -15,6 +15,7 @@
 bool CTurle::isTreeStart = false;
 CTurle::CTurle(int type_ani)
 {
+	int nxx = -1;
 	type = type_ani;
 	untouchable = 0;
 	//color = 1;
@@ -310,7 +311,6 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					//if(leaf ->y > y -30)			//la roi muot hon
 					//	leaf->vy = -0.02f;
 					leaf->isMove = true;
-
 				}
 
 
@@ -356,6 +356,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				if (brick->type == 10 && nx != 0)
 					brick->y = 600;
 			}
+			
 			if (dynamic_cast<CBrickQuestion *>(e->obj)) // if e->obj is brickTop
 			{
 				CBrickQuestion* brickQuestion = dynamic_cast<CBrickQuestion *>(e->obj);
@@ -371,6 +372,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				/*if (e->nx != 0)
 					isNoCollision = false;*/
 			}
+			
 			if (dynamic_cast<CBrickTop *>(e->obj)) // if e->obj is brickTop
 			{
 				CBrickTop *brickTop = dynamic_cast<CBrickTop *>(e->obj);
@@ -487,8 +489,19 @@ void CTurle::SetState(int state)
 		vx = 0;
 		//vy = 0;
 		break;
+	case TURLE_STATE_STOP:
+		vx = 0;
+		vy = 0;
+		break;
 	case TURLE_STATE_WALKING:
-		vx = TURLE_WALKING_SPEED;
+	{
+		if (nxx > 0)
+		{
+			vx = TURLE_WALKING_SPEED;
+		}
+		else
+			vx = -TURLE_WALKING_SPEED;
+	}
 		break;
 	case TURLE_STATE_RUN_DIE:
 		//vx = -TURLE_WALKING_SPEED;
