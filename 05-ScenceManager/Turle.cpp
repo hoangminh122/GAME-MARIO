@@ -310,8 +310,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					//if(leaf ->y > y -30)			//la roi muot hon
 					//	leaf->vy = -0.02f;
 					leaf->isMove = true;
-					vx = -vx;
-					x += dx;
+
 				}
 
 
@@ -353,11 +352,20 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 				if (nx != 0)
 					vx = -vx;
+
+				if (brick->type == 10 && nx != 0)
+					brick->y = 600;
 			}
 			if (dynamic_cast<CBrickQuestion *>(e->obj)) // if e->obj is brickTop
 			{
+				CBrickQuestion* brickQuestion = dynamic_cast<CBrickQuestion *>(e->obj);
+				if (!brickQuestion->isDie)				//chua va cham lan nao
+				{
+					brickQuestion->SetMove(true);
+				}
 				vx = -vx;
 				x += dx;
+				
 				/*if (GetState() == TURLE_STATE_RUN_DIE)
 					isNoCollision = false;*/
 				/*if (e->nx != 0)
@@ -392,16 +400,16 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				
 
 			}
-			if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is Backgroud die
-			{
-				CBrick* brick = dynamic_cast<CBrick *>(e->obj);
+			//if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is Backgroud die
+			//{
+			//	CBrick* brick = dynamic_cast<CBrick *>(e->obj);
 
-				if (brick->type == 10 && nx != 0)
-					brick->y = 600;
-				//x += dx;
-				//if(!checkMarioColision)
-				//y += dy;		
-			} // if brickTop
+			//	if (brick->type == 10 && nx != 0)
+			//		brick->y = 600;
+			//	//x += dx;
+			//	//if(!checkMarioColision)
+			//	//y += dy;		
+			//} // if brickTop
 			
 		}
 
