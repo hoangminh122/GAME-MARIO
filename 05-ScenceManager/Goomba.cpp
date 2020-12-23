@@ -196,7 +196,7 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			if (e->nx != 0 && e->obj != NULL
 				&& !dynamic_cast<CMario *>(e->obj)
 				&&	!dynamic_cast<CMushroom *>(e->obj)
-				&& !dynamic_cast<CBrick *>(e->obj)
+				//&& !dynamic_cast<CBrick *>(e->obj)
 				&& !dynamic_cast<CGoomba *>(e->obj)
 				)
 			{
