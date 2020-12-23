@@ -59,7 +59,7 @@ public:
 	int type;
 	int untouchable;
 	 DWORD timeStart;			//rua bat dau nhay cach nhau 1s
-	 int constTimeStart;
+	 DWORD constTimeStart;
 	int color;
 	bool isInitPos;
 	int level;

@@ -2,8 +2,8 @@
 #include "GameObject.h"
 #include "Mario.h"
 
-#define BRICK_BBOX_WIDTH  16
-#define BRICK_BBOX_HEIGHT 16
+#define BRICK_QUESTION_BBOX_WIDTH  16
+#define BRICK_QUESTION_BBOX_HEIGHT 16
 
 #define  BRICK_ANI_DIE	1
 #define BRICK_GRAVITY	0.002f

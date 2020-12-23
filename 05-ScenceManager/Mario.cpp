@@ -330,9 +330,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						}
 
 					}
-					else if (GetLevel() <= 1)
+					else if (GetLevel() <= 1 && turle->GetState() != TURLE_STATE_DIE)
 					{
-						SetState(MARIO_STATE_DIE);
+							SetState(MARIO_STATE_DIE);
 					}
 					else
 					{
@@ -497,7 +497,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						//CCOIN::status = 1;
 
 					}
-					vy = 0;
+					vy = 0.005f;
 
 					
 				}
@@ -1194,7 +1194,7 @@ void CMario::SetState(int state)
 		break;
 	case MARIO_STATE_FLY_SHORT:
 		if (checkMarioColision == true)
-			vy = -0.9;
+			vy = -0.9f;
 		vx = nx * 0.1f;
 		break;
 	case MARIO_STATE_DIE:
