@@ -69,14 +69,14 @@ void CCOIN::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (isInitPosNew)
 	{
 		yStatic = yStartMove;
-		y = yStartMove;
+		y = yStartMove-5;
 		x = xStartMove;
 		isInitPosNew = false;
 	}
 	else if (isMove)
 	{
-		vy = -0.55f;
-		if (y < yStatic - 45.0f)
+		vy -= 0.05f;
+		if (y < yStatic - 15.0f)
 		{
 			//tang coin tren HUD
 			if (status == 0)
@@ -95,7 +95,7 @@ void CCOIN::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	else
 	{
-		if (y < yStatic - 45.0f)
+		if (y < yStatic - 15.0f)
 		{
 			
 			//y += 1.0f;

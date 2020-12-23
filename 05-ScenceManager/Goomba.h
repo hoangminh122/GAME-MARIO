@@ -15,6 +15,7 @@
 
 #define GOOMBA_STATE_WALKING 100
 #define GOOMBA_STATE_DIE 200
+#define GOOMBA_STATE_STOP 201
 #define GOOMBA_STATE_REVERSE_DIE 300
 
 #define	GOOMBA_LEVEL_NOMAL	1
@@ -45,6 +46,7 @@ private:
 	DWORD timePrepareFly;
 	bool isFly;
 public: 
+	int nxx;				//chieu di chuyen goomba
 	int ani;
 	int GetLevel() { return level; };
 	void SetLevel(int l) { level = l; }

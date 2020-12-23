@@ -4,7 +4,7 @@
 20	textures\misc.png	176	224	248
 10	textures\enemies.png	3	26	110
 30	textures\map\man1\tiles.png	255	255	255
-40	textures\misc\misc.png	255	255	255
+40	textures\misc\misc.png	176	255	255
 41	textures\misc\misc-6.png	255	255	255
 50	textures\enemie\enemies.png	255	255	255
 60	textures\enemie\enemies-2.png	255	255	255
@@ -345,6 +345,7 @@ tile-map1-1.txt	80	2816	432
 40006	137	137	153	152	30
 # Mushroom
 50001	137	137	153	152	30
+50007	156	121	172	136	40
 #la cay
 50002	180	123	195	136	40
 50006	374	121	390	134	40
@@ -632,6 +633,7 @@ tile-map1-1.txt	80	2816	432
 
 # Mushroom,leaf
 801	50001	100
+806	50007	100
 802	50002	100
 804	50006	100
 #money
@@ -721,7 +723,7 @@ tile-map1-1.txt	80	2816	432
 # GOOMBA
 3	701	702	703	704	705	706
 # Mushroom
-8	801
+8	801	806
 #LEAF 
 13	802	804
 #money
@@ -748,7 +750,7 @@ tile-map1-1.txt	80	2816	432
 #0	548.0	136	1
 #0	1147	136	1
 #0	100	370	1
-0	70	320	1
+0	80	320	1
 #bullet
 11	350	366	11
 #plant 1
@@ -763,7 +765,7 @@ tile-map1-1.txt	80	2816	432
 10	1867	400	10
 # GOOMBA
 2	160	350	3
-#2	200	400	3
+2	400	380	3
 #2	565	400	3
 #2	10	400	3
 #2	800	384	3
@@ -1174,6 +1176,9 @@ tile-map1-1.txt	80	2816	432
 16	176	352	12
 16	192	352	12
 16	224	304	12
+
+16	704	351	12
+
 #money fly
 16	1119	300	12	10
 16	1139	280	12	10

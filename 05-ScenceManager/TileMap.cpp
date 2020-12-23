@@ -67,10 +67,10 @@ void CTileMap::Render(CMario* player)
 	player->GetPosition(cx, cy);	//lay vi tri cua mario
 	//tinh vi tri topleft va bottonright cua camera
 
-	int xTopLeftCam = cx - game->GetScreenWidth() / 2;  //vi tri tren ben trai cua camera
-	int yTopLeftCam = cy - game->GetScreenHeight() / 2;
-	int xBotRightCam = cx + game->GetScreenWidth() / 2;
-	int yBotRightCam = cy + game->GetScreenHeight() / 2;
+	int xTopLeftCam = (int)cx - game->GetScreenWidth() / 2;  //vi tri tren ben trai cua camera
+	int yTopLeftCam = (int)cy - game->GetScreenHeight() / 2;
+	int xBotRightCam = (int)cx + game->GetScreenWidth() / 2;
+	int yBotRightCam = (int)cy + game->GetScreenHeight() / 2;
 
 	//chia cho width,height cua moi tile nho => vi
 	/*int xTopLeft = xTopLeftCam / 16 ;

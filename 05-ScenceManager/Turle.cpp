@@ -15,6 +15,7 @@
 bool CTurle::isTreeStart = false;
 CTurle::CTurle(int type_ani)
 {
+	int nxx = -1;
 	type = type_ani;
 	untouchable = 0;
 	//color = 1;
@@ -82,7 +83,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (type == TURLE_COLOR_GREEN)						//tao do tren map
 		{
 			level = TURLE_LEVEL_FLY;
-			constTimeStart = x;
+			constTimeStart = (DWORD)x;
 			x = 1419.0f;
 			y = 280.0f;
 			timeStart = GetTickCount();
@@ -225,15 +226,15 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			{
 				if (mario->GetLevel() == 1)
 				{
-					x = mario->x + MARIO_SMALL_BBOX_WIDTH - MARIO_BIG_BBOX_WIDTH / 4;
+					x = mario->x + (float)MARIO_SMALL_BBOX_WIDTH - MARIO_BIG_BBOX_WIDTH / 4.0f;
 				}
 				else if (mario->GetLevel() == 3)
 				{
-					x = mario->x + MARIO_TAIL_BIG_BBOX_WIDTH -MARIO_BIG_BBOX_WIDTH/3.5;
+					x = mario->x + (float)MARIO_TAIL_BIG_BBOX_WIDTH -MARIO_BIG_BBOX_WIDTH/3.5f;
 				}
 				else
 				{
-					x = mario->x + MARIO_BIG_BBOX_WIDTH - MARIO_BIG_BBOX_WIDTH / 4;
+					x = mario->x + (float)MARIO_BIG_BBOX_WIDTH - MARIO_BIG_BBOX_WIDTH / 4.0f;
 				}
 				/*if(mario ->GetLevel() >1)
 					x = mario->x + MARIO_BIG_BBOX_WIDTH- MARIO_BIG_BBOX_WIDTH/4;
@@ -244,15 +245,15 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			{
 				if (mario->GetLevel() == 1)
 				{
-					x = mario->x - TURLE_BBOX_WIDTH + MARIO_BIG_BBOX_WIDTH / 3.5;
+					x = mario->x - (float)TURLE_BBOX_WIDTH + MARIO_BIG_BBOX_WIDTH / 3.5f;
 				}
 				else if (mario->GetLevel() == 3)
 				{
-					x = mario->x - TURLE_BBOX_WIDTH + MARIO_BIG_BBOX_WIDTH / 3.5;
+					x = mario->x - (float)TURLE_BBOX_WIDTH + MARIO_BIG_BBOX_WIDTH / 3.5f;
 				}
 				else
 				{
-					x = mario->x - TURLE_BBOX_WIDTH + MARIO_BIG_BBOX_WIDTH / 4;
+					x = mario->x - (float)TURLE_BBOX_WIDTH + MARIO_BIG_BBOX_WIDTH / 4.0f;
 				}
 				/*if (mario->GetLevel() > 1)
 					x = mario->x - TURLE_BBOX_WIDTH+ MARIO_BIG_BBOX_WIDTH /4;
@@ -261,7 +262,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			}
 
 			if (mario->GetLevel() > 1)
-				y = mario->y + MARIO_BIG_BBOX_WIDTH/3.5;
+				y = mario->y + MARIO_BIG_BBOX_WIDTH/3.5f;
 			else
 				y = mario->y;
 		}
@@ -301,21 +302,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				vy = 0;
 			}
 
-			else if (dynamic_cast<CLeaf *>(e->obj)) // if e->obj is question box
-			{
-				CLeaf* leaf = dynamic_cast<CLeaf *>(e->obj);
-				if (e->nx != 0)
-				{
-					leaf->y = y - 40;
-					//if(leaf ->y > y -30)			//la roi muot hon
-					//	leaf->vy = -0.02f;
-					leaf->isMove = true;
-					vx = -vx;
-					x += dx;
-				}
-
-
-			} // if question box
+			
 			
 			else if (dynamic_cast<CGoomba *>(e->obj)) // if e->obj is brickTop
 			{
@@ -353,16 +340,42 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 				if (nx != 0)
 					vx = -vx;
+
+				if (brick->type == 10 && nx != 0)
+					brick->y = 600;
 			}
+			
 			if (dynamic_cast<CBrickQuestion *>(e->obj)) // if e->obj is brickTop
 			{
-				vx = -vx;
-				x += dx;
+				CBrickQuestion* brickQuestion = dynamic_cast<CBrickQuestion *>(e->obj);
+				if (!brickQuestion->isDie)				//chua va cham lan nao
+				{
+					brickQuestion->SetMove(true);
+				}
+				x -= 2.0f;
+				//vx = -vx;
+				//x += dx;
+				
 				/*if (GetState() == TURLE_STATE_RUN_DIE)
 					isNoCollision = false;*/
 				/*if (e->nx != 0)
 					isNoCollision = false;*/
 			}
+			if (dynamic_cast<CLeaf *>(e->obj)) // if e->obj is question box
+			{
+				CLeaf* leaf = dynamic_cast<CLeaf *>(e->obj);
+				if (e->nx != 0)
+				{
+					leaf->y = y - 40;
+					//if(leaf ->y > y -30)			//la roi muot hon
+					//	leaf->vy = -0.02f;
+					leaf->isMove = true;
+					vx = -vx;
+				}
+
+
+			} // if question box
+			
 			if (dynamic_cast<CBrickTop *>(e->obj)) // if e->obj is brickTop
 			{
 				CBrickTop *brickTop = dynamic_cast<CBrickTop *>(e->obj);
@@ -392,16 +405,16 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				
 
 			}
-			if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is Backgroud die
-			{
-				CBrick* brick = dynamic_cast<CBrick *>(e->obj);
+			//if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is Backgroud die
+			//{
+			//	CBrick* brick = dynamic_cast<CBrick *>(e->obj);
 
-				if (brick->type == 10 && nx != 0)
-					brick->y = 600;
-				//x += dx;
-				//if(!checkMarioColision)
-				//y += dy;		
-			} // if brickTop
+			//	if (brick->type == 10 && nx != 0)
+			//		brick->y = 600;
+			//	//x += dx;
+			//	//if(!checkMarioColision)
+			//	//y += dy;		
+			//} // if brickTop
 			
 		}
 
@@ -479,8 +492,19 @@ void CTurle::SetState(int state)
 		vx = 0;
 		//vy = 0;
 		break;
+	case TURLE_STATE_STOP:
+		vx = 0;
+		vy = 0;
+		break;
 	case TURLE_STATE_WALKING:
-		vx = TURLE_WALKING_SPEED;
+	{
+		if (nxx > 0)
+		{
+			vx = TURLE_WALKING_SPEED;
+		}
+		else
+			vx = -TURLE_WALKING_SPEED;
+	}
 		break;
 	case TURLE_STATE_RUN_DIE:
 		//vx = -TURLE_WALKING_SPEED;

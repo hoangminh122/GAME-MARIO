@@ -49,7 +49,7 @@ void CMoneyIcon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	else
 	{
-		if (y < yStatic-0.15*dt)
+		if (y < yStatic - 45.0f)
 		{
 			//y += 1.0f;
 			vy = 0.15f;

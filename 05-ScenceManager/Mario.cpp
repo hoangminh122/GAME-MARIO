@@ -330,9 +330,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						}
 
 					}
-					else if (GetLevel() <= 1)
+					else if (GetLevel() <= 1 && turle->GetState() != TURLE_STATE_DIE)
 					{
-						SetState(MARIO_STATE_DIE);
+							SetState(MARIO_STATE_DIE);
 					}
 					else
 					{
@@ -360,11 +360,17 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						}
 						//truong hop binh thuong -> bi chet
 						else
+						{
+							if (turle->vx > 0)
+								turle->nxx = 1;
+							else
+								turle->nxx = -1;
+							turle->SetState(TURLE_STATE_STOP);
+							turle->x += nx * 16;
+							turle->SetState(TURLE_STATE_WALKING);
 							SetLevel(GetLevel() - 1);
+						}
 					}
-
-
-
 				}
 			}
 			if (dynamic_cast<CGoomba *>(e->obj)) // if e->obj is Goomba 
@@ -417,6 +423,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					{
 						if (goomba->GetState() != GOOMBA_STATE_DIE)
 						{
+							if(goomba->vx > 0)
+								goomba->nxx = 1;	
+							else
+								goomba->nxx = -1;
+							goomba->SetState(GOOMBA_STATE_STOP);
+							goomba->x += nx * 16;
+							goomba->SetState(GOOMBA_STATE_WALKING);
+
 							if (GetLevel() > 1)
 							{
 								vy = -0.001f;
@@ -483,7 +497,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						//CCOIN::status = 1;
 
 					}
-					vy = 0;
+					vy = 0.005f;
 
 					
 				}
@@ -1180,7 +1194,7 @@ void CMario::SetState(int state)
 		break;
 	case MARIO_STATE_FLY_SHORT:
 		if (checkMarioColision == true)
-			vy = -0.9;
+			vy = -0.9f;
 		vx = nx * 0.1f;
 		break;
 	case MARIO_STATE_DIE:

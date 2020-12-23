@@ -12,6 +12,7 @@
 
 #define TURLE_STATE_WALKING 100
 #define TURLE_STATE_DIE 200
+#define TURLE_STATE_STOP	201
 #define TURLE_STATE_RUN_DIE 300
 #define TURLE_STATE_DIE_OVER 400
 #define TURLE_STATE_REVERSE_DIE	500
@@ -53,11 +54,12 @@ class CTurle : public CGameObject
 	virtual void Render();
 
 public:
+	int nxx;                     //xac ding chieu 
 	CTurle(int type_ani);
 	int type;
 	int untouchable;
 	 DWORD timeStart;			//rua bat dau nhay cach nhau 1s
-	 int constTimeStart;
+	 DWORD constTimeStart;
 	int color;
 	bool isInitPos;
 	int level;
