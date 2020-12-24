@@ -378,7 +378,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			} // if question box
 			if (dynamic_cast<CCOL *>(e->obj)) // if e->obj is question box
 			{
-				y -=5;
+				y -= 5;
 				level = TURLE_LEVEL_SMALL;
 				isReverse = true;
 				vy = -0.3f;
