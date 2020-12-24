@@ -474,6 +474,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				{
 					moneyIcon->SetMove(true);
 				}
+				else
+				{
+					AddCoins(1);
+
+					//SET COINS MOVE
+					AddScores(50);
+				}
 				moneyIcon->SetState(MONEY_STATE_DIE_OVER);
 
 			} // if question box
@@ -618,6 +625,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				CBrick* brick = dynamic_cast<CBrick *>(e->obj);
 				if (nx != 0)
 				{
+					if (brick->type == 10)
+					{
+						if (this->GetState() == MARIO_STATE_ROTATORY_IDLE)
+						{
+							brick->y = 600;
+						}
+						DebugOut(L"asdgahdg%d", brick->type);
+
+					}
 					if(vx < 0)
 						x += 0.003f;
 					else
