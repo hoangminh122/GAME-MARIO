@@ -631,8 +631,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						{
 							brick->y = 600;
 						}
-						DebugOut(L"asdgahdg%d", brick->type);
-
 					}
 					if(vx < 0)
 						x += 0.003f;

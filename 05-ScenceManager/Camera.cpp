@@ -7,7 +7,7 @@ CCamera::CCamera() {
 	position = D3DXVECTOR3(0, 0, 0);
 
 	width = CGame::GetInstance() -> GetScreenWidth();     //lay chieu dai man hinh game
-	height = CGame::GetInstance()-> GetScreenHeight() -70;
+	height = CGame::GetInstance()-> GetScreenHeight();
 
 }
 
@@ -68,12 +68,12 @@ void CCamera::Update(CMario* player) {
 		SetPosition(GetPosition().x, GetHeight() / 2.0f);
 	}
 
-	if (GetBound().bottom > 300)
-		/*if (GetBound().bottom > mapHeight / 2)*/
-	{
-		//luc nay cham day cua the gioi thuc
-		SetPosition(GetPosition().x, mapHeight - GetHeight() / 2.0f);
-	}
+	//if (GetBound().bottom > 500)
+	//	/*if (GetBound().bottom > mapHeight / 2)*/
+	//{
+	//	//luc nay cham day cua the gioi thuc
+	//	SetPosition(GetPosition().x, mapHeight - GetHeight() / 2.0f);
+	//}
 
 }
 
