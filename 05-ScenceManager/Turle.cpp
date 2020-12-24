@@ -9,6 +9,7 @@
 #include "Goomba.h"
 #include "BackgroundDie.h"
 #include "Leaf.h"
+#include "Col.h"
 
 
 //DWORD CTurle::timeStart = 1;
@@ -375,6 +376,15 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 
 			} // if question box
+			if (dynamic_cast<CCOL *>(e->obj)) // if e->obj is question box
+			{
+				y -=5;
+				level = TURLE_LEVEL_SMALL;
+				isReverse = true;
+				vy = -0.3f;
+				SetState(TURLE_STATE_DIE);
+
+			} // if question col
 			
 			if (dynamic_cast<CBrickTop *>(e->obj)) // if e->obj is brickTop
 			{

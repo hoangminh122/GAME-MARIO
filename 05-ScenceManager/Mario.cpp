@@ -366,7 +366,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 							else
 								turle->nxx = -1;
 							turle->SetState(TURLE_STATE_STOP);
-							turle->x += nx * 16;
+							turle->x += turle->nxx * 16;
 							turle->SetState(TURLE_STATE_WALKING);
 							SetLevel(GetLevel() - 1);
 						}
