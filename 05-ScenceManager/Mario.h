@@ -2,7 +2,7 @@
 #include "GameObject.h"
 //#include "game_map.h"
 
-// so ani mario hien tai:94
+// so ani mario hien tai:95
 #define MARIO_WALKING_SPEED		0.1f 
 #define MARIO_WALKING_ADD_SPEED	0.005f 
 #define MARIO_RUN_NORMAL_SPEED	0.2f
@@ -55,6 +55,7 @@
 #define MARIO_ANI_SMALL_RUN_HOLD_TURTLE_LEFT		84
 
 
+#define MARIO_ANI_BIG_IDLE_PANEL		95
 #define MARIO_ANI_BIG_IDLE_RIGHT		0
 #define MARIO_ANI_BIG_IDLE_LEFT			1
 #define MARIO_ANI_BIG_WALKING_RIGHT			4
@@ -187,6 +188,7 @@ class CMario : public CGameObject
 	int energyCount;			//muc nang luong
 	int numCardImage;			//ramdom card ket thuc game
 public: 
+	int sence;							//man game hien tai luu 
 	bool goBottom;							//mario di vao duong ong
 	bool gravityFly;                      //quat duoi roi cham hon
 	DWORD timeFly;							//time fly
@@ -198,7 +200,7 @@ public:
 	DWORD timeWaitingAttackNext;		//time cho dot tan cong tiep theo
 	bool isRotatory180;			//trang thai mario dang quay 180
 	bool isMarioDropTurle;		//mario roi rua
-	static CMario * GetInstance(float x, float y);
+	static CMario * GetInstance(float x, float y,int _scene_id = 0);
 	bool isHold;					//mario cam rua khi nhan A
 	DWORD timeKickStart;			//time da rua
 	DWORD timeRotatoryStart;			//time danh duoi mario max
@@ -226,7 +228,7 @@ public:
 	bool checkMarioColision;
 	static bool isFire;
 public: 
-	CMario(float x = 0.0f, float y = 0.0f);
+	CMario(float x = 0.0f, float y = 0.0f,int sence = 0);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
 	virtual void Render();
 

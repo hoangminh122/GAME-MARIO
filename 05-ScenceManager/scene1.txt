@@ -1338,7 +1338,7 @@ tile-map1-1.txt	80	2816	656
 #13	2118	364	34
 #BACK GROUND DIE mushroom
 #13	656	374	34
-13	1056	374	23
+13	1056	377	23
 
 
 
@@ -1378,4 +1378,4 @@ tile-map1-1.txt	80	2816	656
 
 # --- SCENE PORTAL ----
 # type	l	t	ani_set_id	r	b	scene_id
-#50	2683	356	2	2680	2890	2
+50	2683	356	0	2680	2890	2

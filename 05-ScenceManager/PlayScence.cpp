@@ -212,16 +212,20 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	switch (object_type)
 	{
 	case OBJECT_TYPE_MARIO:
-		if (player!=NULL) 
+	{
+		if (player != NULL)
 		{
 			DebugOut(L"[ERROR] MARIO object was created before!\n");
 			return;
 		}
-		obj = CMario::GetInstance(x,y); 
-		player = (CMario*)obj;  
+		int scene1 = atoi(tokens[4].c_str());
+		obj = CMario::GetInstance(x, y, scene1);
+		player = (CMario*)obj;
 
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
+	}
+		
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(); break;
 
 	case OBJECT_TYPE_BRICK: 
