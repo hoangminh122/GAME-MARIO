@@ -449,7 +449,33 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		//mario->SetState(MARIO_STATE_KICK);
 		//turle->SetState(TURLE_STATE_RUN_DIE);
 		break;
+	case DIK_6:
+	{
+		mario->x = 548;
+		mario->y = 136;
+		break;
 	}
+	case DIK_7:
+	{
+		mario->x = 1424;
+		mario->y = 151;
+		break;
+	}
+	case DIK_8:
+	{
+		mario->x = 2160;
+		mario->y = 250;
+		break;
+	}
+	case DIK_9:
+	{
+		mario->x = 2261;
+		mario->y = 20;
+		break;
+	}
+	
+	}
+	
 }
 
 void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)

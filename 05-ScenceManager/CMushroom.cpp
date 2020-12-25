@@ -32,7 +32,7 @@ void CMushroom::Render()
 
 	if (type == 1)
 		ani = MUSHROOM_ANI_GREEN;
-	else
+	else if(type == 2)
 		ani = MUSHROOM_ANI_RED;
 	animation_set->at(ani)->Render(x, y);
 	RenderBoundingBox();

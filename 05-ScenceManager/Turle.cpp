@@ -342,7 +342,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				if (nx != 0)
 					vx = -vx;
 
-				if (brick->type == 10 && nx != 0)
+				if (brick->type == 10 && nx != 0 && GetState() == TURLE_STATE_RUN_DIE)
 					brick->y = 600;
 			}
 			
