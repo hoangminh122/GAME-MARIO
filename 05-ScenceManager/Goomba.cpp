@@ -3,6 +3,7 @@
 #include "Mario.h"
 #include "CMushroom.h"
 #include "Brick.h"
+#include "Col.h"
 
 
 CGoomba::CGoomba()
@@ -212,6 +213,11 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			{
 					x += dx;
 					//y += dy;
+			}
+
+			if (dynamic_cast<CCOL *>(e->obj))	//va cham voi background Die
+			{
+				SetState(GOOMBA_STATE_REVERSE_DIE);
 			}
 			//if (dynamic_cast<CMario *>(e->obj))	//va cham voi background Die
 			//{

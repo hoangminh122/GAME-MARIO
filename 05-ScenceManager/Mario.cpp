@@ -23,6 +23,7 @@
 #include "Brick.h"
 #include "Coin.h"
 #include "Hat.h"
+#include "SwitchCol.h"
 
 
 int CMario::level = 1;
@@ -50,6 +51,7 @@ CMario *CMario::GetInstance(float x, float y)
 
 CMario::CMario(float x, float y) : CGameObject()
 {
+	goBottom = false;
 	levelBefore = 1;
 	//level = MARIO_LEVEL_SMALL;
 //	level = MARIO_LEVEL_BIG;
@@ -124,7 +126,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			this->energyCount = count;
 		
 	}
-	if (GetTickCount() - timePrepareFly > 400 && timePrepareFly != 0)
+	if (GetTickCount() - timePrepareFly > 100 && timePrepareFly != 0)
 	{
 		energyFull = true;
 		vy = -0.05f;										//tao luc day ban dau
@@ -189,7 +191,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (this->GetState() == MARIO_STATE_DIE)
 	{
 		vx = 0; vy = 0;
-		y = 440;
+		y = 420;
 	}
 	// reset untouchable timer if untouchable time has passed
 	if ( GetTickCount() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
@@ -366,7 +368,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 							else
 								turle->nxx = -1;
 							turle->SetState(TURLE_STATE_STOP);
-							turle->x += nx * 16;
+							turle->x += turle->nxx * 16;
 							turle->SetState(TURLE_STATE_WALKING);
 							SetLevel(GetLevel() - 1);
 						}
@@ -473,6 +475,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				if (e->ny > 0 && moneyIcon ->type != 10 )
 				{
 					moneyIcon->SetMove(true);
+				}
+				else
+				{
+					AddCoins(1);
+
+					//SET COINS MOVE
+					AddScores(50);
 				}
 				moneyIcon->SetState(MONEY_STATE_DIE_OVER);
 
@@ -618,6 +627,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				CBrick* brick = dynamic_cast<CBrick *>(e->obj);
 				if (nx != 0)
 				{
+					if (brick->type == 10)
+					{
+						if (this->GetState() == MARIO_STATE_ROTATORY_IDLE)
+						{
+							brick->y = 600;
+						}
+					}
 					if(vx < 0)
 						x += 0.003f;
 					else
@@ -627,7 +643,26 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					brick->y = 600;
 						
 			} // if brickTop
-			
+			if (dynamic_cast<CSwitchCol *>(e->obj)) // if e->obj is Backgroud die
+			{
+				CSwitchCol* switchCol = dynamic_cast<CSwitchCol *>(e->obj);
+				if (ny > 0 && switchCol->type == 2)
+				{
+					goBottom = false;
+					x = 2324;
+					y = 405;
+					vy = 0.1f;
+				}
+				else if (ny < 0 && switchCol->type == 1 && GetState() == MARIO_STATE_DOWN)
+				{
+					goBottom = true;
+					x = 2105;
+					y = 493;
+					vy = -0.1f;
+				}
+				
+
+			} // if brickTop
 		
 			else if (dynamic_cast<CPortal *>(e->obj))
 			{

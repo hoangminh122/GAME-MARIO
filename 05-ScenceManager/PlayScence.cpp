@@ -18,6 +18,9 @@
 #include "Leaf.h"
 #include "Coin.h"
 #include "Hat.h"
+#include "Card.h"
+#include "Col.h"
+#include "SwitchCol.h"
 //#include "TileMap.h"
 
 using namespace std;
@@ -62,6 +65,9 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define OBJECT_TYPE_LEAF	17
 #define OBJECT_TYPE_COIN	18
 #define OBJECT_TYPE_HAT	100
+#define OBJECT_TYPE_CARD	110
+#define OBJECT_TYPE_COL	120
+#define OBJECT_TYPE_SWITCH_COL	130
 
 
 
@@ -235,6 +241,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_LEAF: obj = new CLeaf(); break;
 	case OBJECT_TYPE_COIN: obj = new CCOIN(); break;
 	case OBJECT_TYPE_HAT: obj = new CHat(); break;
+	case OBJECT_TYPE_CARD: obj = new CCard(); break;
+	case OBJECT_TYPE_COL: obj = CCOL::GetInstance(); break;
+	case OBJECT_TYPE_SWITCH_COL: obj = new CSwitchCol(typeAni); break;
 
 
 	case OBJECT_TYPE_PORTAL:
@@ -532,6 +541,8 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 				//mario->timeRotatoryStart = GetTickCount();        //time quay duoi dung yen mario
 				//mario->timeWaitingAttackNext = GetTickCount();
 				mario->isRotatory180 = true;
+				CCOL::GetInstance() ->isAttack=true;
+				CCOL::GetInstance()->timeAttack = GetTickCount();
 				//mario->SetState(MARIO_STATE_ROTATORY_IDLE);
 
 			//}

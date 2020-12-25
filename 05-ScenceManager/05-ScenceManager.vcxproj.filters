@@ -120,6 +120,15 @@
     <ClCompile Include="Hat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Card.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Col.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SwitchCol.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brick.h">
@@ -225,6 +234,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Hat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Card.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Col.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SwitchCol.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
