@@ -186,6 +186,7 @@ class CMario : public CGameObject
 	int coins;					//coin
 	int energyCount;			//muc nang luong
 public: 
+	bool goBottom;							//mario di vao duong ong
 	bool gravityFly;                      //quat duoi roi cham hon
 	DWORD timeFly;							//time fly
 	bool energyFull;

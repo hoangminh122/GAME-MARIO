@@ -23,6 +23,7 @@
 #include "Brick.h"
 #include "Coin.h"
 #include "Hat.h"
+#include "SwitchCol.h"
 
 
 int CMario::level = 1;
@@ -50,6 +51,7 @@ CMario *CMario::GetInstance(float x, float y)
 
 CMario::CMario(float x, float y) : CGameObject()
 {
+	goBottom = true;
 	levelBefore = 1;
 	//level = MARIO_LEVEL_SMALL;
 //	level = MARIO_LEVEL_BIG;
@@ -189,7 +191,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (this->GetState() == MARIO_STATE_DIE)
 	{
 		vx = 0; vy = 0;
-		y = 440;
+		y = 420;
 	}
 	// reset untouchable timer if untouchable time has passed
 	if ( GetTickCount() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
@@ -641,7 +643,19 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					brick->y = 600;
 						
 			} // if brickTop
-			
+			if (dynamic_cast<CSwitchCol *>(e->obj)) // if e->obj is Backgroud die
+			{
+				CSwitchCol* switchCol = dynamic_cast<CSwitchCol *>(e->obj);
+				if (ny > 0)
+				{
+					goBottom = false;
+					x = 2324;
+					y = 345;
+					DebugOut(L"shdgshdg\n");
+				}
+				
+
+			} // if brickTop
 		
 			else if (dynamic_cast<CPortal *>(e->obj))
 			{
