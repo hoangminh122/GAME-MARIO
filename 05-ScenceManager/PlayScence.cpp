@@ -21,6 +21,7 @@
 #include "Card.h"
 #include "Col.h"
 #include "SwitchCol.h"
+#include "CardImage.h"
 //#include "TileMap.h"
 
 using namespace std;
@@ -68,6 +69,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define OBJECT_TYPE_CARD	110
 #define OBJECT_TYPE_COL	120
 #define OBJECT_TYPE_SWITCH_COL	130
+#define OBJECT_TYPE_CARD_IMAGE	140
 
 
 
@@ -244,7 +246,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_CARD: obj = new CCard(); break;
 	case OBJECT_TYPE_COL: obj = CCOL::GetInstance(); break;
 	case OBJECT_TYPE_SWITCH_COL: obj = new CSwitchCol(typeAni); break;
-
+	//case OBJECT_TYPE_CARD_IMAGE: obj = new CCardImage(typeAni); break;
 
 	case OBJECT_TYPE_PORTAL:
 		{	
@@ -341,7 +343,7 @@ void CPlayScene::Update(DWORD dt)
 
 	// update Scores bar
 	if (player != NULL)
-		scores->Update(player->GetScores(), player->GetCoins(), player->GetEnergyCount(),dt);
+		scores->Update(player->GetNumCardImage(),player->GetScores(), player->GetCoins(), player->GetEnergyCount(),dt);
 
 	// Update camera to follow mario
 	float cx, cy;
@@ -447,7 +449,33 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		//mario->SetState(MARIO_STATE_KICK);
 		//turle->SetState(TURLE_STATE_RUN_DIE);
 		break;
+	case DIK_6:
+	{
+		mario->x = 548;
+		mario->y = 136;
+		break;
 	}
+	case DIK_7:
+	{
+		mario->x = 1424;
+		mario->y = 151;
+		break;
+	}
+	case DIK_8:
+	{
+		mario->x = 2160;
+		mario->y = 250;
+		break;
+	}
+	case DIK_9:
+	{
+		mario->x = 2261;
+		mario->y = 20;
+		break;
+	}
+	
+	}
+	
 }
 
 void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)

@@ -1,5 +1,6 @@
 #include "Col.h"
 #include "Utils.h"
+#include "Brick.h"
 
 CCOL * CCOL::__instance = NULL;
 CCOL::CCOL() : CGameObject()
@@ -49,13 +50,13 @@ void CCOL::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		if (mario->vx > 0 || mario->nx > 0)
 		{
-			x = mario->x + MARIO_TAIL_BIG_ATTACK_BBOX_WIDTH;
+			x = mario->x + MARIO_TAIL_BIG_ATTACK_BBOX_WIDTH/1.2f;
 			y = mario->y + MARIO_TAIL_BIG_BBOX_HEIGHT / 1.5f;
 			vx = 0.06f;
 		}
 		else
 		{
-			x = mario->x;
+			x = mario->x+5;
 			y = mario->y + MARIO_TAIL_BIG_BBOX_HEIGHT / 1.5f;
 			vx = -0.06f;
 
@@ -64,7 +65,60 @@ void CCOL::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		isAttack = false;
 	}
 	
-	x += dx;
-	y += dy;
+
+	// Simple fall down
+
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
+
+	coEvents.clear();
+
+	// turn off collision when die 
+	if (this->GetState() != COL_STATE_DIE)
+		CalcPotentialCollisions(coObjects, coEvents);
+
+
+	// No collision occured, proceed normally
+	if (coEvents.size() == 0)
+	{
+		x += dx;
+		y += dy;
+
+	}
+	else
+	{
+		float min_tx, min_ty, nx = 0, ny;
+		float rdx = 0;
+		float rdy = 0;
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+		// Collision logic with other objects
+		//
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+
+
+			if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is brickTop
+			{
+				CBrick* brick = dynamic_cast<CBrick *>(e->obj);
+				if (nx != 0)
+				{
+					if (brick->type == 10)
+					{
+							brick->y = 600;
+					}
+				}
+
+			} // if brickTop
+			
+			
+			
+
+		}
+		// clean up collision events
+		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
+	}
+
 }
 

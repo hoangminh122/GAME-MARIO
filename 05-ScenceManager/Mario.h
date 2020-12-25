@@ -185,6 +185,7 @@ class CMario : public CGameObject
 	int score;					//so diem
 	int coins;					//coin
 	int energyCount;			//muc nang luong
+	int numCardImage;			//ramdom card ket thuc game
 public: 
 	bool goBottom;							//mario di vao duong ong
 	bool gravityFly;                      //quat duoi roi cham hon
@@ -237,6 +238,9 @@ public:
 	int GetScores() { return this->score; }
 	void SetScores(int _scores) { this->score = _scores; }
 	void AddScores(int _scores) { this->score += _scores; }
+	//get type card image
+	void SetNumCardImage(int _numCardImage) { this->numCardImage = _numCardImage; }
+	int GetNumCardImage() { return this ->numCardImage; }
 	//coin
 	int GetCoins() { return this->coins; }
 	void SetCoins(int _coins) { this->coins = _coins; }

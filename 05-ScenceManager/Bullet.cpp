@@ -57,7 +57,7 @@ void CBullet::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			else
 				vx = 0.08f;
 			vy = +0.05f;
-
+			
 		}
 		CPlant* plant = new CPlant();
 		if (plant->start1 == true)
@@ -69,21 +69,27 @@ void CBullet::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		}
 		x += dx;
 		y += dy;
-		/*if (y > 200) {
-			isStart = false;
-		}*/
+		
 	}
 	if (label == 2)
 	{
 		if (isStart)
 		{
-			x -= vx;
-			if (1871.0f - mario->x > 0)
-				vx = -0.08f;
+			
+			if (y < 430.0f) {
+				x -= vx;
+				if (1871.0f - mario->x > 0)
+					vx = -0.08f;
+				else
+					vx = 0.08f;
+				vy = +0.05f;
+			}
 			else
-				vx = 0.08f;
-			vy = +0.05f;
-
+			{
+				vx = 0;
+				vy = 0;
+				y = 900.0f;
+			}
 		}
 		CPlant* plant = new CPlant();
 		if (plant->start2 == true)
@@ -95,9 +101,7 @@ void CBullet::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		}
 		x += dx;
 		y += dy;
-		/*if (y > 200) {
-			isStart = false;
-		}*/
+		
 	}
 	
 }

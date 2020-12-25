@@ -24,6 +24,7 @@
 #include "Coin.h"
 #include "Hat.h"
 #include "SwitchCol.h"
+#include "Card.h"
 
 
 int CMario::level = 1;
@@ -51,6 +52,7 @@ CMario *CMario::GetInstance(float x, float y)
 
 CMario::CMario(float x, float y) : CGameObject()
 {
+	numCardImage = 0;
 	goBottom = false;
 	levelBefore = 1;
 	//level = MARIO_LEVEL_SMALL;
@@ -367,10 +369,22 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 								turle->nxx = 1;
 							else
 								turle->nxx = -1;
-							turle->SetState(TURLE_STATE_STOP);
-							turle->x += turle->nxx * 16;
-							turle->SetState(TURLE_STATE_WALKING);
-							SetLevel(GetLevel() - 1);
+							if (turle->GetState() == TURLE_STATE_WALKING)
+							{
+								turle->SetState(TURLE_STATE_STOP);
+								turle->x += turle->nxx * 16;
+								turle->SetState(TURLE_STATE_WALKING);
+								SetLevel(GetLevel() - 1);
+							}
+							else                   //trang thai run die
+							{
+								turle->SetState(TURLE_STATE_STOP);
+								turle->x += turle->nxx * 16;
+								turle->SetState(TURLE_STATE_RUN_DIE);
+								turle->vx = turle->nxx*0.15f;
+								SetLevel(GetLevel() - 1);
+							}
+							
 						}
 					}
 				}
@@ -561,8 +575,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					CCOIN::yStartMove = mushroom->y;
 					CCOIN::isInitPosNew = true;
 					CCOIN::isMove = true;
-					CCOIN::level = 1000;
-
+					if(mushroom ->type == 2)
+						CCOIN::level = 1000;
+					else
+						CCOIN::level = 10000;
 
 					mushroom->SetState(MUSHROOM_STATE_DIE_OVER);
 					mushroom->noMushroom = true;
@@ -664,6 +680,16 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 			} // if brickTop
 		
+			if (dynamic_cast<CCard *>(e->obj)) // if e->obj is Backgroud die
+			{
+				CCard* card = dynamic_cast<CCard *>(e->obj);
+				if (ny > 0)
+				{
+					SetNumCardImage(1);
+				}
+
+			} // if brickTop
+
 			else if (dynamic_cast<CPortal *>(e->obj))
 			{
 				CPortal *p = dynamic_cast<CPortal *>(e->obj);
