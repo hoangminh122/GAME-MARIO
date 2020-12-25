@@ -575,8 +575,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					CCOIN::yStartMove = mushroom->y;
 					CCOIN::isInitPosNew = true;
 					CCOIN::isMove = true;
-					CCOIN::level = 1000;
-
+					if(mushroom ->type == 2)
+						CCOIN::level = 1000;
+					else
+						CCOIN::level = 10000;
 
 					mushroom->SetState(MUSHROOM_STATE_DIE_OVER);
 					mushroom->noMushroom = true;
