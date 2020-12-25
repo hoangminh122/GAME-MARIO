@@ -51,7 +51,7 @@ CMario *CMario::GetInstance(float x, float y)
 
 CMario::CMario(float x, float y) : CGameObject()
 {
-	goBottom = true;
+	goBottom = false;
 	levelBefore = 1;
 	//level = MARIO_LEVEL_SMALL;
 //	level = MARIO_LEVEL_BIG;
@@ -126,7 +126,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			this->energyCount = count;
 		
 	}
-	if (GetTickCount() - timePrepareFly > 400 && timePrepareFly != 0)
+	if (GetTickCount() - timePrepareFly > 100 && timePrepareFly != 0)
 	{
 		energyFull = true;
 		vy = -0.05f;										//tao luc day ban dau
@@ -646,12 +646,19 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			if (dynamic_cast<CSwitchCol *>(e->obj)) // if e->obj is Backgroud die
 			{
 				CSwitchCol* switchCol = dynamic_cast<CSwitchCol *>(e->obj);
-				if (ny > 0)
+				if (ny > 0 && switchCol->type == 2)
 				{
 					goBottom = false;
 					x = 2324;
-					y = 345;
-					DebugOut(L"shdgshdg\n");
+					y = 405;
+					vy = 0.1f;
+				}
+				else if (ny < 0 && switchCol->type == 1 && GetState() == MARIO_STATE_DOWN)
+				{
+					goBottom = true;
+					x = 2105;
+					y = 493;
+					vy = -0.1f;
 				}
 				
 

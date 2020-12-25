@@ -170,7 +170,7 @@
 #define MARIO_KICK_TIME 500
 #define MARIO_ROTATORY_TIME 350						//can cho dung time
 #define MARIO_RUN_FAST_TIME 1500
-#define MARIO_TIME_FLY 1800
+#define MARIO_TIME_FLY 2500
 
 
 class CMario : public CGameObject
