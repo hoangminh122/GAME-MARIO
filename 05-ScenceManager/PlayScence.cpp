@@ -246,7 +246,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_CARD: obj = new CCard(); break;
 	case OBJECT_TYPE_COL: obj = CCOL::GetInstance(); break;
 	case OBJECT_TYPE_SWITCH_COL: obj = new CSwitchCol(typeAni); break;
-	case OBJECT_TYPE_CARD_IMAGE: obj = new CCardImage(typeAni); break;
+	//case OBJECT_TYPE_CARD_IMAGE: obj = new CCardImage(typeAni); break;
 
 	case OBJECT_TYPE_PORTAL:
 		{	

@@ -369,10 +369,22 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 								turle->nxx = 1;
 							else
 								turle->nxx = -1;
-							turle->SetState(TURLE_STATE_STOP);
-							turle->x += turle->nxx * 16;
-							turle->SetState(TURLE_STATE_WALKING);
-							SetLevel(GetLevel() - 1);
+							if (turle->GetState() == TURLE_STATE_WALKING)
+							{
+								turle->SetState(TURLE_STATE_STOP);
+								turle->x += turle->nxx * 16;
+								turle->SetState(TURLE_STATE_WALKING);
+								SetLevel(GetLevel() - 1);
+							}
+							else                   //trang thai run die
+							{
+								turle->SetState(TURLE_STATE_STOP);
+								turle->x += turle->nxx * 16;
+								turle->SetState(TURLE_STATE_RUN_DIE);
+								turle->vx = turle->nxx*0.15f;
+								SetLevel(GetLevel() - 1);
+							}
+							
 						}
 					}
 				}
