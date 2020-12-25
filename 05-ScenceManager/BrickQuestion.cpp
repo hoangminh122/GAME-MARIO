@@ -1,7 +1,9 @@
 #include "BrickQuestion.h"
 #include "Utils.h"
+#include "Coin.h"
 
-CBrickQuestion::CBrickQuestion():CGameObject() {
+CBrickQuestion::CBrickQuestion(int type_ani):CGameObject() {
+	type = type_ani;
 	isInitPos = false;						//trang thai chua khoi tao gia tri
 	isMove = false;
 	yStatic = y;						//ban dau chua gan gia tri y cho question -> chu y de nham lan
@@ -40,6 +42,17 @@ void CBrickQuestion::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			isMove = false;
 			isDie = true;
+			//diem di chuyen 
+			//SET SCORES MOVE
+			CCOIN::xStartMove = x;
+			CCOIN::yStartMove = y;
+			CCOIN::isInitPosNew = true;
+			CCOIN::timeWait = GetTickCount();
+			//CCOIN::isMove = true;
+			CCOIN::level = 100;
+
+			//SET COINS MOVE
+			CCOIN::status = 1;
 		}
 
 	}
@@ -66,6 +79,8 @@ void CBrickQuestion::Render()
 {
 	if (isDie)
 		ani = 1;
+	else if (type == 1)
+		ani = 2;
 	animation_set->at(ani)->Render(x, y);
 	RenderBoundingBox();
 }
@@ -74,7 +89,7 @@ void CBrickQuestion::GetBoundingBox(float &l, float &t, float &r, float &b)
 {
 	l = x;
 	t = y;
-	r = x + BRICK_BBOX_WIDTH;
-	b = y + BRICK_BBOX_HEIGHT;
+	r = x + BRICK_QUESTION_BBOX_WIDTH;
+	b = y + BRICK_QUESTION_BBOX_HEIGHT;
 }
 

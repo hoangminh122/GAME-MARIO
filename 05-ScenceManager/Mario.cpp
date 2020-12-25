@@ -22,6 +22,8 @@
 #include "BackgroundDie.h"
 #include "Brick.h"
 #include "Coin.h"
+#include "Hat.h"
+#include "SwitchCol.h"
 
 
 int CMario::level = 1;
@@ -49,6 +51,7 @@ CMario *CMario::GetInstance(float x, float y)
 
 CMario::CMario(float x, float y) : CGameObject()
 {
+	goBottom = false;
 	levelBefore = 1;
 	//level = MARIO_LEVEL_SMALL;
 //	level = MARIO_LEVEL_BIG;
@@ -123,7 +126,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			this->energyCount = count;
 		
 	}
-	if (GetTickCount() - timePrepareFly > 400 && timePrepareFly != 0)
+	if (GetTickCount() - timePrepareFly > 100 && timePrepareFly != 0)
 	{
 		energyFull = true;
 		vy = -0.05f;										//tao luc day ban dau
@@ -182,9 +185,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	coEvents.clear();
 
 	// turn off collision when die 
+	
 	if (this->GetState() !=MARIO_STATE_DIE)
 		CalcPotentialCollisions(coObjects, coEvents);
-
+	if (this->GetState() == MARIO_STATE_DIE)
+	{
+		vx = 0; vy = 0;
+		y = 420;
+	}
 	// reset untouchable timer if untouchable time has passed
 	if ( GetTickCount() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
 	{
@@ -324,9 +332,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						}
 
 					}
-					else if (GetLevel() < 1)
+					else if (GetLevel() <= 1 && turle->GetState() != TURLE_STATE_DIE)
 					{
-						SetState(MARIO_STATE_DIE);
+							SetState(MARIO_STATE_DIE);
 					}
 					else
 					{
@@ -354,11 +362,17 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						}
 						//truong hop binh thuong -> bi chet
 						else
+						{
+							if (turle->vx > 0)
+								turle->nxx = 1;
+							else
+								turle->nxx = -1;
+							turle->SetState(TURLE_STATE_STOP);
+							turle->x += turle->nxx * 16;
+							turle->SetState(TURLE_STATE_WALKING);
 							SetLevel(GetLevel() - 1);
+						}
 					}
-
-
-
 				}
 			}
 			if (dynamic_cast<CGoomba *>(e->obj)) // if e->obj is Goomba 
@@ -411,6 +425,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					{
 						if (goomba->GetState() != GOOMBA_STATE_DIE)
 						{
+							if(goomba->vx > 0)
+								goomba->nxx = 1;	
+							else
+								goomba->nxx = -1;
+							goomba->SetState(GOOMBA_STATE_STOP);
+							goomba->x += nx * 16;
+							goomba->SetState(GOOMBA_STATE_WALKING);
+
 							if (GetLevel() > 1)
 							{
 								vy = -0.001f;
@@ -450,9 +472,16 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			else if (dynamic_cast<CMoneyIcon *>(e->obj)) // if e->obj is question box
 			{
 				CMoneyIcon* moneyIcon = dynamic_cast<CMoneyIcon *>(e->obj);
-				if (e->ny > 0)
+				if (e->ny > 0 && moneyIcon ->type != 10 )
 				{
 					moneyIcon->SetMove(true);
+				}
+				else
+				{
+					AddCoins(1);
+
+					//SET COINS MOVE
+					AddScores(50);
 				}
 				moneyIcon->SetState(MONEY_STATE_DIE_OVER);
 
@@ -465,18 +494,19 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					if (!brickQuestion->isDie)				//chua va cham lan nao
 					{
 						brickQuestion->SetMove(true);
-						//SET SCORES MOVE
-						CCOIN::xStartMove = brickQuestion->x;
-						CCOIN::yStartMove = brickQuestion->y;
-						CCOIN::isInitPosNew = true;
-						CCOIN::isMove = true;
-						CCOIN::level = 100;
+						////SET SCORES MOVE
+						//CCOIN::xStartMove = brickQuestion->x;
+						//CCOIN::yStartMove = brickQuestion->y;
+						//CCOIN::isInitPosNew = true;
+						////CCOIN::timeWait = GetTickCount();
+						//CCOIN::isMove = true;
+						//CCOIN::level = 100;
 
-						//SET COINS MOVE
-						CCOIN::status = 1;
+						////SET COINS MOVE
+						//CCOIN::status = 1;
 
 					}
-					vy = 0;
+					vy = 0.005f;
 
 					
 				}
@@ -499,6 +529,27 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 
 			} // if question box
+			if (dynamic_cast<CHat *>(e->obj)) // if e->obj is brickTop
+			{
+				CHat* hat = dynamic_cast<CHat *>(e->obj);
+				if (e->ny > 0 && !hat->noColision)
+				{
+					//y = hat->y;
+					hat->y = hat->y - 16-10;
+					hat->isDie = false;				// HAT song lai
+					//y += dy;
+
+				}
+				else if (!hat->noColision && !hat->isDie)
+				{
+					CBrick::moneyIcon = true;
+					hat->isDie = true;
+					hat->y = hat->y +6;
+					hat->noColision = true;
+				}
+				//vx +=dx;
+
+			} // if brickTop
 			if (dynamic_cast<CMushroom *>(e->obj)) // if e->obj is Backgroud die
 			{
 
@@ -562,21 +613,56 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					//vx +=dx;
 
 			} // if brickTop
+			
 			else if (dynamic_cast<CBackgroundDie *>(e->obj)) // if e->obj is Backgroud die
 			{
 				//x += dx;
 				//if(!checkMarioColision)
 				if (e->nx != 0)
-					vx = 0;
+					//vx = 0;
+					x += dx;
 			} // if brickTop
-			//else if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is Backgroud die
-			//{
-			//	
-			////x += dx;
-			////if(!checkMarioColision)
-			//y += dy;
-			//} // if brickTop
-			
+			if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is Backgroud die
+			{
+				CBrick* brick = dynamic_cast<CBrick *>(e->obj);
+				if (nx != 0)
+				{
+					if (brick->type == 10)
+					{
+						if (this->GetState() == MARIO_STATE_ROTATORY_IDLE)
+						{
+							brick->y = 600;
+						}
+					}
+					if(vx < 0)
+						x += 0.003f;
+					else
+						x -= 0.003f;
+				}
+				if (brick->type == 10 && brick->moneyIcon)
+					brick->y = 600;
+						
+			} // if brickTop
+			if (dynamic_cast<CSwitchCol *>(e->obj)) // if e->obj is Backgroud die
+			{
+				CSwitchCol* switchCol = dynamic_cast<CSwitchCol *>(e->obj);
+				if (ny > 0 && switchCol->type == 2)
+				{
+					goBottom = false;
+					x = 2324;
+					y = 405;
+					vy = 0.1f;
+				}
+				else if (ny < 0 && switchCol->type == 1 && GetState() == MARIO_STATE_DOWN)
+				{
+					goBottom = true;
+					x = 2105;
+					y = 493;
+					vy = -0.1f;
+				}
+				
+
+			} // if brickTop
 		
 			else if (dynamic_cast<CPortal *>(e->obj))
 			{
@@ -1150,7 +1236,7 @@ void CMario::SetState(int state)
 		break;
 	case MARIO_STATE_FLY_SHORT:
 		if (checkMarioColision == true)
-			vy = -0.9;
+			vy = -0.9f;
 		vx = nx * 0.1f;
 		break;
 	case MARIO_STATE_DIE:

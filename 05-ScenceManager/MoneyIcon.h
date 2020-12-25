@@ -13,10 +13,11 @@ class CMoneyIcon : public CGameObject
 private:
 	bool isMove;
 public:
+	int type;
 	CMario*  mario;
 	bool noMoney;						//mario da lay money
 	bool isInitPos;
-	CMoneyIcon();
+	CMoneyIcon(int type_ani);
 	float yStatic;
 	void SetMove(bool isMove);
 	bool GetMove();

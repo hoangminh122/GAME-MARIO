@@ -14,9 +14,12 @@
 #define BRICK_BBOX_HEIGHT 16
 #define BRICK_BBOX_WIDTH 16
 
+#define BRICK_BBOX_HEIGHT_TWO	192	
+
 class CBrick : public CGameObject
 {
 public:
+	bool static moneyIcon;					//trang thai  brick chuyen thanh icon money
 	int type;
 	bool isInitPos;
 	int xStatic;                  //bien luu vi tri x cho tung type brick

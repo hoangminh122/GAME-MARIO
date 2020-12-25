@@ -134,10 +134,13 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletMario.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Card.cpp" />
     <ClCompile Include="CMushroom.cpp" />
     <ClCompile Include="Coin.cpp" />
+    <ClCompile Include="Col.cpp" />
     <ClCompile Include="game_map.cpp" />
     <ClCompile Include="game_map.h" />
+    <ClCompile Include="Hat.cpp" />
     <ClCompile Include="Koopas.cpp" />
     <ClCompile Include="Leaf.cpp" />
     <ClCompile Include="MoneyIcon.cpp" />
@@ -145,6 +148,7 @@
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="QuestionBox.cpp" />
     <ClCompile Include="Scores.cpp" />
+    <ClCompile Include="SwitchCol.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="Turle.cpp" />
     <ClCompile Include="Utils.cpp" />
@@ -170,8 +174,11 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="BulletMario.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Card.h" />
     <ClInclude Include="CMushroom.h" />
     <ClInclude Include="Coin.h" />
+    <ClInclude Include="Col.h" />
+    <ClInclude Include="Hat.h" />
     <ClInclude Include="Leaf.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Koopas.h" />
@@ -180,6 +187,7 @@
     <ClInclude Include="Portal.h" />
     <ClInclude Include="QuestionBox.h" />
     <ClInclude Include="Scores.h" />
+    <ClInclude Include="SwitchCol.h" />
     <ClInclude Include="test.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="Turle.h" />

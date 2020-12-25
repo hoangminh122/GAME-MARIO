@@ -16,13 +16,15 @@
 #define COIN_ANI_1VP 8
 
 
+#define COIN_WAITING 300
+
 
 class CCOIN : public CGameObject
 {
 public:
 	CCOIN();
 	~CCOIN();
-
+	static DWORD  timeWait;									//thoi gian cho den luc start
 	int ani;
 	CMario*  mario;
 	static int status;									//trang thai tang diem hay tang coin hay time/.....

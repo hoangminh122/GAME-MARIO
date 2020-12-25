@@ -1,8 +1,8 @@
 #pragma once
 #include "GameObject.h"
 
-#define BRICK_BBOX_WIDTH  5
-#define BRICK_BBOX_HEIGHT 15
+#define BACKGROUND_DIE_BBOX_WIDTH 1
+#define BACKGROUND_DIE_BBOX_HEIGHT 1
 
 class CBackgroundDie : public CGameObject
 {

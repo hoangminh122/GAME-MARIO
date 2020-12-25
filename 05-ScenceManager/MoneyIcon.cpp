@@ -1,6 +1,8 @@
 #include "MoneyIcon.h"
+#include "Coin.h"
 
-CMoneyIcon::CMoneyIcon() :CGameObject() {
+CMoneyIcon::CMoneyIcon(int type_ani) :CGameObject() {
+	type = type_ani;
 	mario = CMario::GetInstance(0, 0);
 	noMoney = true;
 	isInitPos = false;						//trang thai chua khoi tao gia tri
@@ -38,8 +40,8 @@ void CMoneyIcon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	
 	else if (isMove && noMoney)				//vij tri money ==vi tri mario va cham
 	{
-		vy -= 0.55f;
-		if (y < yStatic - 0.15f)
+		vy = -0.15f;
+		if (y < yStatic - 45.0f)
 		{
 			noMoney = false;
 			isMove = false;
@@ -47,7 +49,7 @@ void CMoneyIcon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	else
 	{
-		if (y < yStatic-0.15*dt)
+		if (y < yStatic - 45.0f)
 		{
 			//y += 1.0f;
 			vy = 0.15f;
@@ -60,8 +62,9 @@ void CMoneyIcon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			if (GetState() == MONEY_STATE_DIE_OVER)
 			{
 				vy = 0;
-				y = 600;
+				y = 700;
 				vx = 0;
+				
 			}
 		}
 	}

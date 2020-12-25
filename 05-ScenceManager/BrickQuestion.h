@@ -2,8 +2,8 @@
 #include "GameObject.h"
 #include "Mario.h"
 
-#define BRICK_BBOX_WIDTH  16
-#define BRICK_BBOX_HEIGHT 16
+#define BRICK_QUESTION_BBOX_WIDTH  16
+#define BRICK_QUESTION_BBOX_HEIGHT 16
 
 #define  BRICK_ANI_DIE	1
 #define BRICK_GRAVITY	0.002f
@@ -12,10 +12,11 @@ class CBrickQuestion : public CGameObject
 private :
 	bool isMove;
 public:
+	int type;
 	int ani;
 	CMario*  mario;
 	bool isInitPos;							//khoi tao gia tri ban dau y -> luu vao yStatic
-	CBrickQuestion();
+	CBrickQuestion(int type_ani);
 	float yStatic;
 	void SetMove(bool isMove);
 	bool GetMove();

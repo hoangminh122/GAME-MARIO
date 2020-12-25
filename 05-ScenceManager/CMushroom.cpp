@@ -10,8 +10,10 @@
 #include "BackgroundDie.h"
 #include "Mario.h"
 
-CMushroom::CMushroom() : CGameObject()
+CMushroom::CMushroom(int type_ani) : CGameObject()
 {
+	type = type_ani;
+	ani = MUSHROOM_ANI_RED;
 	noMushroom = true;					//mush co 1 con ->khoi tao chua ra chuong
 	isMove = false;
 	isInitPos = false;						//trang thai chua khoi tao gia tri
@@ -27,15 +29,14 @@ CMushroom::CMushroom() : CGameObject()
 void CMushroom::Render()
 {
 	
-	animation_set->at(0)->Render(x, y);
-	RenderBoundingBox();
 
-	/*if (this->GetState() == LEAF_GREEN_STATE)
-		ani = 1;
-	else if (this->GetState() == MONEY_STATE)
-		ani = 2;
+	if (type == 1)
+		ani = MUSHROOM_ANI_GREEN;
 	else
-		ani = 0;*/
+		ani = MUSHROOM_ANI_RED;
+	animation_set->at(ani)->Render(x, y);
+	RenderBoundingBox();
+	
 }
 
 void CMushroom::GetBoundingBox(float &l, float &t, float &r, float &b)
@@ -118,8 +119,8 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		x += min_tx * dx + nx * 0.4f;
 		y += min_ty * dy + ny * 0.4f;
 
-		//if (nx != 0) vx = 0;
-		//if (ny != 0) vy = 0;
+		/*if (nx != 0) vx = 0;
+		if (ny != 0) vy = 0;*/
 
 
 

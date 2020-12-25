@@ -7,6 +7,7 @@ float CCOIN::xStartMove = 0;
 float CCOIN::yStartMove = 0;
 int CCOIN::level = 0;
 int CCOIN::status = 0;
+DWORD CCOIN::timeWait = 0;
 
 CCOIN::CCOIN()
 {
@@ -58,19 +59,24 @@ void CCOIN::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	CGameObject::Update(dt, coObjects);
 
-	
+	if (GetTickCount() - timeWait > COIN_WAITING && timeWait != 0)
+	{
+		isMove=true;
+		isInitPosNew = true;
+		timeWait = 0;
+	}
 
 	if (isInitPosNew)
 	{
 		yStatic = yStartMove;
-		y = yStartMove;
+		y = yStartMove-5;
 		x = xStartMove;
 		isInitPosNew = false;
 	}
 	else if (isMove)
 	{
-		vy -= 0.55f;
-		if (y < yStatic - 0.15f)
+		vy -= 0.05f;
+		if (y < yStatic - 15.0f)
 		{
 			//tang coin tren HUD
 			if (status == 0)
@@ -89,7 +95,7 @@ void CCOIN::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	else
 	{
-		if (y < yStatic - 0.15*dt)
+		if (y < yStatic - 15.0f)
 		{
 			
 			//y += 1.0f;

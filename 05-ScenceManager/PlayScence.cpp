@@ -17,6 +17,10 @@
 #include "MoneyIcon.h"
 #include "Leaf.h"
 #include "Coin.h"
+#include "Hat.h"
+#include "Card.h"
+#include "Col.h"
+#include "SwitchCol.h"
 //#include "TileMap.h"
 
 using namespace std;
@@ -60,6 +64,10 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define OBJECT_TYPE_MONEY_ICON	16
 #define OBJECT_TYPE_LEAF	17
 #define OBJECT_TYPE_COIN	18
+#define OBJECT_TYPE_HAT	100
+#define OBJECT_TYPE_CARD	110
+#define OBJECT_TYPE_COL	120
+#define OBJECT_TYPE_SWITCH_COL	130
 
 
 
@@ -121,8 +129,8 @@ void CPlayScene::_ParseSection_MAP(string line)
 	if (tokens.size() < 2) return;         // truong hop bo trong
 
 	int idTex = atoi(tokens[1].c_str());  //atoi co nhiem vu chuyen thanh so ngueyn
-	float mapWidth = atoi(tokens[2].c_str());
-	float mapHeight = atoi(tokens[3].c_str());
+	int mapWidth = atoi(tokens[2].c_str());
+	int mapHeight = atoi(tokens[3].c_str());
 	map = new CTileMap(idTex, tokens[0]);
 	CCamera::GetInstance()->SetMapSize(mapWidth, mapHeight);
 	
@@ -139,7 +147,7 @@ void CPlayScene::_ParseSection_ANIMATIONS(string line)
 	LPANIMATION ani = new CAnimation();
 
 	int ani_id = atoi(tokens[0].c_str());
-	for (int i = 1; i < tokens.size(); i += 2)	// why i+=2 ?  sprite_id | frame_time  
+	for (unsigned int i = 1; i < tokens.size(); i += 2)	// why i+=2 ?  sprite_id | frame_time  
 	{
 		int sprite_id = atoi(tokens[i].c_str());
 		int frame_time = atoi(tokens[i + 1].c_str());
@@ -161,7 +169,7 @@ void CPlayScene::_ParseSection_ANIMATION_SETS(string line)
 
 	CAnimations *animations = CAnimations::GetInstance();
 
-	for (int i = 1; i < tokens.size(); i++)
+	for (unsigned int i = 1; i < tokens.size(); i++)
 	{
 		int ani_id = atoi(tokens[i].c_str());
 		
@@ -184,15 +192,15 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	if (tokens.size() < 3) return; // skip invalid lines - an object set must have at least id, x, y
 
 	int object_type = atoi(tokens[0].c_str());
-	float x = atof(tokens[1].c_str());
-	float y = atof(tokens[2].c_str());
+	float x = stof(tokens[1].c_str());
+	float y = stof(tokens[2].c_str());
 	int typeAni = 0;
 
 	int ani_set_id = atoi(tokens[3].c_str());
 
 	if (tokens.size() > 4)
 	{
-		typeAni = atof(tokens[4].c_str());
+		typeAni = atoi(tokens[4].c_str());
 	}
 
 	CAnimationSets * animation_sets = CAnimationSets::GetInstance();
@@ -223,21 +231,25 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_TURLE: obj = new CTurle(typeAni); break;
 	case OBJECT_TYPE_WALL_TURLE: obj = new CWallTurle(); break;
 	case OBJECT_TYPE_QUESTION_BOX: obj = new CQuestion; break;
-	case OBJECT_TYPE_MUSHROOM: obj = new CMushroom(); break;
+	case OBJECT_TYPE_MUSHROOM: obj = new CMushroom(typeAni); break;
 	case OBJECT_TYPE_PLANT: obj = new CPlant(); break;
 	case OBJECT_TYPE_BULLET: obj = new CBullet(); break;
 	case OBJECT_TYPE_BULLET_MARIO: obj = new CBulletMario(); break;
 	case OBJECT_TYPE_BACKGROUND_DIE: obj = new CBackgroundDie(); break;
-	case OBJECT_TYPE_BRICK_QUESTION: obj = new CBrickQuestion(); break;
-	case OBJECT_TYPE_MONEY_ICON: obj = new CMoneyIcon(); break;
+	case OBJECT_TYPE_BRICK_QUESTION: obj = new CBrickQuestion(typeAni); break;
+	case OBJECT_TYPE_MONEY_ICON: obj = new CMoneyIcon(typeAni); break;
 	case OBJECT_TYPE_LEAF: obj = new CLeaf(); break;
 	case OBJECT_TYPE_COIN: obj = new CCOIN(); break;
+	case OBJECT_TYPE_HAT: obj = new CHat(); break;
+	case OBJECT_TYPE_CARD: obj = new CCard(); break;
+	case OBJECT_TYPE_COL: obj = CCOL::GetInstance(); break;
+	case OBJECT_TYPE_SWITCH_COL: obj = new CSwitchCol(typeAni); break;
 
 
 	case OBJECT_TYPE_PORTAL:
 		{	
-			float r = atof(tokens[4].c_str());
-			float b = atof(tokens[5].c_str());
+			float r = stof(tokens[4].c_str());
+			float b = stof(tokens[5].c_str());
 			int scene_id = atoi(tokens[6].c_str());
 			obj = new CPortal(x, y, r, b, scene_id);
 		}
@@ -377,7 +389,7 @@ void CPlayScene::Render()
 	{
 		map->Render(player);				//load map len
 	}
-	for (int i = 0; i < objects.size(); i++)
+	for (unsigned int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
 
 	scores->Render();
@@ -388,7 +400,7 @@ void CPlayScene::Render()
 */
 void CPlayScene::Unload()
 {
-	for (int i = 0; i < objects.size(); i++)
+	for (unsigned int i = 0; i < objects.size(); i++)
 		delete objects[i];
 
 	objects.clear();
@@ -529,6 +541,8 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 				//mario->timeRotatoryStart = GetTickCount();        //time quay duoi dung yen mario
 				//mario->timeWaitingAttackNext = GetTickCount();
 				mario->isRotatory180 = true;
+				CCOL::GetInstance() ->isAttack=true;
+				CCOL::GetInstance()->timeAttack = GetTickCount();
 				//mario->SetState(MARIO_STATE_ROTATORY_IDLE);
 
 			//}

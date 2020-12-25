@@ -9,8 +9,8 @@
 //#define LEAF_GREEN_STATE 200
 //#define MONEY_STATE 300
 
-#define MUSHROOM_ANI 0
-//#define LEAF_GREEN_ANI 1
+#define MUSHROOM_ANI_GREEN 0
+#define MUSHROOM_ANI_RED 1
 //#define MONEY_ANI 2
 
 #define MUSHROOM_STATE_DIE 200
@@ -20,8 +20,10 @@ class CMushroom : public CGameObject
 {
 
 public:
+	CMushroom(int type_ani);
+	int type;
+	int ani;
 	bool noMushroom;		//mushroom  chi cos duy nhat 1 con
-	CMushroom();
 	bool isInitPos;
 	float xStatic;
 	float yStatic;

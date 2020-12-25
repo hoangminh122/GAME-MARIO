@@ -3,9 +3,12 @@
 #include "Mario.h"
 #include "CMushroom.h"
 #include "Brick.h"
+#include "Col.h"
+
 
 CGoomba::CGoomba()
 {
+	nxx = -1;
 	SetState(GOOMBA_STATE_WALKING);
 	isReverse = false;
 	//nx = -1;
@@ -174,6 +177,8 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		// TODO: This is a very ugly designed function!!!!
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 
+		x += min_tx * dx + nx * 0.4f;
+		y += min_ty * dy + ny * 0.4f;
 		//if (nx != 0) vx = 0;
 		//if (ny != 0) vy = 0;
 
@@ -192,7 +197,7 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			if (e->nx != 0 && e->obj != NULL
 				&& !dynamic_cast<CMario *>(e->obj)
 				&&	!dynamic_cast<CMushroom *>(e->obj)
-				&& !dynamic_cast<CBrick *>(e->obj)
+				//&& !dynamic_cast<CBrick *>(e->obj)
 				&& !dynamic_cast<CGoomba *>(e->obj)
 				)
 			{
@@ -210,7 +215,16 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					//y += dy;
 			}
 
-
+			if (dynamic_cast<CCOL *>(e->obj))	//va cham voi background Die
+			{
+				SetState(GOOMBA_STATE_REVERSE_DIE);
+			}
+			//if (dynamic_cast<CMario *>(e->obj))	//va cham voi background Die
+			//{
+			//	vx = 0;
+			//	SetState(GOOMBA_STATE_STOP);
+			//	//y += dy;
+			//}
 
 		}
 
@@ -276,7 +290,19 @@ void CGoomba::SetState(int state)
 			vx = 0;
 			vy = 0;
 			break;
-		case GOOMBA_STATE_WALKING: 
-			vx = -GOOMBA_WALKING_SPEED;
+		case GOOMBA_STATE_STOP:
+			vx = 0;
+			vy = 0;
+			break;
+		case GOOMBA_STATE_WALKING:
+		{
+			if (nxx > 0)
+			{
+				vx = GOOMBA_WALKING_SPEED;
+			}
+			else
+				vx = -GOOMBA_WALKING_SPEED;
+		}
+			
 	}
 }
