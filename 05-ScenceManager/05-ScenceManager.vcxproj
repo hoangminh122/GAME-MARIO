@@ -135,6 +135,7 @@
     <ClCompile Include="BulletMario.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Card.cpp" />
+    <ClCompile Include="CardImage.cpp" />
     <ClCompile Include="CMushroom.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Col.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="BulletMario.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Card.h" />
+    <ClInclude Include="CardImage.h" />
     <ClInclude Include="CMushroom.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Col.h" />

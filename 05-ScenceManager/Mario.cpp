@@ -24,6 +24,7 @@
 #include "Coin.h"
 #include "Hat.h"
 #include "SwitchCol.h"
+#include "Card.h"
 
 
 int CMario::level = 1;
@@ -51,6 +52,7 @@ CMario *CMario::GetInstance(float x, float y)
 
 CMario::CMario(float x, float y) : CGameObject()
 {
+	numCardImage = 0;
 	goBottom = false;
 	levelBefore = 1;
 	//level = MARIO_LEVEL_SMALL;
@@ -664,6 +666,16 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 			} // if brickTop
 		
+			if (dynamic_cast<CCard *>(e->obj)) // if e->obj is Backgroud die
+			{
+				CCard* card = dynamic_cast<CCard *>(e->obj);
+				if (ny > 0)
+				{
+					SetNumCardImage(1);
+				}
+
+			} // if brickTop
+
 			else if (dynamic_cast<CPortal *>(e->obj))
 			{
 				CPortal *p = dynamic_cast<CPortal *>(e->obj);

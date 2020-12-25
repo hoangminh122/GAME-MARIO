@@ -75,7 +75,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		SetState(TURLE_STATE_DIE_OVER);
 		x = 1419.0f;
-		y = 680.0f;				// 280.0f;
+		y = 880.0f;				// 280.0f;
 		vx = 0; vy = 0;
 	}
 

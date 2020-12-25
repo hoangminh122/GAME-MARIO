@@ -21,6 +21,7 @@
 #include "Card.h"
 #include "Col.h"
 #include "SwitchCol.h"
+#include "CardImage.h"
 //#include "TileMap.h"
 
 using namespace std;
@@ -68,6 +69,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define OBJECT_TYPE_CARD	110
 #define OBJECT_TYPE_COL	120
 #define OBJECT_TYPE_SWITCH_COL	130
+#define OBJECT_TYPE_CARD_IMAGE	140
 
 
 
@@ -244,7 +246,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_CARD: obj = new CCard(); break;
 	case OBJECT_TYPE_COL: obj = CCOL::GetInstance(); break;
 	case OBJECT_TYPE_SWITCH_COL: obj = new CSwitchCol(typeAni); break;
-
+	case OBJECT_TYPE_CARD_IMAGE: obj = new CCardImage(typeAni); break;
 
 	case OBJECT_TYPE_PORTAL:
 		{	
@@ -341,7 +343,7 @@ void CPlayScene::Update(DWORD dt)
 
 	// update Scores bar
 	if (player != NULL)
-		scores->Update(player->GetScores(), player->GetCoins(), player->GetEnergyCount(),dt);
+		scores->Update(player->GetNumCardImage(),player->GetScores(), player->GetCoins(), player->GetEnergyCount(),dt);
 
 	// Update camera to follow mario
 	float cx, cy;
