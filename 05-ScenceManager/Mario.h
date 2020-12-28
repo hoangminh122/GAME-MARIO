@@ -203,6 +203,7 @@ public:
 	DWORD timeKickStart;			//time da rua
 	DWORD timeRotatoryStart;			//time danh duoi mario max
 	bool pressA;				//giu phim A
+	bool pressS;				//giiu phim S
 	DWORD timeJumpStart;
 	bool jumpHigher;			//mario jump cao hơn khi giữ S
 	int static level;

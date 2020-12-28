@@ -419,10 +419,10 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_S:
+		mario->pressS = true;
 		timeJumpStart = GetTickCount();
 		break;
 	case DIK_A:
-		mario->pressA = true;
 		mario->timeWaitingAttackNext = GetTickCount();			//set time cho dot tan cong sau
 		mario ->timeRotatoryStart = GetTickCount();
 		break;
@@ -503,6 +503,7 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 			mario->isHold = false;      //khong cam rua
 		}
 		mario->isHold = false;      //khong cam rua
+		mario->pressS = false;
 		mario->pressA = false;
 		mario->timeWaitingAttackNext = 0;			//xoa trang thai waiting -> bat dau lai
 		//mario->isAttackNext = true;								//duoc tan cong
@@ -576,19 +577,19 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	// disable control key when Mario die 
 	if (mario->GetState() == MARIO_STATE_DIE) return;
 	
-	if (mario->GetState() == MARIO_STATE_KICK)
-		mario->SetState(MARIO_STATE_KICK);
-	else if (game->IsKeyDown(DIK_S))
+	
+	if (game->IsKeyDown(DIK_S))
 	{
-		mario->jumpHigher = true;         //dang o trang thai nhan giu phim S
+		//mario->jumpHigher = true;         //dang o trang thai nhan giu phim S
 		mario->SetState(MARIO_STATE_JUMP_NORMAL);
 		if (GetTickCount() - timeJumpStart > 150 && GetTickCount() - timeJumpStart < 200 && timeJumpStart != 0)
 		{
-
 			mario->vy -= MARIO_JUMP_SPEED_HIGHER_Y;
+			mario->jumpHigher = true;
 		}
 	}
-	
+	if (mario->GetState() == MARIO_STATE_KICK)
+		mario->SetState(MARIO_STATE_KICK);
 	else if (game->IsKeyDown(DIK_DOWN))
 	{
 		mario->SetState(MARIO_STATE_DOWN);

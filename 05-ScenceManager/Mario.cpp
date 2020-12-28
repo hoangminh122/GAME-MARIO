@@ -73,6 +73,7 @@ CMario::CMario(float x, float y) : CGameObject()
 	isStateFly = false;
 	jumpHigher = false;
 	pressA = false;
+	pressS = false;
 	timeKickStart = 0;
 	isHold = false;
 	isMarioDropTurle = false;
@@ -240,7 +241,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (ny < 0 && vy >= 0 )
 		{
 			checkMarioColision = true;
-			jumpHigher = true;
+			//jumpHigher = true;
 			isHasColBoxQues = true;   //cham dat
 		}
 		
@@ -1235,8 +1236,11 @@ void CMario::SetState(int state)
 	case MARIO_STATE_RUN:
 		break;
 	case MARIO_STATE_JUMP_NORMAL:
-		if(checkMarioColision == true && jumpHigher == true)
+		if (checkMarioColision == true && jumpHigher == false)
+		{
 			vy = -MARIO_JUMP_SPEED_Y;
+			//jumpHigher = true;
+		}
 		break;
 	case MARIO_STATE_IDLE:
 		/*if(checkMarioColision == true)
