@@ -619,12 +619,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				CBrickTop* brickTop = dynamic_cast<CBrickTop *>(e->obj);
 				if (e->ny > 0)
 				{
-					if(level > 1)
+					/*if(level > 1)
 						y = brickTop->y- MARIO_TAIL_FLY_BIG_BBOX_HEIGHT-1;
 					else
 						y = brickTop->y- MARIO_SMALL_BBOX_HEIGHT-1;
-					vy = 0.0f;
-					//y += dy;
+					vy = 0.0f;*/
+					y += dy;
 
 				}
 				if (e -> nx != 0)
