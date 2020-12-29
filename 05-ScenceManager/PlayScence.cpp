@@ -423,6 +423,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		timeJumpStart = GetTickCount();
 		break;
 	case DIK_A:
+		mario->pressA = true;
 		mario->timeWaitingAttackNext = GetTickCount();			//set time cho dot tan cong sau
 		mario ->timeRotatoryStart = GetTickCount();
 		break;
@@ -584,9 +585,12 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		mario->SetState(MARIO_STATE_JUMP_NORMAL);
 		if (GetTickCount() - timeJumpStart > 150 && GetTickCount() - timeJumpStart < 200 && timeJumpStart != 0)
 		{
-			mario->vy -= MARIO_JUMP_SPEED_HIGHER_Y;
+			DebugOut(L"shgdhAAAAAAAAAAAAAAAAAAAAs%dsss%f\n", GetTickCount() - timeJumpStart,mario->vy);
+			//if(mario->jumpHigher ==false)
+				mario->vy -= MARIO_JUMP_SPEED_HIGHER_Y;
 			mario->jumpHigher = true;
 		}
+		
 	}
 	if (mario->GetState() == MARIO_STATE_KICK)
 		mario->SetState(MARIO_STATE_KICK);

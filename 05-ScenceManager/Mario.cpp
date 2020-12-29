@@ -193,8 +193,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		CalcPotentialCollisions(coObjects, coEvents);
 	if (this->GetState() == MARIO_STATE_DIE)
 	{
-		vx = 0; vy = 0;
-		y = 420;
+		//vx = 0; vy = 0;
+		y = 720;
 	}
 	// reset untouchable timer if untouchable time has passed
 	if ( GetTickCount() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
@@ -241,7 +241,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (ny < 0 && vy >= 0 )
 		{
 			checkMarioColision = true;
-			//jumpHigher = true;
 			isHasColBoxQues = true;   //cham dat
 		}
 		
@@ -621,9 +620,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				if (e->ny > 0)
 				{
 					if(level > 1)
-						y = brickTop->y;
+						y = brickTop->y- MARIO_TAIL_FLY_BIG_BBOX_HEIGHT-1;
 					else
-						y = brickTop->y- MARIO_SMALL_BBOX_HEIGHT-8;
+						y = brickTop->y- MARIO_SMALL_BBOX_HEIGHT-1;
 					vy = 0.0f;
 					//y += dy;
 
@@ -1239,7 +1238,7 @@ void CMario::SetState(int state)
 		if (checkMarioColision == true && jumpHigher == false)
 		{
 			vy = -MARIO_JUMP_SPEED_Y;
-			//jumpHigher = true;
+			checkMarioColision = false;								//xu ly tam thoi loi va cham voi tru ong
 		}
 		break;
 	case MARIO_STATE_IDLE:

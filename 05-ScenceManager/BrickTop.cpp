@@ -52,7 +52,6 @@ void CBrickTop::GetBoundingBox(float &l, float &t, float &r, float &b)
 }
 
 int CBrickTop::GetBoundPosition(int type2) {
-	DebugOut(L"sshasgdhasg%d\n", type);
 	if (type == 1)
 	{
 		return BRICK_BBOX_WIDTH_ORANGE_ONE;
