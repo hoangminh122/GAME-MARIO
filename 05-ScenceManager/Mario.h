@@ -170,7 +170,7 @@
 #define MARIO_KICK_TIME 500
 #define MARIO_ROTATORY_TIME 350						//can cho dung time
 #define MARIO_RUN_FAST_TIME 1500
-#define MARIO_TIME_FLY 2500
+#define MARIO_TIME_FLY 3000
 
 
 class CMario : public CGameObject
@@ -187,6 +187,7 @@ class CMario : public CGameObject
 	int energyCount;			//muc nang luong
 	int numCardImage;			//ramdom card ket thuc game
 public: 
+	DWORD saveTimeRunCurrent;				//Luu thoi gian chay lai khi khong nhan A nua
 	bool goBottom;							//mario di vao duong ong
 	bool gravityFly;                      //quat duoi roi cham hon
 	DWORD timeFly;							//time fly

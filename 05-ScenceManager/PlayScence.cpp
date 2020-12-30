@@ -510,7 +510,7 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		//mario->isAttackNext = true;								//duoc tan cong
 		mario->isRotatory180 = false;
 		mario->timeRotatoryStart = 0;
-
+		//mario->timePrepareRunFast = mario->timePrepareRunFast + (mario->saveTimeRunCurrent- mario->timePrepareRunFast);
 		break;
 	case DIK_S:
 		mario->jumpHigher = false;
@@ -605,7 +605,8 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 			
 			if (mario->GetState() == MARIO_STATE_WALKING)
 			{
-				mario->timePrepareRunFast = GetTickCount();							//bat dau dem time chay nhanh
+				mario->timePrepareRunFast = GetTickCount();
+				//mario->timePrepareRunFast = GetTickCount()+ mario->saveTimeRunCurrent;							//bat dau dem time chay nhanh
 			}
 			//cam rua
 			if (mario->vx <= MARIO_RUN_NORMAL_SPEED)
@@ -680,7 +681,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		{
 			if (mario->GetState() == MARIO_STATE_WALKING)
 			{
-				mario->timePrepareRunFast = GetTickCount();
+				mario->timePrepareRunFast = GetTickCount();		//khi nhan A thi + cdon  1 khoangr thoi gian da chay truoc do
 			}
 			if (mario->vx >= -MARIO_RUN_NORMAL_SPEED)
 				mario->vx -= 0.008f;

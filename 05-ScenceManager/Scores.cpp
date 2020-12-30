@@ -38,7 +38,8 @@ void CScores::Update(int _numCardImage,int _score,int _coins,int _energyCount, D
 
 	this->scores = _score;
 	this->coins = _coins;
-	this->energyCount = _energyCount;
+	if(_energyCount >= 0)
+		this->energyCount = _energyCount;
 	this->arrNumberImage[0] = _numCardImage;
 
 }
@@ -99,6 +100,14 @@ void CScores::Render()
 		spriteScores = CSprites::GetInstance()->Get(91010);
 		spriteScores->Draw(camX + 116 -i*8, camY - 28);
 	}
+
+	if (energyCount <= 5)
+	{
+		spriteScores = CSprites::GetInstance()->Get(91012);
+		spriteScores->Draw(camX + 116 +12, camY - 28);
+	}
+
+
 	
 
 	//ve so diem

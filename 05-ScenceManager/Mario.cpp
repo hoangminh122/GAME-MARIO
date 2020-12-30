@@ -1,7 +1,6 @@
 #include <algorithm>
 #include <assert.h>
 #include "Utils.h"
-
 #include "Mario.h"
 #include "Game.h"
 
@@ -52,6 +51,7 @@ CMario *CMario::GetInstance(float x, float y)
 
 CMario::CMario(float x, float y) : CGameObject()
 {
+	saveTimeRunCurrent = 0;
 	numCardImage = 0;
 	goBottom = false;
 	levelBefore = 1;
@@ -111,22 +111,34 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	else if(timeFly != 0)
 	{
-		int count = 5 - (GetTickCount() - timeFly) / 300;
+		int count = 5 - (GetTickCount() - timeFly) / 500;
 		if (this->energyCount >= 0)
 			this->energyCount = count;
 	}
-	if (GetTickCount() - timePrepareRunFast > MARIO_RUN_FAST_TIME && timePrepareRunFast != 0)			//dao chieu left right -> reset timePrepareRunFast
+	
+	if (GetTickCount()+ saveTimeRunCurrent - timePrepareRunFast > MARIO_RUN_FAST_TIME && timePrepareRunFast != 0)			//dao chieu left right -> reset timePrepareRunFast
 	{
-		//DebugOut(L"ASHDGASHDG%d\n",(GetTickCount() - timePrepareRunFast) / 100);
-		SetState(MARIO_STATE_PREPARE_FLY);
-		timePrepareFly = GetTickCount();			//bat dau dem chuan bi bay len -> nap full nang luong
-		timePrepareRunFast = 0;
+		if (pressA)						//nhan giu A moi chuyen trang thai fly dc
+		{
+			saveTimeRunCurrent = 0;
+			//DebugOut(L"ASHDGASHDG%d\n",(GetTickCount() - timePrepareRunFast) / 100);
+			SetState(MARIO_STATE_PREPARE_FLY);
+			timePrepareFly = GetTickCount();			//bat dau dem chuan bi bay len -> nap full nang luong
+			timePrepareRunFast = 0;
+		}
 	}
 	else if(timePrepareRunFast != 0)
 	{
-		int count = (GetTickCount() - timePrepareRunFast) / 250;
-		if(this->energyCount <6)
-			this->energyCount = count;
+		int count = (GetTickCount()+ saveTimeRunCurrent - timePrepareRunFast) / 250;
+		if (this->energyCount < 6)
+		{
+				this->energyCount = count;
+		}
+		if (pressA == false && GetTickCount()+ saveTimeRunCurrent - timePrepareRunFast > 0)
+		{
+			saveTimeRunCurrent = count*250;
+			timePrepareRunFast = 0;
+		}
 		
 	}
 	if (GetTickCount() - timePrepareFly > 100 && timePrepareFly != 0)
