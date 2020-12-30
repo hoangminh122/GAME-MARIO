@@ -272,7 +272,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				vy = 0;
 			}
 			//di chuyen tren nen dat van toc khac 0:checkMarioColision == false
-			if (nx != 0 && checkMarioColision == false)
+			if (nx != 0) //&& checkMarioColision == false
 			{
 				vx = 0;
 			}
@@ -1276,7 +1276,7 @@ void CMario::SetState(int state)
 		break;
 	case MARIO_STATE_FLY:
 		//vy = -0.05f;
-		vx = nx * 0.2f;
+		vx = nx * 0.1f;			//0.2
 		break;
 	case MARIO_STATE_FLY_SHORT:
 		if (checkMarioColision == true)

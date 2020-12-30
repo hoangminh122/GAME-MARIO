@@ -564,7 +564,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		{
 			if (mario->energyFull == true)
 			{
-				mario->vy = -0.15f;
+				mario->vy = -0.12f;			//0.15
 				mario->SetState(MARIO_STATE_FLY);
 			}
 			else
