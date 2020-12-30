@@ -274,7 +274,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			//di chuyen tren nen dat van toc khac 0:checkMarioColision == false
 			if (nx != 0) //&& checkMarioColision == false
 			{
-				vx = 0;
+				//vx = 0;
 			}
 			
 			if (dynamic_cast<CTurle *>(e->obj)) // if e->obj is TURLE
@@ -1314,6 +1314,7 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	}
 	else if(level == MARIO_LEVEL_TAIL_BIG)
 	{
+		right = x + MARIO_BIG_BBOX_WIDTH;
 		bottom = top + MARIO_BIG_BBOX_HEIGHT;
 		if (this->GetState() == MARIO_STATE_DOWN)
 		{
@@ -1321,7 +1322,7 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 			bottom = y + MARIO_TAIL_BIG_DOWN_BBOX_HEIGHT;
 
 		}
-		else if (GetState() == MARIO_STATE_ROTATORY_IDLE)
+		/*else if (GetState() == MARIO_STATE_ROTATORY_IDLE)
 		{
 			if (nx > 0)
 			{
@@ -1344,12 +1345,12 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 			}
 			else
 			{
-				left = x + 1;
+				left = x;
 				right = left + MARIO_BIG_BBOX_WIDTH;
 			}
 			
 		}
-		
+		*/
 	}
 	else
 	{

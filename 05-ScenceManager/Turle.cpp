@@ -328,14 +328,14 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				CBrick *brick = dynamic_cast<CBrick *>(e->obj);			//LOI THUAT TOAN CU CHUA FIX !!!!!.
 				if (GetState() == TURLE_STATE_WALKING)
 				{
-					if (x + 5 >= brick->xStatic + brick->GetBoundPosition(brick->type) && vx > 0
+					if (x + TURLE_BBOX_WIDTH-5 >= brick->xStatic + brick->GetBoundPosition(brick->type) && vx > 0
 						|| x+5 <= brick->xStatic && vx <0
 						)
 					{
-						if (vx > 0)
-							x = x - 5;				//loai bo truong hop rua dao chieu tai cho gay ra loi
-						else
-							x = x + 5;
+						//if (vx > 0)
+						//	x = x - 2;				//loai bo truong hop rua dao chieu tai cho gay ra loi
+						//else
+						//	x = x + 2;
 						vx = -vx;
 					}
 				}
