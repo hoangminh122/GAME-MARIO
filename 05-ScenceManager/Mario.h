@@ -2,7 +2,7 @@
 #include "GameObject.h"
 //#include "game_map.h"
 
-// so ani mario hien tai:94
+// so ani mario hien tai:95
 #define MARIO_WALKING_SPEED		0.1f 
 #define MARIO_WALKING_ADD_SPEED	0.005f 
 #define MARIO_RUN_NORMAL_SPEED	0.2f
@@ -32,6 +32,7 @@
 #define MARIO_STATE_ROTATORY_IDLE		700
 #define MARIO_STATE_WALKING_HOLD_TURTLE		710
 #define MARIO_STATE_RUN_HOLD_TURTLE		720
+#define MARIO_STATE_GO_COL	730
 
 
 
@@ -161,6 +162,7 @@
 #define MARIO_TAIL_FLY_BIG_BBOX_HEIGHT 29
 #define MARIO_TAIL_BIG_ATTACK_BBOX_HEIGHT 32
 #define MARIO_TAIL_BIG_ATTACK_BBOX_WIDTH 25
+#define MARIO_TAIL_BIG_GO_COL 95
 
 #define MARIO_SMALL_BBOX_WIDTH  13  //12
 #define MARIO_SMALL_BBOX_HEIGHT 15   //24
@@ -188,6 +190,8 @@ class CMario : public CGameObject
 	int numCardImage;			//ramdom card ket thuc game
 public: 
 	DWORD saveTimeRunCurrent;				//Luu thoi gian chay lai khi khong nhan A nua
+	bool pressUp;							//di vao dung ong
+	bool goUpCol;
 	bool goBottom;							//mario di vao duong ong
 	bool gravityFly;                      //quat duoi roi cham hon
 	DWORD timeFly;							//time fly

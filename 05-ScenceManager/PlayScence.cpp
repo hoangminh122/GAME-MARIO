@@ -515,7 +515,9 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_S:
 		mario->jumpHigher = false;
 		break;
-
+	case DIK_UP:
+		mario->pressUp = false;
+		break;
 	case DIK_X:
 		if (mario->level == MARIO_LEVEL_TAIL_BIG)
 		{
@@ -558,6 +560,10 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		}
 
 	}
+	if (game->IsKeyDown(DIK_UP))
+	{
+		mario->pressUp = true;
+	}
 	if (game->IsKeyDown(DIK_X))
 	{
 		if (mario->level == MARIO_LEVEL_TAIL_BIG)
@@ -581,16 +587,23 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	
 	if (game->IsKeyDown(DIK_S))
 	{
-		//mario->jumpHigher = true;         //dang o trang thai nhan giu phim S
-		mario->SetState(MARIO_STATE_JUMP_NORMAL);
-		if (GetTickCount() - timeJumpStart > 150 && GetTickCount() - timeJumpStart < 200 && timeJumpStart != 0)
+		if (game->IsKeyDown(DIK_UP) && mario->goUpCol)
 		{
-			DebugOut(L"shgdhAAAAAAAAAAAAAAAAAAAAs%dsss%f\n", GetTickCount() - timeJumpStart,mario->vy);
-			//if(mario->jumpHigher ==false)
-				mario->vy -= MARIO_JUMP_SPEED_HIGHER_Y;
-			mario->jumpHigher = true;
+			mario->vy =- MARIO_JUMP_SPEED_HIGHER_Y;
+			mario->SetState(MARIO_STATE_GO_COL);
 		}
-		
+		else
+		{
+			//mario->jumpHigher = true;         //dang o trang thai nhan giu phim S
+			mario->SetState(MARIO_STATE_JUMP_NORMAL);
+			if (GetTickCount() - timeJumpStart > 150 && GetTickCount() - timeJumpStart < 200 && timeJumpStart != 0)
+			{
+				DebugOut(L"shgdhAAAAAAAAAAAAAAAAAAAAs%dsss%f\n", GetTickCount() - timeJumpStart, mario->vy);
+				//if(mario->jumpHigher ==false)
+				mario->vy -= MARIO_JUMP_SPEED_HIGHER_Y;
+				mario->jumpHigher = true;
+			}
+		}
 	}
 	if (mario->GetState() == MARIO_STATE_KICK)
 		mario->SetState(MARIO_STATE_KICK);
@@ -602,7 +615,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		mario->nx = 1;
 		if (game->IsKeyDown(DIK_A))
 		{
-			
 			if (mario->GetState() == MARIO_STATE_WALKING)
 			{
 				mario->timePrepareRunFast = GetTickCount();
@@ -658,7 +670,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 					}
 				}
 				
-				else if(mario->vx > 0 && mario->vx < MARIO_RUN_NORMAL_SPEED)											//check truong hop khi van toc >0 va <0.15-> state run 
+				else if(mario->vx > 0 && mario->vx < MARIO_RUN_NORMAL_SPEED && mario->checkMarioColision)											//check truong hop khi van toc >0 va <0.15-> state run 
 					mario->SetState(MARIO_STATE_RUN);
 			}
 			else
@@ -715,7 +727,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 						mario->SetState(MARIO_STATE_PREPARE_FLY);*/
 					}
 				}
-				else if (mario->vx < 0 && mario->vx > -MARIO_RUN_NORMAL_SPEED)
+				else if (mario->vx < 0 && mario->vx > -MARIO_RUN_NORMAL_SPEED && mario->checkMarioColision)
 					mario->SetState(MARIO_STATE_RUN);
 			}
 			else
@@ -741,7 +753,15 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		}
 		else if (!mario->isRotatory180)
 		{
-			mario->SetState(MARIO_STATE_IDLE);
+			if (mario->goUpCol && mario->goBottom && mario->vy <=0)
+			{
+				mario->SetState(MARIO_STATE_GO_COL);
+			}
+			else
+			{
+				mario->SetState(MARIO_STATE_IDLE);
+				mario->goUpCol = false;
+			}
 
 		}
 		//chỉnh tốc dộ mario giảm dần -> 0 khi ở trên nên đất
