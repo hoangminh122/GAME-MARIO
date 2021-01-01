@@ -12,6 +12,7 @@
 70	textures\enemie\enemies-3.png	255	255	255
 81	textures\enemie\enemies-5.png	25	25	255
 80	textures\map\man1\tile-map1-1.png	255	255	255
+82	textures\misc\effect1.png	176	255	255
 
 
 #maptile
@@ -56,6 +57,11 @@ tile-map1-1.txt	80	2816	656
 91012	101	162	114	168	41
 #mat tien rua
 91011	334	100	347	115	40
+
+#effect 
+91030	12	12	35	27	82
+91031	43	12	66	27	82
+
 
 # BIG MARIO 
 # idle right
@@ -701,6 +707,10 @@ tile-map1-1.txt	80	2816	656
 # mat tien rua
 1911	91011	100
 
+#effect
+1930	91030	100
+1931	91031	100
+
 #hat,mu
 2001	15501	100	15502	100
 2002	15503	100
@@ -764,6 +774,10 @@ tile-map1-1.txt	80	2816	656
 11	1101
 #coin
 14	1901	1902	1903	1904	1905	1906	1907	1908	1909	1910
+
+#effect
+1930	1930
+
 #hat
 1001	2001	2002
 
@@ -1381,6 +1395,8 @@ tile-map1-1.txt	80	2816	656
 140	1	1	1050	2
 140	1	1	1050	3
 
+#effect
+150	20	400	1930
 
 # --- SCENE PORTAL ----
 # type	l	t	ani_set_id	r	b	scene_id
