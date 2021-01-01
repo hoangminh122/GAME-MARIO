@@ -521,6 +521,7 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		mario->pressUp = false;
 		break;
 	case DIK_X:
+		mario->pressX = true;
 		if (mario->level == MARIO_LEVEL_TAIL_BIG)
 		{
 			mario->SetState(MARIO_STATE_IDLE);
@@ -568,6 +569,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	}
 	if (game->IsKeyDown(DIK_X))
 	{
+		mario->pressX = true;
 		if (mario->level == MARIO_LEVEL_TAIL_BIG)
 		{
 			if (mario->energyFull == true)

@@ -51,6 +51,7 @@ CMario *CMario::GetInstance(float x, float y)
 
 CMario::CMario(float x, float y) : CGameObject()
 {
+	pressX = false;
 	pressUp = false;
 	saveTimeRunCurrent = 0;
 	numCardImage = 0;
@@ -147,10 +148,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (GetTickCount() - timePrepareFly > 100 && timePrepareFly != 0)
 	{
 		energyFull = true;
-		vy = -0.05f;										//tao luc day ban dau
-		SetState(MARIO_STATE_FLY);
-		timeFly = GetTickCount();
-		timePrepareFly = 0;
+		if (pressX)
+		{
+			vy = -0.05f;										//tao luc day ban dau
+			SetState(MARIO_STATE_FLY);
+			timeFly = GetTickCount();
+			timePrepareFly = 0;
+		}
 	}
 
 	if (GetTickCount() - timeKickStart > MARIO_KICK_TIME && timeKickStart!=0)
