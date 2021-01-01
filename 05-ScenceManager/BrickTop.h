@@ -9,7 +9,7 @@
 #define BRICK_BBOX_WIDTH_GREEN_ONE  80							//type 5 o nang 16x5
 #define BRICK_BBOX_WIDTH_GREEN_THREE  112							//type 7 o nang 16x7
 
-#define BRICK_BBOX_HEIGHT 16
+#define BRICK_BBOX_HEIGHT 2
 
 class CBrickTop : public CGameObject
 {

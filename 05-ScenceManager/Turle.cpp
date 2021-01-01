@@ -75,7 +75,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		SetState(TURLE_STATE_DIE_OVER);
 		x = 1419.0f;
-		y = 680.0f;				// 280.0f;
+		y = 880.0f;				// 280.0f;
 		vx = 0; vy = 0;
 	}
 
@@ -137,7 +137,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		level = 2;
 		SetState(TURLE_STATE_WALKING);
-		y = y - (TURLE_BBOX_HEIGHT - TURLE_BBOX_HEIGHT_DIE);
+		y = y - (TURLE_BBOX_HEIGHT - TURLE_BBOX_HEIGHT_DIE) - 2;
 		vx = TURLE_WALKING_SPEED;
 		isHold = false;
 		mario->isHold = false;
@@ -328,21 +328,21 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				CBrick *brick = dynamic_cast<CBrick *>(e->obj);			//LOI THUAT TOAN CU CHUA FIX !!!!!.
 				if (GetState() == TURLE_STATE_WALKING)
 				{
-					if (x + 5 >= brick->xStatic + brick->GetBoundPosition(brick->type)
-						|| x+5 <= brick->xStatic
+					if (x + TURLE_BBOX_WIDTH-5 >= brick->xStatic + brick->GetBoundPosition(brick->type) && vx > 0
+						|| x+5 <= brick->xStatic && vx <0
 						)
 					{
-						if (vx > 0)
-							x = x - 5;				//loai bo truong hop rua dao chieu tai cho gay ra loi
-						else
-							x = x + 5;
+						//if (vx > 0)
+						//	x = x - 2;				//loai bo truong hop rua dao chieu tai cho gay ra loi
+						//else
+						//	x = x + 2;
 						vx = -vx;
 					}
 				}
 				if (nx != 0)
 					vx = -vx;
 
-				if (brick->type == 10 && nx != 0)
+				if (brick->type == 10 && nx != 0 && GetState() == TURLE_STATE_RUN_DIE)
 					brick->y = 600;
 			}
 			
@@ -520,8 +520,9 @@ void CTurle::SetState(int state)
 		//vx = -TURLE_WALKING_SPEED;
 		break;
 	case TURLE_STATE_DIE_OVER:
-		//vx = 0;
-		//vy = 0;
+		y = 900.0f;
+		vx = 0;
+		vy = 0;
 		break;
 	case TURLE_STATE_FLY:
 		//if(checkCollision)

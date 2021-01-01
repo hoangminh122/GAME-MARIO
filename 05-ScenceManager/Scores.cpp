@@ -5,6 +5,7 @@
 
 CScores::CScores()
 {
+	arrNumberImage[0] = 0;
 	//create font
 	//muon hien chu phai hoi tao font cho no
 	D3DXCreateFont(
@@ -26,7 +27,7 @@ CScores::CScores()
 	energyCount = 0;
 }
 
-void CScores::Update(int _score,int _coins,int _energyCount, DWORD dt)
+void CScores::Update(int _numCardImage,int _score,int _coins,int _energyCount, DWORD dt)
 {
 
 	if (GetTickCount() - timeOutStart > 1000)
@@ -37,7 +38,10 @@ void CScores::Update(int _score,int _coins,int _energyCount, DWORD dt)
 
 	this->scores = _score;
 	this->coins = _coins;
-	this->energyCount = _energyCount;
+	if(_energyCount >= 0)
+		this->energyCount = _energyCount;
+	this->arrNumberImage[0] = _numCardImage;
+
 }
 
 void CScores::Draw(RECT rect, string text)
@@ -55,6 +59,25 @@ void CScores::Draw(RECT rect, string text)
 	
 }
 
+int CScores::SetImageCard(int type) {
+	switch (type)
+	{
+	case 0:
+		return 15550;
+		break;
+	case 1:
+		return 15551;
+		break;
+	case 2:
+		return 15552;
+		break;
+	case 3:
+		return 15553;
+		break;
+	}
+
+}
+
 void CScores::Render()
 {
 	//get camera
@@ -67,12 +90,24 @@ void CScores::Render()
 	spriteScores = CSprites::GetInstance()->Get(11101);
 	spriteScores->Draw(camX+30, camY-35);
 
+	//card image one
+	spriteCardOne = CSprites::GetInstance()->Get(SetImageCard(arrNumberImage[0]));
+	spriteCardOne->Draw(camX + 190, camY - 35);
+
 	//draw energy fly
 	for (int i = 0; i < 6-energyCount; i++)
 	{
 		spriteScores = CSprites::GetInstance()->Get(91010);
 		spriteScores->Draw(camX + 116 -i*8, camY - 28);
 	}
+
+	if (energyCount <= 5)
+	{
+		spriteScores = CSprites::GetInstance()->Get(91012);
+		spriteScores->Draw(camX + 116 +12, camY - 28);
+	}
+
+
 	
 
 	//ve so diem

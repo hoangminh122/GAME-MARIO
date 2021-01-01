@@ -62,7 +62,7 @@ void CMoneyIcon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			if (GetState() == MONEY_STATE_DIE_OVER)
 			{
 				vy = 0;
-				y = 700;
+				y = 900;
 				vx = 0;
 				
 			}
