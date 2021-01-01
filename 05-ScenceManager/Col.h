@@ -4,6 +4,7 @@
 #define COL_BBOX_WIDTH  5
 #define COL_BBOX_HEIGHT 5
 
+#define COL_STATE_DIE 904
 
 #define COL_ATTACK_TIME 200
 class CCOL : public CGameObject

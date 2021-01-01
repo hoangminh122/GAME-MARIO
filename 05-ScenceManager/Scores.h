@@ -11,6 +11,12 @@ using namespace std;
 class CScores
 {
 	CSprite* spriteScores;
+	CSprite* spriteCardOne;
+	CSprite* spriteCardTwo;
+	CSprite* spriteCardThree;
+	int arrNumberImage[3];
+
+
 	ID3DXFont * font = NULL;
 
 
@@ -42,8 +48,9 @@ public:
 	int timeOut;									//time choi man 1-1 dem nguoc
 	DWORD timeOutStart;
 	void CheckLength(string &text, int max);
-	void Update(int _score,int _coins,int _energy,DWORD dt);
+	void Update(int _numCardImage,int _score,int _coins,int _energy,DWORD dt);
 	void Render();
+	int SetImageCard(int type);
 	void Draw(RECT rect, string text);
 
 };

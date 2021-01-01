@@ -129,6 +129,12 @@
     <ClCompile Include="SwitchCol.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CardImage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brick.h">
@@ -243,6 +249,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SwitchCol.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CardImage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

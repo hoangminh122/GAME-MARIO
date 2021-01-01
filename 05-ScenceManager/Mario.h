@@ -2,12 +2,12 @@
 #include "GameObject.h"
 //#include "game_map.h"
 
-// so ani mario hien tai:94
+// so ani mario hien tai:95
 #define MARIO_WALKING_SPEED		0.1f 
 #define MARIO_WALKING_ADD_SPEED	0.005f 
 #define MARIO_RUN_NORMAL_SPEED	0.2f
 #define MARIO_PREPARE_FLY_SPEED	0.25f 
-#define MARIO_JUMP_SPEED_Y		0.45f
+#define MARIO_JUMP_SPEED_Y		0.35f
 #define MARIO_JUMP_SPEED_HIGHER_Y		0.1f
 #define MARIO_JUMP_DEFLECT_SPEED 0.2f
 #define MARIO_GRAVITY			0.002f
@@ -32,6 +32,7 @@
 #define MARIO_STATE_ROTATORY_IDLE		700
 #define MARIO_STATE_WALKING_HOLD_TURTLE		710
 #define MARIO_STATE_RUN_HOLD_TURTLE		720
+#define MARIO_STATE_GO_COL	730
 
 
 
@@ -161,6 +162,7 @@
 #define MARIO_TAIL_FLY_BIG_BBOX_HEIGHT 29
 #define MARIO_TAIL_BIG_ATTACK_BBOX_HEIGHT 32
 #define MARIO_TAIL_BIG_ATTACK_BBOX_WIDTH 25
+#define MARIO_TAIL_BIG_GO_COL 95
 
 #define MARIO_SMALL_BBOX_WIDTH  13  //12
 #define MARIO_SMALL_BBOX_HEIGHT 15   //24
@@ -170,7 +172,7 @@
 #define MARIO_KICK_TIME 500
 #define MARIO_ROTATORY_TIME 350						//can cho dung time
 #define MARIO_RUN_FAST_TIME 1500
-#define MARIO_TIME_FLY 2500
+#define MARIO_TIME_FLY 3000
 
 
 class CMario : public CGameObject
@@ -185,7 +187,11 @@ class CMario : public CGameObject
 	int score;					//so diem
 	int coins;					//coin
 	int energyCount;			//muc nang luong
+	int numCardImage;			//ramdom card ket thuc game
 public: 
+	DWORD saveTimeRunCurrent;				//Luu thoi gian chay lai khi khong nhan A nua
+	bool pressUp;							//di vao dung ong
+	bool goUpCol;
 	bool goBottom;							//mario di vao duong ong
 	bool gravityFly;                      //quat duoi roi cham hon
 	DWORD timeFly;							//time fly
@@ -202,6 +208,7 @@ public:
 	DWORD timeKickStart;			//time da rua
 	DWORD timeRotatoryStart;			//time danh duoi mario max
 	bool pressA;				//giu phim A
+	bool pressS;				//giiu phim S
 	DWORD timeJumpStart;
 	bool jumpHigher;			//mario jump cao hơn khi giữ S
 	int static level;
@@ -237,6 +244,9 @@ public:
 	int GetScores() { return this->score; }
 	void SetScores(int _scores) { this->score = _scores; }
 	void AddScores(int _scores) { this->score += _scores; }
+	//get type card image
+	void SetNumCardImage(int _numCardImage) { this->numCardImage = _numCardImage; }
+	int GetNumCardImage() { return this ->numCardImage; }
 	//coin
 	int GetCoins() { return this->coins; }
 	void SetCoins(int _coins) { this->coins = _coins; }
