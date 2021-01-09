@@ -2,6 +2,7 @@
 #include "Utils.h"
 #include "Brick.h"
 #include "BrickQuestion.h"
+#include "Plant.h"
 
 CCOL * CCOL::__instance = NULL;
 CCOL::CCOL() : CGameObject()
@@ -120,18 +121,27 @@ void CCOL::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				vy = 0.005f;
 
 			} // if brickTop
-			//if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is brickTop
-			//{
-			//	CBrick* brick = dynamic_cast<CBrick *>(e->obj);
-			//	if (nx != 0)
-			//	{
-			//		if (brick->type == 10)
-			//		{
-			//				brick->y = 600;
-			//		}
-			//	}
+			else if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is brickTop
+			{
+				CBrick* brick = dynamic_cast<CBrick *>(e->obj);
+				if (nx != 0)
+				{
+					if (brick->type == 10)
+					{
+							brick->y = 600;
+					}
+				}
 
-			//} // if brickTop
+			} // if brickTop
+			else if (dynamic_cast<CPlant *>(e->obj)) // if e->obj is brickTop
+			{
+				CPlant* plant = dynamic_cast<CPlant *>(e->obj);
+				if (nx != 0)
+				{
+					plant->SetState(PLANT_STATE_DIE);
+				}
+
+			} // if brickTop
 			
 			
 			

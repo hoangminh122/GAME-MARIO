@@ -621,10 +621,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				CBullet *bullet = dynamic_cast<CBullet *>(e->obj);
 				if (bullet->GetState() != GOOMBA_STATE_DIE)
 				{
+					bullet->SetState(BULLET_STATE_DIE);
 					if (GetLevel() > 1)
 					{
 						vy = -0.001f;
 						SetLevel(GetLevel() - 1);
+
 
 					}
 					else
@@ -1354,18 +1356,18 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	}
 	else if(level == MARIO_LEVEL_TAIL_BIG)
 	{
-		right = x + MARIO_BIG_BBOX_WIDTH;
-		bottom = top + MARIO_BIG_BBOX_HEIGHT;
-		/*if (nx > 0)
+		right = x + MARIO_TAIL_BIG_BBOX_WIDTH;
+		bottom = top + MARIO_TAIL_BIG_BBOX_HEIGHT;
+		if (nx > 0 && vx > 0)
 		{
 			left = x + MARIO_TAIL_BIG_BBOX_WIDTH - MARIO_BIG_BBOX_WIDTH;
 			right = left + MARIO_BIG_BBOX_WIDTH;
 		}
-		else
+		else if(nx < 0 && vx < 0)
 		{
 			left = x;
 			right = left + MARIO_BIG_BBOX_WIDTH;
-		}*/
+		}
 
 		if (this->GetState() == MARIO_STATE_DOWN)
 		{
