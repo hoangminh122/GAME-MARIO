@@ -425,9 +425,15 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		timeJumpStart = GetTickCount();
 		break;
 	case DIK_A:
+		if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG)    //set truong hop ko cam rua
+		{
+			CCOL::GetInstance() ->isAttack=true;
+			CCOL::GetInstance()->timeAttack = GetTickCount();
+		}
 		mario->pressA = true;
 		mario->timeWaitingAttackNext = GetTickCount();			//set time cho dot tan cong sau
 		mario ->timeRotatoryStart = GetTickCount();
+		
 		break;
 	case DIK_T: 
 		mario->Reset();
@@ -545,8 +551,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		else if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG )    //set truong hop ko cam rua
 		{
 				mario->isRotatory180 = true;
-				CCOL::GetInstance() ->isAttack=true;
-				CCOL::GetInstance()->timeAttack = GetTickCount();
 		}
 		else if (mario->GetLevel() == MARIO_LEVEL_FIRE_BIG)
 		{

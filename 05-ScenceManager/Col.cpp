@@ -50,7 +50,7 @@ void CCOL::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		if (mario->vx > 0 || mario->nx > 0)
 		{
-			x = mario->x + MARIO_TAIL_BIG_ATTACK_BBOX_WIDTH/1.2f;
+			x = mario->x + MARIO_TAIL_BIG_ATTACK_BBOX_WIDTH/1.5f;
 			y = mario->y + MARIO_TAIL_BIG_BBOX_HEIGHT / 1.5f;
 			vx = 0.06f;
 		}

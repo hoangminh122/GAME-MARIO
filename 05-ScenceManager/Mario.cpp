@@ -669,7 +669,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					{
 						if (this->GetState() == MARIO_STATE_ROTATORY_IDLE)
 						{
-							brick->y = 600;
+							if(brick ->y > y+ (MARIO_TAIL_FLY_BIG_BBOX_HEIGHT-BRICK_BBOX_HEIGHT))
+									brick->y = 600;
 						}
 					}
 					if(vx < 0)
@@ -1355,15 +1356,26 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	{
 		right = x + MARIO_BIG_BBOX_WIDTH;
 		bottom = top + MARIO_BIG_BBOX_HEIGHT;
+		if (nx > 0)
+		{
+			left = x + MARIO_TAIL_BIG_BBOX_WIDTH - MARIO_BIG_BBOX_WIDTH;
+			right = left + MARIO_BIG_BBOX_WIDTH;
+		}
+		else
+		{
+			left = x + 1;
+			right = left + MARIO_BIG_BBOX_WIDTH;
+		}
+
 		if (this->GetState() == MARIO_STATE_DOWN)
 		{
 			right = x + MARIO_TAIL_BIG_ATTACK_BBOX_WIDTH-3;
 			bottom = y + MARIO_TAIL_BIG_DOWN_BBOX_HEIGHT;
 
 		}
-		/*else if (GetState() == MARIO_STATE_ROTATORY_IDLE)
+		else if (GetState() == MARIO_STATE_ROTATORY_IDLE)
 		{
-			if (nx > 0)
+			/*if (nx > 0)
 			{
 				left = x + MARIO_TAIL_BIG_BBOX_WIDTH - MARIO_BIG_BBOX_WIDTH;
 				right = left + MARIO_BIG_BBOX_WIDTH;
@@ -1372,7 +1384,7 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 			{
 				left = x+1;
 				right = left + MARIO_BIG_BBOX_WIDTH;
-			}
+			}*/
 
 		}
 		else
@@ -1389,7 +1401,7 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 			}
 			
 		}
-		*/
+		
 	}
 	else
 	{
