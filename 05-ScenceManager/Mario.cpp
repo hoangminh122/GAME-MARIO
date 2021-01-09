@@ -212,7 +212,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		CalcPotentialCollisions(coObjects, coEvents);
 	if (this->GetState() == MARIO_STATE_DIE)
 	{
-		//vx = 0; vy = 0;
+		vx = 0; vy = 0;
 		y = 720;
 	}
 	// reset untouchable timer if untouchable time has passed
@@ -505,7 +505,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			else if (dynamic_cast<CMoneyIcon *>(e->obj)) // if e->obj is question box
 			{
 				CMoneyIcon* moneyIcon = dynamic_cast<CMoneyIcon *>(e->obj);
-				if (e->ny > 0 && moneyIcon ->type != 10 )
+				if (e->ny > 0)  // && moneyIcon ->type != 10 
 				{
 					moneyIcon->SetMove(true);
 				}
@@ -670,7 +670,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						if (this->GetState() == MARIO_STATE_ROTATORY_IDLE)
 						{
 							if(brick ->y > y+ (MARIO_TAIL_FLY_BIG_BBOX_HEIGHT-BRICK_BBOX_HEIGHT))
-									brick->y = 600;
+									;//brick->y = 600;
 						}
 					}
 					if(vx < 0)
@@ -1356,16 +1356,16 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	{
 		right = x + MARIO_BIG_BBOX_WIDTH;
 		bottom = top + MARIO_BIG_BBOX_HEIGHT;
-		if (nx > 0)
+		/*if (nx > 0)
 		{
 			left = x + MARIO_TAIL_BIG_BBOX_WIDTH - MARIO_BIG_BBOX_WIDTH;
 			right = left + MARIO_BIG_BBOX_WIDTH;
 		}
 		else
 		{
-			left = x + 1;
+			left = x;
 			right = left + MARIO_BIG_BBOX_WIDTH;
-		}
+		}*/
 
 		if (this->GetState() == MARIO_STATE_DOWN)
 		{
@@ -1373,8 +1373,8 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 			bottom = y + MARIO_TAIL_BIG_DOWN_BBOX_HEIGHT;
 
 		}
-		else if (GetState() == MARIO_STATE_ROTATORY_IDLE)
-		{
+		/*else if (GetState() == MARIO_STATE_ROTATORY_IDLE)
+		{*/
 			/*if (nx > 0)
 			{
 				left = x + MARIO_TAIL_BIG_BBOX_WIDTH - MARIO_BIG_BBOX_WIDTH;
@@ -1386,8 +1386,8 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 				right = left + MARIO_BIG_BBOX_WIDTH;
 			}*/
 
-		}
-		else
+		//}
+		/*else
 		{
 			if (nx > 0)
 			{
@@ -1400,7 +1400,7 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 				right = left + MARIO_BIG_BBOX_WIDTH;
 			}
 			
-		}
+		}*/
 		
 	}
 	else

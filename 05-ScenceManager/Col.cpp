@@ -1,6 +1,7 @@
 #include "Col.h"
 #include "Utils.h"
 #include "Brick.h"
+#include "BrickQuestion.h"
 
 CCOL * CCOL::__instance = NULL;
 CCOL::CCOL() : CGameObject()
@@ -52,7 +53,7 @@ void CCOL::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			x = mario->x + MARIO_TAIL_BIG_ATTACK_BBOX_WIDTH/1.5f;
 			y = mario->y + MARIO_TAIL_BIG_BBOX_HEIGHT / 1.5f;
-			vx = 0.06f;
+			vx = 0.09f;
 		}
 		else
 		{
@@ -97,19 +98,41 @@ void CCOL::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
-
-			if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is brickTop
+			if (dynamic_cast<CBrickQuestion *>(e->obj)) // if e->obj is brickTop
 			{
-				CBrick* brick = dynamic_cast<CBrick *>(e->obj);
-				if (nx != 0)
-				{
-					if (brick->type == 10)
-					{
-							brick->y = 600;
-					}
-				}
+				CBrickQuestion* brickQuestion = dynamic_cast<CBrickQuestion *>(e->obj);
+
+				//if (!brickQuestion->isDie)				//chua va cham lan nao
+				//{
+				brickQuestion->SetMove(true);
+				////SET SCORES MOVE
+				//CCOIN::xStartMove = brickQuestion->x;
+				//CCOIN::yStartMove = brickQuestion->y;
+				//CCOIN::isInitPosNew = true;
+				////CCOIN::timeWait = GetTickCount();
+				//CCOIN::isMove = true;
+				//CCOIN::level = 100;
+
+				////SET COINS MOVE
+				//CCOIN::status = 1;
+
+			/*}*/
+				vy = 0.005f;
 
 			} // if brickTop
+			//if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is brickTop
+			//{
+			//	CBrick* brick = dynamic_cast<CBrick *>(e->obj);
+			//	if (nx != 0)
+			//	{
+			//		if (brick->type == 10)
+			//		{
+			//				brick->y = 600;
+			//		}
+			//	}
+
+			//} // if brickTop
+			
 			
 			
 			
