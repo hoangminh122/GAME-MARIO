@@ -1,6 +1,13 @@
 #include "Leaf.h"
 #include "Brick.h"
 
+
+CLeaf * CLeaf::__instance = NULL;
+CLeaf *CLeaf::GetInstance()
+{
+	if (__instance == NULL) __instance = new CLeaf();
+	return __instance;
+}
 CLeaf::CLeaf() : CGameObject()
 {
 	isLive = false;						//isLive = true -> mario co the an

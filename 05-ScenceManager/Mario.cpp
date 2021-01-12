@@ -626,8 +626,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					{
 						vy = -0.001f;
 						SetLevel(GetLevel() - 1);
-
-
 					}
 					else
 						SetState(MARIO_STATE_DIE);

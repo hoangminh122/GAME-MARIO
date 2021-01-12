@@ -12,11 +12,14 @@ class CBrickQuestion : public CGameObject
 private :
 	bool isMove;
 public:
+	static CBrickQuestion* _instance;
+	static CBrickQuestion* GetInstance(int type_ani,int type_gift);
+	int typeGift;
 	int type;
 	int ani;
 	CMario*  mario;
 	bool isInitPos;							//khoi tao gia tri ban dau y -> luu vao yStatic
-	CBrickQuestion(int type_ani);
+	CBrickQuestion(int type_ani,int type_gift);
 	float yStatic;
 	void SetMove(bool isMove);
 	bool GetMove();

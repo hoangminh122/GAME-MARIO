@@ -198,12 +198,17 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	float x = stof(tokens[1].c_str());
 	float y = stof(tokens[2].c_str());
 	int typeAni = 0;
+	int typeGift = 1;
 
 	int ani_set_id = atoi(tokens[3].c_str());
 
 	if (tokens.size() > 4)
 	{
 		typeAni = atoi(tokens[4].c_str());
+	}
+	if (tokens.size() > 5)
+	{
+		typeGift = atoi(tokens[5].c_str());
 	}
 
 	CAnimationSets * animation_sets = CAnimationSets::GetInstance();
@@ -230,16 +235,17 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CBrick(typeAni);
 		break;
 
+
 	case OBJECT_TYPE_BRICKTOP: obj = new CBrickTop(typeAni); break;
 	case OBJECT_TYPE_TURLE: obj = new CTurle(typeAni); break;
 	case OBJECT_TYPE_WALL_TURLE: obj = new CWallTurle(); break;
-	case OBJECT_TYPE_QUESTION_BOX: obj = new CQuestion; break;
+	case OBJECT_TYPE_QUESTION_BOX: obj = new CQuestion(typeAni); break;
 	case OBJECT_TYPE_MUSHROOM: obj = new CMushroom(typeAni); break;
 	case OBJECT_TYPE_PLANT: obj = new CPlant(); break;
 	case OBJECT_TYPE_BULLET: obj = new CBullet(); break;
 	case OBJECT_TYPE_BULLET_MARIO: obj = new CBulletMario(); break;
 	case OBJECT_TYPE_BACKGROUND_DIE: obj = new CBackgroundDie(); break;
-	case OBJECT_TYPE_BRICK_QUESTION: obj = new CBrickQuestion(typeAni); break;
+	case OBJECT_TYPE_BRICK_QUESTION: obj = new CBrickQuestion(typeAni,typeGift); break;
 	case OBJECT_TYPE_MONEY_ICON: obj = new CMoneyIcon(typeAni); break;
 	case OBJECT_TYPE_LEAF: obj = new CLeaf(); break;
 	case OBJECT_TYPE_COIN: obj = new CCOIN(); break;
