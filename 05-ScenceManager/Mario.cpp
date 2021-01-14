@@ -24,6 +24,7 @@
 #include "Hat.h"
 #include "SwitchCol.h"
 #include "Card.h"
+#include "Portal.h"
 
 
 int CMario::level = 1;
@@ -191,7 +192,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		vy = 0.002f * dt;
 	}
-	else
+	else if(CPortal::scene_id != 1)
 	{
 		vy += MARIO_GRAVITY * dt;
 	}
@@ -972,7 +973,11 @@ void CMario::Render()
 	if (vx == 0)
 	{
 		if (nx > 0) {
-			if (this->GetState() == MARIO_STATE_KICK) {
+			if (CPortal::scene_id == 1)
+			{
+				ani = 0;
+			}
+			else if (this->GetState() == MARIO_STATE_KICK) {
 				ani = MARIO_ANI_BIG_TAIL_KICK_TURLE_RIGHT;
 			}
 			else if (this->GetState() == MARIO_STATE_DOWN)
@@ -1030,7 +1035,11 @@ void CMario::Render()
 		}
 		else
 		{
-			if (this->GetState() == MARIO_STATE_KICK) {
+			if (CPortal::scene_id == 1)
+			{
+				ani = 0;
+			}
+			else if (this->GetState() == MARIO_STATE_KICK) {
 				ani = MARIO_ANI_BIG_TAIL_KICK_TURLE_LEFT;
 			}
 			else if (this->GetState() == MARIO_STATE_DOWN)
@@ -1082,11 +1091,16 @@ void CMario::Render()
 	}
 	else if (vx > 0)
 	{
-		if (this->GetState() == MARIO_STATE_ROTATORY_IDLE && this->GetLevel() == MARIO_LEVEL_TAIL_BIG)
+		
+		if (this->GetState() == MARIO_STATE_ROTATORY_IDLE && this->GetLevel() == MARIO_LEVEL_TAIL_BIG && CPortal::scene_id != 1)
 		{
 			ani = MARIO_ANI_BIG_TAIL_ATTACK_ROTATORY_RIGHT;
 		}
-		if (this->GetState() == MARIO_STATE_GO_COL)
+		if (CPortal::scene_id == 1)
+		{
+			ani = 0;
+		}
+		else if (this->GetState() == MARIO_STATE_GO_COL)
 		{
 			ani = MARIO_TAIL_BIG_GO_COL;
 		}
@@ -1135,11 +1149,15 @@ void CMario::Render()
 	}
 	else
 	{
-		if (this->GetState() == MARIO_STATE_ROTATORY_IDLE)
+		if (this->GetState() == MARIO_STATE_ROTATORY_IDLE && CPortal::scene_id != 1)
 		{
 			ani = MARIO_ANI_BIG_TAIL_ATTACK_ROTATORY_RIGHT;
 		}
-		if (this->GetState() == MARIO_STATE_GO_COL)
+		if (CPortal::scene_id == 1)
+		{
+			ani = 0;
+		}
+		else if (this->GetState() == MARIO_STATE_GO_COL)
 		{
 			ani = MARIO_TAIL_BIG_GO_COL;
 		}
@@ -1354,27 +1372,34 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	}
 	else if(level == MARIO_LEVEL_TAIL_BIG)
 	{
-		right = x + MARIO_TAIL_BIG_BBOX_WIDTH;
-		bottom = top + MARIO_TAIL_BIG_BBOX_HEIGHT;
-		if (nx > 0 && vx > 0)
+		if (CPortal::scene_id ==1)
 		{
-			left = x + MARIO_TAIL_BIG_BBOX_WIDTH - MARIO_BIG_BBOX_WIDTH;
-			right = left + MARIO_BIG_BBOX_WIDTH;
+			right = x + MARIO_BIG_BBOX_WIDTH_SENCE_1;
+			bottom = top + MARIO_BIG_BBOX_HEIGHT_SENCE_1;
 		}
-		else if(nx < 0 && vx < 0)
+		else
 		{
-			left = x;
-			right = left + MARIO_BIG_BBOX_WIDTH;
-		}
+			right = x + MARIO_TAIL_BIG_BBOX_WIDTH;
+			bottom = top + MARIO_TAIL_BIG_BBOX_HEIGHT;
+			if (nx > 0 && vx > 0)
+			{
+				left = x + MARIO_TAIL_BIG_BBOX_WIDTH - MARIO_BIG_BBOX_WIDTH;
+				right = left + MARIO_BIG_BBOX_WIDTH;
+			}
+			else if (nx < 0 && vx < 0)
+			{
+				left = x;
+				right = left + MARIO_BIG_BBOX_WIDTH;
+			}
 
-		if (this->GetState() == MARIO_STATE_DOWN)
-		{
-			right = x + MARIO_TAIL_BIG_ATTACK_BBOX_WIDTH-3;
-			bottom = y + MARIO_TAIL_BIG_DOWN_BBOX_HEIGHT;
+			if (this->GetState() == MARIO_STATE_DOWN)
+			{
+				right = x + MARIO_TAIL_BIG_ATTACK_BBOX_WIDTH - 3;
+				bottom = y + MARIO_TAIL_BIG_DOWN_BBOX_HEIGHT;
 
-		}
-		/*else if (GetState() == MARIO_STATE_ROTATORY_IDLE)
-		{*/
+			}
+			/*else if (GetState() == MARIO_STATE_ROTATORY_IDLE)
+			{*/
 			/*if (nx > 0)
 			{
 				left = x + MARIO_TAIL_BIG_BBOX_WIDTH - MARIO_BIG_BBOX_WIDTH;
@@ -1386,22 +1411,22 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 				right = left + MARIO_BIG_BBOX_WIDTH;
 			}*/
 
-		//}
-		/*else
-		{
-			if (nx > 0)
+			//}
+			/*else
 			{
-				left = x + MARIO_TAIL_BIG_BBOX_WIDTH - MARIO_BIG_BBOX_WIDTH;
-				right = left + MARIO_BIG_BBOX_WIDTH;
-			}
-			else
-			{
-				left = x;
-				right = left + MARIO_BIG_BBOX_WIDTH;
-			}
-			
-		}*/
-		
+				if (nx > 0)
+				{
+					left = x + MARIO_TAIL_BIG_BBOX_WIDTH - MARIO_BIG_BBOX_WIDTH;
+					right = left + MARIO_BIG_BBOX_WIDTH;
+				}
+				else
+				{
+					left = x;
+					right = left + MARIO_BIG_BBOX_WIDTH;
+				}
+
+			}*/
+		}
 	}
 	else
 	{

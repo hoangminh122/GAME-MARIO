@@ -23,6 +23,7 @@
 #include "SwitchCol.h"
 #include "CardImage.h"
 #include "Effect.h"
+#include "ChangeRoad.h"
 //#include "TileMap.h"
 
 using namespace std;
@@ -72,7 +73,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define OBJECT_TYPE_SWITCH_COL	130
 #define OBJECT_TYPE_CARD_IMAGE	140
 #define OBJECT_TYPE_EFFECT	150
-
+#define OBJECT_TYPE_CHANGE_ROAD	160
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -255,6 +256,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_SWITCH_COL: obj = new CSwitchCol(typeAni); break;
 	//case OBJECT_TYPE_CARD_IMAGE: obj = new CCardImage(typeAni); break;
 	case OBJECT_TYPE_EFFECT: obj = new CEffect(typeAni); break;
+	case OBJECT_TYPE_CHANGE_ROAD: obj = new CChangeRoad(typeAni); break;
 
 	case OBJECT_TYPE_PORTAL:
 		{	

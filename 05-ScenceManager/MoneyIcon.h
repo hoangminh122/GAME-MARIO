@@ -5,7 +5,7 @@
 #define MONEY_BBOX_WIDTH  14
 #define MONEY_BBOX_HEIGHT 14
 
-#define MONEY_STATE_DIE_OVER	160
+#define MONEY_STATE_DIE_OVER 160
 
 #define MONEY_GRAVITY	0.002f
 class CMoneyIcon : public CGameObject

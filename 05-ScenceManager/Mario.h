@@ -2,7 +2,7 @@
 #include "GameObject.h"
 //#include "game_map.h"
 
-// so ani mario hien tai:95
+// so ani mario hien tai:1->95 man 2 ,96 tro di so la ani man 1,
 #define MARIO_WALKING_SPEED		0.1f 
 #define MARIO_WALKING_ADD_SPEED	0.005f 
 #define MARIO_RUN_NORMAL_SPEED	0.2f
@@ -164,8 +164,14 @@
 #define MARIO_TAIL_BIG_ATTACK_BBOX_WIDTH 25
 #define MARIO_TAIL_BIG_GO_COL 95
 
+
 #define MARIO_SMALL_BBOX_WIDTH  13  //12
 #define MARIO_SMALL_BBOX_HEIGHT 15   //24
+
+#define MARIO_BIG_BBOX_WIDTH_SENCE_1  16
+#define MARIO_BIG_BBOX_HEIGHT_SENCE_1 18
+
+
 
 #define MARIO_JUMP_HIGHER_TIME 7000
 #define MARIO_UNTOUCHABLE_TIME 5000
