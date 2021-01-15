@@ -23,6 +23,7 @@
 #include "SwitchCol.h"
 #include "CardImage.h"
 #include "Effect.h"
+#include "ChangeRoad.h"
 //#include "TileMap.h"
 
 using namespace std;
@@ -72,7 +73,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define OBJECT_TYPE_SWITCH_COL	130
 #define OBJECT_TYPE_CARD_IMAGE	140
 #define OBJECT_TYPE_EFFECT	150
-
+#define OBJECT_TYPE_CHANGE_ROAD	160
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -198,12 +199,17 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	float x = stof(tokens[1].c_str());
 	float y = stof(tokens[2].c_str());
 	int typeAni = 0;
+	int typeGift = 1;
 
 	int ani_set_id = atoi(tokens[3].c_str());
 
 	if (tokens.size() > 4)
 	{
 		typeAni = atoi(tokens[4].c_str());
+	}
+	if (tokens.size() > 5)
+	{
+		typeGift = atoi(tokens[5].c_str());
 	}
 
 	CAnimationSets * animation_sets = CAnimationSets::GetInstance();
@@ -230,16 +236,17 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CBrick(typeAni);
 		break;
 
+
 	case OBJECT_TYPE_BRICKTOP: obj = new CBrickTop(typeAni); break;
 	case OBJECT_TYPE_TURLE: obj = new CTurle(typeAni); break;
 	case OBJECT_TYPE_WALL_TURLE: obj = new CWallTurle(); break;
-	case OBJECT_TYPE_QUESTION_BOX: obj = new CQuestion; break;
+	case OBJECT_TYPE_QUESTION_BOX: obj = new CQuestion(typeAni); break;
 	case OBJECT_TYPE_MUSHROOM: obj = new CMushroom(typeAni); break;
 	case OBJECT_TYPE_PLANT: obj = new CPlant(); break;
 	case OBJECT_TYPE_BULLET: obj = new CBullet(); break;
 	case OBJECT_TYPE_BULLET_MARIO: obj = new CBulletMario(); break;
 	case OBJECT_TYPE_BACKGROUND_DIE: obj = new CBackgroundDie(); break;
-	case OBJECT_TYPE_BRICK_QUESTION: obj = new CBrickQuestion(typeAni); break;
+	case OBJECT_TYPE_BRICK_QUESTION: obj = new CBrickQuestion(typeAni,typeGift); break;
 	case OBJECT_TYPE_MONEY_ICON: obj = new CMoneyIcon(typeAni); break;
 	case OBJECT_TYPE_LEAF: obj = new CLeaf(); break;
 	case OBJECT_TYPE_COIN: obj = new CCOIN(); break;
@@ -249,6 +256,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_SWITCH_COL: obj = new CSwitchCol(typeAni); break;
 	//case OBJECT_TYPE_CARD_IMAGE: obj = new CCardImage(typeAni); break;
 	case OBJECT_TYPE_EFFECT: obj = new CEffect(typeAni); break;
+	case OBJECT_TYPE_CHANGE_ROAD: obj = new CChangeRoad(typeAni); break;
 
 	case OBJECT_TYPE_PORTAL:
 		{	
@@ -425,9 +433,15 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		timeJumpStart = GetTickCount();
 		break;
 	case DIK_A:
+		if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG)    //set truong hop ko cam rua
+		{
+			CCOL::GetInstance() ->isAttack=true;
+			CCOL::GetInstance()->timeAttack = GetTickCount();
+		}
 		mario->pressA = true;
 		mario->timeWaitingAttackNext = GetTickCount();			//set time cho dot tan cong sau
 		mario ->timeRotatoryStart = GetTickCount();
+		
 		break;
 	case DIK_T: 
 		mario->Reset();
@@ -521,6 +535,7 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		mario->pressUp = false;
 		break;
 	case DIK_X:
+		mario->pressX = true;
 		if (mario->level == MARIO_LEVEL_TAIL_BIG)
 		{
 			mario->SetState(MARIO_STATE_IDLE);
@@ -544,8 +559,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		else if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG )    //set truong hop ko cam rua
 		{
 				mario->isRotatory180 = true;
-				CCOL::GetInstance() ->isAttack=true;
-				CCOL::GetInstance()->timeAttack = GetTickCount();
 		}
 		else if (mario->GetLevel() == MARIO_LEVEL_FIRE_BIG)
 		{
@@ -568,6 +581,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	}
 	if (game->IsKeyDown(DIK_X))
 	{
+		mario->pressX = true;
 		if (mario->level == MARIO_LEVEL_TAIL_BIG)
 		{
 			if (mario->energyFull == true)

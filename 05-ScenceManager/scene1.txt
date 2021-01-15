@@ -788,7 +788,7 @@ tile-map1-1.txt	80	2816	656
 
 
 [OBJECTS]
-# type	x	y	ani_set_id	extra_settings per object type
+# type	x	y	ani_set_id	object_type
 # type: 0 = Mario , 1 = Brick, 2 = Goomba
 
 # MARIO
@@ -1257,11 +1257,11 @@ tile-map1-1.txt	80	2816	656
 #15	2133	400	34
 
 #money
-16	176	352	12
-16	192	352	12
-16	224	304	12
+16	177	352	12	11
+#16	192	352	12	0
+#16	224	304	12	0
 
-16	704	351	12
+#16	704	351	12	0
 
 #money fly
 16	1073	336	12	10
@@ -1323,22 +1323,22 @@ tile-map1-1.txt	80	2816	656
 18	48	250	14
 
 
-# ---- question box group 1 ----
+# ---- question box group 1 --kiem tra xem vat pham la gi	
 #1	100	74	2
 #1	100	226	22
-#1	84	226	22
+14	84	396	22
 
 # ---- question box group 2 ----
 #1	160	74	2
 14	416	320	22
 
-14	176	352	22
-14	192	352	22
+14	176	352	22	0	1
+14	192	352	22	0	1
 
 # ---- brick group 3 ----
 #1	220	74	2
-14	224	304	22
-14	240	304	22
+14	224	304	22	0	1
+14	240	304	22	0	2
 # ---- brick group 4 ----
 14	656	384	22
 14	704	352	22

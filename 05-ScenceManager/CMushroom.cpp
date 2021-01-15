@@ -10,6 +10,12 @@
 #include "BackgroundDie.h"
 #include "Mario.h"
 
+CMushroom * CMushroom::_instance = NULL;
+CMushroom *CMushroom::GetInstance(int type)
+{
+	if (_instance == NULL) _instance = new CMushroom(type);
+	return _instance;
+}
 CMushroom::CMushroom(int type_ani) : CGameObject()
 {
 	type = type_ani;
@@ -28,8 +34,6 @@ CMushroom::CMushroom(int type_ani) : CGameObject()
 //}
 void CMushroom::Render()
 {
-	
-
 	if (type == 1)
 		ani = MUSHROOM_ANI_GREEN;
 	else if(type == 2)

@@ -26,6 +26,9 @@
 #define PLANT_ANI_PLANT_SMALL_UP	8
 #define PLANT_ANI_PLANT_SMALL_DOWN	9
 
+#define PLANT_STATE_LIVE 236
+#define PLANT_STATE_DIE 237
+
 
 
 class CPlant : public CGameObject
@@ -39,6 +42,7 @@ public:
 	static bool start1;
 	static bool start2;
 	CPlant();
+	void SetState(int state);
 	virtual void Render();
 	virtual void GetBoundingBox(float &l, float &t, float &r, float &b);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);

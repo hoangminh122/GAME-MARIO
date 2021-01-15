@@ -73,6 +73,22 @@ void CPlant::GetBoundingBox(float &l, float &t, float &r, float &b)
 	b = y + PLANT_BBOX_HEIGHT;
 }
 
+void CPlant::SetState(int state)
+{
+	CGameObject::SetState(state);
+
+	switch (state)
+	{
+	case PLANT_STATE_DIE:
+		x = 0.0f;
+		y = 0.0f;
+		break;
+	case PLANT_STATE_LIVE:
+		vy = 0.1;
+		break;
+	}
+}
+
 void CPlant::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	CGameObject::Update(dt, coObjects);
@@ -101,51 +117,50 @@ void CPlant::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// TO-DO: make sure Koopas can interact with the world and to each of them too!
 	// 
 	
-	if (level == PLANT_LEVEL_HIGH)
+	if (GetState() != PLANT_STATE_DIE)
 	{
-		//x += 0.1;
-		y += 4 * vy;
+		if (level == PLANT_LEVEL_HIGH)
+		{
+			//x += 0.1;
+			y += 4 * vy;
 
-		if (vy > 0 && y > 400) {
-			y = 400; vy = -vy;
+			if (vy > 0 && y > 400) {
+				y = 400; vy = -vy;
+			}
+			start1 = false;
+			if (vy < 0 && y < 336) {
+				start1 = true;
+				y = 336; vy = -vy;
+			}
 		}
-		start1 = false;
-		if (vy < 0 && y < 336) {
-			start1 = true;
-			y = 336; vy = -vy;
+		else if (level == PLANT_LEVEL_MIDDLE)
+		{
+			//x += 0.1;
+			y += 4 * vy;
+
+			if (vy > 0 && y > 400) {
+				y = 400; vy = -vy;
+			}
+			start2 = false;
+			if (vy < 0 && y < 345) {
+				start2 = true;
+				y = 345; vy = -vy;
+			}
+		}
+		else if (level == PLANT_LEVEL_SMALL)
+		{
+			//x += 0.1;
+			y += 4 * vy;
+
+			if (vy > 0 && y > 400) {
+				y = 400; vy = -vy;
+			}
+			start = false;
+			if (vy < 0 && y < 360) {
+				start = true;
+				y = 360; vy = -vy;
+			}
 		}
 	}
-	else if (level == PLANT_LEVEL_MIDDLE)
-	{
-		//x += 0.1;
-		y += 4 * vy;
-
-		if (vy > 0 && y > 400) {
-			y = 400; vy = -vy;
-		}
-		start2 = false;
-		if (vy < 0 && y < 345) {
-			start2 = true;
-			y = 345; vy = -vy;
-		}
-	}
-	else if (level == PLANT_LEVEL_SMALL)
-	{
-		//x += 0.1;
-		y += 4 * vy;
-
-		if (vy > 0 && y > 400) {
-			y = 400; vy = -vy;
-		}
-		start = false;
-		if (vy < 0 && y < 360) {
-			start = true;
-			y = 360; vy = -vy;
-		}
-	}
-
-
-
-	
 
 }

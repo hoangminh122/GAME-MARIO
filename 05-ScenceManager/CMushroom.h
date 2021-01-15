@@ -20,6 +20,8 @@ class CMushroom : public CGameObject
 {
 
 public:
+	static CMushroom* _instance;
+	static CMushroom* GetInstance(int type);
 	CMushroom(int type_ani);
 	int type;
 	int ani;

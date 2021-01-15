@@ -2,7 +2,15 @@
 #include "Utils.h"
 #include "Coin.h"
 
-CBrickQuestion::CBrickQuestion(int type_ani):CGameObject() {
+CBrickQuestion * CBrickQuestion::_instance = NULL;
+CBrickQuestion *CBrickQuestion::GetInstance(int type,int type_gift)
+{
+	if (_instance == NULL) _instance = new CBrickQuestion(type,type_gift);
+	return _instance;
+}
+
+CBrickQuestion::CBrickQuestion(int type_ani,int type_gift):CGameObject() {
+	typeGift = type_gift;
 	type = type_ani;
 	isInitPos = false;						//trang thai chua khoi tao gia tri
 	isMove = false;
