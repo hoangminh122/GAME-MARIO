@@ -2,7 +2,7 @@
 
 
 
-int CPortal::scene_id = 1;
+int CPortal::scene_id =2;
 CPortal::CPortal(float l, float t, float r, float b, int scene_id )
 {
 	this->scene_id = scene_id;

@@ -1,4 +1,5 @@
 #include "Brick.h"
+#include "Portal.h"
 
 bool CBrick::moneyIcon = false;
 
@@ -34,7 +35,17 @@ void CBrick::GetBoundingBox(float &l, float &t, float &r, float &b)
 	t = y;
 	r = x + BRICK_BBOX_WIDTH;
 	b = y + BRICK_BBOX_HEIGHT;
-	if (type == 1)
+	if (CPortal::scene_id == 1 && type == 1)
+	{
+		r = x + BRICK_BBOX_WIDTH_SENCE_1_TOP;
+		b = y + BRICK_BBOX_HEIGHT_SENCE_1_TOP;
+	}
+	else if (CPortal::scene_id == 1 && type == 2)
+	{
+		r = x + BRICK_BBOX_WIDTH_SENCE_1_LEFT;
+		b = y + BRICK_BBOX_HEIGHT_SENCE_1_LEFT;
+	}
+	else if (type == 1)
 		r = x + BRICK_BBOX_WIDTH_ONE;
 	else if (type == 2)
 		r = x + BRICK_BBOX_WIDTH_TWO;

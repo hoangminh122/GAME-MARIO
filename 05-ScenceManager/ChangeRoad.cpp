@@ -1,8 +1,12 @@
 #include "ChangeRoad.h"
 
 
-CChangeRoad::CChangeRoad(int type_ani)
+CChangeRoad::CChangeRoad(int type_ani,int l,int t,int r,int b)
 {
+	left = l;
+	top = t;
+	right = r;
+	bottom = b;
 	type = type_ani;
 	isInitPos = false;
 }
@@ -18,7 +22,7 @@ void CChangeRoad::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 void CChangeRoad::Render()
 {
 	
-	animation_set->at(0)->Render(x, y);
+	//animation_set->at(0)->Render(x, y);
 	RenderBoundingBox();
 }
 

@@ -141,6 +141,12 @@
     <ClCompile Include="ChangeRoad.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Bush.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldHammer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brick.h">
@@ -267,6 +273,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ChangeRoad.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Bush.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldHammer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

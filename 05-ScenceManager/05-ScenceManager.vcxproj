@@ -133,6 +133,7 @@
     <ClCompile Include="BrickTop.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletMario.cpp" />
+    <ClCompile Include="Bush.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="CardImage.cpp" />
@@ -166,6 +167,7 @@
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="WallTurle.cpp" />
+    <ClCompile Include="WorldHammer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h" />
@@ -177,6 +179,7 @@
     <ClInclude Include="BrickTop.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="BulletMario.h" />
+    <ClInclude Include="Bush.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Card.h" />
     <ClInclude Include="CardImage.h" />
@@ -210,6 +213,7 @@
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Textures.h" />
     <ClInclude Include="WallTurle.h" />
+    <ClInclude Include="WorldHammer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

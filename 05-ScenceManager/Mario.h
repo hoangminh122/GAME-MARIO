@@ -14,6 +14,7 @@
 #define MARIO_DIE_DEFLECT_SPEED	 0.5f
 #define MARIO_STATE_IDLE			0
 #define MARIO_STATE_WALKING		200
+#define MARIO_STATE_WALKING_UP_DOWN		210
 #define MARIO_STATE_JUMP_HIGH	100
 #define MARIO_STATE_JUMP_NORMAL	300
 #define MARIO_STATE_DIE				400
@@ -195,6 +196,9 @@ class CMario : public CGameObject
 	int energyCount;			//muc nang luong
 	int numCardImage;			//ramdom card ket thuc game
 public: 
+	//man 1
+	int left, top, right, bottom;
+	//man 1
 	bool pressX;
 	DWORD saveTimeRunCurrent;				//Luu thoi gian chay lai khi khong nhan A nua
 	bool pressUp;							//di vao dung ong
