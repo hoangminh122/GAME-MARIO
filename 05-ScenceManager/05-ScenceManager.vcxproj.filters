@@ -147,6 +147,9 @@
     <ClCompile Include="WorldHammer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CCastleHelp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brick.h">
@@ -279,6 +282,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WorldHammer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CCastHelp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

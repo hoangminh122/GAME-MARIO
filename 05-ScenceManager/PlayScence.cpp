@@ -26,6 +26,7 @@
 #include "ChangeRoad.h"
 #include "Bush.h"
 #include "WorldHammer.h"
+#include "CCastHelp.h"
 //#include "TileMap.h"
 
 using namespace std;
@@ -78,6 +79,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define OBJECT_TYPE_CHANGE_ROAD	160
 #define OBJECT_TYPE_BUSH	170
 #define OBJECT_TYPE_HAMMER	180
+#define OBJECT_TYPE_CAST_HELP	171
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -279,6 +281,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_CHANGE_ROAD: obj = new CChangeRoad(typeAni, typeGift,top,right,bottom); break;
 	case OBJECT_TYPE_BUSH: obj = new CBush(); break;
 	case OBJECT_TYPE_HAMMER: obj = new CWorldHammer(158,172); break;
+	case OBJECT_TYPE_CAST_HELP: obj = new CCastleHelp(); break;
 
 	case OBJECT_TYPE_PORTAL:
 		{	

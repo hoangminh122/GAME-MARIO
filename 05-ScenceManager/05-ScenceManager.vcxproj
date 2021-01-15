@@ -137,6 +137,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="CardImage.cpp" />
+    <ClCompile Include="CCastleHelp.cpp" />
     <ClCompile Include="ChangeRoad.cpp" />
     <ClCompile Include="CMushroom.cpp" />
     <ClCompile Include="Coin.cpp" />
@@ -183,6 +184,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Card.h" />
     <ClInclude Include="CardImage.h" />
+    <ClInclude Include="CCastHelp.h" />
     <ClInclude Include="ChangeRoad.h" />
     <ClInclude Include="CMushroom.h" />
     <ClInclude Include="Coin.h" />
