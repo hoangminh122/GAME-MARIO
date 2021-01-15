@@ -501,7 +501,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		if (CPortal::scene_id == 1)
 		{
 			if (mario->bottom == 1)
-				mario->vy += 0.2f;
+				mario->vy += 0.3f;
 		}
 		break;
 	}
@@ -510,7 +510,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		if (CPortal::scene_id == 1)
 		{
 			if (mario->top == 1)
-				mario->vy -= 0.2f;
+				mario->vy -= 0.3f;
 		}
 		break;
 	}
@@ -519,7 +519,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		if (CPortal::scene_id == 1)
 		{
 			if (mario->left == 1)
-				mario->vx -= 0.2f;
+				mario->vx -= 0.3f;
 		}
 		break;
 	}
@@ -528,7 +528,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		if (CPortal::scene_id == 1)
 		{
 			if (mario->right == 1)
-				mario->vx += 0.2f;
+				mario->vx += 0.3f;
 		}
 		break;
 	}
