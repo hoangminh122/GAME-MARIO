@@ -26,6 +26,10 @@ void CBrick::Render()
 		animation_set->at(3)->Render(x, y);
 	else if(type == 10 || type == 11)
 		animation_set->at(1)->Render(x, y);
+	else if (type == 7)
+	{
+		animation_set->at(4)->Render(x, y);
+	}
 	RenderBoundingBox();
 }
 
