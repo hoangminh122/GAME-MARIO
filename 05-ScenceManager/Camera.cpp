@@ -81,17 +81,19 @@ void CCamera::Update(CMario* player) {
 			//vij tri duoi dat binh thuong cam
 			pos = D3DXVECTOR3(cx, mapHeight - GetHeight() * 1.4f, 0);
 		}
-		else if (cy < 140)
-		{
-			pos = D3DXVECTOR3(0, 100, 0);
-		}
+		
 		else
 		{
-			/*if (cy > 150 && cy < 200)
+			/*if (cy > 120 && cy < 200)
 			{
 			pos = D3DXVECTOR3(cx, cy, 0);
 			}
 			else*/
+			if (cy<100)
+			{
+			pos = D3DXVECTOR3(cx, 160, 0);
+			}
+			else
 			//vij tri fly binh thuong cam
 			pos = D3DXVECTOR3(cx, 200, 0);
 
@@ -110,6 +112,7 @@ void CCamera::Update(CMario* player) {
 		{
 			//luc nay cham goc ben phai cua the gioi thuc
 			SetPosition(mapWidth - GetWidth() / 2.0f, GetPosition().y);
+			//SetPosition(2656.0f, GetPosition().y);
 		}
 
 		if (GetBound().top < 0)
@@ -118,12 +121,12 @@ void CCamera::Update(CMario* player) {
 			SetPosition(GetPosition().x, GetHeight() / 2.0f);
 		}
 
-		//if (GetBound().bottom > 500)
-		//	/*if (GetBound().bottom > mapHeight / 2)*/
-		//{
-		//	//luc nay cham day cua the gioi thuc
-		//	SetPosition(GetPosition().x, mapHeight - GetHeight() / 2.0f);
-		//}
+		if (GetBound().bottom > 500)
+			/*if (GetBound().bottom > mapHeight / 2)*/
+		{
+			//luc nay cham day cua the gioi thuc
+			SetPosition(GetPosition().x, mapHeight - GetHeight() / 2.0f);
+		}
 	}
 }
 

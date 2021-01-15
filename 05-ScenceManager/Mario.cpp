@@ -216,7 +216,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (this->GetState() == MARIO_STATE_DIE)
 	{
 		vx = 0; vy = 0;
-		y = 720;
+		y = 320;
 	}
 	// reset untouchable timer if untouchable time has passed
 	if ( GetTickCount() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
@@ -1303,8 +1303,10 @@ void CMario::Render()
 
 	int alpha = 255;
 	if (untouchable) alpha = 128;
-
-	animation_set->at(ani)->Render(x, y, alpha);
+	if (this->GetState() != MARIO_STATE_DIE)
+	{
+		animation_set->at(ani)->Render(x, y, alpha);
+	}
 
 	RenderBoundingBox();
 }

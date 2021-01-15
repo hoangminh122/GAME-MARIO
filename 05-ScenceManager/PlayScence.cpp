@@ -575,14 +575,14 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		}
 		else
 		{
-			mario->SetPosition(mario->x, mario->y - (MARIO_BIG_BBOX_HEIGHT - MARIO_BIG_DOWN_BBOX_HEIGHT));
+			mario->SetPosition(mario->x, mario->y - (MARIO_BIG_BBOX_HEIGHT - MARIO_BIG_DOWN_BBOX_HEIGHT)-2.0f);
 			mario->SetState(MARIO_STATE_IDLE);
 		}
 		
 		break;
-	case DIK_D:
+	/*case DIK_D:
 		mario->SetPosition(mario->x, mario->y - 120);
-		break;
+		break;*/
 	case DIK_A:
 		if (mario->isHold)
 		{
