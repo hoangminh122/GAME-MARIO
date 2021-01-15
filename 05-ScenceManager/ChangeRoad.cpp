@@ -18,7 +18,7 @@ void CChangeRoad::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 void CChangeRoad::Render()
 {
 	
-	animation_set->at(0)->Render(x, y);
+	//animation_set->at(0)->Render(x, y);
 	RenderBoundingBox();
 }
 

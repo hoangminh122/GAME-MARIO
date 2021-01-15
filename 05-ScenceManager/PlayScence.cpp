@@ -405,6 +405,7 @@ void CPlayScene::Render()
 		objects[i]->Render();
 
 	scores->Render();
+	
 }
 
 /*
@@ -506,8 +507,16 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		mario->SetLevel(MARIO_LEVEL_FIRE_BIG);
 		break;
 	case DIK_DOWN:
-		mario->SetPosition(mario->x, mario->y - (MARIO_BIG_BBOX_HEIGHT - MARIO_BIG_DOWN_BBOX_HEIGHT));
-		mario->SetState(MARIO_STATE_IDLE);
+		if (CPortal::scene_id == 1)
+		{
+			mario->vy = 0.0f;
+		}
+		else
+		{
+			mario->SetPosition(mario->x, mario->y - (MARIO_BIG_BBOX_HEIGHT - MARIO_BIG_DOWN_BBOX_HEIGHT));
+			mario->SetState(MARIO_STATE_IDLE);
+		}
+		
 		break;
 	case DIK_D:
 		mario->SetPosition(mario->x, mario->y - 120);
@@ -533,6 +542,7 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		break;
 	case DIK_UP:
 		mario->pressUp = false;
+		mario->vy = 0.0f;
 		break;
 	case DIK_X:
 		mario->pressX = true;
@@ -578,6 +588,10 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	if (game->IsKeyDown(DIK_UP))
 	{
 		mario->pressUp = true;
+		if (CPortal::scene_id == 1)
+		{
+			mario->vy -= 0.002f;
+		}
 	}
 	if (game->IsKeyDown(DIK_X))
 	{
@@ -599,7 +613,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	}
 	// disable control key when Mario die 
 	if (mario->GetState() == MARIO_STATE_DIE) return;
-	
 	
 	if (game->IsKeyDown(DIK_S))
 	{
@@ -625,7 +638,13 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		mario->SetState(MARIO_STATE_KICK);
 	else if (game->IsKeyDown(DIK_DOWN))
 	{
-		mario->SetState(MARIO_STATE_DOWN);
+		if (CPortal::scene_id == 1)
+		{
+			mario->vy += 0.002f;
+		}
+		else
+			mario->SetState(MARIO_STATE_DOWN);
+
 	}
 	else if (game->IsKeyDown(DIK_RIGHT)) {
 		mario->nx = 1;
@@ -762,7 +781,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		{
 			if (mario->vx != 0.0f)
 			{
-				mario->SetState(MARIO_STATE_HOLD_TURTLE);
+				//mario->SetState(MARIO_STATE_HOLD_TURTLE);
 			}
 			else
 				mario->SetState(MARIO_STATE_HOLD_TURTLE);
