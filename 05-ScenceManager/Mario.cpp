@@ -25,6 +25,7 @@
 #include "SwitchCol.h"
 #include "Card.h"
 #include "Portal.h"
+#include "ChangeRoad.h"
 
 
 int CMario::level = 1;
@@ -52,6 +53,7 @@ CMario *CMario::GetInstance(float x, float y)
 
 CMario::CMario(float x, float y) : CGameObject()
 {
+	left = top = right = bottom = 0;
 	pressX = false;
 	pressUp = false;
 	saveTimeRunCurrent = 0;
@@ -631,6 +633,21 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					else
 						SetState(MARIO_STATE_DIE);
 				}
+
+			} // if bullet dan bay
+			else if (dynamic_cast<CChangeRoad *>(e->obj)) // if e->obj is Bullet
+			{
+				CChangeRoad *changeRoad = dynamic_cast<CChangeRoad *>(e->obj);
+				x = changeRoad->x;
+				y = changeRoad->y;
+				vx = 0.0f;
+				vy = 0.0f;
+				//set go l,r,t,b
+				left = changeRoad->left;
+				top = changeRoad->top;
+				right = changeRoad->right;
+				bottom = changeRoad->bottom;
+
 
 			} // if bullet dan bay
 		
@@ -1287,7 +1304,7 @@ void CMario::Render()
 	int alpha = 255;
 	if (untouchable) alpha = 128;
 
-	animation_set->at(ani)->Render(x, y, alpha);
+	animation_set->at(0)->Render(x, y, alpha);
 
 	RenderBoundingBox();
 }

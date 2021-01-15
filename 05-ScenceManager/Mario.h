@@ -196,6 +196,9 @@ class CMario : public CGameObject
 	int energyCount;			//muc nang luong
 	int numCardImage;			//ramdom card ket thuc game
 public: 
+	//man 1
+	int left, top, right, bottom;
+	//man 1
 	bool pressX;
 	DWORD saveTimeRunCurrent;				//Luu thoi gian chay lai khi khong nhan A nua
 	bool pressUp;							//di vao dung ong
