@@ -1,8 +1,8 @@
 #pragma once
 #include "GameObject.h"
 
-#define BRICK_BBOX_HEIGHT 5
-#define BRICK_BBOX_WIDTH 5
+#define BRICK_BBOX_HEIGHT 10
+#define BRICK_BBOX_WIDTH 10
 
 class CChangeRoad : public CGameObject
 {

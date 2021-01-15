@@ -53,7 +53,7 @@ CMario *CMario::GetInstance(float x, float y)
 
 CMario::CMario(float x, float y) : CGameObject()
 {
-	left = top = right = bottom = 0;
+	left = top = right = bottom = 1;
 	pressX = false;
 	pressUp = false;
 	saveTimeRunCurrent = 0;

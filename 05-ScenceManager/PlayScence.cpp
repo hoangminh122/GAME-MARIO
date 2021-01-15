@@ -25,6 +25,7 @@
 #include "Effect.h"
 #include "ChangeRoad.h"
 #include "Bush.h"
+#include "WorldHammer.h"
 //#include "TileMap.h"
 
 using namespace std;
@@ -76,6 +77,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define OBJECT_TYPE_EFFECT	150
 #define OBJECT_TYPE_CHANGE_ROAD	160
 #define OBJECT_TYPE_BUSH	170
+#define OBJECT_TYPE_HAMMER	180
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -276,6 +278,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_EFFECT: obj = new CEffect(typeAni); break;
 	case OBJECT_TYPE_CHANGE_ROAD: obj = new CChangeRoad(typeAni, typeGift,top,right,bottom); break;
 	case OBJECT_TYPE_BUSH: obj = new CBush(); break;
+	case OBJECT_TYPE_HAMMER: obj = new CWorldHammer(158,172); break;
 
 	case OBJECT_TYPE_PORTAL:
 		{	
@@ -490,6 +493,43 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		mario->y = 20;
 		break;
 	}
+	case DIK_DOWN:
+	{
+		if (CPortal::scene_id == 1)
+		{
+			if (mario->bottom == 1)
+				mario->vy += 0.2f;
+		}
+		break;
+	}
+	case DIK_UP:
+	{
+		if (CPortal::scene_id == 1)
+		{
+			if (mario->top == 1)
+				mario->vy -= 0.2f;
+		}
+		break;
+	}
+	case DIK_LEFT:
+	{
+		if (CPortal::scene_id == 1)
+		{
+			if (mario->left == 1)
+				mario->vx -= 0.2f;
+		}
+		break;
+	}
+	case DIK_RIGHT:
+	{
+		if (CPortal::scene_id == 1)
+		{
+			if (mario->right == 1)
+				mario->vx += 0.2f;
+		}
+		break;
+	}
+	
 	
 	}
 	
@@ -606,11 +646,13 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	}
 	if (game->IsKeyDown(DIK_UP))
 	{
-		mario->pressUp = true;
-		if (CPortal::scene_id == 1)
+		if (CPortal::scene_id != 1)
+			mario->pressUp = true;
+		/*if (CPortal::scene_id == 1)
 		{
-			mario->vy -= 0.05f;
-		}
+			if(mario->top == 1)
+				mario->vy -= 0.05f;
+		}*/
 	}
 	if (game->IsKeyDown(DIK_X))
 	{
@@ -657,20 +699,12 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		mario->SetState(MARIO_STATE_KICK);
 	else if (game->IsKeyDown(DIK_DOWN))
 	{
-		if (CPortal::scene_id == 1)
-		{
-			mario->vy += 0.05f;
-		}
-		else
+		if (CPortal::scene_id != 1)
 			mario->SetState(MARIO_STATE_DOWN);
 
 	}
 	else if (game->IsKeyDown(DIK_RIGHT)) {
-		if (CPortal::scene_id == 1)
-		{
-			mario->vx += 0.05f;
-		}
-		else
+		if (CPortal::scene_id != 1)
 		{
 			mario->nx = 1;
 			if (game->IsKeyDown(DIK_A))
@@ -747,12 +781,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		}
 	}
 	else if (game->IsKeyDown(DIK_LEFT)) {
-		if (CPortal::scene_id == 1)
-		{
-			if(mario->left == 1)
-				mario->vx -= 0.05f;
-		}
-		else
+		if (CPortal::scene_id != 1)
 		{
 			mario->nx = -1;
 
