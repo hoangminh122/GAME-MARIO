@@ -47,7 +47,7 @@ void CCamera::Update(CMario* player) {
 	float cx, cy;         //vi tri cua mario hien tai
 	player->GetPosition(cx, cy);
 	D3DXVECTOR3 pos = D3DXVECTOR3(cx, cy, 0);
-	if (CPortal::scene_id == 1)
+	if (CPortal::scene_id == 1 && CPortal::is_start != 0)
 	{
 		pos = D3DXVECTOR3(0, 100, 0);
 		SetPosition(pos);
@@ -64,6 +64,11 @@ void CCamera::Update(CMario* player) {
 			SetPosition(mapWidth - GetWidth() / 2.0f, GetPosition().y);
 		}
 
+	}
+	else if (CPortal::is_start == 0)
+	{
+		pos = D3DXVECTOR3(200, 170, 0);
+		SetPosition(pos);
 	}
 	else
 	{
@@ -128,6 +133,8 @@ void CCamera::Update(CMario* player) {
 		//	SetPosition(GetPosition().x, mapHeight - GetHeight() / 2.0f);
 		//}
 	}
+
+
 }
 
 void CCamera::SetPosition(float x, float y)

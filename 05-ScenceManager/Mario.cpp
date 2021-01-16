@@ -1313,7 +1313,8 @@ void CMario::Render()
 		animation_set->at(ani)->Render(x, y, alpha);
 	}
 
-	RenderBoundingBox();
+	if(CPortal::is_start != 0)
+		RenderBoundingBox();
 }
 
 void CMario::SetState(int state)

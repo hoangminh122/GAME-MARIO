@@ -149,6 +149,7 @@
     <ClCompile Include="Koopas.cpp" />
     <ClCompile Include="Leaf.cpp" />
     <ClCompile Include="MoneyIcon.cpp" />
+    <ClCompile Include="OpenGame.cpp" />
     <ClCompile Include="Plant.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="QuestionBox.cpp" />
@@ -196,6 +197,7 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="Koopas.h" />
     <ClInclude Include="MoneyIcon.h" />
+    <ClInclude Include="OpenGame.h" />
     <ClInclude Include="Plant.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="QuestionBox.h" />

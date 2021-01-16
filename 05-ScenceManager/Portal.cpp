@@ -1,10 +1,11 @@
 #include "Portal.h"
 
 
-
+int CPortal::is_start = 1;
 int CPortal::scene_id =2;
-CPortal::CPortal(float l, float t, float r, float b, int scene_id )
+CPortal::CPortal(float l, float t, float r, float b, int scene_id,int is_start1 )
 {
+	is_start = is_start1;
 	this->scene_id = scene_id;
 	x = l; 
 	y = t;
