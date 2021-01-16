@@ -69,10 +69,10 @@ void CCamera::Update(CMario* player) {
 	{
 		//di chuyen camera follow theo mario
 		
-		if (player->goBottom)
+		if (player->goBottom || player->vy >453.0f )
 		{
 			//vi tri duong ong
-			pos = D3DXVECTOR3(cx, mapHeight - GetHeight() + 100, 0);
+				pos = D3DXVECTOR3(cx, mapHeight - GetHeight() + 100, 0);
 
 		}
 
@@ -121,12 +121,12 @@ void CCamera::Update(CMario* player) {
 			SetPosition(GetPosition().x, GetHeight() / 2.0f);
 		}
 
-		if (GetBound().bottom > 500)
-			/*if (GetBound().bottom > mapHeight / 2)*/
-		{
-			//luc nay cham day cua the gioi thuc
-			SetPosition(GetPosition().x, mapHeight - GetHeight() / 2.0f);
-		}
+		//if (GetBound().bottom > 500)
+		//	/*if (GetBound().bottom > mapHeight / 2)*/
+		//{
+		//	//luc nay cham day cua the gioi thuc
+		//	SetPosition(GetPosition().x, mapHeight - GetHeight() / 2.0f);
+		//}
 	}
 }
 

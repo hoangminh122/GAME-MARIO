@@ -155,6 +155,7 @@
     <ClCompile Include="Scores.cpp" />
     <ClCompile Include="SenceChoose.cpp" />
     <ClCompile Include="SwitchCol.cpp" />
+    <ClCompile Include="TextEndGame.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="Turle.cpp" />
     <ClCompile Include="Utils.cpp" />
@@ -202,6 +203,7 @@
     <ClInclude Include="SenceChoose.h" />
     <ClInclude Include="SwitchCol.h" />
     <ClInclude Include="test.h" />
+    <ClInclude Include="TextEndGamer.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="Turle.h" />
     <ClInclude Include="Utils.h" />

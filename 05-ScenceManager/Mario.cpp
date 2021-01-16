@@ -26,6 +26,7 @@
 #include "Card.h"
 #include "Portal.h"
 #include "ChangeRoad.h"
+#include "TextEndGamer.h"
 
 
 int CMario::level = 1;
@@ -736,6 +737,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				if (ny > 0)
 				{
 					SetNumCardImage(1);
+					CTextEndGame::isShow = true;
+					card->ani = 1;
+					card->isDie = true;
+
 				}
 
 			} // if brickTop
