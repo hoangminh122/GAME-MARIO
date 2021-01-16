@@ -13,6 +13,7 @@
 //CBullet::CBullet() {
 //	isStart = false;
 //}
+ DWORD CBulletMario::timeBulletStart = 0;
 int CBulletMario::nxBullet = 1;
 bool CBulletMario::isSetPosition = false;
 bool CBulletMario::isStart = false;
@@ -30,6 +31,7 @@ CBulletMario::CBulletMario() : CGameObject()
 	heightAfter = 0;
 	isDie = true;
 	isBullet = false;
+	timeBulletStart = 0;
 }
 CBulletMario *CBulletMario::GetInstance()
 {
@@ -53,6 +55,11 @@ void CBulletMario::GetBoundingBox(float &l, float &t, float &r, float &b)
 void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	CGameObject::Update(dt);
+
+	if (GetTickCount() - timeBulletStart > 100 && timeBulletStart != 0)
+	{
+		isStart = true;
+	}
 
 	if (nextStart - timeStart > 1000 || vx == 0 || vy == 0)
 	{

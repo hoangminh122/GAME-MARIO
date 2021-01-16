@@ -642,7 +642,8 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 				CBulletMario::nxBullet = -1;
 			else
 				CBulletMario::nxBullet = 1;
-			CBulletMario::isStart = true;
+			CBulletMario::timeBulletStart = GetTickCount();
+			//CBulletMario::isStart = true;
 			CBulletMario::isSetPosition = true;
 			mario->GetPosition(CBulletMario::x0, CBulletMario::y0);
 
