@@ -30,6 +30,7 @@ tile-map1-1.txt	80	2816	656
 #khoi ong
 
 91070	171	358	202	406	40
+91072	222	376	254	407	40
 
 #HUD
 11101	12	128	244	156	41
@@ -420,7 +421,7 @@ tile-map1-1.txt	80	2816	656
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 
-#on khoi
+#end game
 91071	91071	100
 # ==== MARIO =========
 #idle BIG right
@@ -617,6 +618,7 @@ tile-map1-1.txt	80	2816	656
 #brick effect
 650	20050	100	20051	100	20052	100	20052	100
 651	91070	100
+652	91072	100
 
 #=====BRICK DOI ======
 603	20002	100
@@ -746,7 +748,7 @@ tile-map1-1.txt	80	2816	656
 
 
 # BRICK 		mat tien rua
-2	601	650	1911	620	651
+2	601	650	1911	620	651	652
 # brick doi
 23	603
 #hinh vuong mau gach

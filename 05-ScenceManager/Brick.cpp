@@ -30,6 +30,10 @@ void CBrick::Render()
 	{
 		animation_set->at(4)->Render(x, y);
 	}
+	else if (type == 8)
+	{
+		animation_set->at(5)->Render(x, y);
+	}
 	RenderBoundingBox();
 }
 
