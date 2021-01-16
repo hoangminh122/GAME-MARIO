@@ -2,6 +2,7 @@
 #include "Camera.h"
 #include "Mario.h"
 #include "Utils.h"
+#include "Portal.h"
 
 CScores::CScores()
 {
@@ -80,80 +81,84 @@ int CScores::SetImageCard(int type) {
 
 void CScores::Render()
 {
-	//get camera
-   int camX = CCamera::GetInstance()->GetPosition().x - CCamera::GetInstance()->GetWidth()/2;
-   int camY = CCamera::GetInstance()->GetPosition().y + CCamera::GetInstance()->GetHeight() / 2;
-
-	CMario* mario = CMario::GetInstance(0, 0);
-
-	// draw scores bar
-	spriteScores = CSprites::GetInstance()->Get(11101);
-	spriteScores->Draw(camX+30, camY-35);
-
-	//card image one
-	spriteCardOne = CSprites::GetInstance()->Get(SetImageCard(arrNumberImage[0]));
-	spriteCardOne->Draw(camX + 190, camY - 35);
-
-	//draw energy fly
-	for (int i = 0; i < 6-energyCount; i++)
+	if (CPortal::is_start != 0)
 	{
-		spriteScores = CSprites::GetInstance()->Get(91010);
-		spriteScores->Draw(camX + 116 -i*8, camY - 28);
-	}
 
-	if (energyCount <= 5)
-	{
-		spriteScores = CSprites::GetInstance()->Get(91012);
-		spriteScores->Draw(camX + 116 +12, camY - 28);
-	}
+		//get camera
+		int camX = CCamera::GetInstance()->GetPosition().x - CCamera::GetInstance()->GetWidth() / 2;
+		int camY = CCamera::GetInstance()->GetPosition().y + CCamera::GetInstance()->GetHeight() / 2;
 
+		CMario* mario = CMario::GetInstance(0, 0);
 
-	
+		// draw scores bar
+		spriteScores = CSprites::GetInstance()->Get(11101);
+		spriteScores->Draw(camX + 30, camY - 35);
 
-	//ve so diem
-	if (font)
-	{
-		//ve world
-		SetRect(&rectScreen,66, CCamera::GetInstance()->GetHeight()-30, 300, CCamera::GetInstance()->GetHeight()+100);
-		string strScreen = "1";
-		Draw(rectScreen, strScreen);
+		//card image one
+		spriteCardOne = CSprites::GetInstance()->Get(SetImageCard(arrNumberImage[0]));
+		spriteCardOne->Draw(camX + 190, camY - 35);
 
-		//so mang mario
-		SetRect(&rectLife, 66, CCamera::GetInstance()->GetHeight() - 22, 100, CCamera::GetInstance()->GetHeight() + 100);
-		string strLife = "1";
-		Draw(rectLife, strLife);
-
-		//so diem
-		SetRect(&rectScores, 90, CCamera::GetInstance()->GetHeight() -22, 150, CCamera::GetInstance()->GetHeight() + 150);
-		string strScores = "0000000";
-		if (this->scores != NULL)
+		//draw energy fly
+		for (int i = 0; i < 6 - energyCount; i++)
 		{
-			strScores = to_string(this->scores);
-			CheckLength(strScores, 6);
+			spriteScores = CSprites::GetInstance()->Get(91010);
+			spriteScores->Draw(camX + 116 - i * 8, camY - 28);
 		}
-		Draw(rectScores, strScores);
 
-		//coin 
-		SetRect(&rectCoin, 165, CCamera::GetInstance()->GetHeight() -30, 300, CCamera::GetInstance()->GetHeight() + 100);
-		string strCoin = "0";
-		if (this->coins != NULL)
+		if (energyCount <= 5)
 		{
-			strCoin = to_string(this->coins);
+			spriteScores = CSprites::GetInstance()->Get(91012);
+			spriteScores->Draw(camX + 116 + 12, camY - 28);
 		}
-		Draw(rectCoin, strCoin);
 
-		//time
-		SetRect(&rectTime, 160, CCamera::GetInstance()->GetHeight() -22, 300, CCamera::GetInstance()->GetHeight() + 100);
-		string strTime = "000";
-		if (this->timeOut != NULL)
+
+
+
+		//ve so diem
+		if (font)
 		{
-			strTime = to_string(this->timeOut);
-			//CheckLength(strTime, 3);
+			//ve world
+			SetRect(&rectScreen, 66, CCamera::GetInstance()->GetHeight() - 30, 300, CCamera::GetInstance()->GetHeight() + 100);
+			string strScreen = "1";
+			Draw(rectScreen, strScreen);
+
+			//so mang mario
+			SetRect(&rectLife, 66, CCamera::GetInstance()->GetHeight() - 22, 100, CCamera::GetInstance()->GetHeight() + 100);
+			string strLife = "1";
+			Draw(rectLife, strLife);
+
+			//so diem
+			SetRect(&rectScores, 90, CCamera::GetInstance()->GetHeight() - 22, 150, CCamera::GetInstance()->GetHeight() + 150);
+			string strScores = "0000000";
+			if (this->scores != NULL)
+			{
+				strScores = to_string(this->scores);
+				CheckLength(strScores, 6);
+			}
+			Draw(rectScores, strScores);
+
+			//coin 
+			SetRect(&rectCoin, 165, CCamera::GetInstance()->GetHeight() - 30, 300, CCamera::GetInstance()->GetHeight() + 100);
+			string strCoin = "0";
+			if (this->coins != NULL)
+			{
+				strCoin = to_string(this->coins);
+			}
+			Draw(rectCoin, strCoin);
+
+			//time
+			SetRect(&rectTime, 160, CCamera::GetInstance()->GetHeight() - 22, 300, CCamera::GetInstance()->GetHeight() + 100);
+			string strTime = "000";
+			if (this->timeOut != NULL)
+			{
+				strTime = to_string(this->timeOut);
+				//CheckLength(strTime, 3);
+			}
+			Draw(rectTime, strTime);
+
+
+
 		}
-		Draw(rectTime, strTime);
-
-
-
 	}
 }
 

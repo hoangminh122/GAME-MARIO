@@ -137,6 +137,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="CardImage.cpp" />
+    <ClCompile Include="CCastleHelp.cpp" />
     <ClCompile Include="ChangeRoad.cpp" />
     <ClCompile Include="CMushroom.cpp" />
     <ClCompile Include="Coin.cpp" />
@@ -148,12 +149,14 @@
     <ClCompile Include="Koopas.cpp" />
     <ClCompile Include="Leaf.cpp" />
     <ClCompile Include="MoneyIcon.cpp" />
+    <ClCompile Include="OpenGame.cpp" />
     <ClCompile Include="Plant.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="QuestionBox.cpp" />
     <ClCompile Include="Scores.cpp" />
     <ClCompile Include="SenceChoose.cpp" />
     <ClCompile Include="SwitchCol.cpp" />
+    <ClCompile Include="TextEndGame.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="Turle.cpp" />
     <ClCompile Include="Utils.cpp" />
@@ -183,6 +186,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Card.h" />
     <ClInclude Include="CardImage.h" />
+    <ClInclude Include="CCastHelp.h" />
     <ClInclude Include="ChangeRoad.h" />
     <ClInclude Include="CMushroom.h" />
     <ClInclude Include="Coin.h" />
@@ -193,6 +197,7 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="Koopas.h" />
     <ClInclude Include="MoneyIcon.h" />
+    <ClInclude Include="OpenGame.h" />
     <ClInclude Include="Plant.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="QuestionBox.h" />
@@ -200,6 +205,7 @@
     <ClInclude Include="SenceChoose.h" />
     <ClInclude Include="SwitchCol.h" />
     <ClInclude Include="test.h" />
+    <ClInclude Include="TextEndGamer.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="Turle.h" />
     <ClInclude Include="Utils.h" />

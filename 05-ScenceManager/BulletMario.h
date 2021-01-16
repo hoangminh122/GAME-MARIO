@@ -24,6 +24,7 @@ public:
 	float heightAfter;							//so sang co dan nhay len 1 khoang nhat dinh
 	bool isBullet;									//dan da xuat phat chua
 public:
+	static DWORD timeBulletStart;
 	static void setPosition(float x0, float y0);
 	virtual void Render();
 	virtual void GetBoundingBox(float &l, float &t, float &r, float &b);

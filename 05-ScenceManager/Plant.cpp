@@ -7,7 +7,7 @@ bool CPlant::start1 = false;
 bool CPlant::start2 = false;
 CPlant::CPlant() : CGameObject()
 {
-	vy = 0.1;
+	vy = 0.07;
 	ani = 0;
 	mario = CMario::GetInstance(0, 0);
 	level = PLANT_LEVEL_HIGH;
@@ -124,8 +124,8 @@ void CPlant::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			//x += 0.1;
 			y += 4 * vy;
 
-			if (vy > 0 && y > 400) {
-				y = 400; vy = -vy;
+			if (vy > 0 && y > 380) {
+				y = 380; vy = -vy;
 			}
 			start1 = false;
 			if (vy < 0 && y < 336) {
@@ -138,8 +138,8 @@ void CPlant::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			//x += 0.1;
 			y += 4 * vy;
 
-			if (vy > 0 && y > 400) {
-				y = 400; vy = -vy;
+			if (vy > 0 && y > 380) {
+				y = 380; vy = -vy;
 			}
 			start2 = false;
 			if (vy < 0 && y < 345) {
@@ -152,8 +152,8 @@ void CPlant::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			//x += 0.1;
 			y += 4 * vy;
 
-			if (vy > 0 && y > 400) {
-				y = 400; vy = -vy;
+			if (vy > 0 && y > 380) {
+				y = 380; vy = -vy;
 			}
 			start = false;
 			if (vy < 0 && y < 360) {

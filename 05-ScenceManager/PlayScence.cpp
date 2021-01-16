@@ -26,6 +26,9 @@
 #include "ChangeRoad.h"
 #include "Bush.h"
 #include "WorldHammer.h"
+#include "CCastHelp.h"
+#include "TextEndGamer.h"
+#include "OpenGame.h"
 //#include "TileMap.h"
 
 using namespace std;
@@ -78,6 +81,9 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define OBJECT_TYPE_CHANGE_ROAD	160
 #define OBJECT_TYPE_BUSH	170
 #define OBJECT_TYPE_HAMMER	180
+#define OBJECT_TYPE_CAST_HELP	171
+#define OBJECT_TYPE_TEXT_END_GAME	172
+#define OBJECT_TYPE_OPEN_GAME	173
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -208,6 +214,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	int top = 0;
 	int right = 0;
 	int bottom = 0;
+	int isStart = 1;
 
 	int ani_set_id = atoi(tokens[3].c_str());
 
@@ -279,13 +286,20 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_CHANGE_ROAD: obj = new CChangeRoad(typeAni, typeGift,top,right,bottom); break;
 	case OBJECT_TYPE_BUSH: obj = new CBush(); break;
 	case OBJECT_TYPE_HAMMER: obj = new CWorldHammer(158,172); break;
+	case OBJECT_TYPE_CAST_HELP: obj = new CCastleHelp(); break;
+	case OBJECT_TYPE_TEXT_END_GAME: obj = new CTextEndGame(); break;
+	case OBJECT_TYPE_OPEN_GAME: obj = new COpenGame(); break;
 
 	case OBJECT_TYPE_PORTAL:
 		{	
 			float r = stof(tokens[4].c_str());
 			float b = stof(tokens[5].c_str());
 			int scene_id = atoi(tokens[6].c_str());
-			obj = new CPortal(x, y, r, b, scene_id);
+			if (tokens.size() > 7)
+			{
+				isStart = atoi(tokens[7].c_str());
+			}
+			obj = new CPortal(x, y, r, b, scene_id,isStart);
 		}
 		break;
 	default:
@@ -421,12 +435,16 @@ void CPlayScene::Render()
 {
 	if (map != NULL)
 	{
-		map->Render(player);				//load map len
+		if (CPortal::is_start != 0)
+		{
+			map->Render(player);				//load map len
+		}
 	}
 	for (unsigned int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
 
-	scores->Render();
+	
+		scores->Render();
 	
 }
 
@@ -495,19 +513,37 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	}
 	case DIK_DOWN:
 	{
-		if (CPortal::scene_id == 1)
+		if (CPortal::is_start == 0)
 		{
 			if (mario->bottom == 1)
-				mario->vy += 0.2f;
+			{
+				mario->y = 240.0f;
+				mario->bottom = 0;
+				mario->top = 1;
+			}
+		}
+		else if (CPortal::scene_id == 1)
+		{
+			if (mario->bottom == 1)
+				mario->vy += 0.3f;
 		}
 		break;
 	}
 	case DIK_UP:
 	{
-		if (CPortal::scene_id == 1)
+		if (CPortal::is_start == 0)
 		{
 			if (mario->top == 1)
-				mario->vy -= 0.2f;
+			{
+				mario->y = 220.0f;
+				mario->top = 0;
+				mario->bottom = 1;
+			}
+		}
+		else if (CPortal::scene_id == 1)
+		{
+			if (mario->top == 1)
+				mario->vy -= 0.3f;
 		}
 		break;
 	}
@@ -516,7 +552,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		if (CPortal::scene_id == 1)
 		{
 			if (mario->left == 1)
-				mario->vx -= 0.2f;
+				mario->vx -= 0.3f;
 		}
 		break;
 	}
@@ -525,7 +561,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		if (CPortal::scene_id == 1)
 		{
 			if (mario->right == 1)
-				mario->vx += 0.2f;
+				mario->vx += 0.3f;
 		}
 		break;
 	}
@@ -572,14 +608,14 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		}
 		else
 		{
-			mario->SetPosition(mario->x, mario->y - (MARIO_BIG_BBOX_HEIGHT - MARIO_BIG_DOWN_BBOX_HEIGHT));
+			mario->SetPosition(mario->x, mario->y - (MARIO_BIG_BBOX_HEIGHT - MARIO_BIG_DOWN_BBOX_HEIGHT)-2.0f);
 			mario->SetState(MARIO_STATE_IDLE);
 		}
 		
 		break;
-	case DIK_D:
+	/*case DIK_D:
 		mario->SetPosition(mario->x, mario->y - 120);
-		break;
+		break;*/
 	case DIK_A:
 		if (mario->isHold)
 		{
@@ -636,7 +672,8 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 				CBulletMario::nxBullet = -1;
 			else
 				CBulletMario::nxBullet = 1;
-			CBulletMario::isStart = true;
+			CBulletMario::timeBulletStart = GetTickCount();
+			//CBulletMario::isStart = true;
 			CBulletMario::isSetPosition = true;
 			mario->GetPosition(CBulletMario::x0, CBulletMario::y0);
 

@@ -26,6 +26,7 @@
 #include "Card.h"
 #include "Portal.h"
 #include "ChangeRoad.h"
+#include "TextEndGamer.h"
 
 
 int CMario::level = 1;
@@ -213,10 +214,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	
 	if (this->GetState() !=MARIO_STATE_DIE)
 		CalcPotentialCollisions(coObjects, coEvents);
-	if (this->GetState() == MARIO_STATE_DIE)
+	if (this->GetState() == MARIO_STATE_DIE ||(y >430 && goBottom ==false))
 	{
 		vx = 0; vy = 0;
-		y = 720;
+		y = 320;
 	}
 	// reset untouchable timer if untouchable time has passed
 	if ( GetTickCount() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
@@ -697,7 +698,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						x -= 0.003f;
 				}
 				if (brick->type == 10 && brick->moneyIcon)
-					brick->y = 600;
+					brick->y = 800;
 						
 			} // if brickTop
 			if (dynamic_cast<CSwitchCol *>(e->obj)) // if e->obj is Backgroud die
@@ -736,6 +737,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				if (ny > 0)
 				{
 					SetNumCardImage(1);
+					CTextEndGame::isShow = true;
+					card->ani = 1;
+					card->isDie = true;
+
 				}
 
 			} // if brickTop
@@ -1303,10 +1308,13 @@ void CMario::Render()
 
 	int alpha = 255;
 	if (untouchable) alpha = 128;
+	if (this->GetState() != MARIO_STATE_DIE)
+	{
+		animation_set->at(ani)->Render(x, y, alpha);
+	}
 
-	animation_set->at(0)->Render(x, y, alpha);
-
-	RenderBoundingBox();
+	if(CPortal::is_start != 0)
+		RenderBoundingBox();
 }
 
 void CMario::SetState(int state)
