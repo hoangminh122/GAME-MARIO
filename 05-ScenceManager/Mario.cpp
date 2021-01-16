@@ -214,7 +214,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	
 	if (this->GetState() !=MARIO_STATE_DIE)
 		CalcPotentialCollisions(coObjects, coEvents);
-	if (this->GetState() == MARIO_STATE_DIE)
+	if (this->GetState() == MARIO_STATE_DIE ||(y >430 && goBottom ==false))
 	{
 		vx = 0; vy = 0;
 		y = 320;
@@ -698,7 +698,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						x -= 0.003f;
 				}
 				if (brick->type == 10 && brick->moneyIcon)
-					brick->y = 600;
+					brick->y = 800;
 						
 			} // if brickTop
 			if (dynamic_cast<CSwitchCol *>(e->obj)) // if e->obj is Backgroud die
