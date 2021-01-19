@@ -1,6 +1,11 @@
 #include "Hat.h"
 
-
+CHat * CHat::__instance = NULL;
+CHat *CHat::GetInstance()
+{
+	if (__instance == NULL) __instance = new CHat();
+	return __instance;
+}
 CHat::CHat()
 {
 	noColision = false;

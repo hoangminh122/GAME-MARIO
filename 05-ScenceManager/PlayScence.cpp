@@ -277,7 +277,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_MONEY_ICON: obj = new CMoneyIcon(typeAni); break;
 	case OBJECT_TYPE_LEAF: obj = new CLeaf(); break;
 	case OBJECT_TYPE_COIN: obj = new CCOIN(); break;
-	case OBJECT_TYPE_HAT: obj = new CHat(); break;
+	case OBJECT_TYPE_HAT: obj =  CHat::GetInstance(); break;
 	case OBJECT_TYPE_CARD: obj = new CCard(); break;
 	case OBJECT_TYPE_COL: obj = CCOL::GetInstance(); break;
 	case OBJECT_TYPE_SWITCH_COL: obj = new CSwitchCol(typeAni); break;

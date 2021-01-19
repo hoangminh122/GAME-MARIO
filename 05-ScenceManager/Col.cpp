@@ -3,6 +3,7 @@
 #include "Brick.h"
 #include "BrickQuestion.h"
 #include "Plant.h"
+#include "Hat.h"
 
 CCOL * CCOL::__instance = NULL;
 CCOL::CCOL() : CGameObject()
@@ -129,6 +130,26 @@ void CCOL::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					if (brick->type == 10)
 					{
 							brick->y = 600;
+					}
+					else if (brick->type == 11)
+					{
+						if (e->nx != 0 && !CHat::GetInstance()->noColision)
+						{
+							//y = hat->y;
+							//CHat::GetInstance()->y = CHat::GetInstance()->y - 16 - 10;
+							CHat::GetInstance()->y = 368.0f - 16;
+							CHat::GetInstance()->isDie = false;				// HAT song lai
+							//y += dy;
+
+						}
+						else if (!CHat::GetInstance()->noColision && !CHat::GetInstance()->isDie)
+						{
+							CBrick::moneyIcon = true;
+							CHat::GetInstance()->isDie = true;
+							CHat::GetInstance()->y = CHat::GetInstance()->y + 6;
+							CHat::GetInstance()->noColision = true;
+						}
+						//vx +=dx;
 					}
 				}
 

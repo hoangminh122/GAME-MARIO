@@ -152,8 +152,8 @@ void CPlant::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			//x += 0.1;
 			y += 4 * vy;
 
-			if (vy > 0 && y > 380) {
-				y = 380; vy = -vy;
+			if (vy > 0 && y > 390) {
+				y = 390; vy = -vy;
 			}
 			start = false;
 			if (vy < 0 && y < 360) {
