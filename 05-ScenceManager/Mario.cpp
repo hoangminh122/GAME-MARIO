@@ -698,7 +698,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						x -= 0.003f;
 				}
 				if (brick->type == 10 && brick->moneyIcon)
-					brick->y = 800;
+					brick->y = 900;
 						
 			} // if brickTop
 			if (dynamic_cast<CSwitchCol *>(e->obj)) // if e->obj is Backgroud die
