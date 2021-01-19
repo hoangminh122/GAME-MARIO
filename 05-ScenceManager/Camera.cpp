@@ -47,6 +47,7 @@ void CCamera::Update(CMario* player) {
 	float cx, cy;         //vi tri cua mario hien tai
 	player->GetPosition(cx, cy);
 	D3DXVECTOR3 pos = D3DXVECTOR3(cx, cy, 0);
+	SetPosition(pos);
 	if (CPortal::scene_id == 1 && CPortal::is_start != 0)
 	{
 		pos = D3DXVECTOR3(0, 100, 0);
@@ -96,7 +97,7 @@ void CCamera::Update(CMario* player) {
 			else*/
 			if (cy<100)
 			{
-			pos = D3DXVECTOR3(cx, 160, 0);
+			pos = D3DXVECTOR3(cx, 50, 0);
 			}
 			else
 			//vij tri fly binh thuong cam
@@ -123,7 +124,7 @@ void CCamera::Update(CMario* player) {
 		if (GetBound().top < 0)
 		{
 			//luc nay cham goc tren the gioi thuc
-			SetPosition(GetPosition().x, GetHeight() / 2.0f);
+			SetPosition(GetPosition().x, GetHeight() / 2.2f);
 		}
 
 		//if (GetBound().bottom > 500)

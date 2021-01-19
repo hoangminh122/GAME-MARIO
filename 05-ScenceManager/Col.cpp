@@ -129,7 +129,7 @@ void CCOL::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				{
 					if (brick->type == 10)
 					{
-							brick->y = 600;
+							brick->y = 800;
 					}
 					else if (brick->type == 11)
 					{
