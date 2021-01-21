@@ -13,16 +13,15 @@
 
 class CFlyBar : public CGameObject
 {
-	//void SetBoundingBox();
+	void SetBoundingBox();
 
 public:
-	int state;
 	CFlyBar();
 	bool isActive;
 	bool isDead;
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 	void Render();
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
-	//void SetState(int state);
+	void SetState(int state);
 };
 
