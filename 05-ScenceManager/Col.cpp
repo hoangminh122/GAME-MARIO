@@ -5,6 +5,8 @@
 #include "Plant.h"
 #include "Hat.h"
 #include "BrickPiece.h"
+#include "Leaf.h"
+
 
 CCOL * CCOL::__instance = NULL;
 CCOL::CCOL() : CGameObject()
@@ -123,6 +125,20 @@ void CCOL::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				vy = 0.005f;
 
 			} // if brickTop
+			else if (dynamic_cast<CLeaf *>(e->obj)) // if e->obj is question box
+			{
+				CLeaf* leaf = dynamic_cast<CLeaf *>(e->obj);
+				if (e->nx != 0)
+				{
+					leaf->y = y - 40;
+					//if(leaf ->y > y -30)			//la roi muot hon
+					//	leaf->vy = -0.02f;
+					leaf->isMove = true;
+					vx = -vx;
+				}
+
+
+			} // if question box
 			else if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is brickTop
 			{
 				CBrick* brick = dynamic_cast<CBrick *>(e->obj);

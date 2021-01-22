@@ -26,20 +26,26 @@ CLeaf::CLeaf() : CGameObject()
 
 void CLeaf::Render()
 {
-	if (vxToggle > 0)
-		ani = 0;
-	else
-		ani = 1;
-	animation_set->at(ani)->Render(x, y);
-	RenderBoundingBox();
+	if (GetState() != LEAF_STATE_DIE_OVER && isMove)
+	{
+		if (vxToggle > 0)
+			ani = 0;
+		else
+			ani = 1;
+		animation_set->at(ani)->Render(x, y);
+		RenderBoundingBox();
+	}
 }
 
 void CLeaf::GetBoundingBox(float &l, float &t, float &r, float &b)
 {
-	l = x;
-	t = y;
-	r = x + LEAF_BBOX_WIDTH;
-	b = y + LEAF_BBOX_HEIGHT;
+	if (GetState() != LEAF_STATE_DIE_OVER)
+	{
+		l = x;
+		t = y;
+		r = x + LEAF_BBOX_WIDTH;
+		b = y + LEAF_BBOX_HEIGHT;
+	}
 }
 
 void CLeaf::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)

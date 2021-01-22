@@ -84,8 +84,11 @@ void CCamera::Update(CMario* player) {
 
 		else if (cy > 200)
 		{
+			
+				 pos = D3DXVECTOR3(cx, 200, 0);
+			
 			//vij tri duoi dat binh thuong cam
-			pos = D3DXVECTOR3(cx, mapHeight - GetHeight() * 1.4f, 0);
+			//pos = D3DXVECTOR3(cx, mapHeight - GetHeight() * 1.4f, 0);
 		}
 		
 		else
@@ -102,7 +105,9 @@ void CCamera::Update(CMario* player) {
 			//else
 			//vij tri fly binh thuong cam
 			//pos = D3DXVECTOR3(cx, 200, 0);
+				
 				pos = D3DXVECTOR3(cx, 150, 0);
+
 		}
 
 		SetPosition(pos);			//SET vi tri vao thuoc tinh position
