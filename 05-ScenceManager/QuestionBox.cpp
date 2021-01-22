@@ -2,7 +2,8 @@
 #include "Turle.h"
 #include "Utils.h"
 
-CQuestion::CQuestion() : CGameObject() {
+CQuestion::CQuestion(int type_ani) : CGameObject() {
+	type = type_ani;								
 	isQuestion = true;
 	ani = 0 ;
 	//mushroomRun = false;

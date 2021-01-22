@@ -13,6 +13,7 @@
 81	textures\enemie\enemies-5.png	25	25	255
 80	textures\map\man1\tile-map1-1.png	255	255	255
 82	textures\misc\effect1.png	176	255	255
+83	textures\misc\end.png	176	255	255
 
 
 #maptile
@@ -24,6 +25,12 @@ tile-map1-1.txt	80	2816	656
 
 # id	left	top	right	bottom	texture_id	x	y
 [SPRITES]
+#TEXT END GAME
+91071	35	8	219	53	83
+#khoi ong
+
+91070	171	358	202	406	40
+91072	222	376	254	407	40
 
 #HUD
 11101	12	128	244	156	41
@@ -414,6 +421,8 @@ tile-map1-1.txt	80	2816	656
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 
+#end game
+91071	91071	100
 # ==== MARIO =========
 #idle BIG right
 400	10001	100
@@ -608,6 +617,8 @@ tile-map1-1.txt	80	2816	656
 601	20001	100
 #brick effect
 650	20050	100	20051	100	20052	100	20052	100
+651	91070	100
+652	91072	100
 
 #=====BRICK DOI ======
 603	20002	100
@@ -717,6 +728,10 @@ tile-map1-1.txt	80	2816	656
 
 #card
 2010	15520	300	15521	300	15522	300
+2011	15520	300
+2012	15521	300
+2013	15522	300
+
 #card image
 2050	15550	100
 2051	15551	100
@@ -733,7 +748,7 @@ tile-map1-1.txt	80	2816	656
 
 
 # BRICK 		mat tien rua
-2	601	650	1911	620
+2	601	650	1911	620	651	652
 # brick doi
 23	603
 #hinh vuong mau gach
@@ -753,7 +768,7 @@ tile-map1-1.txt	80	2816	656
 35	615
 36	616
 37	617
-
+#khoi ong	
 
 # QUESTION MARK BRICK 
 22	602	620	650
@@ -782,13 +797,15 @@ tile-map1-1.txt	80	2816	656
 1001	2001	2002
 
 #card
-1010	2010
+1010	2010	2011	2012	2013
 #card image
 1050	2050	2051	2052	2053
 
+#end game
+91071	91071	100
 
 [OBJECTS]
-# type	x	y	ani_set_id	extra_settings per object type
+# type	x	y	ani_set_id	object_type
 # type: 0 = Mario , 1 = Brick, 2 = Goomba
 
 # MARIO
@@ -802,6 +819,15 @@ tile-map1-1.txt	80	2816	656
 #0	2261	20	1
 #bullet
 11	350	366	11
+
+# GOOMBA
+2	160	350	3
+2	400	380	3
+#2	565	400	3
+#2	10	400	3
+2	800	384	3
+2	850	384	3
+
 #plant 1
 12	100	280	11
 12	160	280	11
@@ -812,13 +838,6 @@ tile-map1-1.txt	80	2816	656
 10	357	400	10
 10	1800	400	10
 10	1867	400	10
-# GOOMBA
-2	160	350	3
-2	400	380	3
-#2	565	400	3
-#2	10	400	3
-2	800	384	3
-2	850	384	3
 # BRICK 
 
 #tuong bao ngoai
@@ -1198,6 +1217,7 @@ tile-map1-1.txt	80	2816	656
 #1	1872	400	32
 
 #tru cao
+#1	2800	368	2	7
 1	2256	368	2	7
 #1	2272	368	32
 #1	2256	384	32
@@ -1257,11 +1277,11 @@ tile-map1-1.txt	80	2816	656
 #15	2133	400	34
 
 #money
-16	176	352	12
-16	192	352	12
-16	224	304	12
+16	177	354	12	11
+16	192	354	12	0
+16	224	306	12	0
 
-16	704	351	12
+16	704	353	12	0
 
 #money fly
 16	1073	336	12	10
@@ -1323,22 +1343,22 @@ tile-map1-1.txt	80	2816	656
 18	48	250	14
 
 
-# ---- question box group 1 ----
+# ---- question box group 1 --kiem tra xem vat pham la gi	
 #1	100	74	2
 #1	100	226	22
-#1	84	226	22
+#14	84	396	22
 
 # ---- question box group 2 ----
 #1	160	74	2
 14	416	320	22
 
-14	176	352	22
-14	192	352	22
+14	176	352	22	0	1
+14	192	352	22	0	1
 
 # ---- brick group 3 ----
 #1	220	74	2
-14	224	304	22
-14	240	304	22
+14	224	304	22	0	1
+14	240	304	22	0	2
 # ---- brick group 4 ----
 14	656	384	22
 14	704	352	22
@@ -1381,8 +1401,7 @@ tile-map1-1.txt	80	2816	656
 
 
 
-#card
-110	2685	331	1010
+
 
 #col
 120	0	0	11
@@ -1396,7 +1415,11 @@ tile-map1-1.txt	80	2816	656
 140	1	1	1050	3
 
 #effect
-150	20	400	1930
+#150	20	400	1930
+#end game
+172	2603	269	91071
+#card
+110	2685	331	1010
 
 # --- SCENE PORTAL ----
 # type	l	t	ani_set_id	r	b	scene_id

@@ -49,7 +49,7 @@ public:
 	void SetKeyHandler(LPKEYEVENTHANDLER handler) { keyHandler = handler; }
 	void Init(HWND hWnd);
 	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture);
-	void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom,int xC,int xD, int alpha = 255, bool yReverse = false);
+	void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom,int xC,int xD, int alpha = 255, bool yReverse = false,  bool xReverse = false);
 	void D3DXMatrixTransformation2D1();
 	int IsKeyDown(int KeyCode);
 	void ProcessKeyboard();

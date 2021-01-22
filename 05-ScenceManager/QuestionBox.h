@@ -11,8 +11,8 @@ public:
 	bool mushroomRun;
 	bool delMushroom;
 public:
-
-	CQuestion();
+	int type;							//Phan biet vat pham nhan duoc
+	CQuestion(int type);
 	bool isQuestion;
 	virtual void Render();
 	virtual void GetBoundingBox(float &l, float &t, float &r, float &b);

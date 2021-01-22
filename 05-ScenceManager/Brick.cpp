@@ -1,4 +1,5 @@
 #include "Brick.h"
+#include "Portal.h"
 
 bool CBrick::moneyIcon = false;
 
@@ -25,6 +26,14 @@ void CBrick::Render()
 		animation_set->at(3)->Render(x, y);
 	else if(type == 10 || type == 11)
 		animation_set->at(1)->Render(x, y);
+	else if (type == 7)
+	{
+		animation_set->at(4)->Render(x, y);
+	}
+	else if (type == 8)
+	{
+		animation_set->at(5)->Render(x, y);
+	}
 	RenderBoundingBox();
 }
 
@@ -34,8 +43,18 @@ void CBrick::GetBoundingBox(float &l, float &t, float &r, float &b)
 	t = y;
 	r = x + BRICK_BBOX_WIDTH;
 	b = y + BRICK_BBOX_HEIGHT;
-	if (type == 1)
-		r = x + BRICK_BBOX_WIDTH_ONE;
+	if (CPortal::scene_id == 1 && type == 1)
+	{
+		r = x + BRICK_BBOX_WIDTH_SENCE_1_TOP;
+		b = y + BRICK_BBOX_HEIGHT_SENCE_1_TOP;
+	}
+	else if (CPortal::scene_id == 1 && type == 2)
+	{
+		r = x + BRICK_BBOX_WIDTH_SENCE_1_LEFT;
+		b = y + BRICK_BBOX_HEIGHT_SENCE_1_LEFT;
+	}  
+	else if (type == 1)
+		r = x + 100000;
 	else if (type == 2)
 		r = x + BRICK_BBOX_WIDTH_TWO;
 	else if (type == 3)
@@ -74,6 +93,16 @@ void CBrick::GetBoundingBox(float &l, float &t, float &r, float &b)
 	else if (type == 14)
 	{
 		r = x + BRICK_BBOX_WIDTH_BORDER;
+		b = y + BRICK_BBOX_HEIGHT;
+	}
+	else if (type == 15)
+	{
+		r = x + BRICK_BBOX_WIDTH_SENCE_START_1_4;
+		b = y + BRICK_BBOX_HEIGHT;
+	}
+	else if (type == 16)
+	{
+		r = x + BRICK_BBOX_WIDTH_SENCE_1_4;
 		b = y + BRICK_BBOX_HEIGHT;
 	}
 

@@ -7,6 +7,8 @@
 class CCard : public CGameObject
 {
 public:
+	static bool isDie;
+	int ani;
 	CCard();
 	~CCard();
 	virtual void Render();

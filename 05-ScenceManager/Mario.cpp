@@ -24,6 +24,9 @@
 #include "Hat.h"
 #include "SwitchCol.h"
 #include "Card.h"
+#include "Portal.h"
+#include "ChangeRoad.h"
+#include "TextEndGamer.h"
 
 
 int CMario::level = 1;
@@ -51,6 +54,8 @@ CMario *CMario::GetInstance(float x, float y)
 
 CMario::CMario(float x, float y) : CGameObject()
 {
+	left = top = right = bottom = 1;
+	pressX = false;
 	pressUp = false;
 	saveTimeRunCurrent = 0;
 	numCardImage = 0;
@@ -147,10 +152,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (GetTickCount() - timePrepareFly > 100 && timePrepareFly != 0)
 	{
 		energyFull = true;
-		vy = -0.05f;										//tao luc day ban dau
-		SetState(MARIO_STATE_FLY);
-		timeFly = GetTickCount();
-		timePrepareFly = 0;
+		if (pressX)
+		{
+			vy = -0.05f;										//tao luc day ban dau
+			SetState(MARIO_STATE_FLY);
+			timeFly = GetTickCount();
+			timePrepareFly = 0;
+		}
 	}
 
 	if (GetTickCount() - timeKickStart > MARIO_KICK_TIME && timeKickStart!=0)
@@ -187,7 +195,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		vy = 0.002f * dt;
 	}
-	else
+	else if(CPortal::scene_id != 1)
 	{
 		vy += MARIO_GRAVITY * dt;
 	}
@@ -206,10 +214,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	
 	if (this->GetState() !=MARIO_STATE_DIE)
 		CalcPotentialCollisions(coObjects, coEvents);
-	if (this->GetState() == MARIO_STATE_DIE)
+	if (this->GetState() == MARIO_STATE_DIE ||(y >430 && goBottom ==false))
 	{
-		//vx = 0; vy = 0;
-		y = 720;
+		vx = 0; vy = 0;
+		y = 320;
 	}
 	// reset untouchable timer if untouchable time has passed
 	if ( GetTickCount() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
@@ -501,7 +509,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			else if (dynamic_cast<CMoneyIcon *>(e->obj)) // if e->obj is question box
 			{
 				CMoneyIcon* moneyIcon = dynamic_cast<CMoneyIcon *>(e->obj);
-				if (e->ny > 0 && moneyIcon ->type != 10 )
+				if (e->ny > 0)  // && moneyIcon ->type != 10 
 				{
 					moneyIcon->SetMove(true);
 				}
@@ -617,15 +625,30 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				CBullet *bullet = dynamic_cast<CBullet *>(e->obj);
 				if (bullet->GetState() != GOOMBA_STATE_DIE)
 				{
+					bullet->SetState(BULLET_STATE_DIE);
 					if (GetLevel() > 1)
 					{
 						vy = -0.001f;
 						SetLevel(GetLevel() - 1);
-
 					}
 					else
 						SetState(MARIO_STATE_DIE);
 				}
+
+			} // if bullet dan bay
+			else if (dynamic_cast<CChangeRoad *>(e->obj)) // if e->obj is Bullet
+			{
+				CChangeRoad *changeRoad = dynamic_cast<CChangeRoad *>(e->obj);
+				x = changeRoad->x;
+				y = changeRoad->y;
+				vx = 0.0f;
+				vy = 0.0f;
+				//set go l,r,t,b
+				left = changeRoad->left;
+				top = changeRoad->top;
+				right = changeRoad->right;
+				bottom = changeRoad->bottom;
+
 
 			} // if bullet dan bay
 		
@@ -665,7 +688,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					{
 						if (this->GetState() == MARIO_STATE_ROTATORY_IDLE)
 						{
-							brick->y = 600;
+							if(brick ->y > y+ (MARIO_TAIL_FLY_BIG_BBOX_HEIGHT-BRICK_BBOX_HEIGHT))
+									;//brick->y = 600;
 						}
 					}
 					if(vx < 0)
@@ -674,7 +698,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						x -= 0.003f;
 				}
 				if (brick->type == 10 && brick->moneyIcon)
-					brick->y = 600;
+					brick->y = 900;
 						
 			} // if brickTop
 			if (dynamic_cast<CSwitchCol *>(e->obj)) // if e->obj is Backgroud die
@@ -713,6 +737,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				if (ny > 0)
 				{
 					SetNumCardImage(1);
+					CTextEndGame::isShow = true;
+					card->ani = 1;
+					card->isDie = true;
+
 				}
 
 			} // if brickTop
@@ -967,7 +995,11 @@ void CMario::Render()
 	if (vx == 0)
 	{
 		if (nx > 0) {
-			if (this->GetState() == MARIO_STATE_KICK) {
+			if (CPortal::scene_id == 1)
+			{
+				ani = 0;
+			}
+			else if (this->GetState() == MARIO_STATE_KICK) {
 				ani = MARIO_ANI_BIG_TAIL_KICK_TURLE_RIGHT;
 			}
 			else if (this->GetState() == MARIO_STATE_DOWN)
@@ -1025,7 +1057,11 @@ void CMario::Render()
 		}
 		else
 		{
-			if (this->GetState() == MARIO_STATE_KICK) {
+			if (CPortal::scene_id == 1)
+			{
+				ani = 0;
+			}
+			else if (this->GetState() == MARIO_STATE_KICK) {
 				ani = MARIO_ANI_BIG_TAIL_KICK_TURLE_LEFT;
 			}
 			else if (this->GetState() == MARIO_STATE_DOWN)
@@ -1077,11 +1113,16 @@ void CMario::Render()
 	}
 	else if (vx > 0)
 	{
-		if (this->GetState() == MARIO_STATE_ROTATORY_IDLE && this->GetLevel() == MARIO_LEVEL_TAIL_BIG)
+		
+		if (this->GetState() == MARIO_STATE_ROTATORY_IDLE && this->GetLevel() == MARIO_LEVEL_TAIL_BIG && CPortal::scene_id != 1)
 		{
 			ani = MARIO_ANI_BIG_TAIL_ATTACK_ROTATORY_RIGHT;
 		}
-		if (this->GetState() == MARIO_STATE_GO_COL)
+		if (CPortal::scene_id == 1)
+		{
+			ani = 0;
+		}
+		else if (this->GetState() == MARIO_STATE_GO_COL)
 		{
 			ani = MARIO_TAIL_BIG_GO_COL;
 		}
@@ -1130,11 +1171,15 @@ void CMario::Render()
 	}
 	else
 	{
-		if (this->GetState() == MARIO_STATE_ROTATORY_IDLE)
+		if (this->GetState() == MARIO_STATE_ROTATORY_IDLE && CPortal::scene_id != 1)
 		{
 			ani = MARIO_ANI_BIG_TAIL_ATTACK_ROTATORY_RIGHT;
 		}
-		if (this->GetState() == MARIO_STATE_GO_COL)
+		if (CPortal::scene_id == 1)
+		{
+			ani = 0;
+		}
+		else if (this->GetState() == MARIO_STATE_GO_COL)
 		{
 			ani = MARIO_TAIL_BIG_GO_COL;
 		}
@@ -1263,10 +1308,13 @@ void CMario::Render()
 
 	int alpha = 255;
 	if (untouchable) alpha = 128;
+	if (this->GetState() != MARIO_STATE_DIE)
+	{
+		animation_set->at(ani)->Render(x, y, alpha);
+	}
 
-	animation_set->at(ani)->Render(x, y, alpha);
-
-	RenderBoundingBox();
+	if(CPortal::is_start != 0)
+		RenderBoundingBox();
 }
 
 void CMario::SetState(int state)
@@ -1349,17 +1397,35 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	}
 	else if(level == MARIO_LEVEL_TAIL_BIG)
 	{
-		right = x + MARIO_BIG_BBOX_WIDTH;
-		bottom = top + MARIO_BIG_BBOX_HEIGHT;
-		if (this->GetState() == MARIO_STATE_DOWN)
+		if (CPortal::scene_id ==1)
 		{
-			right = x + MARIO_TAIL_BIG_ATTACK_BBOX_WIDTH-3;
-			bottom = y + MARIO_TAIL_BIG_DOWN_BBOX_HEIGHT;
-
+			right = x + MARIO_BIG_BBOX_WIDTH_SENCE_1;
+			bottom = top + MARIO_BIG_BBOX_HEIGHT_SENCE_1;
 		}
-		/*else if (GetState() == MARIO_STATE_ROTATORY_IDLE)
+		else
 		{
-			if (nx > 0)
+			right = x + MARIO_TAIL_BIG_BBOX_WIDTH;
+			bottom = top + MARIO_TAIL_BIG_BBOX_HEIGHT;
+			if (nx > 0 && vx > 0)
+			{
+				left = x + MARIO_TAIL_BIG_BBOX_WIDTH - MARIO_BIG_BBOX_WIDTH;
+				right = left + MARIO_BIG_BBOX_WIDTH;
+			}
+			else if (nx < 0 && vx < 0)
+			{
+				left = x;
+				right = left + MARIO_BIG_BBOX_WIDTH;
+			}
+
+			if (this->GetState() == MARIO_STATE_DOWN)
+			{
+				right = x + MARIO_TAIL_BIG_ATTACK_BBOX_WIDTH - 3;
+				bottom = y + MARIO_TAIL_BIG_DOWN_BBOX_HEIGHT;
+
+			}
+			/*else if (GetState() == MARIO_STATE_ROTATORY_IDLE)
+			{*/
+			/*if (nx > 0)
 			{
 				left = x + MARIO_TAIL_BIG_BBOX_WIDTH - MARIO_BIG_BBOX_WIDTH;
 				right = left + MARIO_BIG_BBOX_WIDTH;
@@ -1368,24 +1434,24 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 			{
 				left = x+1;
 				right = left + MARIO_BIG_BBOX_WIDTH;
-			}
+			}*/
 
-		}
-		else
-		{
-			if (nx > 0)
+			//}
+			/*else
 			{
-				left = x + MARIO_TAIL_BIG_BBOX_WIDTH - MARIO_BIG_BBOX_WIDTH;
-				right = left + MARIO_BIG_BBOX_WIDTH;
-			}
-			else
-			{
-				left = x;
-				right = left + MARIO_BIG_BBOX_WIDTH;
-			}
-			
+				if (nx > 0)
+				{
+					left = x + MARIO_TAIL_BIG_BBOX_WIDTH - MARIO_BIG_BBOX_WIDTH;
+					right = left + MARIO_BIG_BBOX_WIDTH;
+				}
+				else
+				{
+					left = x;
+					right = left + MARIO_BIG_BBOX_WIDTH;
+				}
+
+			}*/
 		}
-		*/
 	}
 	else
 	{

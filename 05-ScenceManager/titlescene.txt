@@ -1,0 +1,169 @@
+
+# id	file_path	transparent_color_r	g	b
+[TEXTURES]
+0	textures\mario\mario.png	255	255	255
+20	textures\misc.png	176	224	248
+10	textures\enemies.png	3	26	110
+30	textures\map\man1\tiles.png	255	255	255
+40	textures\misc\misc.png	176	255	255
+41	textures\misc\misc-6.png	255	255	255
+50	textures\enemie\enemies.png	255	255	255
+60	textures\enemie\enemies-2.png	255	255	255
+70	textures\enemie\enemies-3.png	255	255	255
+81	textures\enemie\enemies-5.png	25	25	255
+80	textures\map\man1\tileworldmap1.png	255	255	255
+82	textures\misc\effect1.png	176	255	255
+83	textures\worldmap1_obj_sprite.png	0	0	255
+84	textures\worldmap1_obj_sprite.png	248	236	160
+[TEXTURES]
+86	textures\titlescreen.png	0	0	0
+87	textures\titlescreen.png	176	255	255
+
+
+#maptile
+#name    texture_id	widthmap	geightmap
+[MAP]
+worldmap1.txt	80	256	176
+
+
+
+# id	left	top	right	bottom	texture_id	x	y
+[SPRITES]
+
+#	-----------------------------------------------------------
+# === TITLE SCREEN
+#10001	516	226	772	449	10
+60001	614	269	919	535	87
+
+# === ARROW
+#10101	36	364	45	374	20
+60101	184	384	193	394	20
+
+# === NUM3
+10201	231	432	265	475	20
+10202	286	432	320	475	20
+10203	342	432	376	475	20
+10204	397	432	431	475	20
+
+
+# HAMMER
+20001	103	17	119	32	83
+20002	120	17	136	32	83
+
+
+# CASTLE HELP
+40001	18	2	34	16	84
+
+# BUSH
+30001	1	17	17	32	84
+30002	18	17	34	32	84
+30003	35	17	51	32	84
+30004	52	17	68	32	84
+
+
+#HUD
+11101	12	128	244	156	41
+#hat,mu
+15501	156	144	171	160	40
+15502	178	144	194	160	40
+15503	200	153	216	160	40
+#card
+15520	185	159	207	186	41
+15521	209	159	231	186	41
+15522	232	159	256	186	41
+#card image
+15550	160	159	183	187	41
+15551	185	159	207	187	41
+15552	209	159	231	187	41
+15553	233	159	256	187	41
+
+
+
+#nang luong
+91010	92	162	99	168	41
+91012	101	162	114	168	41
+#mat tien rua
+91011	334	100	347	115	40
+
+#effect 
+91030	12	12	35	27	82
+91031	43	12	66	27	82
+
+
+# BIG MARIO 
+# idle right small 
+10001	268	381	276	390	40
+10002	16	49	30	64	0
+#idle big
+10003	55	6	71	27	0
+10004	55	46	71	67	0
+#idle big tail
+10005	95	5	110	29	0
+10006	95	44	110	68	0
+#idle big lua
+
+					
+# ani_id	sprite1_id	time1	sprite2_id	time2	...
+[ANIMATIONS]
+
+# === TITLE SCREEN
+60001	60001	100
+# === NUM3
+10201	10201	100	10202	100	10203	100	10204	100
+
+# ==== MARIO =========
+#idle BIG right
+400	10001	100
+401	10003	100	10004	100
+402	10005	100	10006	100
+
+# ==== BUSH =========
+# stand
+30001	30001	300	30002	300	30003	300	30004	300
+
+# ==== HAMMER =========
+# walk
+20001	20001	100	20002	100
+
+
+# ==== CASTLE HELP =========
+40001	40001	100
+
+#
+# id	ani1	ani2	ani3
+#
+[ANIMATION_SETS]
+
+
+# === TITLE SCREEN
+60001	60001
+
+
+# MARIO
+1	400	401	402
+
+# HAMMER
+3	20001
+
+
+# CASTLE HELP
+4	40001
+
+# BUSH
+2	30001
+
+[OBJECTS]
+# type	x	y	ani_set_id	extra_settings per object type
+# type: 0 = Mario , 1 = Brick, 2 = Goomba
+# === TITLE SCREEN
+173	50	50	60001
+
+# MARIO
+
+
+0	130	220	1
+
+
+# --- SCENE PORTAL ----
+# type	l	t	ani_set_id	r	b	scene_id	start
+50	395	36	1	410	46	1	0

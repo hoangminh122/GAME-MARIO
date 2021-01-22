@@ -16,6 +16,8 @@ public:
 	int xStatic;                  //bien luu vi tri x cho tung type brick
 	CHat();
 	~CHat();
+	static CHat * __instance;
+	static CHat * GetInstance();
 	virtual void Render();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void GetBoundingBox(float &l, float &t, float &r, float &b);

@@ -1,5 +1,6 @@
 #include "Camera.h"
 #include "Game.h"
+#include "Portal.h"
 
 CCamera* CCamera::__instance = NULL;
 
@@ -43,61 +44,97 @@ int CCamera::GetWidth() {
 }
 
 void CCamera::Update(CMario* player) {
-	//di chuyen camera follow theo mario
 	float cx, cy;         //vi tri cua mario hien tai
-	player->GetPosition(cx,cy);
-	D3DXVECTOR3 pos= D3DXVECTOR3(cx,cy, 0);
-	if (player->goBottom)
+	player->GetPosition(cx, cy);
+	D3DXVECTOR3 pos = D3DXVECTOR3(cx, cy, 0);
+	SetPosition(pos);
+	if (CPortal::scene_id == 1 && CPortal::is_start != 0)
 	{
-		//vi tri duong ong
-		pos = D3DXVECTOR3(cx, mapHeight - GetHeight() + 100, 0);
+		pos = D3DXVECTOR3(0, 100, 0);
+		SetPosition(pos);
+		if (GetBound().left < 0)
+		{
+			//vi position cua Camera::GetInstance() ma chinh giua Camera::GetInstance()
+			//luc nay o vi tri goc ben trai cua the gioi thuc
+			SetPosition(GetWidth() / 2.0f, GetPosition().y);
+		}
+
+		if (GetBound().right > mapWidth)
+		{
+			//luc nay cham goc ben phai cua the gioi thuc
+			SetPosition(mapWidth - GetWidth() / 2.0f, GetPosition().y);
+		}
 
 	}
-	
-	else if (cy > 200)
+	else if (CPortal::is_start == 0)
 	{
-		//vij tri duoi dat binh thuong cam
-		pos = D3DXVECTOR3(cx, mapHeight - GetHeight() * 1.4f, 0);
+		pos = D3DXVECTOR3(200, 170, 0);
+		SetPosition(pos);
 	}
 	else
 	{
-		/*if (cy > 150 && cy < 200)
+		//di chuyen camera follow theo mario
+		
+		if (player->goBottom || player->vy >453.0f )
 		{
-		pos = D3DXVECTOR3(cx, cy, 0);
+			//vi tri duong ong
+				pos = D3DXVECTOR3(cx, mapHeight - GetHeight() + 100, 0);
+
 		}
-		else*/
-		//vij tri fly binh thuong cam
+
+		else if (cy > 200)
+		{
+			//vij tri duoi dat binh thuong cam
+			pos = D3DXVECTOR3(cx, mapHeight - GetHeight() * 1.4f, 0);
+		}
+		
+		else
+		{
+			/*if (cy > 120 && cy < 200)
+			{
+			pos = D3DXVECTOR3(cx, cy, 0);
+			}
+			else*/
+			if (cy<100)
+			{
+			pos = D3DXVECTOR3(cx, 50, 0);
+			}
+			else
+			//vij tri fly binh thuong cam
 			pos = D3DXVECTOR3(cx, 200, 0);
 
-	}
-	
-	SetPosition(pos);			//SET vi tri vao thuoc tinh position
+		}
 
-	if (GetBound().left < 0)
-	{
-		//vi position cua Camera::GetInstance() ma chinh giua Camera::GetInstance()
-		//luc nay o vi tri goc ben trai cua the gioi thuc
-		SetPosition(GetWidth() / 2.0f, GetPosition().y);
+		SetPosition(pos);			//SET vi tri vao thuoc tinh position
+
+		if (GetBound().left < 0)
+		{
+			//vi position cua Camera::GetInstance() ma chinh giua Camera::GetInstance()
+			//luc nay o vi tri goc ben trai cua the gioi thuc
+			SetPosition(GetWidth() / 2.0f, GetPosition().y);
+		}
+
+		if (GetBound().right > mapWidth)
+		{
+			//luc nay cham goc ben phai cua the gioi thuc
+			SetPosition(mapWidth - GetWidth() / 2.0f, GetPosition().y);
+			//SetPosition(2656.0f, GetPosition().y);
+		}
+
+		if (GetBound().top < 0)
+		{
+			//luc nay cham goc tren the gioi thuc
+			SetPosition(GetPosition().x, GetHeight() / 2.2f);
+		}
+
+		//if (GetBound().bottom > 500)
+		//	/*if (GetBound().bottom > mapHeight / 2)*/
+		//{
+		//	//luc nay cham day cua the gioi thuc
+		//	SetPosition(GetPosition().x, mapHeight - GetHeight() / 2.0f);
+		//}
 	}
 
-	if (GetBound().right > mapWidth)
-	{
-		//luc nay cham goc ben phai cua the gioi thuc
-		SetPosition(mapWidth - GetWidth() / 2.0f, GetPosition().y);
-	}
-
-	if (GetBound().top < 0)
-	{
-		//luc nay cham goc tren the gioi thuc
-		SetPosition(GetPosition().x, GetHeight() / 2.0f);
-	}
-
-	//if (GetBound().bottom > 500)
-	//	/*if (GetBound().bottom > mapHeight / 2)*/
-	//{
-	//	//luc nay cham day cua the gioi thuc
-	//	SetPosition(GetPosition().x, mapHeight - GetHeight() / 2.0f);
-	//}
 
 }
 

@@ -1,6 +1,9 @@
 #include "Col.h"
 #include "Utils.h"
 #include "Brick.h"
+#include "BrickQuestion.h"
+#include "Plant.h"
+#include "Hat.h"
 
 CCOL * CCOL::__instance = NULL;
 CCOL::CCOL() : CGameObject()
@@ -50,9 +53,9 @@ void CCOL::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		if (mario->vx > 0 || mario->nx > 0)
 		{
-			x = mario->x + MARIO_TAIL_BIG_ATTACK_BBOX_WIDTH/1.2f;
+			x = mario->x + MARIO_TAIL_BIG_ATTACK_BBOX_WIDTH/1.5f;
 			y = mario->y + MARIO_TAIL_BIG_BBOX_HEIGHT / 1.5f;
-			vx = 0.06f;
+			vx = 0.09f;
 		}
 		else
 		{
@@ -97,19 +100,70 @@ void CCOL::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
+			if (dynamic_cast<CBrickQuestion *>(e->obj)) // if e->obj is brickTop
+			{
+				CBrickQuestion* brickQuestion = dynamic_cast<CBrickQuestion *>(e->obj);
 
-			if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is brickTop
+				//if (!brickQuestion->isDie)				//chua va cham lan nao
+				//{
+				brickQuestion->SetMove(true);
+				////SET SCORES MOVE
+				//CCOIN::xStartMove = brickQuestion->x;
+				//CCOIN::yStartMove = brickQuestion->y;
+				//CCOIN::isInitPosNew = true;
+				////CCOIN::timeWait = GetTickCount();
+				//CCOIN::isMove = true;
+				//CCOIN::level = 100;
+
+				////SET COINS MOVE
+				//CCOIN::status = 1;
+
+			/*}*/
+				vy = 0.005f;
+
+			} // if brickTop
+			else if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is brickTop
 			{
 				CBrick* brick = dynamic_cast<CBrick *>(e->obj);
 				if (nx != 0)
 				{
 					if (brick->type == 10)
 					{
-							brick->y = 600;
+							brick->y = 800;
+					}
+					else if (brick->type == 11)
+					{
+						if (e->nx != 0 && !CHat::GetInstance()->noColision)
+						{
+							//y = hat->y;
+							//CHat::GetInstance()->y = CHat::GetInstance()->y - 16 - 10;
+							CHat::GetInstance()->y = 368.0f - 16;
+							CHat::GetInstance()->isDie = false;				// HAT song lai
+							//y += dy;
+
+						}
+						else if (!CHat::GetInstance()->noColision && !CHat::GetInstance()->isDie)
+						{
+							CBrick::moneyIcon = true;
+							CHat::GetInstance()->isDie = true;
+							CHat::GetInstance()->y = CHat::GetInstance()->y + 6;
+							CHat::GetInstance()->noColision = true;
+						}
+						//vx +=dx;
 					}
 				}
 
 			} // if brickTop
+			else if (dynamic_cast<CPlant *>(e->obj)) // if e->obj is brickTop
+			{
+				CPlant* plant = dynamic_cast<CPlant *>(e->obj);
+				if (nx != 0)
+				{
+					plant->SetState(PLANT_STATE_DIE);
+				}
+
+			} // if brickTop
+			
 			
 			
 			

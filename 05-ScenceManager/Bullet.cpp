@@ -47,62 +47,82 @@ void CBullet::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		isInitPos = true;
 	}
 
-	if (label == 1)
+	if (GetState() != BULLET_STATE_DIE)
 	{
-		if (isStart)
+		if (label == 1)
 		{
-			x -= vx;
-			if (357.0f - mario->x > 0)
-				vx = -0.08f;
-			else
-				vx = 0.08f;
-			vy = +0.05f;
-			
-		}
-		CPlant* plant = new CPlant();
-		if (plant->start1 == true)
-		{
-			isStart = true;
-			x = 357;
-			y = 342;
-			vx = 0;
-		}
-		x += dx;
-		y += dy;
-		
-	}
-	if (label == 2)
-	{
-		if (isStart)
-		{
-			
-			if (y < 430.0f) {
+			if (isStart)
+			{
 				x -= vx;
-				if (1871.0f - mario->x > 0)
+				if (357.0f - mario->x > 0)
 					vx = -0.08f;
 				else
 					vx = 0.08f;
 				vy = +0.05f;
+
 			}
-			else
+			CPlant* plant = new CPlant();
+			if (plant->start1 == true)
 			{
+				isStart = true;
+				x = 357;
+				y = 342;
 				vx = 0;
-				vy = 0;
-				y = 900.0f;
 			}
+			x += dx;
+			y += dy;
+
 		}
-		CPlant* plant = new CPlant();
-		if (plant->start2 == true)
+		if (label == 2)
 		{
-			isStart = true;
-			x = 1871;
-			y = 348;
-			vx = 0;
+			if (isStart)
+			{
+
+				if (y < 430.0f) {
+					x -= vx;
+					if (1871.0f - mario->x > 0)
+						vx = -0.08f;
+					else
+						vx = 0.08f;
+					vy = +0.05f;
+				}
+				else
+				{
+					vx = 0;
+					vy = 0;
+					y = 900.0f;
+				}
+			}
+			CPlant* plant = new CPlant();
+			if (plant->start2 == true)
+			{
+				isStart = true;
+				x = 1871;
+				y = 348;
+				vx = 0;
+			}
+			x += dx;
+			y += dy;
+
 		}
-		x += dx;
-		y += dy;
-		
+
 	}
 	
+}
+
+void CBullet::SetState(int state)
+{
+	CGameObject::SetState(state);
+
+	switch (state)
+	{
+	case BULLET_STATE_DIE:
+		x = 0.0f;
+		y = 0.0f;
+		break;
+	case BULLET_STATE_LIVE:
+		//vy = 0.1;
+		break;
+	}
 }
 
