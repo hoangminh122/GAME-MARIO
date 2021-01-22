@@ -71,7 +71,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	CGameObject::Update(dt);
 
 	//KHOI TAO OBJECT
-	if (y > 440)
+	if (y > 440.0f)
 	{
 		SetState(TURLE_STATE_DIE_OVER);
 		x = 1419.0f;
@@ -486,7 +486,10 @@ void CTurle::Render()
 		
 
 	}
-
+	if (GetState() == TURLE_STATE_WALKING)
+	{
+		isReverse = false;
+	}
 	animation_set->at(ani)->Render(x, y,255,isReverse);
 
 	RenderBoundingBox(); 
