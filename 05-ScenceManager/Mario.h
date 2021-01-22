@@ -214,7 +214,7 @@ public:
 	DWORD timeWaitingAttackNext;		//time cho dot tan cong tiep theo
 	bool isRotatory180;			//trang thai mario dang quay 180
 	bool isMarioDropTurle;		//mario roi rua
-	static CMario * GetInstance(float x, float y);
+	static CMario * GetInstance(float x, float y,int sence=0);
 	bool isHold;					//mario cam rua khi nhan A
 	DWORD timeKickStart;			//time da rua
 	DWORD timeRotatoryStart;			//time danh duoi mario max
@@ -243,7 +243,8 @@ public:
 	bool checkMarioColision;
 	static bool isFire;
 public: 
-	CMario(float x = 0.0f, float y = 0.0f);
+	int sence_id;
+	CMario(float x = 0.0f, float y = 0.0f, int sence = 0);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
 	virtual void Render();
 

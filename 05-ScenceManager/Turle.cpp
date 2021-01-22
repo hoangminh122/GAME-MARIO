@@ -71,7 +71,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	CGameObject::Update(dt);
 
 	//KHOI TAO OBJECT
-	if (y > 650)
+	if (y > 440)
 	{
 		SetState(TURLE_STATE_DIE_OVER);
 		x = 1419.0f;

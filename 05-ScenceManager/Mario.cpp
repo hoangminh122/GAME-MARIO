@@ -48,14 +48,15 @@ float CMario::xRealTime = 0;
 bool CMario::isBullet = false;
 
 CMario * CMario::__instance = NULL;
-CMario *CMario::GetInstance(float x, float y)
+CMario *CMario::GetInstance(float x, float y,int sence)
 {
-	if (__instance == NULL) __instance = new CMario(x,y);
+	if (__instance == NULL) __instance = new CMario(x,y,sence);
 	return __instance;
 }
 
-CMario::CMario(float x, float y) : CGameObject()
+CMario::CMario(float x, float y,int sence) : CGameObject()
 {
+	sence_id = sence;
 	left = top = right = bottom = 1;
 	pressX = false;
 	pressUp = false;
