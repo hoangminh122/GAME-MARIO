@@ -289,7 +289,29 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			{
 				//vx = 0;
 			}
-			
+			if (dynamic_cast<CLeaf *>(e->obj)) // if e->obj is question box
+			{
+				CLeaf* leaf = dynamic_cast<CLeaf *>(e->obj);
+				if (leaf->isLive)
+				{
+					leaf->SetState(LEAF_STATE_DIE_OVER);
+					if (GetLevel() == MARIO_LEVEL_SMALL)
+						SetPosition(x, y - (MARIO_BIG_BBOX_HEIGHT + MARIO_SMALL_BBOX_HEIGHT));
+					else
+						SetPosition(x, y - 2);
+					SetLevel(GetLevel() + 1);
+				}
+				else if (e->ny > 0 && leaf->sence_id==4 && !leaf->isLive)
+				{
+					leaf->y = y - 40;
+					//if(leaf ->y > y -30)			//la roi muot hon
+					//	leaf->vy = -0.02f;
+					leaf->isMove = true;
+					vx = -vx;
+				}
+
+
+			} // if question box
 			if (dynamic_cast<CTurle *>(e->obj)) // if e->obj is TURLE
 			{
 				CTurle *turle = dynamic_cast<CTurle *>(e->obj);
@@ -562,21 +584,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 			} // if question box
 			
-			else if (dynamic_cast<CLeaf *>(e->obj)) // if e->obj is question box
-			{
-				CLeaf* leaf = dynamic_cast<CLeaf *>(e->obj);
-				if (leaf->isLive)
-				{
-					leaf->SetState(LEAF_STATE_DIE_OVER);
-					if (GetLevel() == MARIO_LEVEL_SMALL)
-						SetPosition(x, y - (MARIO_BIG_BBOX_HEIGHT + MARIO_SMALL_BBOX_HEIGHT));
-					else
-						SetPosition(x, y - 2);
-					SetLevel(GetLevel() + 1);
-				}
-
-
-			} // if question box
+			
 			if (dynamic_cast<CHat *>(e->obj)) // if e->obj is brickTop
 			{
 				CHat* hat = dynamic_cast<CHat *>(e->obj);

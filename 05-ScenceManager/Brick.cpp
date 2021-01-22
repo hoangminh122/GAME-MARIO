@@ -117,6 +117,11 @@ void CBrick::GetBoundingBox(float &l, float &t, float &r, float &b)
 		r = x + BRICK_BBOX_WIDTH_SENCE_1_4;
 		b = y + BRICK_BBOX_HEIGHT;
 	}
+	else if (type == 17)
+	{
+		r = x + BRICK_BBOX_WIDTH_SENCE_1_4_TURLE;
+		//b = y + BRICK_BBOX_HEIGHT;
+	}
 
 	
 }
@@ -132,6 +137,8 @@ int CBrick::GetBoundPosition(int type2) {
 		return BRICK_BBOX_WIDTH_FOUR;
 	else if (type == 5)
 		return BRICK_BBOX_WIDTH_FIRE;
+	else if (type == 17)
+		return BRICK_BBOX_WIDTH_SENCE_1_4_TURLE;
 	else if (type == 6)
 		return BRICK_BBOX_WIDTH_SIX;
 	else if (type == 7 || type == 8 || type == 9)

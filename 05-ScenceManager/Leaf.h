@@ -18,13 +18,14 @@ class CLeaf : public CGameObject
 {
 
 public:
+	int sence_id;
 	int ani;
 	float vxToggle;
 	bool isStartTime;					//bat dau dem h la roi
 	DWORD timeToggleVx;
 	bool isLive;
 	bool noMushroom;		//mushroom  chi cos duy nhat 1 con
-	CLeaf();
+	CLeaf(int sence);
 	~CLeaf();
 	bool isInitPos;
 	float xStatic;

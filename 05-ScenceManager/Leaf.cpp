@@ -5,11 +5,12 @@
 CLeaf * CLeaf::__instance = NULL;
 CLeaf *CLeaf::GetInstance()
 {
-	if (__instance == NULL) __instance = new CLeaf();
+	if (__instance == NULL) __instance = new CLeaf(0);
 	return __instance;
 }
-CLeaf::CLeaf() : CGameObject()
+CLeaf::CLeaf(int sence) : CGameObject()
 {
+	sence_id = sence;
 	isLive = false;						//isLive = true -> mario co the an
 	noMushroom = true;					//mush co 1 con ->khoi tao chua ra chuong
 	isMove = false;
