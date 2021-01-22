@@ -2,7 +2,7 @@
 #pragma once
 #include "GameObject.h"
 
-#define BRICK_PIECE_ANI_SET	35
+#define BRICK_PIECE_ANI_SET	174
 
 #define BRICK_PIECE_SIZE	10
 
@@ -15,13 +15,23 @@
 
 class CBrickPiece : public CGameObject
 {
-	void SetBoundingBox() {};
+	//void SetBoundingBox() {};
 public:
-	bool isDead;
-	bool isDie;
-	CBrickPiece();
-
-	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
-	void Render();
+	//bool isDead;
+	//bool isDie;
+	static bool isSetuped;
+	static int count;
+	static CBrickPiece * __instance;
+	static CBrickPiece * GetInstance();
+	static float xStatic;
+	static float yStatic;
+	int _type;
+	static bool isStart;
+	CBrickPiece(int type);
+	virtual void Render();
+	void SetState(int state);
+	int GetBoundPosition(int type2);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
+	virtual void GetBoundingBox(float &l, float &t, float &r, float &b);
 };
 

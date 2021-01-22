@@ -1,5 +1,5 @@
 #include "Grid.h"
-
+#include "Game.h"
 
 CGrid::CGrid(int width, int height, int cellSize) :width(width), height(height), cellSize(cellSize)
 {
@@ -36,7 +36,21 @@ Cell& CGrid::GetCell(D3DXVECTOR3& posObj)
 	return GetCell(cellX, cellY);
 }
 
+void CGrid::CalcColliableObjs(CCamera* camera, vector<LPGAMEOBJECT>& objs, vector<LPGAMEOBJECT>& afterObjs)
+{
+	//tinh vi tri cua topleft va botright cua camera
+	int xTopLeftCamera = camera->GetPosition().x - CGame::GetInstance()->GetScreenWidth() / 2;
+	int yTopLeftCamera = camera->GetPosition().y - CGame::GetInstance()->GetScreenHeight() / 2;
+	int xBotRightCamera = camera->GetPosition().x + CGame::GetInstance()->GetScreenWidth() / 2;
+	int yBotRightCamera = camera->GetPosition().y + CGame::GetInstance()->GetScreenHeight() / 2;
 
+	//tinh vij tri topleft va botright cua cell
+	int xTopLeftCell = xTopLeftCamera / cellSize;
+	int yTopLeftCell = yTopLeftCamera / cellSize;
+	int xBotRightCell = xBotRightCamera / cellSize;
+	int yBotRightCell = yBotRightCamera / cellSize;
+
+}
 
 CGrid::~CGrid()
 {

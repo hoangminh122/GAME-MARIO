@@ -31,14 +31,13 @@ public:
 
 	//them obj vaof listObjs cua cell thich hop
 	void  AddObjToCell(CGameObject* obj);
-	void AddObjToCell(CGameObject* obj);
 
 	//Get Cell DUA VAO VI TRI CUAR Cell
 	Cell& GetCell(int x, int y);
 	Cell& GetCell(D3DXVECTOR3& posObj);
 
 	//Tinh toan cac Obj co the bi va cham (Tinh toan cac cell can dc Update voi vi tri cua camera)
-	void CalcColliableObjs(CCamera* camera,vector<LPGAMEOBJECT> objs,vector<LPGAMEOBJECT>& afterObj)
+	void CalcColliableObjs(CCamera* camera, vector<LPGAMEOBJECT>& objs, vector<LPGAMEOBJECT>& afterObjs);
 
 
 

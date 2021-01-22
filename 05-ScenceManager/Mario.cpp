@@ -27,6 +27,7 @@
 #include "Portal.h"
 #include "ChangeRoad.h"
 #include "TextEndGamer.h"
+#include "BrickPiece.h"
 
 
 int CMario::level = 1;
@@ -670,7 +671,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					//vx +=dx;
 
 			} // if brickTop
-			
 			else if (dynamic_cast<CBackgroundDie *>(e->obj)) // if e->obj is Backgroud die
 			{
 				//x += dx;

@@ -4,6 +4,7 @@
 #include "BrickQuestion.h"
 #include "Plant.h"
 #include "Hat.h"
+#include "BrickPiece.h"
 
 CCOL * CCOL::__instance = NULL;
 CCOL::CCOL() : CGameObject()
@@ -129,9 +130,18 @@ void CCOL::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				{
 					if (brick->type == 10)
 					{
+						//hieu ung break gach
+						CBrickPiece::isSetuped = true;
+						CBrickPiece::xStatic = brick->x;
+						CBrickPiece::yStatic = brick->y;
+						CBrickPiece::isStart = true;
+						CBrickPiece::count = 0;
+						
+						//brick->SetState(BRICK_STATE_BREAK);
 							brick->y = 800;
+
 					}
-					else if (brick->type == 11)
+					else if (brick->type == 11) //cai mu
 					{
 						if (e->nx != 0 && !CHat::GetInstance()->noColision)
 						{
