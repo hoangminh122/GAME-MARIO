@@ -95,14 +95,14 @@ void CCamera::Update(CMario* player) {
 			pos = D3DXVECTOR3(cx, cy, 0);
 			}
 			else*/
-			if (cy<100)
+			/*if (cy<100)
 			{
 			pos = D3DXVECTOR3(cx, 50, 0);
-			}
-			else
+			}*/
+			//else
 			//vij tri fly binh thuong cam
-			pos = D3DXVECTOR3(cx, 200, 0);
-
+			//pos = D3DXVECTOR3(cx, 200, 0);
+				pos = D3DXVECTOR3(cx, 150, 0);
 		}
 
 		SetPosition(pos);			//SET vi tri vao thuoc tinh position

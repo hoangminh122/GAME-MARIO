@@ -28,6 +28,7 @@
 #include "ChangeRoad.h"
 #include "TextEndGamer.h"
 #include "BrickPiece.h"
+#include "FlyBar.h"
 
 
 int CMario::level = 1;
@@ -506,6 +507,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 
 				
+			} // if plant
+			else if (dynamic_cast<CFlyBar *>(e->obj)) // if e->obj is plant
+			{
+				CFlyBar* flyBar = dynamic_cast<CFlyBar *>(e->obj);
+				if (ny < 0)
+				{
+					flyBar->SetState(FLY_BAR_STATE_FALL);
+				}
+
 			} // if plant
 			else if (dynamic_cast<CMoneyIcon *>(e->obj)) // if e->obj is question box
 			{

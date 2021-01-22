@@ -811,6 +811,7 @@ tile-map1-1.txt	80	2816	656
 
 #end game
 91071	91071	100
+#brick break
 175	91101
 
 [OBJECTS]
