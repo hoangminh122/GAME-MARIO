@@ -54,7 +54,7 @@ void CBrick::GetBoundingBox(float &l, float &t, float &r, float &b)
 		b = y + BRICK_BBOX_HEIGHT_SENCE_1_LEFT;
 	}  
 	else if (type == 1)
-		r = x + 100000;
+		r = x + BRICK_BBOX_WIDTH_ONE;
 	else if (type == 2)
 		r = x + BRICK_BBOX_WIDTH_TWO;
 	else if (type == 3)

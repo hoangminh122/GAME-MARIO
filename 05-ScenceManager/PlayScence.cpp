@@ -294,7 +294,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_TEXT_END_GAME: obj = new CTextEndGame(); break;
 	case OBJECT_TYPE_OPEN_GAME: obj = new COpenGame(); break;
 	case OBJECT_TYPE_FLY_BAR: obj = new CFlyBar(); break;
-	case OBJECT_TYPE_BRICK_PIECE: obj = new CBrickPiece(); break;
+	//case OBJECT_TYPE_BRICK_PIECE: obj = new CBrickPiece(); break;
 
 	case OBJECT_TYPE_PORTAL:
 		{	
