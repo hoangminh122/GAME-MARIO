@@ -14,6 +14,7 @@
 80	textures\map\man1\tile-map1-1.png	255	255	255
 82	textures\misc\effect1.png	176	255	255
 83	textures\misc\end.png	176	255	255
+84	textures\misc\miscs.png	176	255	255
 
 
 #maptile
@@ -358,6 +359,9 @@ tile-map1-1.txt	80	2816	656
 #die red
 30010	145	77	161	86	81
 
+# === BRICK PIECE
+30101	1089	103	1098	112	84
+
 #brick with question mark animation
 40001	300	117	316	133	20
 40002	318	117	334	133	20
@@ -420,6 +424,10 @@ tile-map1-1.txt	80	2816	656
 					
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
+
+# brick piece
+91101	30101	100
+
 
 #end game
 91071	91071	100
@@ -1398,8 +1406,6 @@ tile-map1-1.txt	80	2816	656
 3	1409	379	9	3
 
 3	2096	209	9	2
-
-
 
 
 

@@ -159,6 +159,9 @@
     <ClCompile Include="FlyBar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BrickPiece.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brick.h">
@@ -303,6 +306,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FlyBar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BrickPiece.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

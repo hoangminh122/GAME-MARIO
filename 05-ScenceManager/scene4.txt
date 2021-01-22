@@ -19,7 +19,7 @@
 #maptile
 #name    texture_id	widthmap	geightmap
 [MAP]
-tile-map1-4.txt	80	2048	192
+tile-map1-4.txt	80	2576	192
 
 
 # id	left	top	right	bottom	texture_id	x	y
@@ -855,7 +855,7 @@ tile-map1-4.txt	80	2048	192
 1	0	0	2	14
 
 # --- platform (hint: I created the list using Excel!) ----
-1	0	116	2	1
+1	0	116	2	15
 
 #qua song
 #1	367	81	2	16
@@ -1035,8 +1035,8 @@ tile-map1-4.txt	80	2048	192
 
 #flybar
 174	368	81	91093	42
-#174	558	112	91093	42
-#174	592	63	91093	42
+174	558	112	91093	42
+174	562	63	91093	42
 174	624	159	91093	42
 174	753	96	91093	42
 174	1088	144	91093	42

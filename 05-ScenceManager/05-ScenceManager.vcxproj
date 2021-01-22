@@ -129,6 +129,7 @@
     <ClCompile Include="BackgroundDie.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="BrickEffect.cpp" />
+    <ClCompile Include="BrickPiece.cpp" />
     <ClCompile Include="BrickQuestion.cpp" />
     <ClCompile Include="BrickTop.cpp" />
     <ClCompile Include="Bullet.cpp" />
@@ -187,6 +188,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Card.h" />
     <ClInclude Include="CardImage.h" />
+    <ClInclude Include="BrickPiece.h" />
     <ClInclude Include="CCastHelp.h" />
     <ClInclude Include="ChangeRoad.h" />
     <ClInclude Include="CMushroom.h" />
