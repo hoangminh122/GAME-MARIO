@@ -10,6 +10,8 @@ CBrick::CBrick(int type_ani)
 {
 	type = type_ani;
 	isInitPos = false;
+	ani = 0;
+	idDied1_4 = false;
 }
 
 void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -23,20 +25,26 @@ void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 void CBrick::Render()
 {
-	if(type ==10 && moneyIcon)
-		animation_set->at(2)->Render(x, y);
+	if (idDied1_4)
+	{
+		ani = 6;
+	}
+	else if (type == 10 && moneyIcon)
+		ani = 2;
 	else if (type == 11 && moneyIcon)
-		animation_set->at(3)->Render(x, y);
-	else if(type == 10 || type == 11)
-		animation_set->at(1)->Render(x, y);
+		ani = 3;
+	else if (type == 10 || type == 11 || type == 35)
+		ani = 1;
 	else if (type == 7)
 	{
-		animation_set->at(4)->Render(x, y);
+		ani = 4;
 	}
 	else if (type == 8)
 	{
-		animation_set->at(5)->Render(x, y);
+		ani = 5;
 	}
+	
+	animation_set->at(ani)->Render(x, y);
 	RenderBoundingBox();
 }
 

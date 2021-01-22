@@ -34,21 +34,27 @@ CMushroom::CMushroom(int type_ani) : CGameObject()
 //}
 void CMushroom::Render()
 {
-	if (type == 1)
-		ani = MUSHROOM_ANI_GREEN;
-	else if(type == 2)
-		ani = MUSHROOM_ANI_RED;
-	animation_set->at(ani)->Render(x, y);
-	RenderBoundingBox();
+	if (GetState() != MUSHROOM_STATE_DIE_OVER && isMove)
+	{
+		if (type == 1)
+			ani = MUSHROOM_ANI_GREEN;
+		else if (type == 2)
+			ani = MUSHROOM_ANI_RED;
+		animation_set->at(ani)->Render(x, y);
+		RenderBoundingBox();
+	}
 	
 }
 
 void CMushroom::GetBoundingBox(float &l, float &t, float &r, float &b)
 {
-	l = x;
-	t = y;
-	r = x + 17;
-	b = y + 17;
+	if (GetState() != MUSHROOM_STATE_DIE_OVER)
+	{
+		l = x;
+		t = y;
+		r = x + 17;
+		b = y + 17;
+	}
 }
 
 void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)

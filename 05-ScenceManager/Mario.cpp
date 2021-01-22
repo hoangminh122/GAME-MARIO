@@ -706,6 +706,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						//brick->SetState(BRICK_STATE_BREAK);
 						brick->y = 800;
 					}
+					else if (brick->type == 35)
+					{
+						brick->idDied1_4 = 6;
+						//brick->SetAnimationSet(6);
+					}
 				}
 				if (nx != 0)
 				{

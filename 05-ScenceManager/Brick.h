@@ -31,6 +31,8 @@
 class CBrick : public CGameObject
 {
 public:
+	bool idDied1_4;
+	int ani;
 	bool static moneyIcon;					//trang thai  brick chuyen thanh icon money
 	int type;
 	bool isInitPos;
