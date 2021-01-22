@@ -2,6 +2,7 @@
 
 #include <d3dx9.h>
 #include "KeyEventHandler.h"
+#include "GameObject.h"
 
 class CScene
 {
@@ -9,10 +10,11 @@ protected:
 	CKeyEventHandler * key_handler;
 	int id;
 	LPCWSTR sceneFilePath;
+	vector<LPGAMEOBJECT> frontObjs;
 
 public: 
 	CScene(int id, LPCWSTR filePath);
-
+	vector<LPGAMEOBJECT>* GetFrontObjs() { return &frontObjs; }
 	CKeyEventHandler * GetKeyEventHandler() { return key_handler; }
 	virtual void Load() = 0;
 	virtual void Unload() = 0;

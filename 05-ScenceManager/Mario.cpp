@@ -27,6 +27,8 @@
 #include "Portal.h"
 #include "ChangeRoad.h"
 #include "TextEndGamer.h"
+#include "BrickPiece.h"
+#include "FlyBar.h"
 
 
 int CMario::level = 1;
@@ -506,6 +508,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 				
 			} // if plant
+			else if (dynamic_cast<CFlyBar *>(e->obj)) // if e->obj is plant
+			{
+				CFlyBar* flyBar = dynamic_cast<CFlyBar *>(e->obj);
+				if (ny < 0)
+				{
+					flyBar->SetState(FLY_BAR_STATE_FALL);
+				}
+
+			} // if plant
 			else if (dynamic_cast<CMoneyIcon *>(e->obj)) // if e->obj is question box
 			{
 				CMoneyIcon* moneyIcon = dynamic_cast<CMoneyIcon *>(e->obj);
@@ -670,7 +681,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					//vx +=dx;
 
 			} // if brickTop
-			
 			else if (dynamic_cast<CBackgroundDie *>(e->obj)) // if e->obj is Backgroud die
 			{
 				//x += dx;
@@ -682,6 +692,26 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is Backgroud die
 			{
 				CBrick* brick = dynamic_cast<CBrick *>(e->obj);
+				if (ny > 0)
+				{
+					if (brick->type == 10)
+					{
+						//hieu ung break gach
+						CBrickPiece::isSetuped = true;
+						CBrickPiece::xStatic = brick->x;
+						CBrickPiece::yStatic = brick->y;
+						CBrickPiece::isStart = true;
+						CBrickPiece::count = 0;
+
+						//brick->SetState(BRICK_STATE_BREAK);
+						brick->y = 800;
+					}
+					else if (brick->type == 35)
+					{
+						brick->idDied1_4 = 6;
+						//brick->SetAnimationSet(6);
+					}
+				}
 				if (nx != 0)
 				{
 					if (brick->type == 10)

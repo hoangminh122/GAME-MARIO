@@ -1,5 +1,8 @@
 #include "Brick.h"
 #include "Portal.h"
+#include "BrickPiece.h"
+#include "Game.h"
+
 
 bool CBrick::moneyIcon = false;
 
@@ -7,6 +10,8 @@ CBrick::CBrick(int type_ani)
 {
 	type = type_ani;
 	isInitPos = false;
+	ani = 0;
+	idDied1_4 = false;
 }
 
 void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -20,20 +25,26 @@ void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 void CBrick::Render()
 {
-	if(type ==10 && moneyIcon)
-		animation_set->at(2)->Render(x, y);
+	if (idDied1_4)
+	{
+		ani = 6;
+	}
+	else if (type == 10 && moneyIcon)
+		ani = 2;
 	else if (type == 11 && moneyIcon)
-		animation_set->at(3)->Render(x, y);
-	else if(type == 10 || type == 11)
-		animation_set->at(1)->Render(x, y);
+		ani = 3;
+	else if (type == 10 || type == 11 || type == 35)
+		ani = 1;
 	else if (type == 7)
 	{
-		animation_set->at(4)->Render(x, y);
+		ani = 4;
 	}
 	else if (type == 8)
 	{
-		animation_set->at(5)->Render(x, y);
+		ani = 5;
 	}
+	
+	animation_set->at(ani)->Render(x, y);
 	RenderBoundingBox();
 }
 
@@ -54,9 +65,10 @@ void CBrick::GetBoundingBox(float &l, float &t, float &r, float &b)
 		b = y + BRICK_BBOX_HEIGHT_SENCE_1_LEFT;
 	}  
 	else if (type == 1)
-		r = x + 100000;
+		r = x + BRICK_BBOX_WIDTH_ONE;
 	else if (type == 2)
-		r = x + BRICK_BBOX_WIDTH_TWO;
+		r = x + 10000;
+		//r = x + BRICK_BBOX_WIDTH_TWO;
 	else if (type == 3)
 		r = x + BRICK_BBOX_WIDTH_THREE;
 	else if (type == 4)
@@ -128,4 +140,54 @@ int CBrick::GetBoundPosition(int type2) {
 	}
 	else
 		return BRICK_BBOX_WIDTH;
+}
+void CBrick::SetState(int state)
+{
+	CGameObject::SetState(state);
+
+	switch (state)
+	{
+	case BRICK_STATE_BREAK:
+	{
+
+		//CGameObject* piece1 = new CBrickPiece();
+		//piece1->SetPosition(2020, 334);
+		//piece1->Update();
+		//piece1->Render();
+		//test
+		/*for (int i = 0; i < 4; i++)
+		{
+
+			CBrickPiece* piece = new CBrickPiece();
+			piece->SetPosition(x, y);
+			switch (i)
+			{
+			case 0:
+				piece->vx = -BRICK_PIECE_HIGH_SPEED_X;
+				piece->vy = -BRICK_PIECE_HIGH_SPEED_Y;
+				break;
+			case 1:
+				piece->vx = BRICK_PIECE_HIGH_SPEED_X;
+				piece->vy = -BRICK_PIECE_HIGH_SPEED_Y;
+				break;
+			case 2:
+				piece->vx = -BRICK_PIECE_LOW_SPEED_X;
+				piece->vy = -BRICK_PIECE_LOW_SPEED_Y;
+				break;
+			case 3:
+				piece->vx = BRICK_PIECE_LOW_SPEED_X;
+				piece->vy = -BRICK_PIECE_LOW_SPEED_Y;
+				break;
+			default:
+				break;
+			}
+			CGame::GetInstance()->GetCurrentScene()->GetFrontObjs()->push_back(piece);
+		}*/
+		//CPlayerInfo::GetInstance()->AdjustScore(10);
+
+		break;
+		}
+	default:
+		break;
+	}
 }

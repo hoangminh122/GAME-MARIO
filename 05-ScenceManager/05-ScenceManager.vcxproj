@@ -129,6 +129,7 @@
     <ClCompile Include="BackgroundDie.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="BrickEffect.cpp" />
+    <ClCompile Include="BrickPiece.cpp" />
     <ClCompile Include="BrickQuestion.cpp" />
     <ClCompile Include="BrickTop.cpp" />
     <ClCompile Include="Bullet.cpp" />
@@ -143,8 +144,10 @@
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Col.cpp" />
     <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="FlyBar.cpp" />
     <ClCompile Include="game_map.cpp" />
     <ClCompile Include="game_map.h" />
+    <ClCompile Include="Grid.cpp" />
     <ClCompile Include="Hat.cpp" />
     <ClCompile Include="Koopas.cpp" />
     <ClCompile Include="Leaf.cpp" />
@@ -186,12 +189,15 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Card.h" />
     <ClInclude Include="CardImage.h" />
+    <ClInclude Include="BrickPiece.h" />
     <ClInclude Include="CCastHelp.h" />
     <ClInclude Include="ChangeRoad.h" />
     <ClInclude Include="CMushroom.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Col.h" />
     <ClInclude Include="Effect.h" />
+    <ClInclude Include="FlyBar.h" />
+    <ClInclude Include="Grid.h" />
     <ClInclude Include="Hat.h" />
     <ClInclude Include="Leaf.h" />
     <ClInclude Include="Map.h" />

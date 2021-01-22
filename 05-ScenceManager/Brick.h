@@ -25,10 +25,14 @@
 
 
 #define BRICK_BBOX_HEIGHT_TWO	192	
+#define BRICK_STATE_BREAK   1235
+
 
 class CBrick : public CGameObject
 {
 public:
+	bool idDied1_4;
+	int ani;
 	bool static moneyIcon;					//trang thai  brick chuyen thanh icon money
 	int type;
 	bool isInitPos;
@@ -36,6 +40,7 @@ public:
 	CBrick(int type_ani);
 	~CBrick();
 	virtual void Render();
+	void SetState(int state);
 	int GetBoundPosition(int type2);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void GetBoundingBox(float &l, float &t, float &r, float &b);

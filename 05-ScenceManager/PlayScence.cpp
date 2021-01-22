@@ -29,6 +29,8 @@
 #include "CCastHelp.h"
 #include "TextEndGamer.h"
 #include "OpenGame.h"
+#include "FlyBar.h"
+#include "BrickPiece.h"
 //#include "TileMap.h"
 
 using namespace std;
@@ -84,6 +86,8 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define OBJECT_TYPE_CAST_HELP	171
 #define OBJECT_TYPE_TEXT_END_GAME	172
 #define OBJECT_TYPE_OPEN_GAME	173
+#define OBJECT_TYPE_FLY_BAR	174
+#define OBJECT_TYPE_BRICK_PIECE	175
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -240,7 +244,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 
 	CAnimationSets * animation_sets = CAnimationSets::GetInstance();
-
+	
 	CGameObject *obj = NULL;
 
 	switch (object_type)
@@ -289,6 +293,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_CAST_HELP: obj = new CCastleHelp(); break;
 	case OBJECT_TYPE_TEXT_END_GAME: obj = new CTextEndGame(); break;
 	case OBJECT_TYPE_OPEN_GAME: obj = new COpenGame(); break;
+	case OBJECT_TYPE_FLY_BAR: obj = new CFlyBar(); break;
+	case OBJECT_TYPE_BRICK_PIECE: obj = new CBrickPiece(typeAni); break;
 
 	case OBJECT_TYPE_PORTAL:
 		{	
