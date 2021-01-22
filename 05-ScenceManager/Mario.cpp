@@ -692,6 +692,21 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			if (dynamic_cast<CBrick *>(e->obj)) // if e->obj is Backgroud die
 			{
 				CBrick* brick = dynamic_cast<CBrick *>(e->obj);
+				if (ny > 0)
+				{
+					if (brick->type == 10)
+					{
+						//hieu ung break gach
+						CBrickPiece::isSetuped = true;
+						CBrickPiece::xStatic = brick->x;
+						CBrickPiece::yStatic = brick->y;
+						CBrickPiece::isStart = true;
+						CBrickPiece::count = 0;
+
+						//brick->SetState(BRICK_STATE_BREAK);
+						brick->y = 800;
+					}
+				}
 				if (nx != 0)
 				{
 					if (brick->type == 10)
