@@ -483,8 +483,6 @@ void CTurle::Render()
 				ani = TURLE_ANI_FLY;
 			}
 		}
-		
-
 	}
 	if (GetState() == TURLE_STATE_WALKING)
 	{
