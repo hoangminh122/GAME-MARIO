@@ -100,12 +100,18 @@ CMario::CMario(float x, float y,int sence) : CGameObject()
 	gravityFly = false;
 	score = 100;
 	//goUpCol = false;
+	timeGoCol = 0;
 }
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
+
+	if (GetState() == MARIO_STATE_GO_COL)
+	{
+		vy = -0.05f;
+	}
 	DebugOut(L"statestateastsggsgsasss%d\n",GetState());
 	//truong hop mario tha rua ko cam nua -> da luon
 	if (isMarioDropTurle )
@@ -119,6 +125,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		energyFull = false;
 		//SetState(MARIO_STATE_IDLE);
 		timeFly = 0;
+	}
+	if (GetTickCount() - timeGoCol > MARIO_TIME_GO_COL && timeGoCol != 0)
+	{
+		//energyFull = false;
+		SetState(MARIO_STATE_IDLE);
+		timeGoCol = 0;
 	}
 	else if(timeFly != 0)
 	{

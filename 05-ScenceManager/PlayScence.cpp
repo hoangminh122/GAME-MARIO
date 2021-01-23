@@ -689,7 +689,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	}
 	if (game->IsKeyDown(DIK_UP))
 	{
-		if (CPortal::scene_id != 1)
+		if (mario->sence_id == 1)
 			mario->pressUp = true;
 		/*if (CPortal::scene_id == 1)
 		{
@@ -722,10 +722,13 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	{
 		if (game->IsKeyDown(DIK_UP) && mario->goUpCol)
 		{
-			mario->vy =- MARIO_JUMP_SPEED_HIGHER_Y;
+			 mario->vy = -0.05f;
+			//mario->vy =- MARIO_JUMP_SPEED_HIGHER_Y;
+			 mario->timeGoCol = GetTickCount();
 			mario->SetState(MARIO_STATE_GO_COL);
 		}
-		else
+		//else
+		else if(mario->GetState() != MARIO_STATE_GO_COL)
 		{
 			//mario->jumpHigher = true;         //dang o trang thai nhan giu phim S
 			mario->SetState(MARIO_STATE_JUMP_NORMAL);
@@ -879,7 +882,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		
 	}
 
-	else if (mario->checkMarioColision)
+	else if (mario->checkMarioColision && mario->GetState() != MARIO_STATE_GO_COL)
 	{
 		if (mario->pressA && mario->isHold)						//nhan giu A ma dang cam rua  trang thai mario cam rua
 		{

@@ -180,6 +180,7 @@
 #define MARIO_ROTATORY_TIME 350						//can cho dung time
 #define MARIO_RUN_FAST_TIME 1500
 #define MARIO_TIME_FLY 3000
+#define MARIO_TIME_GO_COL 500
 
 
 class CMario : public CGameObject
@@ -206,6 +207,7 @@ public:
 	bool goBottom;							//mario di vao duong ong
 	bool gravityFly;                      //quat duoi roi cham hon
 	DWORD timeFly;							//time fly
+	DWORD timeGoCol;							//time di vao duong ong
 	bool energyFull;
 	DWORD timePrepareRunFast;					//time chay nhanh binh thuong cua mario
 	DWORD timePrepareFly;					//time chay nhanh tay nam ngang cua mario
