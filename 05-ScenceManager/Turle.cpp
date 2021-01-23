@@ -10,6 +10,8 @@
 #include "BackgroundDie.h"
 #include "Leaf.h"
 #include "Col.h"
+#include "BrickPiece.h"
+
 
 
 //DWORD CTurle::timeStart = 1;
@@ -328,8 +330,8 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				CBrick *brick = dynamic_cast<CBrick *>(e->obj);			//LOI THUAT TOAN CU CHUA FIX !!!!!.
 				if (GetState() == TURLE_STATE_WALKING)
 				{
-					if (x + TURLE_BBOX_WIDTH-5 >= brick->xStatic + brick->GetBoundPosition(brick->type) && vx > 0
-						|| x+5 <= brick->xStatic && vx <0
+					if (x + TURLE_BBOX_WIDTH - 5 >= brick->xStatic + brick->GetBoundPosition(brick->type) && vx > 0
+						|| x + 5 <= brick->xStatic && vx < 0
 						)
 					{
 						//if (vx > 0)
@@ -337,6 +339,21 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						//else
 						//	x = x + 2;
 						vx = -vx;
+					}
+				}
+				else if (GetState() == TURLE_STATE_RUN_DIE)
+				{
+					if (nx != 0)
+					{
+						//hieu ung break gach
+						CBrickPiece::isSetuped = true;
+						CBrickPiece::xStatic = brick->x;
+						CBrickPiece::yStatic = brick->y;
+						CBrickPiece::isStart = true;
+						CBrickPiece::count = 0;
+
+						//brick->SetState(BRICK_STATE_BREAK);
+						brick->y = 800;
 					}
 				}
 				if (nx != 0)

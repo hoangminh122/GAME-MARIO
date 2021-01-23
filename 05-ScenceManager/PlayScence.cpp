@@ -582,6 +582,7 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	CMario *mario = ((CPlayScene*)scence)->GetPlayer();
 	switch (KeyCode)
 	{
+	
 	case DIK_1:
 		mario->SetLevel(MARIO_LEVEL_SMALL);
 		mario->SetPosition(mario->x, mario->y + MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT);
@@ -608,6 +609,7 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		mario->SetLevel(MARIO_LEVEL_FIRE_BIG);
 		break;
 	case DIK_DOWN:
+
 		if (CPortal::scene_id == 1)
 		{
 			mario->vy = 0.0f;
@@ -623,6 +625,11 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		mario->SetPosition(mario->x, mario->y - 120);
 		break;*/
 	case DIK_A:
+		if (mario->GetLevel() == MARIO_LEVEL_FIRE_BIG)
+		{
+			
+		//CBulletMario::timeBulletStart = true;
+		}
 		if (mario->isHold)
 		{
 			mario->isMarioDropTurle = true;
@@ -638,6 +645,7 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		mario->timeRotatoryStart = 0;
 		//mario->timePrepareRunFast = mario->timePrepareRunFast + (mario->saveTimeRunCurrent- mario->timePrepareRunFast);
 		break;
+		
 	case DIK_S:
 		mario->jumpHigher = false;
 		break;
@@ -745,8 +753,18 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		mario->SetState(MARIO_STATE_KICK);
 	else if (game->IsKeyDown(DIK_DOWN))
 	{
-		if (CPortal::scene_id != 1)
+		mario->pressDown = true;
+		if ( mario->goUpCol)
+		{
+			mario->vy = 0.05f;
+			//mario->vy =- MARIO_JUMP_SPEED_HIGHER_Y;
+			mario->timeGoCol = GetTickCount();
+			mario->SetState(MARIO_STATE_GO_COL);
+		}
+
+		else if (CPortal::scene_id != 1)
 			mario->SetState(MARIO_STATE_DOWN);
+
 
 	}
 	else if (game->IsKeyDown(DIK_RIGHT)) {

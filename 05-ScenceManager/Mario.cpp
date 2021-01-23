@@ -60,6 +60,7 @@ CMario::CMario(float x, float y,int sence) : CGameObject()
 	left = top = right = bottom = 1;
 	pressX = false;
 	pressUp = false;
+	pressDown = false;
 	saveTimeRunCurrent = 0;
 	numCardImage = 0;
 	goUpCol = false;
@@ -718,7 +719,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				CBrick* brick = dynamic_cast<CBrick *>(e->obj);
 				if (ny > 0)
 				{
-					if (brick->type == 10)
+					if (brick->type == 10 && GetLevel() >1)
 					{
 						//hieu ung break gach
 						CBrickPiece::isSetuped = true;
@@ -770,6 +771,20 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						vx = 0.0f;
 					}
 					
+
+				}
+				else if (ny < 0 && switchCol->type == 3)
+				{
+					if (pressDown)
+					{
+						goUpCol = true;
+						goBottom = false;		//camera di chuyen  xuong tren duong ong
+						x = 2200;
+						y = 190;
+						//vy = 0.1f;
+						vx = 0.0f;
+					}
+
 
 				}
 				else if (ny < 0 && switchCol->type == 1 && GetState() == MARIO_STATE_DOWN)

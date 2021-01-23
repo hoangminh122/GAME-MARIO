@@ -122,6 +122,19 @@ void CBrick::GetBoundingBox(float &l, float &t, float &r, float &b)
 		r = x + BRICK_BBOX_WIDTH_SENCE_1_4_TURLE;
 		//b = y + BRICK_BBOX_HEIGHT;
 	}
+	else if (type == 18)			//brick nen dat
+		r = x + 10000;
+		//r = x + BRICK_BBOX_WIDTH_TWO;
+	else if (type ==19)			//brick man 1-4 end game
+	{
+		r = x + 48;
+		b = y + 48;
+	}
+	else if (type == 20)			//brick man 1-4 end game
+	{
+		r = x + BRICK_BBOX_WIDTH_COLUMN;
+		b = y + BRICK_BBOX_HEIGHT_COLUMN+16;
+	}
 
 	
 }

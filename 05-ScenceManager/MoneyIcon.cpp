@@ -20,7 +20,7 @@ bool CMoneyIcon::GetMove() {
 
 void CMoneyIcon::Render()
 {
-	if (isMove)
+	//if (isMove)
 	{
 		animation_set->at(0)->Render(x, y);
 		RenderBoundingBox();
