@@ -86,7 +86,7 @@ void CCamera::Update(CMario* player) {
 		{
 			if(player ->sence_id ==1)
 				pos = D3DXVECTOR3(cx, mapHeight - GetHeight() * 1.4f, 0);
-			else
+			else if(player->sence_id == 4)
 			 pos = D3DXVECTOR3(cx, 200, 0);
 			
 			//vij tri duoi dat binh thuong cam
@@ -105,8 +105,9 @@ void CCamera::Update(CMario* player) {
 			}*/
 			//else
 			//vij tri fly binh thuong cam
-			//pos = D3DXVECTOR3(cx, 200, 0);
-				
+			if (player->sence_id == 4)
+				pos = D3DXVECTOR3(cx, 200, 0);
+			if (player->sence_id != 4)
 				pos = D3DXVECTOR3(cx, 150, 0);
 
 		}

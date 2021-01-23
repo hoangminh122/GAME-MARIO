@@ -20,8 +20,12 @@ bool CMoneyIcon::GetMove() {
 
 void CMoneyIcon::Render()
 {
-	animation_set->at(0)->Render(x, y);
-	RenderBoundingBox();
+	if (isMove)
+	{
+		animation_set->at(0)->Render(x, y);
+		RenderBoundingBox();
+	}
+	
 }
 
 CMoneyIcon::~CMoneyIcon() {
@@ -75,6 +79,7 @@ void CMoneyIcon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 void CMoneyIcon::GetBoundingBox(float &l, float &t, float &r, float &b)
 {
+	if(noMoney)
 	l = x;
 	t = y;
 	r = x + MONEY_BBOX_WIDTH;

@@ -232,7 +232,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (this->GetState() == MARIO_STATE_DIE ||(y >430 && goBottom ==false))
 	{
 		vx = 0; vy = 0;
-		y = 320;
+		if (sence_id == 4)
+			y = 120.0f;
+		else
+			y = 320.0f;
 	}
 	// reset untouchable timer if untouchable time has passed
 	if ( GetTickCount() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
