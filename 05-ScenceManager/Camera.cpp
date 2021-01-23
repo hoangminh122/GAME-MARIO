@@ -48,6 +48,7 @@ void CCamera::Update(CMario* player) {
 	player->GetPosition(cx, cy);
 	D3DXVECTOR3 pos = D3DXVECTOR3(cx, cy, 0);
 	SetPosition(pos);
+
 	if (CPortal::scene_id == 1 && CPortal::is_start != 0)
 	{
 		pos = D3DXVECTOR3(0, 100, 0);
@@ -81,11 +82,15 @@ void CCamera::Update(CMario* player) {
 				pos = D3DXVECTOR3(cx, mapHeight - GetHeight() + 100, 0);
 
 		}
-
-		else if (cy > 200)
+		
+		else if (cy > 150)
 		{
+			if(player ->sence_id ==1)
+				pos = D3DXVECTOR3(cx, mapHeight - GetHeight() * 1.4f, 0);
+			else if(player->sence_id == 4)
+			 pos = D3DXVECTOR3(cx, 200, 0);
+			
 			//vij tri duoi dat binh thuong cam
-			pos = D3DXVECTOR3(cx, mapHeight - GetHeight() * 1.4f, 0);
 		}
 		
 		else
@@ -101,8 +106,16 @@ void CCamera::Update(CMario* player) {
 			}*/
 			//else
 			//vij tri fly binh thuong cam
-			//pos = D3DXVECTOR3(cx, 200, 0);
+			if (player->sence_id == 4)
+			{
+				/*if(player ->y<50)
+					pos = D3DXVECTOR3(cx, 160, 0);
+				else*/
+				pos = D3DXVECTOR3(cx, 200, 0);
+			}
+			if (player->sence_id != 4)
 				pos = D3DXVECTOR3(cx, 150, 0);
+
 		}
 
 		SetPosition(pos);			//SET vi tri vao thuoc tinh position

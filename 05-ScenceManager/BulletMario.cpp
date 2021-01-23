@@ -59,6 +59,7 @@ void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (GetTickCount() - timeBulletStart > 100 && timeBulletStart != 0)
 	{
 		isStart = true;
+		timeBulletStart = 0;
 	}
 
 	if (nextStart - timeStart > 1000 || vx == 0 || vy == 0)

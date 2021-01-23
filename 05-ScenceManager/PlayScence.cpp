@@ -255,7 +255,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			DebugOut(L"[ERROR] MARIO object was created before!\n");
 			return;
 		}
-		obj = CMario::GetInstance(x,y); 
+		obj = CMario::GetInstance(x,y, typeAni);
 		player = (CMario*)obj;  
 
 		DebugOut(L"[INFO] Player object created!\n");
@@ -279,7 +279,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BACKGROUND_DIE: obj = new CBackgroundDie(); break;
 	case OBJECT_TYPE_BRICK_QUESTION: obj = new CBrickQuestion(typeAni,typeGift); break;
 	case OBJECT_TYPE_MONEY_ICON: obj = new CMoneyIcon(typeAni); break;
-	case OBJECT_TYPE_LEAF: obj = new CLeaf(); break;
+	case OBJECT_TYPE_LEAF: obj = new CLeaf(typeAni); break;
 	case OBJECT_TYPE_COIN: obj = new CCOIN(); break;
 	case OBJECT_TYPE_HAT: obj =  CHat::GetInstance(); break;
 	case OBJECT_TYPE_CARD: obj = new CCard(); break;
@@ -519,7 +519,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	}
 	case DIK_DOWN:
 	{
-		if (CPortal::is_start == 0)
+		/*if (CPortal::is_start == 0)
 		{
 			if (mario->bottom == 1)
 			{
@@ -532,7 +532,10 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		{
 			if (mario->bottom == 1)
 				mario->vy += 0.3f;
-		}
+		}*/
+
+		mario->pressDown = true;
+
 		break;
 	}
 	case DIK_UP:
@@ -582,6 +585,7 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	CMario *mario = ((CPlayScene*)scence)->GetPlayer();
 	switch (KeyCode)
 	{
+	
 	case DIK_1:
 		mario->SetLevel(MARIO_LEVEL_SMALL);
 		mario->SetPosition(mario->x, mario->y + MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT);
@@ -608,7 +612,8 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		mario->SetLevel(MARIO_LEVEL_FIRE_BIG);
 		break;
 	case DIK_DOWN:
-		if (CPortal::scene_id == 1)
+
+		/*if (CPortal::scene_id == 1)
 		{
 			mario->vy = 0.0f;
 		}
@@ -616,13 +621,18 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		{
 			mario->SetPosition(mario->x, mario->y - (MARIO_BIG_BBOX_HEIGHT - MARIO_BIG_DOWN_BBOX_HEIGHT)-2.0f);
 			mario->SetState(MARIO_STATE_IDLE);
-		}
+		}*/
 		
 		break;
 	/*case DIK_D:
 		mario->SetPosition(mario->x, mario->y - 120);
 		break;*/
 	case DIK_A:
+		if (mario->GetLevel() == MARIO_LEVEL_FIRE_BIG)
+		{
+			
+		//CBulletMario::timeBulletStart = true;
+		}
 		if (mario->isHold)
 		{
 			mario->isMarioDropTurle = true;
@@ -638,6 +648,7 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		mario->timeRotatoryStart = 0;
 		//mario->timePrepareRunFast = mario->timePrepareRunFast + (mario->saveTimeRunCurrent- mario->timePrepareRunFast);
 		break;
+		
 	case DIK_S:
 		mario->jumpHigher = false;
 		break;
@@ -689,7 +700,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	}
 	if (game->IsKeyDown(DIK_UP))
 	{
-		if (CPortal::scene_id != 1)
+		if (mario->sence_id == 1)
 			mario->pressUp = true;
 		/*if (CPortal::scene_id == 1)
 		{
@@ -722,10 +733,13 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	{
 		if (game->IsKeyDown(DIK_UP) && mario->goUpCol)
 		{
-			mario->vy =- MARIO_JUMP_SPEED_HIGHER_Y;
+			 mario->vy = -0.05f;
+			//mario->vy =- MARIO_JUMP_SPEED_HIGHER_Y;
+			 mario->timeGoCol = GetTickCount();
 			mario->SetState(MARIO_STATE_GO_COL);
 		}
-		else
+		//else
+		else if(mario->GetState() != MARIO_STATE_GO_COL)
 		{
 			//mario->jumpHigher = true;         //dang o trang thai nhan giu phim S
 			mario->SetState(MARIO_STATE_JUMP_NORMAL);
@@ -742,8 +756,18 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		mario->SetState(MARIO_STATE_KICK);
 	else if (game->IsKeyDown(DIK_DOWN))
 	{
-		if (CPortal::scene_id != 1)
-			mario->SetState(MARIO_STATE_DOWN);
+		//mario->pressDown = true;
+		//if ( mario->goUpCol)
+		//{
+		//	mario->vy = 0.05f;
+		//	//mario->vy =- MARIO_JUMP_SPEED_HIGHER_Y;
+		//	mario->timeGoCol = GetTickCount();
+		//	mario->SetState(MARIO_STATE_GO_COL);
+		//}
+
+		//else if (CPortal::scene_id != 1)
+		//	mario->SetState(MARIO_STATE_DOWN);
+
 
 	}
 	else if (game->IsKeyDown(DIK_RIGHT)) {
@@ -879,7 +903,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		
 	}
 
-	else if (mario->checkMarioColision)
+	else if (mario->checkMarioColision && mario->GetState() != MARIO_STATE_GO_COL)
 	{
 		if (mario->pressA && mario->isHold)						//nhan giu A ma dang cam rua  trang thai mario cam rua
 		{

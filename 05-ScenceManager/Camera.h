@@ -4,7 +4,8 @@
 class CCamera
 {
 public:
-
+	bool isSetPosStart = false;
+	bool isMoving = true;
 	CCamera();
 	static CCamera* GetInstance();
 	void SetPosition(float x, float y);
@@ -25,5 +26,6 @@ private:
 	int width, height;					//kich co toi da cua maptile
 	int mapWidth, mapHeight;
 
+public :
 	D3DXVECTOR3 position;
 };

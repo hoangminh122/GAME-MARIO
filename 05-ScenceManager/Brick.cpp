@@ -43,7 +43,7 @@ void CBrick::Render()
 	{
 		ani = 5;
 	}
-	
+	if(ani != 0)
 	animation_set->at(ani)->Render(x, y);
 	RenderBoundingBox();
 }
@@ -67,8 +67,8 @@ void CBrick::GetBoundingBox(float &l, float &t, float &r, float &b)
 	else if (type == 1)
 		r = x + BRICK_BBOX_WIDTH_ONE;
 	else if (type == 2)
-		r = x + 10000;
-		//r = x + BRICK_BBOX_WIDTH_TWO;
+		//r = x + 10000;
+		r = x + BRICK_BBOX_WIDTH_TWO;
 	else if (type == 3)
 		r = x + BRICK_BBOX_WIDTH_THREE;
 	else if (type == 4)
@@ -117,6 +117,24 @@ void CBrick::GetBoundingBox(float &l, float &t, float &r, float &b)
 		r = x + BRICK_BBOX_WIDTH_SENCE_1_4;
 		b = y + BRICK_BBOX_HEIGHT;
 	}
+	else if (type == 17)
+	{
+		r = x + BRICK_BBOX_WIDTH_SENCE_1_4_TURLE;
+		//b = y + BRICK_BBOX_HEIGHT;
+	}
+	else if (type == 18)			//brick nen dat
+		r = x + 10000;
+		//r = x + BRICK_BBOX_WIDTH_TWO;
+	else if (type ==19)			//brick man 1-4 end game
+	{
+		r = x + 48;
+		b = y + 48;
+	}
+	else if (type == 20)			//brick man 1-4 end game
+	{
+		r = x + BRICK_BBOX_WIDTH_COLUMN;
+		b = y + BRICK_BBOX_HEIGHT_COLUMN+16;
+	}
 
 	
 }
@@ -132,6 +150,8 @@ int CBrick::GetBoundPosition(int type2) {
 		return BRICK_BBOX_WIDTH_FOUR;
 	else if (type == 5)
 		return BRICK_BBOX_WIDTH_FIRE;
+	else if (type == 17)
+		return BRICK_BBOX_WIDTH_SENCE_1_4_TURLE;
 	else if (type == 6)
 		return BRICK_BBOX_WIDTH_SIX;
 	else if (type == 7 || type == 8 || type == 9)

@@ -48,17 +48,20 @@ float CMario::xRealTime = 0;
 bool CMario::isBullet = false;
 
 CMario * CMario::__instance = NULL;
-CMario *CMario::GetInstance(float x, float y)
+CMario *CMario::GetInstance(float x, float y,int sence)
 {
-	if (__instance == NULL) __instance = new CMario(x,y);
+	if (__instance == NULL) __instance = new CMario(x,y,sence);
 	return __instance;
 }
 
-CMario::CMario(float x, float y) : CGameObject()
+CMario::CMario(float x, float y,int sence) : CGameObject()
 {
+	goDownCol = false;
+	sence_id = sence;
 	left = top = right = bottom = 1;
 	pressX = false;
 	pressUp = false;
+	pressDown = false;
 	saveTimeRunCurrent = 0;
 	numCardImage = 0;
 	goUpCol = false;
@@ -99,12 +102,19 @@ CMario::CMario(float x, float y) : CGameObject()
 	gravityFly = false;
 	score = 100;
 	//goUpCol = false;
+	timeGoCol = 0;
+	timeGoDownCol = 0;
 }
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
+
+	if (GetState() == MARIO_STATE_GO_COL)
+	{
+		vy = 0.01f;
+	}
 	DebugOut(L"statestateastsggsgsasss%d\n",GetState());
 	//truong hop mario tha rua ko cam nua -> da luon
 	if (isMarioDropTurle )
@@ -118,6 +128,18 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		energyFull = false;
 		//SetState(MARIO_STATE_IDLE);
 		timeFly = 0;
+	}
+	if (GetTickCount() - timeGoCol > MARIO_TIME_GO_COL && timeGoCol != 0)
+	{
+		//energyFull = false;
+		SetState(MARIO_STATE_IDLE);
+		timeGoCol = 0;
+	}
+	if (GetTickCount() - timeGoDownCol > 600 && timeGoDownCol != 0)
+	{
+		//energyFull = false;
+		SetState(MARIO_STATE_IDLE);
+		timeGoDownCol = 0;
 	}
 	else if(timeFly != 0)
 	{
@@ -219,7 +241,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (this->GetState() == MARIO_STATE_DIE ||(y >430 && goBottom ==false))
 	{
 		vx = 0; vy = 0;
-		y = 320;
+		if (sence_id == 4)
+			y = 120.0f;
+		else
+			y = 320.0f;
 	}
 	// reset untouchable timer if untouchable time has passed
 	if ( GetTickCount() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
@@ -289,7 +314,29 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			{
 				//vx = 0;
 			}
-			
+			if (dynamic_cast<CLeaf *>(e->obj)) // if e->obj is question box
+			{
+				CLeaf* leaf = dynamic_cast<CLeaf *>(e->obj);
+				if (leaf->isLive)
+				{
+					leaf->SetState(LEAF_STATE_DIE_OVER);
+					if (GetLevel() == MARIO_LEVEL_SMALL)
+						SetPosition(x, y - (MARIO_BIG_BBOX_HEIGHT + MARIO_SMALL_BBOX_HEIGHT));
+					else
+						SetPosition(x, y - 2);
+					SetLevel(GetLevel() + 1);
+				}
+				else if (e->ny > 0 && leaf->sence_id==4 && !leaf->isLive)
+				{
+					leaf->y = y - 40;
+					//if(leaf ->y > y -30)			//la roi muot hon
+					//	leaf->vy = -0.02f;
+					leaf->isMove = true;
+					vx = -vx;
+				}
+
+
+			} // if question box
 			if (dynamic_cast<CTurle *>(e->obj)) // if e->obj is TURLE
 			{
 				CTurle *turle = dynamic_cast<CTurle *>(e->obj);
@@ -562,21 +609,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 			} // if question box
 			
-			else if (dynamic_cast<CLeaf *>(e->obj)) // if e->obj is question box
-			{
-				CLeaf* leaf = dynamic_cast<CLeaf *>(e->obj);
-				if (leaf->isLive)
-				{
-					leaf->SetState(LEAF_STATE_DIE_OVER);
-					if (GetLevel() == MARIO_LEVEL_SMALL)
-						SetPosition(x, y - (MARIO_BIG_BBOX_HEIGHT + MARIO_SMALL_BBOX_HEIGHT));
-					else
-						SetPosition(x, y - 2);
-					SetLevel(GetLevel() + 1);
-				}
-
-
-			} // if question box
+			
 			if (dynamic_cast<CHat *>(e->obj)) // if e->obj is brickTop
 			{
 				CHat* hat = dynamic_cast<CHat *>(e->obj);
@@ -694,7 +727,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				CBrick* brick = dynamic_cast<CBrick *>(e->obj);
 				if (ny > 0)
 				{
-					if (brick->type == 10)
+					if (brick->type == 10 && GetLevel() >1)
 					{
 						//hieu ung break gach
 						CBrickPiece::isSetuped = true;
@@ -734,7 +767,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			if (dynamic_cast<CSwitchCol *>(e->obj)) // if e->obj is Backgroud die
 			{
 				CSwitchCol* switchCol = dynamic_cast<CSwitchCol *>(e->obj);
-				if (ny > 0 && switchCol->type == 2)
+				if (ny > 0 && switchCol->type == 2)      //di len
 				{
 					if (pressUp)
 					{
@@ -748,14 +781,46 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					
 
 				}
-				else if (ny < 0 && switchCol->type == 1 && GetState() == MARIO_STATE_DOWN)
+				else if (e->ny < 0 && switchCol->type == 3)
 				{
-					this->SetState(MARIO_STATE_GO_COL);
-					goBottom = true;  //camera di chuyen  xuong duoi duong ong
-					x = 2105;
-					y = 493;
-					vy = -0.1f;
-					vx = 0.0f;
+					if (pressDown)
+					{
+						goDownCol = true;
+						goBottom = true;		//camera di chuyen  xuong tren duong ong
+						x = 2200;
+						y = 190;
+						//vy = 0.1f;
+						vx = 0.0f;
+					}
+
+
+				}
+				else if (e->ny < 0 && switchCol->type == 1) //di xuong
+				{
+					if (pressDown)
+					{
+						timeGoDownCol = GetTickCount();
+						this->SetState(MARIO_STATE_GO_COL);
+						//goBottom = true;  //camera di chuyen  xuong duoi duong ong
+						//x = 2105;
+						y = 86;
+						x = 2258;
+						//y = 473;
+						vy = 0.01f;
+						vx = 0.0f;
+					}
+				}
+				else if (e->ny < 0 && switchCol->type == 4) //di xuong
+				{
+					
+						timeGoDownCol = GetTickCount();
+						this->SetState(MARIO_STATE_GO_COL);
+						goBottom = true;  //camera di chuyen  xuong duoi duong ong
+						x = 2105;
+						y = 473;
+						vy = 0.01f;
+						vx = 0.0f;
+					
 				}
 				
 

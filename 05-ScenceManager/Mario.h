@@ -180,6 +180,7 @@
 #define MARIO_ROTATORY_TIME 350						//can cho dung time
 #define MARIO_RUN_FAST_TIME 1500
 #define MARIO_TIME_FLY 3000
+#define MARIO_TIME_GO_COL 500
 
 
 class CMario : public CGameObject
@@ -203,9 +204,11 @@ public:
 	DWORD saveTimeRunCurrent;				//Luu thoi gian chay lai khi khong nhan A nua
 	bool pressUp;							//di vao dung ong
 	bool goUpCol;
+	bool goDownCol;
 	bool goBottom;							//mario di vao duong ong
 	bool gravityFly;                      //quat duoi roi cham hon
 	DWORD timeFly;							//time fly
+	DWORD timeGoCol;							//time di vao duong ong
 	bool energyFull;
 	DWORD timePrepareRunFast;					//time chay nhanh binh thuong cua mario
 	DWORD timePrepareFly;					//time chay nhanh tay nam ngang cua mario
@@ -214,7 +217,7 @@ public:
 	DWORD timeWaitingAttackNext;		//time cho dot tan cong tiep theo
 	bool isRotatory180;			//trang thai mario dang quay 180
 	bool isMarioDropTurle;		//mario roi rua
-	static CMario * GetInstance(float x, float y);
+	static CMario * GetInstance(float x, float y,int sence=0);
 	bool isHold;					//mario cam rua khi nhan A
 	DWORD timeKickStart;			//time da rua
 	DWORD timeRotatoryStart;			//time danh duoi mario max
@@ -243,7 +246,10 @@ public:
 	bool checkMarioColision;
 	static bool isFire;
 public: 
-	CMario(float x = 0.0f, float y = 0.0f);
+	DWORD timeGoDownCol;
+	int sence_id;
+	bool pressDown;
+	CMario(float x = 0.0f, float y = 0.0f, int sence = 0);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
 	virtual void Render();
 

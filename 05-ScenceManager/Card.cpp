@@ -12,7 +12,6 @@ void CCard::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		x = 2764.0f ;
 		y = 285.0f;
-
 	}
 }
 

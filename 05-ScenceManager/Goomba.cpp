@@ -4,6 +4,7 @@
 #include "CMushroom.h"
 #include "Brick.h"
 #include "Col.h"
+#include "BrickQuestion.h"
 
 
 CGoomba::CGoomba()
@@ -208,6 +209,10 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			{
 				if(isReverse)
 					y += dy;
+			}
+			else if (dynamic_cast<CBrickQuestion *>(e->obj))	//va cham voi background Die
+			{
+				vx = -vx;
 			}
 			else if (dynamic_cast<CGoomba *>(e->obj))	//va cham voi background Die
 			{
