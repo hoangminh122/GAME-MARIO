@@ -519,7 +519,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	}
 	case DIK_DOWN:
 	{
-		if (CPortal::is_start == 0)
+		/*if (CPortal::is_start == 0)
 		{
 			if (mario->bottom == 1)
 			{
@@ -532,7 +532,10 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		{
 			if (mario->bottom == 1)
 				mario->vy += 0.3f;
-		}
+		}*/
+
+		mario->pressDown = true;
+
 		break;
 	}
 	case DIK_UP:
@@ -610,7 +613,7 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		break;
 	case DIK_DOWN:
 
-		if (CPortal::scene_id == 1)
+		/*if (CPortal::scene_id == 1)
 		{
 			mario->vy = 0.0f;
 		}
@@ -618,7 +621,7 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		{
 			mario->SetPosition(mario->x, mario->y - (MARIO_BIG_BBOX_HEIGHT - MARIO_BIG_DOWN_BBOX_HEIGHT)-2.0f);
 			mario->SetState(MARIO_STATE_IDLE);
-		}
+		}*/
 		
 		break;
 	/*case DIK_D:
@@ -753,17 +756,17 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		mario->SetState(MARIO_STATE_KICK);
 	else if (game->IsKeyDown(DIK_DOWN))
 	{
-		mario->pressDown = true;
-		if ( mario->goUpCol)
-		{
-			mario->vy = 0.05f;
-			//mario->vy =- MARIO_JUMP_SPEED_HIGHER_Y;
-			mario->timeGoCol = GetTickCount();
-			mario->SetState(MARIO_STATE_GO_COL);
-		}
+		//mario->pressDown = true;
+		//if ( mario->goUpCol)
+		//{
+		//	mario->vy = 0.05f;
+		//	//mario->vy =- MARIO_JUMP_SPEED_HIGHER_Y;
+		//	mario->timeGoCol = GetTickCount();
+		//	mario->SetState(MARIO_STATE_GO_COL);
+		//}
 
-		else if (CPortal::scene_id != 1)
-			mario->SetState(MARIO_STATE_DOWN);
+		//else if (CPortal::scene_id != 1)
+		//	mario->SetState(MARIO_STATE_DOWN);
 
 
 	}

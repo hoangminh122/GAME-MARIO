@@ -56,6 +56,7 @@ CMario *CMario::GetInstance(float x, float y,int sence)
 
 CMario::CMario(float x, float y,int sence) : CGameObject()
 {
+	goDownCol = false;
 	sence_id = sence;
 	left = top = right = bottom = 1;
 	pressX = false;
@@ -102,6 +103,7 @@ CMario::CMario(float x, float y,int sence) : CGameObject()
 	score = 100;
 	//goUpCol = false;
 	timeGoCol = 0;
+	timeGoDownCol = 0;
 }
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -111,7 +113,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	if (GetState() == MARIO_STATE_GO_COL)
 	{
-		vy = -0.05f;
+		vy = 0.01f;
 	}
 	DebugOut(L"statestateastsggsgsasss%d\n",GetState());
 	//truong hop mario tha rua ko cam nua -> da luon
@@ -132,6 +134,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		//energyFull = false;
 		SetState(MARIO_STATE_IDLE);
 		timeGoCol = 0;
+	}
+	if (GetTickCount() - timeGoDownCol > 600 && timeGoDownCol != 0)
+	{
+		//energyFull = false;
+		SetState(MARIO_STATE_IDLE);
+		timeGoDownCol = 0;
 	}
 	else if(timeFly != 0)
 	{
@@ -759,7 +767,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			if (dynamic_cast<CSwitchCol *>(e->obj)) // if e->obj is Backgroud die
 			{
 				CSwitchCol* switchCol = dynamic_cast<CSwitchCol *>(e->obj);
-				if (ny > 0 && switchCol->type == 2)
+				if (ny > 0 && switchCol->type == 2)      //di len
 				{
 					if (pressUp)
 					{
@@ -773,12 +781,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					
 
 				}
-				else if (ny < 0 && switchCol->type == 3)
+				else if (e->ny < 0 && switchCol->type == 3)
 				{
 					if (pressDown)
 					{
-						goUpCol = true;
-						goBottom = false;		//camera di chuyen  xuong tren duong ong
+						goDownCol = true;
+						goBottom = true;		//camera di chuyen  xuong tren duong ong
 						x = 2200;
 						y = 190;
 						//vy = 0.1f;
@@ -787,14 +795,32 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 
 				}
-				else if (ny < 0 && switchCol->type == 1 && GetState() == MARIO_STATE_DOWN)
+				else if (e->ny < 0 && switchCol->type == 1) //di xuong
 				{
-					this->SetState(MARIO_STATE_GO_COL);
-					goBottom = true;  //camera di chuyen  xuong duoi duong ong
-					x = 2105;
-					y = 493;
-					vy = -0.1f;
-					vx = 0.0f;
+					if (pressDown)
+					{
+						timeGoDownCol = GetTickCount();
+						this->SetState(MARIO_STATE_GO_COL);
+						//goBottom = true;  //camera di chuyen  xuong duoi duong ong
+						//x = 2105;
+						y = 86;
+						x = 2258;
+						//y = 473;
+						vy = 0.01f;
+						vx = 0.0f;
+					}
+				}
+				else if (e->ny < 0 && switchCol->type == 4) //di xuong
+				{
+					
+						timeGoDownCol = GetTickCount();
+						this->SetState(MARIO_STATE_GO_COL);
+						goBottom = true;  //camera di chuyen  xuong duoi duong ong
+						x = 2105;
+						y = 473;
+						vy = 0.01f;
+						vx = 0.0f;
+					
 				}
 				
 

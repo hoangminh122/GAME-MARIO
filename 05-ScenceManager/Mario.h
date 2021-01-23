@@ -204,6 +204,7 @@ public:
 	DWORD saveTimeRunCurrent;				//Luu thoi gian chay lai khi khong nhan A nua
 	bool pressUp;							//di vao dung ong
 	bool goUpCol;
+	bool goDownCol;
 	bool goBottom;							//mario di vao duong ong
 	bool gravityFly;                      //quat duoi roi cham hon
 	DWORD timeFly;							//time fly
@@ -245,6 +246,7 @@ public:
 	bool checkMarioColision;
 	static bool isFire;
 public: 
+	DWORD timeGoDownCol;
 	int sence_id;
 	bool pressDown;
 	CMario(float x = 0.0f, float y = 0.0f, int sence = 0);
