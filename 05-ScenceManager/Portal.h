@@ -16,5 +16,5 @@ public:
 	CPortal(float l, float t, float r, float b, int scene_id,int isStart = 1);
 	virtual void Render();
 	virtual void GetBoundingBox(float &l, float &t, float &r, float &b);
-	int GetSceneId() { return scene_id;  }
+	int GetSceneId() { return is_start;  }
 };

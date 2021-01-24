@@ -32,6 +32,7 @@
 #include "FlyBar.h"
 #include "BrickPiece.h"
 //#include "TileMap.h"
+#include "Mario.h"
 
 using namespace std;
 
@@ -464,6 +465,7 @@ void CPlayScene::Unload()
 
 	objects.clear();
 	player = NULL;
+	CMario::__instance = NULL;
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
