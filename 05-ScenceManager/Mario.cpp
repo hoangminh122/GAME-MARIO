@@ -29,6 +29,7 @@
 #include "TextEndGamer.h"
 #include "BrickPiece.h"
 #include "FlyBar.h"
+#include "Camera.h"
 
 
 int CMario::level = 1;
@@ -113,7 +114,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
-
+	if (x <= CCamera::GetInstance()->position.x-CGame::GetInstance()->GetScreenWidth()/2.0f)
+	{
+		vx = 0.04f;
+	}
 	if (GetState() == MARIO_STATE_GO_COL)
 	{
 		if(goUpCol)

@@ -1,4 +1,5 @@
 #include "Card.h"
+#include "Portal.h"
 
 bool CCard::isDie = false;
 CCard::CCard()
@@ -10,8 +11,18 @@ void CCard::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	if (isDie)
 	{
-		x = 2764.0f ;
-		y = 285.0f;
+		if (CPortal::scene_id == 2)
+		{
+			x = 2764.0f;
+			y = 285.0f;
+		}
+		else if (CPortal::scene_id == 4)
+		{
+			x = 2500.0f;
+			y = 130.0f;
+
+		}
+		
 	}
 }
 

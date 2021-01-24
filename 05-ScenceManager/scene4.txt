@@ -851,7 +851,7 @@ tile-map1-4.txt	80	2576	272
 #0	1788.0	136	1
 #0	548.0	136	1
 #0	1147	136	1
-0	1726	75	1	4
+0	50	75	1	4
 #0	1411	164	1
 #0	2160	250	1
 #0	2261	20	1
@@ -890,7 +890,7 @@ tile-map1-4.txt	80	2576	272
 #top
 1	0	0	2	14
 
-# --- platform (hint: I created the list using Excel!) ----
+# --- platform (hint: I created the list using Excel!) ------
 1	0	196	2	15
 1	0	260	2	18
 #qua song
