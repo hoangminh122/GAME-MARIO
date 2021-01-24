@@ -43,10 +43,11 @@ void CBrick::Render()
 	{
 		ani = 5;
 	}
-	else if (type == 9)
+	else if (type == 9 || type == 20)
 	{
 		ani = 4;
 	}
+	
 	if(ani != 0)
 	animation_set->at(ani)->Render(x, y);
 	RenderBoundingBox();
