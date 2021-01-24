@@ -50,11 +50,7 @@ void CTurle::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	right = x + TURLE_BBOX_WIDTH;
 	bottom = y + TURLE_BBOX_HEIGHT;
 
-	if (this->GetState() == TURLE_STATE_FLY_RED && level == TURLE_LEVEL_FLY)								//rua chay xanh
-	{
-		vx = 0.0f;
-		x = 1862.0f;
-	}
+	
 	
 	if (level == TURLE_LEVEL_NO_FLY)								//rua chay xanh
 	{
@@ -79,6 +75,11 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
 
+	if (this->GetState() == TURLE_STATE_FLY_RED && level == TURLE_LEVEL_FLY)								//rua chay xanh
+	{
+		vx = 0.0f;
+		x = 1862.0f;
+	}
 	//KHOI TAO OBJECT
 	if (y > 440.0f)
 	{
@@ -134,6 +135,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	if (GetTickCount() - timeStart > constTimeStart && timeStart != 0 && level == TURLE_LEVEL_FLY)
 	{
+		int a=GetTickCount() - timeStart;
 		//timeStart = GetTickCount();
 		SetState(TURLE_STATE_FLY);
 		timeStart = 0;
