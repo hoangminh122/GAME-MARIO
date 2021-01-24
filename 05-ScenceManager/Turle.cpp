@@ -366,7 +366,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 				else if (GetState() == TURLE_STATE_RUN_DIE)
 				{
-					if (nx != 0)
+					if (nx != 0 && brick->type == 10)
 					{
 						//hieu ung break gach
 						CBrickPiece::isSetuped = true;

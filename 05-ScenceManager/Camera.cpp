@@ -146,8 +146,13 @@ void CCamera::Update(CMario* player) {
 			isInit = true;
 			SetPosition(pos);
 		}
-
-		position.x += 0.2f;
+		//test
+		//pos = D3DXVECTOR3(2215, 200, 0);
+		pos = D3DXVECTOR3(cx, 200, 0);
+		isInit = true;
+		SetPosition(pos);
+		//test
+		//position.x += 0.65f;  //0.35
 
 		if (GetBound().left < 0)
 		{
