@@ -56,6 +56,8 @@ CMario *CMario::GetInstance(float x, float y,int sence)
 
 CMario::CMario(float x, float y,int sence) : CGameObject()
 {
+	timeOverGame = 0;
+	isOverGame = false;
 	senceNextTo = 1;
 	goDownCol = false;
 	sence_id = sence;
@@ -126,6 +128,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		//timeKickStart = GetTickCount();   //TIME DA CUA MARIO
 		SetState(MARIO_STATE_KICK);
 	}
+	
 
 	if (GetTickCount() - timeFly > MARIO_TIME_FLY && timeFly != 0)
 	{
@@ -355,6 +358,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						{
 							turle->timeDieTurle = GetTickCount();       //bat dau tinh time chet rua
 							turle->SetState(TURLE_STATE_DIE);
+						}
+						if (turle->GetState() == TURLE_STATE_FLY_RED)
+						{
+							turle->SetState(TURLE_STATE_WALKING);
 						}
 						turle->level = turle->level - 1;
 
@@ -776,6 +783,19 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			if (dynamic_cast<CSwitchCol *>(e->obj)) // if e->obj is Backgroud die
 			{
 				CSwitchCol* switchCol = dynamic_cast<CSwitchCol *>(e->obj);
+				if (ny < 0 && switchCol->type == 2)      //di len
+				{
+					if (CPortal::scene_id == 4)
+					{
+						timeGoCol = GetTickCount();
+						SetState(MARIO_STATE_GO_COL);
+						goUpCol = true;
+						x = 2198.0f;
+						y = 210.0f;
+						vy = -0.5f;
+						vx = 0.0f;
+					}
+				}
 				if (ny > 0 && switchCol->type == 2)      //di len
 				{
 					if (pressUp)
@@ -812,8 +832,17 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						this->SetState(MARIO_STATE_GO_COL);
 						//goBottom = true;  //camera di chuyen  xuong duoi duong ong
 						//x = 2105;
-						y = 86;
-						x = 2258;
+						if (CPortal::scene_id == 1)
+						{
+							y = 86;
+							x = 2258;
+						}
+						else if(CPortal::scene_id == 4)
+						{
+							y = 156;
+							x = 1937;
+						}
+						
 						//y = 473;
 						vy = 0.01f;
 						vx = 0.0f;
@@ -844,6 +873,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					CTextEndGame::isShow = true;
 					card->ani = 1;
 					card->isDie = true;
+					isOverGame = true;
+					timeOverGame = GetTickCount();
 
 				}
 
@@ -866,6 +897,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			}
 		}
 	
+}
+if (GetTickCount() - timeOverGame > 2000 && timeOverGame != 0)
+{
+	timeOverGame = 0;
+	CGame::GetInstance()->SwitchScene(1);
+
 }
 
 	// clean up collision events

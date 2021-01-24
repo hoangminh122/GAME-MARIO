@@ -238,5 +238,5 @@ worldmap1.txt	80	256	176
 
 # --- SCENE PORTAL ----
 # type	l	t	ani_set_id	r	b	scene_id
-50	64	13	2	70	17	1	2
-50	160	44	2	175	59	1	4
+50	1	1	2	1	7	1	2
+#50	160	44	2	175	59	1	4
