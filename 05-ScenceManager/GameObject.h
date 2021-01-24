@@ -50,6 +50,8 @@ private:
 	int state;
 
 public:
+
+	bool isInGrid = true;
 	float x; 
 	float y;
 

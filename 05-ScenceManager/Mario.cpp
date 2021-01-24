@@ -356,6 +356,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 							turle->timeDieTurle = GetTickCount();       //bat dau tinh time chet rua
 							turle->SetState(TURLE_STATE_DIE);
 						}
+						if (turle->GetState() == TURLE_STATE_FLY_RED)
+						{
+							turle->SetState(TURLE_STATE_WALKING);
+						}
 						turle->level = turle->level - 1;
 
 						//mario nhay len 1 doan nho

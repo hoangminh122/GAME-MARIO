@@ -17,6 +17,7 @@
 #define TURLE_STATE_DIE_OVER 400
 #define TURLE_STATE_REVERSE_DIE	500
 #define TURLE_STATE_FLY	600
+#define TURLE_STATE_FLY_RED	610
 
 
 #define TURLE_ANI_WALKING_LEFT 0
@@ -28,6 +29,7 @@
 #define TURLE_ANI_RED_WALKING_RIGHT 8
 #define TURLE_ANI_RED_DIE 7
 #define TURLE_ANI_RED_RUN_DIE 6
+#define TURLE_ANI_RED_FLY 9
 
 
 
@@ -41,6 +43,7 @@
 #define TURLE_COLOR_GREEN 1
 #define TURLE_COLOR_RED 2
 #define TURLE_COLOR_GREEN_NO_FLY 3
+#define TURLE_COLOR_RED_FLY 4
 
 #define TURLE_JUMP_DEFLECT_SPEED 0.22f
 #define TURLE_GRAVITY 0.002f
@@ -54,6 +57,7 @@ class CTurle : public CGameObject
 	virtual void Render();
 
 public:
+	DWORD timeFlyRed;
 	int nxx;                     //xac ding chieu 
 	CTurle(int type_ani);
 	int type;

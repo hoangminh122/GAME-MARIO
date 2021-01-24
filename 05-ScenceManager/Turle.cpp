@@ -18,6 +18,7 @@
 bool CTurle::isTreeStart = false;
 CTurle::CTurle(int type_ani)
 {
+	timeFlyRed = 0;
 	int nxx = -1;
 	type = type_ani;
 	untouchable = 0;
@@ -49,6 +50,12 @@ void CTurle::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	right = x + TURLE_BBOX_WIDTH;
 	bottom = y + TURLE_BBOX_HEIGHT;
 
+	if (this->GetState() == TURLE_STATE_FLY_RED && level == TURLE_LEVEL_FLY)								//rua chay xanh
+	{
+		vx = 0.0f;
+		x = 1862.0f;
+	}
+	
 	if (level == TURLE_LEVEL_NO_FLY)								//rua chay xanh
 	{
 		;
@@ -81,6 +88,12 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		vx = 0; vy = 0;
 	}
 
+	if (GetTickCount() - timeFlyRed > 800 && timeFlyRed != 0 && level == TURLE_LEVEL_FLY)
+	{
+		timeFlyRed = GetTickCount();
+		vy = -vy;
+	}
+
 	if (y != 0 && !isInitPos)
 	{
 		if (type == TURLE_COLOR_GREEN)						//tao do tren map
@@ -97,6 +110,16 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			SetState(TURLE_STATE_WALKING);
 			level = TURLE_LEVEL_NO_FLY;
 			color = 1;
+		}
+		else if (type == TURLE_COLOR_RED_FLY)						//tao do tren map
+		{
+			//SetState(TURLE_STATE_WALKING);
+			level = TURLE_LEVEL_FLY;
+			color = 2;
+			vy = -0.01f;
+			timeFlyRed = GetTickCount();
+			SetState(TURLE_STATE_FLY_RED);
+
 		}
 		else
 		{
@@ -160,7 +183,7 @@ void CTurle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		SetState(TURLE_STATE_RUN_DIE);
 	}
 	
-	if (this->GetState() != TURLE_STATE_DIE_OVER)
+	if (this->GetState() != TURLE_STATE_DIE_OVER && this->GetState() != TURLE_STATE_FLY_RED)
 	{
 		if (level == TURLE_LEVEL_FLY)
 			vy += TURLE_GRAVITY_SLOW * dt;
@@ -500,6 +523,10 @@ void CTurle::Render()
 				ani = TURLE_ANI_FLY;
 			}
 		}
+		else if (color == 2)
+		{
+				ani = TURLE_ANI_RED_FLY;
+		}
 	}
 	if (GetState() == TURLE_STATE_WALKING)
 	{
@@ -532,6 +559,17 @@ void CTurle::SetState(int state)
 		}
 		else
 			vx = -TURLE_WALKING_SPEED;
+	}
+	case TURLE_STATE_FLY_RED:
+	{
+		vy = 0.01f;
+		vx = 0.0f;
+		/*if (y > 210 && vy > 0.0f)
+		{
+			vy = -TURLE_WALKING_SPEED;
+		}
+		else if(y < 130 && vy < 0.0f)
+			vy = TURLE_WALKING_SPEED;*/
 	}
 		break;
 	case TURLE_STATE_RUN_DIE:

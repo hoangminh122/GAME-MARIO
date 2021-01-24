@@ -50,6 +50,34 @@ void CGrid::CalcColliableObjs(CCamera* camera, vector<LPGAMEOBJECT>& objs, vecto
 	int xBotRightCell = xBotRightCamera / cellSize;
 	int yBotRightCell = yBotRightCamera / cellSize;
 
+
+	for (int x = xTopLeftCell; x <= xBotRightCell; x++)
+	{
+		for (int y = yTopLeftCell; y <= yBotRightCell; y++)
+		{
+			Cell colliableCell = GetCell(x, y);
+
+			for (int i = 0; i < colliableCell.listObj.size(); i++)
+			{
+				if (colliableCell.listObj[i]->isInGrid)
+				{
+					if (objs.size() == 0)
+						objs.push_back(colliableCell.listObj[i]);
+					else
+					{
+						// Check if already have that obj in list
+						for (int j = 0; j < objs.size(); j++)
+						{
+							if (colliableCell.listObj[i] == objs[j])
+								break;
+							else if (j == objs.size() - 1)
+								objs.push_back(colliableCell.listObj[i]);
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 CGrid::~CGrid()
