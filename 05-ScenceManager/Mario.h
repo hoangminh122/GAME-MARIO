@@ -196,6 +196,7 @@ class CMario : public CGameObject
 	int energyCount;			//muc nang luong
 	int numCardImage;			//ramdom card ket thuc game
 public: 
+	int senceNextTo;
 	static CMario * __instance;
 
 	//man 1

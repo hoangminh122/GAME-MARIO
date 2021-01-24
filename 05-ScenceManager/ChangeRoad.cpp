@@ -1,7 +1,7 @@
 #include "ChangeRoad.h"
 
 
-CChangeRoad::CChangeRoad(int type_ani,int l,int t,int r,int b)
+CChangeRoad::CChangeRoad(int type_ani,int l,int t,int r,int b,int _senceNext)
 {
 	left = l;
 	top = t;
@@ -9,6 +9,8 @@ CChangeRoad::CChangeRoad(int type_ani,int l,int t,int r,int b)
 	bottom = b;
 	type = type_ani;
 	isInitPos = false;
+	isLive = true;
+	sceneNext = _senceNext;
 }
 
 void CChangeRoad::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -28,9 +30,13 @@ void CChangeRoad::Render()
 
 void CChangeRoad::GetBoundingBox(float &l, float &t, float &r, float &b)
 {
-	l = x;
-	t = y;
-	r = x + BRICK_BBOX_WIDTH;
-	b = y + BRICK_BBOX_HEIGHT;
+	if (isLive)
+	{
+		l = x;
+		t = y;
+		r = x + BRICK_BBOX_WIDTH;
+		b = y + BRICK_BBOX_HEIGHT;
+	}
+	
 }
 

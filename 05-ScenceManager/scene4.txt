@@ -1146,4 +1146,4 @@ tile-map1-4.txt	80	2576	272
 
 # --- SCENE PORTAL ----
 # type	l	t	ani_set_id	r	b	scene_id
-#50	2683	356	2	2680	2890	2
+50	2683	356	2	2680	2890	2	1
