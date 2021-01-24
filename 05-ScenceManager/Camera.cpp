@@ -49,7 +49,48 @@ void CCamera::Update(CMario* player) {
 	D3DXVECTOR3 pos = D3DXVECTOR3(cx, cy, 0);
 	SetPosition(pos);
 
-	if (CPortal::scene_id == 1)
+	if (CPortal::scene_id == 0)
+	{
+		pos = D3DXVECTOR3(200, 180, 0);
+		SetPosition(pos);
+		//if (GetBound().left < 0)
+		//{
+		//	//vi position cua Camera::GetInstance() ma chinh giua Camera::GetInstance()
+		//	//luc nay o vi tri goc ben trai cua the gioi thuc
+		//	SetPosition(GetWidth() / 2.0f, GetPosition().y);
+		//}
+
+		//if (GetBound().right > mapWidth)
+		//{
+		//	//luc nay cham goc ben phai cua the gioi thuc
+		//	SetPosition(mapWidth - GetWidth() / 2.0f, GetPosition().y);
+		//}
+
+	}
+	else if (CPortal::scene_id == 1)
+	{
+		pos = D3DXVECTOR3(0, 100, 0);
+		SetPosition(pos);
+		if (GetBound().left < 0)
+		{
+			//vi position cua Camera::GetInstance() ma chinh giua Camera::GetInstance()
+			//luc nay o vi tri goc ben trai cua the gioi thuc
+			SetPosition(GetWidth() / 2.0f, GetPosition().y);
+		}
+
+		if (GetBound().right > mapWidth)
+		{
+			//luc nay cham goc ben phai cua the gioi thuc
+			SetPosition(mapWidth - GetWidth() / 2.0f, GetPosition().y);
+		}
+
+	}
+	/*else if (CPortal::is_start == 0)
+	{
+		pos = D3DXVECTOR3(200, 170, 0);
+		SetPosition(pos);
+	}*/
+	else if (CPortal::scene_id == 2)
 	{
 		pos = D3DXVECTOR3(0, 100, 0);
 		SetPosition(pos);

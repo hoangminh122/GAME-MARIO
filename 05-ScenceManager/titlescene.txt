@@ -101,6 +101,8 @@ worldmap1.txt	80	256	176
 10005	95	5	110	29	0
 10006	95	44	110	68	0
 #idle big lua
+#mui ten
+10007	268	380	276	391	40
 
 					
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
@@ -116,6 +118,7 @@ worldmap1.txt	80	256	176
 400	10001	100
 401	10003	100	10004	100
 402	10005	100	10006	100
+403	10007	100
 
 # ==== BUSH =========
 # stand
@@ -140,7 +143,7 @@ worldmap1.txt	80	256	176
 
 
 # MARIO
-1	400	401	402
+1	400	401	402	403
 
 # HAMMER
 3	20001
@@ -166,4 +169,4 @@ worldmap1.txt	80	256	176
 
 # --- SCENE PORTAL ----
 # type	l	t	ani_set_id	r	b	scene_id	start
-50	395	36	1	410	46	1	0
+50	395	36	1	410	46	0	1

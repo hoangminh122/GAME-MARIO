@@ -226,7 +226,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		vy = 0.002f * dt;
 	}
-	else if(CPortal::scene_id != 1)
+	else if(CPortal::scene_id != 1 && CPortal::scene_id != 0)
 	{
 		vy += MARIO_GRAVITY * dt;
 	}
@@ -245,7 +245,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	
 	if (this->GetState() !=MARIO_STATE_DIE)
 		CalcPotentialCollisions(coObjects, coEvents);
-	if (this->GetState() == MARIO_STATE_DIE ||(y >430 && goBottom ==false))
+	if (this->GetState() == MARIO_STATE_DIE ||(y >430 && goBottom ==false) )
 	{
 		vx = 0; vy = 0;
 		if (sence_id == 4)
@@ -914,8 +914,12 @@ if (GetTickCount() - timeOverGame > 2000 && timeOverGame != 0)
 
 void CMario::Render()
 {
-	/*int ani = MARIO_ANI_SMALL_IDLE_RIGHT; */            
-	if (this->GetState() == MARIO_STATE_DIE)
+	/*int ani = MARIO_ANI_SMALL_IDLE_RIGHT; */ 
+	if (CPortal::scene_id == 0)
+	{
+		ani = 3;
+	}
+	else if (this->GetState() == MARIO_STATE_DIE)
 		ani = MARIO_ANI_DIE;
 	else if (level == MARIO_LEVEL_BIG)
 	{

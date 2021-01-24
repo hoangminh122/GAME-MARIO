@@ -486,7 +486,11 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_S:
-		if (CPortal::scene_id == 1)
+		if (CPortal::scene_id == 0)
+		{
+			CGame::GetInstance()->SwitchScene(1);
+		}
+		else if (CPortal::scene_id == 1)
 		{
 			CGame::GetInstance()->SwitchScene(mario->senceNextTo);
 		}
@@ -538,7 +542,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	}
 	case DIK_DOWN:
 	{
-		/*if (CPortal::is_start == 0)
+		if (CPortal::scene_id == 0)
 		{
 			if (mario->bottom == 1)
 			{
@@ -550,8 +554,8 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		else if (CPortal::scene_id == 1)
 		{
 			if (mario->bottom == 1)
-				mario->vy += 0.3f;
-		}*/
+				mario->vy = 0.3f;
+		}
 
 		mario->pressDown = true;
 
@@ -571,7 +575,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		else if (CPortal::scene_id == 1)
 		{
 			if (mario->top == 1)
-				mario->vy -= 0.3f;
+				mario->vy = -0.5f;
 		}
 		break;
 	}
@@ -602,359 +606,364 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 {
 	CMario *mario = ((CPlayScene*)scence)->GetPlayer();
-	switch (KeyCode)
-	{
 	
-	case DIK_1:
-		mario->SetLevel(MARIO_LEVEL_SMALL);
-		mario->SetPosition(mario->x, mario->y + MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT);
-		break;
-	case DIK_2:
-		if (mario->GetLevel() == MARIO_LEVEL_SMALL)
-			mario->SetPosition(mario->x, mario->y - (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT));
-		else
-			mario->SetPosition(mario->x, mario->y);
-		mario->SetLevel(MARIO_LEVEL_BIG);
-		break;
-	case DIK_3:
-		if (mario->GetLevel() == MARIO_LEVEL_SMALL)
-			mario->SetPosition(mario->x, mario->y -1- (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT));
-		else
-			mario->SetPosition(mario->x, mario->y - 1);
-		mario->SetLevel(MARIO_LEVEL_TAIL_BIG);
-		break;
-	case DIK_4:
-		if (mario->GetLevel() == MARIO_LEVEL_SMALL)
-			mario->SetPosition(mario->x, mario->y - (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT));
-		else
-			mario->SetPosition(mario->x, mario->y - 1);
-		mario->SetLevel(MARIO_LEVEL_FIRE_BIG);
-		break;
-	case DIK_DOWN:
-		mario->pressDown = false;
-		if (CPortal::scene_id == 1)
+		switch (KeyCode)
 		{
-			mario->vy = 0.5f;
-		}
-		/*else
-		{
-			mario->SetPosition(mario->x, mario->y - (MARIO_BIG_BBOX_HEIGHT - MARIO_BIG_DOWN_BBOX_HEIGHT)-2.0f);
-			mario->SetState(MARIO_STATE_IDLE);
-		}*/
-		
-		break;
-	/*case DIK_D:
-		mario->SetPosition(mario->x, mario->y - 120);
-		break;*/
-	case DIK_A:
-		if (mario->GetLevel() == MARIO_LEVEL_FIRE_BIG)
-		{
-			
-		//CBulletMario::timeBulletStart = true;
-		}
-		if (mario->isHold)
-		{
-			mario->isMarioDropTurle = true;
-			mario->timeKickStart = GetTickCount();
-			mario->isHold = false;      //khong cam rua
-		}
-		mario->isHold = false;      //khong cam rua
-		mario->pressS = false;
-		mario->pressA = false;
-		mario->timeWaitingAttackNext = 0;			//xoa trang thai waiting -> bat dau lai
-		//mario->isAttackNext = true;								//duoc tan cong
-		mario->isRotatory180 = false;
-		mario->timeRotatoryStart = 0;
-		//mario->timePrepareRunFast = mario->timePrepareRunFast + (mario->saveTimeRunCurrent- mario->timePrepareRunFast);
-		break;
-		
-	case DIK_S:
-		mario->jumpHigher = false;
-		break;
-	case DIK_UP:
-		mario->pressUp = false;
-		mario->vy = 0.0f;
-		break;
-	case DIK_X:
-		mario->pressX = true;
-		if (mario->level == MARIO_LEVEL_TAIL_BIG)
-		{
-			mario->SetState(MARIO_STATE_IDLE);
-			mario->gravityFly = false;
-		}
-		break;
-		
-	}
 
+		case DIK_1:
+			mario->SetLevel(MARIO_LEVEL_SMALL);
+			mario->SetPosition(mario->x, mario->y + MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT);
+			break;
+		case DIK_2:
+			if (mario->GetLevel() == MARIO_LEVEL_SMALL)
+				mario->SetPosition(mario->x, mario->y - (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT));
+			else
+				mario->SetPosition(mario->x, mario->y);
+			mario->SetLevel(MARIO_LEVEL_BIG);
+			break;
+		case DIK_3:
+			if (mario->GetLevel() == MARIO_LEVEL_SMALL)
+				mario->SetPosition(mario->x, mario->y - 1 - (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT));
+			else
+				mario->SetPosition(mario->x, mario->y - 1);
+			mario->SetLevel(MARIO_LEVEL_TAIL_BIG);
+			break;
+		case DIK_4:
+			if (mario->GetLevel() == MARIO_LEVEL_SMALL)
+				mario->SetPosition(mario->x, mario->y - (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT));
+			else
+				mario->SetPosition(mario->x, mario->y - 1);
+			mario->SetLevel(MARIO_LEVEL_FIRE_BIG);
+			break;
+		case DIK_DOWN:
+			mario->pressDown = false;
+			if (CPortal::scene_id == 1)
+			{
+				mario->vy = 0.0f;
+			}
+			/*else
+			{
+				mario->SetPosition(mario->x, mario->y - (MARIO_BIG_BBOX_HEIGHT - MARIO_BIG_DOWN_BBOX_HEIGHT)-2.0f);
+				mario->SetState(MARIO_STATE_IDLE);
+			}*/
+
+			break;
+			/*case DIK_D:
+				mario->SetPosition(mario->x, mario->y - 120);
+				break;*/
+		case DIK_A:
+			if (mario->GetLevel() == MARIO_LEVEL_FIRE_BIG)
+			{
+
+				//CBulletMario::timeBulletStart = true;
+			}
+			if (mario->isHold)
+			{
+				mario->isMarioDropTurle = true;
+				mario->timeKickStart = GetTickCount();
+				mario->isHold = false;      //khong cam rua
+			}
+			mario->isHold = false;      //khong cam rua
+			mario->pressS = false;
+			mario->pressA = false;
+			mario->timeWaitingAttackNext = 0;			//xoa trang thai waiting -> bat dau lai
+			//mario->isAttackNext = true;								//duoc tan cong
+			mario->isRotatory180 = false;
+			mario->timeRotatoryStart = 0;
+			//mario->timePrepareRunFast = mario->timePrepareRunFast + (mario->saveTimeRunCurrent- mario->timePrepareRunFast);
+			break;
+
+		case DIK_S:
+			mario->jumpHigher = false;
+			break;
+		case DIK_UP:
+			mario->pressUp = false;
+			mario->vy = 0.0f;
+			break;
+
+		case DIK_X:
+			mario->pressX = true;
+			if (mario->level == MARIO_LEVEL_TAIL_BIG)
+			{
+				mario->SetState(MARIO_STATE_IDLE);
+				mario->gravityFly = false;
+			}
+			break;
+
+		}
+	
 }
 
 void CPlayScenceKeyHandler::KeyState(BYTE *states)
 {
-	CGame *game = CGame::GetInstance();
-	CMario *mario = ((CPlayScene*)scence)->GetPlayer();
-	if (game->IsKeyDown(DIK_A)) {
-		if (mario->isHold)
-		{
-			mario->SetState(MARIO_STATE_HOLD_TURTLE);
-		}
-		else if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG )    //set truong hop ko cam rua
-		{
-				mario->isRotatory180 = true;
-		}
-		else if (mario->GetLevel() == MARIO_LEVEL_FIRE_BIG)
-		{
-			//set position dan mario
-			if(mario->nx<0)
-				CBulletMario::nxBullet = -1;
-			else
-				CBulletMario::nxBullet = 1;
-			CBulletMario::timeBulletStart = GetTickCount();
-			//CBulletMario::isStart = true;
-			CBulletMario::isSetPosition = true;
-			mario->GetPosition(CBulletMario::x0, CBulletMario::y0);
-
-			mario->SetState(MARIO_STATE_BULLET_IDLE);
-		}
-
-	}
-	if (game->IsKeyDown(DIK_UP))
+	if (CPortal::scene_id != 0 && CPortal::scene_id != 1)
 	{
-		if (mario->sence_id == 1)
-			mario->pressUp = true;
-		/*if (CPortal::scene_id == 1)
-		{
-			if(mario->top == 1)
-				mario->vy -= 0.05f;
-		}*/
-	}
-	if (game->IsKeyDown(DIK_X))
-	{
-		mario->pressX = true;
-		if (mario->level == MARIO_LEVEL_TAIL_BIG)
-		{
-			if (mario->energyFull == true)
+		CGame *game = CGame::GetInstance();
+		CMario *mario = ((CPlayScene*)scence)->GetPlayer();
+		if (game->IsKeyDown(DIK_A)) {
+			if (mario->isHold)
 			{
-				mario->vy = -0.12f;			//0.15
-				mario->SetState(MARIO_STATE_FLY);
-			}
-			else
-			{
-				mario->gravityFly = true;
-				mario->SetState(MARIO_STATE_FLY_SHORT);
-			}
-			
-		}
-	}
-	// disable control key when Mario die 
-	if (mario->GetState() == MARIO_STATE_DIE) return;
-	
-	if (game->IsKeyDown(DIK_S))
-	{
-
-		if (game->IsKeyDown(DIK_UP) && mario->goUpCol)
-		{
-			 mario->vy = -0.05f;
-			//mario->vy =- MARIO_JUMP_SPEED_HIGHER_Y;
-			 mario->timeGoCol = GetTickCount();
-			mario->SetState(MARIO_STATE_GO_COL);
-		}
-		//else
-		else if(mario->GetState() != MARIO_STATE_GO_COL)
-		{
-			if (CPortal::scene_id != 1)
-			{
-				//mario->jumpHigher = true;         //dang o trang thai nhan giu phim S
-				mario->SetState(MARIO_STATE_JUMP_NORMAL);
-				if (GetTickCount() - timeJumpStart > 150 && GetTickCount() - timeJumpStart < 200 && timeJumpStart != 0)
-				{
-					DebugOut(L"shgdhAAAAAAAAAAAAAAAAAAAAs%dsss%f\n", GetTickCount() - timeJumpStart, mario->vy);
-					//if(mario->jumpHigher ==false)
-					mario->vy -= MARIO_JUMP_SPEED_HIGHER_Y;
-					mario->jumpHigher = true;
-				}
-			}
-		}
-	}
-	if (mario->GetState() == MARIO_STATE_KICK)
-		mario->SetState(MARIO_STATE_KICK);
-	else if (game->IsKeyDown(DIK_DOWN))
-	{
-
-		//else if (CPortal::scene_id != 1)
-		//	mario->SetState(MARIO_STATE_DOWN);
-
-
-	}
-	else if (game->IsKeyDown(DIK_RIGHT)) {
-		if (CPortal::scene_id != 1)
-		{
-			mario->nx = 1;
-			if (game->IsKeyDown(DIK_A))
-			{
-				if (mario->GetState() == MARIO_STATE_WALKING)
-				{
-					mario->timePrepareRunFast = GetTickCount();
-					//mario->timePrepareRunFast = GetTickCount()+ mario->saveTimeRunCurrent;							//bat dau dem time chay nhanh
-				}
-				//cam rua
-				if (mario->vx <= MARIO_RUN_NORMAL_SPEED)
-					mario->vx += 0.008f;
-			}
-
-			else if (game->IsKeyDown(DIK_X))
-			{
-
-				if (mario->GetState() == MARIO_STATE_FLY)
-				{
-					//mario->SetState(MARIO_STATE_FLY);
-				}
-
-			}
-			else if (mario->vx < MARIO_WALKING_SPEED)
-				mario->vx += MARIO_WALKING_ADD_SPEED;
-
-			//phanh
-			if (mario->vx < 0)
-			{
-				if (!mario->isHold)						//nhan giu A ma dang cam rua  trang thai mario cam rua
-				{
-					mario->SetState(MARIO_STATE_BRAKE);
-				}
-			}
-			else
-			{
-				if (mario->pressA)						//nhan giu A trang thai mario chay
-				{
-					if (mario->isHold)						//nhan giu A ma dang cam rua  trang thai mario cam rua
-					{
-						if (mario->vx > MARIO_WALKING_SPEED)
-							mario->SetState(MARIO_STATE_RUN_HOLD_TURTLE);
-						else
-							mario->SetState(MARIO_STATE_HOLD_TURTLE);
-
-					}
-					else if (mario->GetState() == MARIO_STATE_FLY)
-					{
-						mario->SetState(MARIO_STATE_FLY);
-					}
-					else if (mario->GetState() == MARIO_STATE_RUN)					//vx > 0.15 ->state PREPARE_FLY
-					{
-						if (mario->vx >= MARIO_RUN_NORMAL_SPEED - 0.01f)
-						{
-							/*mario->timePrepareFly = GetTickCount();
-							mario->SetState(MARIO_STATE_PREPARE_FLY);*/
-						}
-					}
-
-					else if (mario->vx > 0 && mario->vx < MARIO_RUN_NORMAL_SPEED && mario->checkMarioColision)											//check truong hop khi van toc >0 va <0.15-> state run 
-						mario->SetState(MARIO_STATE_RUN);
-				}
-				else
-				{
-					if (mario->GetState() == MARIO_STATE_FLY)
-					{
-						mario->SetState(MARIO_STATE_FLY);
-					}
-					else if (mario->checkMarioColision) {			//va cham gach moi co trang thai di bo
-						mario->SetState(MARIO_STATE_WALKING);
-					}
-				}
-			}
-		}
-	}
-	else if (game->IsKeyDown(DIK_LEFT)) {
-		if (CPortal::scene_id != 1)
-		{
-			mario->nx = -1;
-
-			if (game->IsKeyDown(DIK_A))
-			{
-				if (mario->GetState() == MARIO_STATE_WALKING)
-				{
-					mario->timePrepareRunFast = GetTickCount();		//khi nhan A thi + cdon  1 khoangr thoi gian da chay truoc do
-				}
-				if (mario->vx >= -MARIO_RUN_NORMAL_SPEED)
-					mario->vx -= 0.008f;
-			}
-			else if (mario->vx > -MARIO_WALKING_SPEED)
-				mario->vx -= MARIO_WALKING_ADD_SPEED;
-
-			//phanh
-			if (mario->vx > 0) {
-				if (!mario->isHold)						//nhan giu A ma dang cam rua  trang thai mario cam rua
-				{
-					mario->SetState(MARIO_STATE_BRAKE);
-				}
-			}
-			else
-			{
-				if (mario->pressA)
-				{
-					if (mario->isHold)						//nhan giu A ma dang cam rua  trang thai mario cam rua
-					{
-						if (mario->vx < -MARIO_WALKING_SPEED)
-							mario->SetState(MARIO_STATE_RUN_HOLD_TURTLE);
-						else
-							mario->SetState(MARIO_STATE_HOLD_TURTLE);
-					}
-					else if (mario->GetState() == MARIO_STATE_RUN)					//vx > 0.15 ->state PREPARE_FLY
-					{
-						if (mario->vx <= -MARIO_RUN_NORMAL_SPEED + 0.01f)
-						{
-							/*mario->timePrepareFly = GetTickCount();
-							mario->SetState(MARIO_STATE_PREPARE_FLY);*/
-						}
-					}
-					else if (mario->vx < 0 && mario->vx > -MARIO_RUN_NORMAL_SPEED && mario->checkMarioColision)
-						mario->SetState(MARIO_STATE_RUN);
-				}
-				else
-				{
-					if (mario->checkMarioColision)				//va cham gach moi co trang thai di bo
-						mario->SetState(MARIO_STATE_WALKING);
-				}
-			}
-		}
-		
-	}
-
-	else if (mario->checkMarioColision && mario->GetState() != MARIO_STATE_GO_COL)
-	{
-		if (mario->pressA && mario->isHold)						//nhan giu A ma dang cam rua  trang thai mario cam rua
-		{
-			if (mario->vx != 0.0f)
-			{
-				//mario->SetState(MARIO_STATE_HOLD_TURTLE);
-			}
-			else
 				mario->SetState(MARIO_STATE_HOLD_TURTLE);
-		}
-		else if (!mario->isRotatory180)
-		{
-			if (mario->goUpCol && mario->goBottom && mario->vy <=0)
+			}
+			else if (mario->GetLevel() == MARIO_LEVEL_TAIL_BIG)    //set truong hop ko cam rua
 			{
+				mario->isRotatory180 = true;
+			}
+			else if (mario->GetLevel() == MARIO_LEVEL_FIRE_BIG)
+			{
+				//set position dan mario
+				if (mario->nx < 0)
+					CBulletMario::nxBullet = -1;
+				else
+					CBulletMario::nxBullet = 1;
+				CBulletMario::timeBulletStart = GetTickCount();
+				//CBulletMario::isStart = true;
+				CBulletMario::isSetPosition = true;
+				mario->GetPosition(CBulletMario::x0, CBulletMario::y0);
+
+				mario->SetState(MARIO_STATE_BULLET_IDLE);
+			}
+
+		}
+		if (game->IsKeyDown(DIK_UP))
+		{
+			if (mario->sence_id == 1)
+				mario->pressUp = true;
+			/*if (CPortal::scene_id == 1)
+			{
+				if(mario->top == 1)
+					mario->vy -= 0.05f;
+			}*/
+		}
+		if (game->IsKeyDown(DIK_X))
+		{
+			mario->pressX = true;
+			if (mario->level == MARIO_LEVEL_TAIL_BIG)
+			{
+				if (mario->energyFull == true)
+				{
+					mario->vy = -0.12f;			//0.15
+					mario->SetState(MARIO_STATE_FLY);
+				}
+				else
+				{
+					mario->gravityFly = true;
+					mario->SetState(MARIO_STATE_FLY_SHORT);
+				}
+
+			}
+		}
+		// disable control key when Mario die 
+		if (mario->GetState() == MARIO_STATE_DIE) return;
+
+		if (game->IsKeyDown(DIK_S))
+		{
+
+			if (game->IsKeyDown(DIK_UP) && mario->goUpCol)
+			{
+				mario->vy = -0.05f;
+				//mario->vy =- MARIO_JUMP_SPEED_HIGHER_Y;
+				mario->timeGoCol = GetTickCount();
 				mario->SetState(MARIO_STATE_GO_COL);
 			}
-			else
+			//else
+			else if (mario->GetState() != MARIO_STATE_GO_COL)
 			{
-				mario->SetState(MARIO_STATE_IDLE);
-				mario->goUpCol = false;
+				if (CPortal::scene_id != 1)
+				{
+					//mario->jumpHigher = true;         //dang o trang thai nhan giu phim S
+					mario->SetState(MARIO_STATE_JUMP_NORMAL);
+					if (GetTickCount() - timeJumpStart > 150 && GetTickCount() - timeJumpStart < 200 && timeJumpStart != 0)
+					{
+						DebugOut(L"shgdhAAAAAAAAAAAAAAAAAAAAs%dsss%f\n", GetTickCount() - timeJumpStart, mario->vy);
+						//if(mario->jumpHigher ==false)
+						mario->vy -= MARIO_JUMP_SPEED_HIGHER_Y;
+						mario->jumpHigher = true;
+					}
+				}
+			}
+		}
+		if (mario->GetState() == MARIO_STATE_KICK)
+			mario->SetState(MARIO_STATE_KICK);
+		else if (game->IsKeyDown(DIK_DOWN))
+		{
+
+			//else if (CPortal::scene_id != 1)
+			//	mario->SetState(MARIO_STATE_DOWN);
+
+
+		}
+		else if (game->IsKeyDown(DIK_RIGHT)) {
+			if (CPortal::scene_id != 1)
+			{
+				mario->nx = 1;
+				if (game->IsKeyDown(DIK_A))
+				{
+					if (mario->GetState() == MARIO_STATE_WALKING)
+					{
+						mario->timePrepareRunFast = GetTickCount();
+						//mario->timePrepareRunFast = GetTickCount()+ mario->saveTimeRunCurrent;							//bat dau dem time chay nhanh
+					}
+					//cam rua
+					if (mario->vx <= MARIO_RUN_NORMAL_SPEED)
+						mario->vx += 0.008f;
+				}
+
+				else if (game->IsKeyDown(DIK_X))
+				{
+
+					if (mario->GetState() == MARIO_STATE_FLY)
+					{
+						//mario->SetState(MARIO_STATE_FLY);
+					}
+
+				}
+				else if (mario->vx < MARIO_WALKING_SPEED)
+					mario->vx += MARIO_WALKING_ADD_SPEED;
+
+				//phanh
+				if (mario->vx < 0)
+				{
+					if (!mario->isHold)						//nhan giu A ma dang cam rua  trang thai mario cam rua
+					{
+						mario->SetState(MARIO_STATE_BRAKE);
+					}
+				}
+				else
+				{
+					if (mario->pressA)						//nhan giu A trang thai mario chay
+					{
+						if (mario->isHold)						//nhan giu A ma dang cam rua  trang thai mario cam rua
+						{
+							if (mario->vx > MARIO_WALKING_SPEED)
+								mario->SetState(MARIO_STATE_RUN_HOLD_TURTLE);
+							else
+								mario->SetState(MARIO_STATE_HOLD_TURTLE);
+
+						}
+						else if (mario->GetState() == MARIO_STATE_FLY)
+						{
+							mario->SetState(MARIO_STATE_FLY);
+						}
+						else if (mario->GetState() == MARIO_STATE_RUN)					//vx > 0.15 ->state PREPARE_FLY
+						{
+							if (mario->vx >= MARIO_RUN_NORMAL_SPEED - 0.01f)
+							{
+								/*mario->timePrepareFly = GetTickCount();
+								mario->SetState(MARIO_STATE_PREPARE_FLY);*/
+							}
+						}
+
+						else if (mario->vx > 0 && mario->vx < MARIO_RUN_NORMAL_SPEED && mario->checkMarioColision)											//check truong hop khi van toc >0 va <0.15-> state run 
+							mario->SetState(MARIO_STATE_RUN);
+					}
+					else
+					{
+						if (mario->GetState() == MARIO_STATE_FLY)
+						{
+							mario->SetState(MARIO_STATE_FLY);
+						}
+						else if (mario->checkMarioColision) {			//va cham gach moi co trang thai di bo
+							mario->SetState(MARIO_STATE_WALKING);
+						}
+					}
+				}
+			}
+		}
+		else if (game->IsKeyDown(DIK_LEFT)) {
+			if (CPortal::scene_id != 1)
+			{
+				mario->nx = -1;
+
+				if (game->IsKeyDown(DIK_A))
+				{
+					if (mario->GetState() == MARIO_STATE_WALKING)
+					{
+						mario->timePrepareRunFast = GetTickCount();		//khi nhan A thi + cdon  1 khoangr thoi gian da chay truoc do
+					}
+					if (mario->vx >= -MARIO_RUN_NORMAL_SPEED)
+						mario->vx -= 0.008f;
+				}
+				else if (mario->vx > -MARIO_WALKING_SPEED)
+					mario->vx -= MARIO_WALKING_ADD_SPEED;
+
+				//phanh
+				if (mario->vx > 0) {
+					if (!mario->isHold)						//nhan giu A ma dang cam rua  trang thai mario cam rua
+					{
+						mario->SetState(MARIO_STATE_BRAKE);
+					}
+				}
+				else
+				{
+					if (mario->pressA)
+					{
+						if (mario->isHold)						//nhan giu A ma dang cam rua  trang thai mario cam rua
+						{
+							if (mario->vx < -MARIO_WALKING_SPEED)
+								mario->SetState(MARIO_STATE_RUN_HOLD_TURTLE);
+							else
+								mario->SetState(MARIO_STATE_HOLD_TURTLE);
+						}
+						else if (mario->GetState() == MARIO_STATE_RUN)					//vx > 0.15 ->state PREPARE_FLY
+						{
+							if (mario->vx <= -MARIO_RUN_NORMAL_SPEED + 0.01f)
+							{
+								/*mario->timePrepareFly = GetTickCount();
+								mario->SetState(MARIO_STATE_PREPARE_FLY);*/
+							}
+						}
+						else if (mario->vx < 0 && mario->vx > -MARIO_RUN_NORMAL_SPEED && mario->checkMarioColision)
+							mario->SetState(MARIO_STATE_RUN);
+					}
+					else
+					{
+						if (mario->checkMarioColision)				//va cham gach moi co trang thai di bo
+							mario->SetState(MARIO_STATE_WALKING);
+					}
+				}
 			}
 
 		}
-		//chỉnh tốc dộ mario giảm dần -> 0 khi ở trên nên đất
-		if (mario->vx > 0 && mario->checkMarioColision == true)
+
+		else if (mario->checkMarioColision && mario->GetState() != MARIO_STATE_GO_COL)
 		{
-			mario->vx -= MARIO_WALKING_ADD_SPEED;
-			if (mario->vx < 0)
-				mario->vx = 0.0f;
+			if (mario->pressA && mario->isHold)						//nhan giu A ma dang cam rua  trang thai mario cam rua
+			{
+				if (mario->vx != 0.0f)
+				{
+					//mario->SetState(MARIO_STATE_HOLD_TURTLE);
+				}
+				else
+					mario->SetState(MARIO_STATE_HOLD_TURTLE);
+			}
+			else if (!mario->isRotatory180)
+			{
+				if (mario->goUpCol && mario->goBottom && mario->vy <= 0)
+				{
+					mario->SetState(MARIO_STATE_GO_COL);
+				}
+				else
+				{
+					mario->SetState(MARIO_STATE_IDLE);
+					mario->goUpCol = false;
+				}
+
+			}
+			//chỉnh tốc dộ mario giảm dần -> 0 khi ở trên nên đất
+			if (mario->vx > 0 && mario->checkMarioColision == true)
+			{
+				mario->vx -= MARIO_WALKING_ADD_SPEED;
+				if (mario->vx < 0)
+					mario->vx = 0.0f;
+			}
+			if (mario->vx < 0 && mario->checkMarioColision == true)
+			{
+				mario->vx += MARIO_WALKING_ADD_SPEED;
+				if (mario->vx > 0)
+					mario->vx = 0.0f;
+			}
+
 		}
-		if (mario->vx < 0 && mario->checkMarioColision == true)
-		{
-			mario->vx += MARIO_WALKING_ADD_SPEED;
-			if (mario->vx > 0)
-				mario->vx = 0.0f;
-		}
-	
 	}
 }
