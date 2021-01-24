@@ -81,7 +81,7 @@ int CScores::SetImageCard(int type) {
 
 void CScores::Render()
 {
-	if (CPortal::is_start != 0)
+	if (CPortal::scene_id != 0)
 	{
 
 		//get camera

@@ -49,7 +49,7 @@ void CCamera::Update(CMario* player) {
 	D3DXVECTOR3 pos = D3DXVECTOR3(cx, cy, 0);
 	SetPosition(pos);
 
-	if (CPortal::scene_id == 1 && CPortal::is_start != 0)
+	if (CPortal::scene_id == 1)
 	{
 		pos = D3DXVECTOR3(0, 100, 0);
 		SetPosition(pos);
@@ -67,11 +67,11 @@ void CCamera::Update(CMario* player) {
 		}
 
 	}
-	else if (CPortal::is_start == 0)
+	/*else if (CPortal::is_start == 0)
 	{
 		pos = D3DXVECTOR3(200, 170, 0);
 		SetPosition(pos);
-	}
+	}*/
 	else
 	{
 		//di chuyen camera follow theo mario

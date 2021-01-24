@@ -185,7 +185,6 @@
 
 class CMario : public CGameObject
 {
-	static CMario * __instance;
 	int untouchable;
 	DWORD untouchable_start;
 	float start_x;			// initial position of Mario at scene
@@ -197,6 +196,9 @@ class CMario : public CGameObject
 	int energyCount;			//muc nang luong
 	int numCardImage;			//ramdom card ket thuc game
 public: 
+	int senceNextTo;
+	static CMario * __instance;
+
 	//man 1
 	int left, top, right, bottom;
 	//man 1

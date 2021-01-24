@@ -56,6 +56,7 @@ CMario *CMario::GetInstance(float x, float y,int sence)
 
 CMario::CMario(float x, float y,int sence) : CGameObject()
 {
+	senceNextTo = 1;
 	goDownCol = false;
 	sence_id = sence;
 	left = top = right = bottom = 1;
@@ -113,7 +114,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	if (GetState() == MARIO_STATE_GO_COL)
 	{
-		vy = 0.01f;
+		if(goUpCol)
+			vy = -0.05f;
+		else
+			vy = 0.02f;
 	}
 	DebugOut(L"statestateastsggsgsasss%d\n",GetState());
 	//truong hop mario tha rua ko cam nua -> da luon
@@ -693,6 +697,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				right = changeRoad->right;
 				bottom = changeRoad->bottom;
 
+				//set chet
+					senceNextTo = changeRoad->sceneNext;
+					int i = 0;
+					int d = 0;
+
 
 			} // if bullet dan bay
 		
@@ -775,7 +784,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						goBottom = false;		//camera di chuyen  xuong tren duong ong
 						x = 2324;
 						y = 370;
-						vy = 0.1f;
+						vy = -0.1f;
 						vx = 0.0f;
 					}
 					
@@ -812,7 +821,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 				else if (e->ny < 0 && switchCol->type == 4) //di xuong
 				{
-					
 						timeGoDownCol = GetTickCount();
 						this->SetState(MARIO_STATE_GO_COL);
 						goBottom = true;  //camera di chuyen  xuong duoi duong ong
@@ -820,6 +828,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						y = 473;
 						vy = 0.01f;
 						vx = 0.0f;
+
 					
 				}
 				
@@ -840,10 +849,20 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 			} // if brickTop
 
-			else if (dynamic_cast<CPortal *>(e->obj))
+			if (dynamic_cast<CPortal *>(e->obj))
 			{
 				CPortal *p = dynamic_cast<CPortal *>(e->obj);
-				CGame::GetInstance()->SwitchScene(p->GetSceneId());
+				if (CPortal::scene_id == 1)
+				{
+					x = p->x;
+					y = p->y;
+					vy = vx = 0.0f;
+					senceNextTo = p->is_start;
+				}
+				else
+				{
+					CGame::GetInstance()->SwitchScene(p->GetSceneId());
+				}
 			}
 		}
 	
@@ -1408,7 +1427,7 @@ void CMario::Render()
 		animation_set->at(ani)->Render(x, y, alpha);
 	}
 
-	if(CPortal::is_start != 0)
+	if(CPortal::scene_id != 0)
 		RenderBoundingBox();
 }
 
