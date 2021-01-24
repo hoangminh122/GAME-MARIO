@@ -209,6 +209,7 @@ public:
 	bool goDownCol;
 	bool goBottom;							//mario di vao duong ong
 	bool gravityFly;                      //quat duoi roi cham hon
+	DWORD timeOverGame;
 	DWORD timeFly;							//time fly
 	DWORD timeGoCol;							//time di vao duong ong
 	bool energyFull;
@@ -248,6 +249,7 @@ public:
 	bool checkMarioColision;
 	static bool isFire;
 public: 
+	bool isOverGame;
 	DWORD timeGoDownCol;
 	int sence_id;
 	bool pressDown;

@@ -56,6 +56,8 @@ CMario *CMario::GetInstance(float x, float y,int sence)
 
 CMario::CMario(float x, float y,int sence) : CGameObject()
 {
+	timeOverGame = 0;
+	isOverGame = false;
 	senceNextTo = 1;
 	goDownCol = false;
 	sence_id = sence;
@@ -126,6 +128,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		//timeKickStart = GetTickCount();   //TIME DA CUA MARIO
 		SetState(MARIO_STATE_KICK);
 	}
+	
 
 	if (GetTickCount() - timeFly > MARIO_TIME_FLY && timeFly != 0)
 	{
@@ -870,6 +873,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					CTextEndGame::isShow = true;
 					card->ani = 1;
 					card->isDie = true;
+					isOverGame = true;
+					timeOverGame = GetTickCount();
 
 				}
 
@@ -892,6 +897,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			}
 		}
 	
+}
+if (GetTickCount() - timeOverGame > 2000 && timeOverGame != 0)
+{
+	timeOverGame = 0;
+	CGame::GetInstance()->SwitchScene(1);
+
 }
 
 	// clean up collision events

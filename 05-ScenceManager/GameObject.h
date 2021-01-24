@@ -51,7 +51,7 @@ private:
 
 public:
 
-	bool isInGrid = true;
+	//bool isInGrid = true;
 	float x; 
 	float y;
 
