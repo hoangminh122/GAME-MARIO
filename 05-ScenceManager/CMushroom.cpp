@@ -9,6 +9,7 @@
 #include "Goomba.h"
 #include "BackgroundDie.h"
 #include "Mario.h"
+#include "Portal.h"
 
 CMushroom * CMushroom::_instance = NULL;
 CMushroom *CMushroom::GetInstance(int type)
@@ -34,7 +35,7 @@ CMushroom::CMushroom(int type_ani) : CGameObject()
 //}
 void CMushroom::Render()
 {
-	if (GetState() != MUSHROOM_STATE_DIE_OVER && isMove)
+	//if (GetState() != MUSHROOM_STATE_DIE_OVER && isMove)
 	{
 		if (type == 1)
 			ani = MUSHROOM_ANI_GREEN;
@@ -70,14 +71,24 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	else if (isMove)				//vij tri money ==vi tri mario va cham
 	{
 		vy = -0.02f ;
+		if(CPortal::scene_id == 4)
+			vy = -0.095f;
 		if (y < yStatic- MUSHROOM_BBOX_HEIGHT-1)
 		{
 			noMushroom = false;			//co 1 com nam ->mario chuan bi bat
 			int ramdom = rand() % ((1 - 0) + 1) + 0;  //ramdom 0 va 1 //rand()%((userEnd - userBeg) + 1) + userBeg; 
 			if (ramdom == 0)
+			{
 				vx = -0.1f;
+				if (CPortal::scene_id == 4)
+					vx = -0.03f;
+			}
 			else
+			{
 				vx = 0.1f;
+				if (CPortal::scene_id == 4)
+					vx = 0.03f;
+			}
 			SetState(MUSHROOM_STATE_LIVE);
 			isMove = false;
 		}

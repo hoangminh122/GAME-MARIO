@@ -29,6 +29,7 @@
 #include "TextEndGamer.h"
 #include "BrickPiece.h"
 #include "FlyBar.h"
+#include "Camera.h"
 
 
 int CMario::level = 1;
@@ -61,7 +62,8 @@ CMario::CMario(float x, float y,int sence) : CGameObject()
 	senceNextTo = 1;
 	goDownCol = false;
 	sence_id = sence;
-	left = top = right = bottom = 1;
+	left = top  = bottom = 0;
+	right = 1;
 	pressX = false;
 	pressUp = false;
 	pressDown = false;
@@ -113,7 +115,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
-
+	if (x <= CCamera::GetInstance()->position.x-CGame::GetInstance()->GetScreenWidth()/2.0f)
+	{
+		vx = 0.04f;
+	}
 	if (GetState() == MARIO_STATE_GO_COL)
 	{
 		if(goUpCol)
@@ -226,7 +231,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		vy = 0.002f * dt;
 	}
-	else if(CPortal::scene_id != 1)
+	else if(CPortal::scene_id != 1 && CPortal::scene_id != 0)
 	{
 		vy += MARIO_GRAVITY * dt;
 	}
@@ -245,7 +250,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	
 	if (this->GetState() !=MARIO_STATE_DIE)
 		CalcPotentialCollisions(coObjects, coEvents);
-	if (this->GetState() == MARIO_STATE_DIE ||(y >430 && goBottom ==false))
+	if (this->GetState() == MARIO_STATE_DIE ||(y >430 && goBottom ==false) )
 	{
 		vx = 0; vy = 0;
 		if (sence_id == 4)
@@ -783,7 +788,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			if (dynamic_cast<CSwitchCol *>(e->obj)) // if e->obj is Backgroud die
 			{
 				CSwitchCol* switchCol = dynamic_cast<CSwitchCol *>(e->obj);
-				if (ny < 0 && switchCol->type == 2)      //di len
+				if (ny < 0 && switchCol->type == 2)      //di len man 4
 				{
 					if (CPortal::scene_id == 4)
 					{
@@ -796,7 +801,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						vx = 0.0f;
 					}
 				}
-				if (ny > 0 && switchCol->type == 2)      //di len
+				if (ny > 0 && switchCol->type == 2)      //di len man 2
 				{
 					if (pressUp)
 					{
@@ -824,7 +829,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 
 				}
-				else if (e->ny < 0 && switchCol->type == 1) //di xuong
+				else if (e->ny < 0 && switchCol->type == 1) //di xuong		man 2
 				{
 					if (pressDown)
 					{
@@ -832,7 +837,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						this->SetState(MARIO_STATE_GO_COL);
 						//goBottom = true;  //camera di chuyen  xuong duoi duong ong
 						//x = 2105;
-						if (CPortal::scene_id == 1)
+						if (CPortal::scene_id == 2)
 						{
 							y = 86;
 							x = 2258;
@@ -848,7 +853,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						vx = 0.0f;
 					}
 				}
-				else if (e->ny < 0 && switchCol->type == 4) //di xuong
+				else if (e->ny < 0 && switchCol->type == 4) //di xuong  man 4
 				{
 						timeGoDownCol = GetTickCount();
 						this->SetState(MARIO_STATE_GO_COL);
@@ -858,6 +863,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						vy = 0.01f;
 						vx = 0.0f;
 
+						CCamera::GetInstance()->SetPosition(D3DXVECTOR3(2215, 200, 0));
 					
 				}
 				
@@ -914,8 +920,16 @@ if (GetTickCount() - timeOverGame > 2000 && timeOverGame != 0)
 
 void CMario::Render()
 {
-	/*int ani = MARIO_ANI_SMALL_IDLE_RIGHT; */            
-	if (this->GetState() == MARIO_STATE_DIE)
+	/*int ani = MARIO_ANI_SMALL_IDLE_RIGHT; */ 
+	if (CPortal::scene_id == 0)
+	{
+		ani = 3;
+	}
+	else if (this->GetState() == MARIO_STATE_GO_COL)
+	{
+		ani = MARIO_TAIL_BIG_GO_COL;
+	}
+	else if (this->GetState() == MARIO_STATE_DIE)
 		ani = MARIO_ANI_DIE;
 	else if (level == MARIO_LEVEL_BIG)
 	{
@@ -1157,10 +1171,7 @@ void CMario::Render()
 			{
 				ani = MARIO_ANI_BIG_TAIL_DOWN_RIGHT;
 			}
-			else if (this->GetState() == MARIO_STATE_GO_COL)
-			{
-				ani = MARIO_TAIL_BIG_GO_COL;
-			}
+			
 			else if (this->GetState() == MARIO_STATE_JUMP_NORMAL && checkMarioColision == false) {
 				ani = MARIO_ANI_BIG_TAIL_JUMP_RIGHT;
 			}
@@ -1272,10 +1283,6 @@ void CMario::Render()
 		if (CPortal::scene_id == 1)
 		{
 			ani = 0;
-		}
-		else if (this->GetState() == MARIO_STATE_GO_COL)
-		{
-			ani = MARIO_TAIL_BIG_GO_COL;
 		}
 		else if (this->GetState() == MARIO_STATE_JUMP_NORMAL && checkMarioColision == false)                    //ANI JUMP RIGHT
 			ani = MARIO_ANI_BIG_TAIL_JUMP_RIGHT;
@@ -1620,6 +1627,8 @@ void CMario::Reset()
 {
 	SetState(MARIO_STATE_IDLE);
 	SetLevel(MARIO_LEVEL_TAIL_BIG);
+	if (CPortal::scene_id == 4)
+		CCamera::GetInstance()->SetPosition(D3DXVECTOR3(130, 200, 0));
 	SetPosition(start_x, start_y);
 	SetSpeed(0, 0);
 }

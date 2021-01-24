@@ -5,6 +5,7 @@
 #include "Utils.h"
 #include <string>
 #include "Game.h"
+#include "Portal.h"
 
 
 CTileMap::CTileMap(int idTex, string txtMapPath)
@@ -88,6 +89,10 @@ void CTileMap::Render(CMario* player)
 	int xTopLeft = xTopLeftCell * CELL_SIZE / 16;				//chua
 	int yTopLeft = yTopLeftCell * CELL_SIZE / 16;
 	int xBotRight = ((xBotRightCell * CELL_SIZE) + CELL_SIZE) / 16;
+	if (CPortal::scene_id == 4)
+	{
+		xBotRight = ((xBotRightCell * CELL_SIZE) + CELL_SIZE) / 16 +5;
+	}
 	int yBotRight = ((yBotRightCell * CELL_SIZE) + CELL_SIZE) / 16;
 
 	if (xBotRight >= numXTiles - 1)

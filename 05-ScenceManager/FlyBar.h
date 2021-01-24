@@ -9,7 +9,7 @@
 #define FLY_BAR_BBOX_HEIGHT			16
 // Speed
 #define FLY_BAR_GRAVITY				0.0002f
-#define FLY_BAR_X_SPEED				0.05f
+#define FLY_BAR_X_SPEED				0.025f
 
 class CFlyBar : public CGameObject
 {

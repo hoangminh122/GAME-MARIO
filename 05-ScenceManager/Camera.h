@@ -4,6 +4,7 @@
 class CCamera
 {
 public:
+	bool isInit;
 	bool isSetPosStart = false;
 	bool isMoving = true;
 	CCamera();

@@ -2,6 +2,7 @@
 #include "Portal.h"
 #include "BrickPiece.h"
 #include "Game.h"
+#include "Camera.h"
 
 
 bool CBrick::moneyIcon = false;
@@ -21,6 +22,10 @@ void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		xStatic = x;
 		isInitPos = true;
 	}
+	/*if (type == 13)
+	{
+		vx = 0.2f;
+	}*/
 }
 
 void CBrick::Render()
