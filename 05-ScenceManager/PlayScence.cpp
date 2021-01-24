@@ -614,7 +614,7 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		mario->SetLevel(MARIO_LEVEL_FIRE_BIG);
 		break;
 	case DIK_DOWN:
-
+		mario->pressDown = false;
 		/*if (CPortal::scene_id == 1)
 		{
 			mario->vy = 0.0f;

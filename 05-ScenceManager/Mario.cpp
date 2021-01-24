@@ -113,7 +113,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	if (GetState() == MARIO_STATE_GO_COL)
 	{
-		vy = 0.01f;
+		if(goUpCol)
+			vy = -0.05f;
+		else
+			vy = 0.02f;
 	}
 	DebugOut(L"statestateastsggsgsasss%d\n",GetState());
 	//truong hop mario tha rua ko cam nua -> da luon
@@ -775,7 +778,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						goBottom = false;		//camera di chuyen  xuong tren duong ong
 						x = 2324;
 						y = 370;
-						vy = 0.1f;
+						vy = -0.1f;
 						vx = 0.0f;
 					}
 					
