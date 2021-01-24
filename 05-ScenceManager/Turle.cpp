@@ -560,6 +560,7 @@ void CTurle::SetState(int state)
 		else
 			vx = -TURLE_WALKING_SPEED;
 	}
+		break;
 	case TURLE_STATE_FLY_RED:
 	{
 		vy = 0.01f;

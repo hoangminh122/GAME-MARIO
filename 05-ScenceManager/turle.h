@@ -57,6 +57,7 @@ class CTurle : public CGameObject
 	virtual void Render();
 
 public:
+	bool checkTrue;
 	DWORD timeFlyRed;
 	int nxx;                     //xac ding chieu 
 	CTurle(int type_ani);

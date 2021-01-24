@@ -62,7 +62,8 @@ CMario::CMario(float x, float y,int sence) : CGameObject()
 	senceNextTo = 1;
 	goDownCol = false;
 	sence_id = sence;
-	left = top = right = bottom = 1;
+	left = top  = bottom = 0;
+	right = 1;
 	pressX = false;
 	pressUp = false;
 	pressDown = false;
