@@ -11,12 +11,12 @@ void CCard::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	if (isDie)
 	{
-		if (CPortal::scene_id == 2)
+		if (CPortal::scene_id == PORTAL_SCENE_2)
 		{
-			x = 2764.0f;
-			y = 285.0f;
+			x = CARD_BBOX_POS_X_2764;
+			y = CARD_BBOX_POS_X_285;
 		}
-		else if (CPortal::scene_id == 4)
+		else if (CPortal::scene_id == PORTAL_SCENE_4)
 		{
 			x = 2500.0f;
 			y = 130.0f;

@@ -56,13 +56,13 @@ void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	CGameObject::Update(dt);
 
-	if (GetTickCount() - timeBulletStart > 100 && timeBulletStart != 0)
+	if (GetTickCount() - timeBulletStart > BULLET_MARIO_TIME_OUT_100 && timeBulletStart != 0)
 	{
 		isStart = true;
 		timeBulletStart = 0;
 	}
 
-	if (nextStart - timeStart > 1000 || vx == 0 || vy == 0)
+	if (nextStart - timeStart > BULLET_MARIO_TIME_OUT_1000 || vx == 0 || vy == 0)
 	{
 		isDie = true;
 		isBullet = false;
@@ -82,13 +82,13 @@ void CBulletMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		timeStart = GetTickCount();                        //time bat dau ban dan
 		nextStart = GetTickCount();
 		if (nxBullet == 1)
-			this->x = x0 + 10;
+			this->x = x0 + BULLET_MARIO_COUNT_10;
 		else
-			this->x = x0 - 10;
-		this->y = y0 + 3;
+			this->x = x0 - BULLET_MARIO_COUNT_10;
+		this->y = y0 + BULLET_MARIO_COUNT_3;
 		if (nxBullet == 1)
 		{
-			vx = 0.13f;
+			vx = BULLET_MARIO_VX_0_13;
 			
 		}
 		else 

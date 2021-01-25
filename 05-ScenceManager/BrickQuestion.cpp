@@ -28,8 +28,6 @@ bool CBrickQuestion::GetMove() {
 	return this -> isMove;
 }
 
-
-
 CBrickQuestion::~CBrickQuestion(){
 	
 }
@@ -45,8 +43,8 @@ void CBrickQuestion::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	else if (isMove && mario->isHasColBoxQues && !isDie)
 	{
 		mario->isHasColBoxQues = false;			//khong the va cham cho den khi cham dat
-		vy -= 0.15f;
-		if (y < yStatic - 0.15f)
+		vy -= BRICK_QUESTION_MOVE_VY_0_15;
+		if (y < yStatic - BRICK_QUESTION_MOVE_VY_0_15)
 		{
 			isMove = false;
 			isDie = true;
@@ -69,12 +67,12 @@ void CBrickQuestion::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (y < yStatic)
 		{
 			//y += 1.0f;
-			vy = 0.02f;
+			vy = BRICK_QUESTION_MOVE_VY_0_02;
 			//vy += BRICK_GRAVITY * dt;
 		}
 		else
 		{
-			vy = 0;
+			vy = 0.0f;
 			//y = yStatic;
 		}
 	}
@@ -88,7 +86,7 @@ void CBrickQuestion::Render()
 	if (isDie)
 		ani = 1;
 	else if (type == 1)
-		ani = 2;
+		ani = BRICK_ANI_2;
 	animation_set->at(ani)->Render(x, y);
 	RenderBoundingBox();
 }

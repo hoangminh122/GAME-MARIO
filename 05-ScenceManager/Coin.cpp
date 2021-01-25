@@ -22,30 +22,30 @@ void CCOIN::Render()
 {
 	switch (level)
 	{
-		case 100:
+		case COIN_LEVEL_100:
 			ani = COIN_ANI_100;
 			break;
-		case 200:
+		case COIN_LEVEL_200:
 			ani = COIN_ANI_200;
 			break;
-		case 400:
+		case COIN_LEVEL_400:
 			ani = COIN_ANI_400;
 			break;
-		case 800:
+		case COIN_LEVEL_800:
 			ani = COIN_ANI_800;
 			break;
-		case 1000:
+		case COIN_LEVEL_1000:
 			ani = COIN_ANI_1000;
 			break;
-		case 2000:
+		case COIN_LEVEL_2000:
 			ani = COIN_ANI_2000;
-		case 4000:
+		case COIN_LEVEL_4000:
 			ani = COIN_ANI_4000;
 			break;
-		case 8000:
+		case COIN_LEVEL_8000:
 			ani = COIN_ANI_8000;
 			break;
-		case 10000:
+		case COIN_LEVEL_10000:
 			ani = COIN_ANI_1VP;
 			break;
 		default:
@@ -69,14 +69,14 @@ void CCOIN::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (isInitPosNew)
 	{
 		yStatic = yStartMove;
-		y = yStartMove-5;
+		y = yStartMove- COIN_COUNT_5;
 		x = xStartMove;
 		isInitPosNew = false;
 	}
 	else if (isMove)
 	{
-		vy -= 0.05f;
-		if (y < yStatic - 15.0f)
+		vy -= COIN_VY_0_05;
+		if (y < yStatic - COIN_COUNT_Y)
 		{
 			//tang coin tren HUD
 			if (status == 0)
@@ -95,17 +95,17 @@ void CCOIN::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	else
 	{
-		if (y < yStatic - 15.0f)
+		if (y < yStatic - COIN_VY_15)
 		{
 			
 			//y += 1.0f;
-			vy = 0.15f;
+			vy = COIN_COUNT_Y;
 			//vy += BRICK_GRAVITY * dt;
 		}
 		else
 		{
-			vy = 0;
-			y = 600;
+			vy = 0.0f;
+			y = COIN_POS_Y_600;
 		}
 	}
 

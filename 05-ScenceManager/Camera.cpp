@@ -52,59 +52,45 @@ void CCamera::Update(CMario* player) {
 
 	if (CPortal::scene_id == 0)
 	{
-		pos = D3DXVECTOR3(200, 180, 0);
+		pos = D3DXVECTOR3(CAMERA_POS_X_200, CAMERA_POS_Y_180, 0);
 		SetPosition(pos);
 		
 	}
-	else if (CPortal::scene_id == 1)
+	else if (CPortal::scene_id == PORTAL_SCENE_1)
 	{
-		pos = D3DXVECTOR3(125, 80, 0);
+		pos = D3DXVECTOR3(CAMERA_POS_X_125, CAMERA_POS_Y_80, 0);
 		SetPosition(pos);
 
 	}
 	
-	else if (CPortal::scene_id == 2)
+	else if (CPortal::scene_id == PORTAL_SCENE_2)
 	{
 		//di chuyen camera follow theo mario
 
 		if (player->goBottom || player->vy > 453.0f)
 		{
 			//vi tri duong ong
-			pos = D3DXVECTOR3(cx, mapHeight - GetHeight() + 100, 0);
+			pos = D3DXVECTOR3(cx, (float)(mapHeight - GetHeight()) + CAMERA_COUNT_100, 0);
 
 		}
 
-		else if (cy > 150)
+		else if (cy > CAMERA_POS_MARIO_COL_150)
 		{
 			if (player->sence_id == 1)
-				pos = D3DXVECTOR3(cx, mapHeight - GetHeight() * 1.4f, 0);
-			else if (player->sence_id == 4)
-				pos = D3DXVECTOR3(cx, 200, 0);
+				pos = D3DXVECTOR3(cx, mapHeight - GetHeight() * CAMERA_COUNT_1_4, 0);
+			else if (player->sence_id == PORTAL_SCENE_4)
+				pos = D3DXVECTOR3(cx, CAMERA_POS_X_200, 0);
 			//vij tri duoi dat binh thuong cam
 		}
 
 		else
 		{
-			/*if (cy > 120 && cy < 200)
+			if (player->sence_id == PORTAL_SCENE_4)
 			{
-			pos = D3DXVECTOR3(cx, cy, 0);
+				pos = D3DXVECTOR3(cx, CAMERA_POS_X_200, 0);
 			}
-			else*/
-			/*if (cy<100)
-			{
-			pos = D3DXVECTOR3(cx, 50, 0);
-			}*/
-			//else
-			//vij tri fly binh thuong cam
-			if (player->sence_id == 4)
-			{
-				/*if(player ->y<50)
-					pos = D3DXVECTOR3(cx, 160, 0);
-				else*/
-				pos = D3DXVECTOR3(cx, 200, 0);
-			}
-			if (player->sence_id != 4)
-				pos = D3DXVECTOR3(cx, 150, 0);
+			if (player->sence_id != PORTAL_SCENE_4)
+				pos = D3DXVECTOR3(cx, CAMERA_POS_MARIO_COL_150, 0);
 
 		}
 
@@ -142,13 +128,12 @@ void CCamera::Update(CMario* player) {
 	{
 		if (!isInit)
 		{
-			pos = D3DXVECTOR3(130, 200, 0);
+			pos = D3DXVECTOR3(CAMERA_POS_X_130, CAMERA_POS_X_200, 0);
 			isInit = true;
 			SetPosition(pos);
 		}
 		//test
-		//pos = D3DXVECTOR3(2215, 200, 0);
-		pos = D3DXVECTOR3(cx, 200, 0);
+		pos = D3DXVECTOR3(cx, CAMERA_POS_X_200, 0);
 		isInit = true;
 		SetPosition(pos);
 		//test
@@ -195,10 +180,10 @@ RECT CCamera::GetBound()
 {
 	RECT bound;
 
-	bound.left = (double)(position.x - width / 2);
-	bound.right = (double)(bound.left + width);
-	bound.top = (double)(position.y - height / 2);
-	bound.bottom = (double)(bound.top + height);
+	bound.left = (LONG)(position.x - width / 2);
+	bound.right = (LONG)(bound.left + width);
+	bound.top = (LONG)(position.y - height / 2);
+	bound.bottom = (LONG)(bound.top + height);
 
 	return bound;
 }

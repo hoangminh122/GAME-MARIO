@@ -4,8 +4,11 @@
 
 #define BRICK_QUESTION_BBOX_WIDTH  16
 #define BRICK_QUESTION_BBOX_HEIGHT 16
+#define BRICK_QUESTION_MOVE_VY_0_15 0.15f
+#define BRICK_QUESTION_MOVE_VY_0_02 0.02f
 
 #define  BRICK_ANI_DIE	1
+#define  BRICK_ANI_2	2
 #define BRICK_GRAVITY	0.002f
 class CBrickQuestion : public CGameObject
 {

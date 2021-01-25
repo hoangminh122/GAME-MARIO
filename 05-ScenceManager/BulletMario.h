@@ -6,6 +6,14 @@
 #define BULLET_BBOX_HEIGHT 8
 #define MAX_HEIGHT_JUMP_BULLET 30
 
+#define BULLET_MARIO_TIME_OUT_1000 1000
+#define BULLET_MARIO_TIME_OUT_100 100
+#define BULLET_MARIO_VX_0_13 0.13f
+
+#define BULLET_MARIO_COUNT_10 10
+#define BULLET_MARIO_COUNT_3 3
+
+
 class CBulletMario : public CGameObject
 {
 public:

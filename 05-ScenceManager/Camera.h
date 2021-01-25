@@ -1,6 +1,16 @@
 #pragma once
 #include "Mario.h"
 
+#define CAMERA_POS_X_200	200.0f
+#define CAMERA_POS_X_130	130.0f
+#define CAMERA_POS_Y_180	180.0f
+#define CAMERA_POS_X_125	125.0f
+#define CAMERA_POS_Y_80	80.0f
+#define CAMERA_COUNT_100	100
+#define CAMERA_POS_MARIO_COL_150	150.0f
+#define CAMERA_COUNT_1_4	1.4f
+
+
 class CCamera
 {
 public:

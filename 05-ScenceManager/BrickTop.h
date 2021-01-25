@@ -9,13 +9,21 @@
 #define BRICK_BBOX_WIDTH_GREEN_ONE  80							//type 5 o nang 16x5
 #define BRICK_BBOX_WIDTH_GREEN_THREE  112							//type 7 o nang 16x7
 
-#define BRICK_BBOX_HEIGHT 2
+#define BRICK_BBOX_HEIGHT_2 2
+
+#define BRICK_BBOX_TYPE_1 1
+#define BRICK_BBOX_TYPE_2 2
+#define BRICK_BBOX_TYPE_3 3
+#define BRICK_BBOX_TYPE_4 4
+#define BRICK_BBOX_TYPE_5 5
+#define BRICK_BBOX_TYPE_16 16
+
 
 class CBrickTop : public CGameObject
 {
 public:
 	bool isInitPos;
-	int xStatic;                  //bien luu vi tri x cho tung type brick
+	float xStatic;                  //bien luu vi tri x cho tung type brick
 	int type;
 	CBrickTop(int type_ani);
 	virtual void Render();

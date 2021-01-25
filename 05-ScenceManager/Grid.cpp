@@ -7,7 +7,7 @@ CGrid::CGrid(int width, int height, int cellSize) :width(width), height(height),
 	numYCells = ceil((float)this->height / cellSize);
 
 	//resize laij listCell , so luong phan tu trong listCell
-	listCells.resize(numXCells*numYCells);
+	listCells.resize((int)(numXCells*numYCells));
 }
 
 void CGrid::AddObjToCell(CGameObject * obj)
@@ -18,20 +18,20 @@ void CGrid::AddObjToCell(CGameObject * obj)
 	cell.listObj.push_back(obj);
 }
 
-Cell& CGrid::GetCell(int x, int y)
+Cell& CGrid::GetCell(float x, float y)
 {
 	if (x < 0) x = 0;
 	if (x >= numXCells) x = numXCells;
 	if (y < 0) y = 0;
 	if (y >= numYCells) y = numYCells;
 
-	return listCells[x+y*numXCells];
+	return listCells[(int)(x+y*numXCells)];
 }
 
 Cell& CGrid::GetCell(D3DXVECTOR3& posObj)
 {
-	int cellX = posObj.x / cellSize;
-	int cellY = posObj.y / cellSize;
+	float cellX = posObj.x / cellSize;
+	float cellY = posObj.y / cellSize;
 
 	return GetCell(cellX, cellY);
 }
@@ -39,10 +39,10 @@ Cell& CGrid::GetCell(D3DXVECTOR3& posObj)
 void CGrid::CalcColliableObjs(CCamera* camera, vector<LPGAMEOBJECT>& objs, vector<LPGAMEOBJECT>& afterObjs)
 {
 	//tinh vi tri cua topleft va botright cua camera
-	int xTopLeftCamera = camera->GetPosition().x - CGame::GetInstance()->GetScreenWidth() / 2;
-	int yTopLeftCamera = camera->GetPosition().y - CGame::GetInstance()->GetScreenHeight() / 2;
-	int xBotRightCamera = camera->GetPosition().x + CGame::GetInstance()->GetScreenWidth() / 2;
-	int yBotRightCamera = camera->GetPosition().y + CGame::GetInstance()->GetScreenHeight() / 2;
+	int xTopLeftCamera = (int)(camera->GetPosition().x - CGame::GetInstance()->GetScreenWidth() / 2);
+	int yTopLeftCamera = (int)(camera->GetPosition().y - CGame::GetInstance()->GetScreenHeight() / 2);
+	int xBotRightCamera = (int)(camera->GetPosition().x + CGame::GetInstance()->GetScreenWidth() / 2);
+	int yBotRightCamera = (int)(camera->GetPosition().y + CGame::GetInstance()->GetScreenHeight() / 2);
 
 	//tinh vij tri topleft va botright cua cell
 	int xTopLeftCell = xTopLeftCamera / cellSize;

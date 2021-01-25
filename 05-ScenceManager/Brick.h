@@ -29,6 +29,39 @@
 #define BRICK_BBOX_HEIGHT_TWO	192	
 #define BRICK_STATE_BREAK   1235
 
+#define idDied1_4_ANI 6
+#define BRICK_MONEY_1_1_ANI 2
+#define BRICK_MONEY_1_1_DIED_ANI	3 
+#define BRICK_TYPE_MONEY_10 10
+#define BRICK_TYPE_MONEY_11 11
+#define BRICK_TYPE_MONEY_1_4_12 35
+#define BRICK_TYPE_MONEY_2 2
+#define BRICK_TYPE_MONEY_3 3
+#define BRICK_TYPE_MONEY_4 4
+#define BRICK_TYPE_MONEY_5 5
+#define BRICK_TYPE_MONEY_6 6
+#define BRICK_TYPE_MONEY_7 7
+#define BRICK_TYPE_MONEY_8 8
+#define BRICK_TYPE_MONEY_9 9
+#define BRICK_TYPE_MONEY_10 10
+#define BRICK_TYPE_MONEY_11 11
+#define BRICK_TYPE_MONEY_12 12
+#define BRICK_TYPE_MONEY_13 13
+#define BRICK_TYPE_MONEY_14 14
+#define BRICK_TYPE_MONEY_14 14
+#define BRICK_TYPE_MONEY_15 15
+#define BRICK_TYPE_MONEY_16 16
+#define BRICK_TYPE_MONEY_17 17
+#define BRICK_TYPE_MONEY_18 18
+#define BRICK_TYPE_MONEY_19 19
+#define BRICK_WIDTH_48 19
+#define BRICK_WIDTH_BIG 10000
+
+#define BRICK_TYPE_MONEY_20 20
+#define BRICK_MONEY_TYPE_7_ANI	4
+#define BRICK_MONEY_TYPE_8_ANI	5
+
+
 
 class CBrick : public CGameObject
 {
@@ -38,7 +71,7 @@ public:
 	bool static moneyIcon;					//trang thai  brick chuyen thanh icon money
 	int type;
 	bool isInitPos;
-	int xStatic;                  //bien luu vi tri x cho tung type brick
+	float xStatic;                  //bien luu vi tri x cho tung type brick
 	CBrick(int type_ani);
 	~CBrick();
 	virtual void Render();

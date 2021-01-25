@@ -3,6 +3,10 @@
 
 #define CARD_BBOX_HEIGHT 27
 #define CARD_BBOX_WIDTH 22
+#define CARD_BBOX_POS_X_2764 2764.0f
+#define CARD_BBOX_POS_X_285   285.0f
+
+
 
 class CCard : public CGameObject
 {

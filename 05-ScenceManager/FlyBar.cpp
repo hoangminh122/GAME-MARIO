@@ -11,7 +11,7 @@ CFlyBar::CFlyBar()
 
 void CFlyBar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	float rightCamera = CCamera::GetInstance()->GetBound().right;
+	float rightCamera = (float)CCamera::GetInstance()->GetBound().right;
 	if (!isActive && x <= rightCamera)
 	{
 		isActive = true;

@@ -1,8 +1,14 @@
 #pragma once
 #include "GameObject.h"
 
-#define MUSHROOM_BBOX_WIDTH  16
-#define MUSHROOM_BBOX_HEIGHT 16
+#define MUSHROOM_BBOX_WIDTH  17
+#define MUSHROOM_BBOX_HEIGHT 17
+
+#define MUSHROOM_BBOX_VY_0_095 0.095f
+#define MUSHROOM_BBOX_VX_0_1 0.1f
+#define MUSHROOM_BBOX_VX_0_03 0.03f
+#define MUSHROOM_BBOX_VX_0_05 0.05f
+#define MUSHROOM_BBOX_VY_0_02 0.02f
 
 #define MUSHROOM_STATE_LIVE 100
 #define MUSHROOM_STATE_DIE_OVER 300
@@ -15,6 +21,9 @@
 
 #define MUSHROOM_STATE_DIE 200
 #define MOSHROOM_GRAVITY 0.005f
+
+#define MUSHROOM_TYPE_1 1
+#define MUSHROOM_TYPE_2 2
 
 class CMushroom : public CGameObject
 {

@@ -23,7 +23,6 @@
 #include "Mario.h"
 #include "Brick.h"
 #include "Goomba.h"
-#include "Background.h"
 #include "PlayScence.h"
 #include "game_map.h"
 

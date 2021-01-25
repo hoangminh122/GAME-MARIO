@@ -1,5 +1,5 @@
 #pragma once
-#include <vector>>
+#include <vector>
 #include "GameObject.h"
 #include "Camera.h"
 
@@ -21,10 +21,10 @@ public :
 	std::vector<Cell> listCells;
 
 	//so cell theo chieu ngang grid
-	int numXCells;
+	float numXCells;
 
 	//so cell theo chieu rong grid
-	int numYCells;
+	float numYCells;
 public:
 	CGrid(int width,int height,int cellSize);
 	~CGrid();
@@ -33,7 +33,7 @@ public:
 	void  AddObjToCell(CGameObject* obj);
 
 	//Get Cell DUA VAO VI TRI CUAR Cell
-	Cell& GetCell(int x, int y);
+	Cell& GetCell(float x, float y);
 	Cell& GetCell(D3DXVECTOR3& posObj);
 
 	//Tinh toan cac Obj co the bi va cham (Tinh toan cac cell can dc Update voi vi tri cua camera)

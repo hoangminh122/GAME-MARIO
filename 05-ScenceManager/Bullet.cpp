@@ -40,65 +40,65 @@ void CBullet::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	if (y != 0 && !isInitPos)
 	{
-		if (x > 1670)
-			label = 1;
+		if (x > BULLET_POSITION_X_1)
+			label = BULLET_LABEL_1;
 		else
-			label = 2;
+			label = BULLET_LABEL_2;
 		isInitPos = true;
 	}
 
 	if (GetState() != BULLET_STATE_DIE)
 	{
-		if (label == 1)
+		if (label == BULLET_LABEL_1)
 		{
 			if (isStart)
 			{
 				x -= vx;
 				if (357.0f - mario->x > 0)
-					vx = -0.08f;
+					vx = -BULLET_VX_0_08;
 				else
-					vx = 0.08f;
-				vy = +0.05f;
+					vx = BULLET_VX_0_08;
+				vy = +BULLET_VY_0_05;
 
 			}
 			CPlant* plant = new CPlant();
 			if (plant->start1 == true)
 			{
 				isStart = true;
-				x = 357;
-				y = 342;
+				x = BULLET_POSITION_X_START_1;
+				y = BULLET_POSITION_Y_START_1;
 				vx = 0;
 			}
 			x += dx;
 			y += dy;
 
 		}
-		if (label == 2)
+		if (label == BULLET_LABEL_2)
 		{
 			if (isStart)
 			{
 
-				if (y < 430.0f) {
+				if (y < BULLET_POSITION_X_430) {
 					x -= vx;
-					if (1871.0f - mario->x > 0)
-						vx = -0.08f;
+					if (BULLET_POSITION_X_1871 - mario->x > 0)
+						vx = -BULLET_VX_0_08;
 					else
-						vx = 0.08f;
-					vy = +0.05f;
+						vx = BULLET_VX_0_08;
+					vy = +BULLET_VY_0_05;
 				}
 				else
 				{
 					vx = 0;
 					vy = 0;
-					y = 900.0f;
+					y = BULLET_POSITION_Y_900;
 				}
 			}
 			CPlant* plant = new CPlant();
 			if (plant->start2 == true)
 			{
 				isStart = true;
-				x = 1871;
-				y = 348;
+				x = BULLET_POSITION_X_1871;
+				y = BULLET_POSITION_Y_348;
 				vx = 0;
 			}
 			x += dx;

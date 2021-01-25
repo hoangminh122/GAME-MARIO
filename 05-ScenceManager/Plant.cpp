@@ -7,7 +7,7 @@ bool CPlant::start1 = false;
 bool CPlant::start2 = false;
 CPlant::CPlant() : CGameObject()
 {
-	vy = 0.07;
+	vy = 0.07f;
 	ani = 0;
 	mario = CMario::GetInstance(0, 0);
 	level = PLANT_LEVEL_HIGH;
@@ -84,7 +84,7 @@ void CPlant::SetState(int state)
 		y = 0.0f;
 		break;
 	case PLANT_STATE_LIVE:
-		vy = 0.1;
+		vy = 0.1f;
 		break;
 	}
 }

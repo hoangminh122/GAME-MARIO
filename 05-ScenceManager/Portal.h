@@ -2,6 +2,10 @@
 
 #include "GameObject.h"
 
+#define PORTAL_SCENE_1	1
+#define PORTAL_SCENE_2	2
+#define PORTAL_SCENE_4	4
+
 /*
 	Object that triggers scene switching
 */

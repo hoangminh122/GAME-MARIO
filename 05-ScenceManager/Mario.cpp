@@ -762,7 +762,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					}
 					else if (brick->type == 35)
 					{
-						brick->idDied1_4 = 6;
+						brick->idDied1_4 = true;
 						//brick->SetAnimationSet(6);
 					}
 				}
@@ -772,8 +772,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					{
 						if (this->GetState() == MARIO_STATE_ROTATORY_IDLE)
 						{
-							if(brick ->y > y+ (MARIO_TAIL_FLY_BIG_BBOX_HEIGHT-BRICK_BBOX_HEIGHT))
-									;//brick->y = 600;
+							//if(brick ->y > y+ (MARIO_TAIL_FLY_BIG_BBOX_HEIGHT-BRICK_BBOX_HEIGHT))
+									//;//brick->y = 600;
 						}
 					}
 					if(vx < 0)

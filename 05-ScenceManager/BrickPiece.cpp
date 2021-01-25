@@ -18,11 +18,6 @@ CBrickPiece::CBrickPiece(int type)
 	_type = type;
 	isSetuped = false;
 	count = 0;
-	/*CAnimationSets* animation_sets = CAnimationSets::GetInstance();
-	LPANIMATION_SET ani_set = animation_sets->Get(1050);
-	SetAnimationSet(ani_set);*/
-	/*isDie = true;
-	isDead = false;*/
 	isStart = false;
 }
 
@@ -36,25 +31,25 @@ void CBrickPiece::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			x = xStatic;
 			y = yStatic;
 			count++;
-			if(count == 4)
+			if(count == COUNT_NUM_4)
 				isSetuped = false;
 		}
 		
 		switch (_type)
 		{
-		case 0:
+		case BRICK_PIECE_TYPE_0:
 			vx = -BRICK_PIECE_HIGH_SPEED_X;
 			vy = -BRICK_PIECE_HIGH_SPEED_Y;
 			break;
-		case 1:
+		case BRICK_PIECE_TYPE_1:
 			vx = BRICK_PIECE_HIGH_SPEED_X;
 			vy = -BRICK_PIECE_HIGH_SPEED_Y;
 			break;
-		case 2:
+		case BRICK_PIECE_TYPE_2:
 			vx = -BRICK_PIECE_LOW_SPEED_X;
 			vy = -BRICK_PIECE_LOW_SPEED_Y;
 			break;
-		case 3:
+		case BRICK_PIECE_TYPE_3:
 			vx = BRICK_PIECE_LOW_SPEED_X;
 			vy = -BRICK_PIECE_LOW_SPEED_Y;
 			break;
@@ -66,13 +61,6 @@ void CBrickPiece::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		y += dy;
 	}
 
-	//if (y + BRICK_PIECE_SIZE > 432)
-	//{
-	//	y = 900;
-	//	isStart = false;
-	//	//isDead = true;
-	//	//DeleteFrontObjs(coObjects);
-	//}
 }
 
 void CBrickPiece::Render()
@@ -84,8 +72,8 @@ void CBrickPiece::GetBoundingBox(float &l, float &t, float &r, float &b)
 {
 	l = x;
 	t = y;
-	r = x + 16;
-	b = y + 16;
+	r = x + BRICK_PIECE_WIDTH;
+	b = y + BRICK_PIECE_HEIGHT;
 }
 void CBrickPiece::SetState(int state)
 {
